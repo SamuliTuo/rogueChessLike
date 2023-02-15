@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
+  m_Name: fireBall
+  m_EditorClassIdentifier: 
+  targetingMode: 0
+  hitParticle: 2
+  dmgInstanceType: 1
+  projectileType: 0
+  projectile: {fileID: 1684744735726426580, guid: 72f2dc199936e2542892e4818b465499, type: 3}
+  reach: 7
+  damage: 19000
+  castSpeed: 1
+  cooldown: 5.5
+  flySpeed: 12
+  minLifeTime: 0
+  damagesAllies: 0

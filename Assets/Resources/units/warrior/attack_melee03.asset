@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdced4eb7b6ab74e8f5f86156ce5809, type: 3}
+  m_Name: attack_melee03
+  m_EditorClassIdentifier: 
+  hitParticle: 0
+  dmgInstanceType: 1
+  projectileType: 1
+  attackRange: 1
+  damage: 5555
+  attackInterval: 0.45
+  attackFlySpeed: 5
+  minLifeTime: 0.066
+  projectile: {fileID: 1684744735726426580, guid: ee214bc95625b8f4ea103dc1c1c4a735, type: 3}
+  damagesAllies: 0

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
+  m_Name: healer_healTargetUnit
+  m_EditorClassIdentifier: 
+  targetingMode: 2
+  hitParticle: 2
+  dmgInstanceType: 0
+  projectileType: 0
+  projectile: {fileID: 1684744735726426580, guid: bf900b858ebb68f44af41b232477252f, type: 3}
+  reach: 6
+  damage: -200000
+  castSpeed: 0.3
+  cooldown: 0.5
+  flySpeed: 120
+  minLifeTime: 0
+  damagesAllies: 0

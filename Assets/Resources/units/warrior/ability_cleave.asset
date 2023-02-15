@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
+  m_Name: ability_cleave
+  m_EditorClassIdentifier: 
+  targetingMode: 0
+  hitParticle: 2
+  dmgInstanceType: 1
+  projectileType: 1
+  projectile: {fileID: 1684744735726426580, guid: a25c66cb4a69b7c469cbd85f8950bac4, type: 3}
+  reach: 2
+  damage: 10000
+  castSpeed: 0.3
+  cooldown: 1
+  flySpeed: 10
+  minLifeTime: 0.1
+  damagesAllies: 0

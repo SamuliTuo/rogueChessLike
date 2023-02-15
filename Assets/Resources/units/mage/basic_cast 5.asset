@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdced4eb7b6ab74e8f5f86156ce5809, type: 3}
+  m_Name: basic_cast 5
+  m_EditorClassIdentifier: 
+  hitParticle: 1
+  dmgInstanceType: 0
+  projectileType: 0
+  attackRange: 5
+  damage: 11000
+  attackInterval: 0.8
+  attackFlySpeed: 50
+  minLifeTime: 0
+  projectile: {fileID: 1684744735726426580, guid: 0443a5967e0206345b2b3ab75259312d, type: 3}
+  damagesAllies: 0
