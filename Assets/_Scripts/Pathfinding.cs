@@ -11,6 +11,8 @@ public enum UnitSearchType
     ALLIES_ONLY,
     ALLIES_AND_SELF,
     ONLY_SELF,
+    LOWEST_HP_ALLY_PERC,
+    LOWEST_HP_ALLY_ABS,
 }
 
 public class Pathfinding : MonoBehaviour
@@ -36,6 +38,16 @@ public class Pathfinding : MonoBehaviour
     {
         StartCoroutine(FindClosestNodeOfType(startPos, targetType));
     }*/
+    public void StartFindUnit(
+        Vector2Int startPos,
+        Unit askingUnit,
+        UnitSearchType searchType,
+        int reach,
+        Unit targetUnit)
+    {
+        StartCoroutine(FindUnit(startPos, askingUnit, searchType, reach, targetUnit));
+    }
+
     public void StartFindClosestUnitOfType(
         Vector2Int startPos,
         Unit askingUnit,
@@ -101,16 +113,13 @@ public class Pathfinding : MonoBehaviour
         }
         requestManager.FinishedProcessingPath(waypoints, pathSuccess, false); 
     }
+    */
 
-
-
-
-    public IEnumerator FindClosestNodeOfType(
-        Vector2Int startPos,
-        NodeType targetType)
+    public IEnumerator FindUnit(Vector2Int startPos, Unit askingUnit, UnitSearchType searchType, int reach, Unit targetUnit)
     {
         Vector2Int[] waypoints = new Vector2Int[0];
         bool pathSuccess = false;
+        bool inAttackRange = false;
 
         Node startNode = board.nodes[startPos.x, startPos.y];
         Node targetNode = null;
@@ -120,33 +129,40 @@ public class Pathfinding : MonoBehaviour
 
         while (openSet.Count > 0)
         {
-            Node currentNode = openSet.RemoveFirst();
-            closedSet.Add(currentNode);
-
-            if (board.IsNeighbourOfType(currentNode.x, currentNode.y, targetType))
+            var units = board.GetUnits();
+            Node currNode = openSet.RemoveFirst();
+            closedSet.Add(currNode);
+            if (units[currNode.x, currNode.y] != null)
             {
-                //print("startNode: x " + startNode.x + ", y " + startNode.y + ", targetNode: x " + currentNode.x + ", y " + currentNode.y);
-                pathSuccess = true;
-                targetNode = board.nodes[currentNode.x, currentNode.y];
-                break;
-            }
-
-            foreach (Node neighbour in board.GetNeighbourNodes(currentNode))
-            {
-                if (
-                    (!neighbour.walkable)
-                    || closedSet.Contains(neighbour)
-                    || board.GetUnits()[neighbour.x, neighbour.y] != null
-                    )
+                if (units[currNode.x, currNode.y] == targetUnit)
                 {
+                    inAttackRange = GetDistance(board.nodes[askingUnit.x, askingUnit.y], board.nodes[currNode.x, currNode.y]) <= Extensions.ReachToRange(reach);
+                    pathSuccess = true;
+                    targetNode = board.nodes[currNode.x, currNode.y];
+                    targetUnit = units[currNode.x, currNode.y];
+                    break;
+                }
+            }
+            
+
+            foreach (Node neighbour in board.GetNeighbourNodes(currNode))
+            {
+                if (!neighbour.walkable || closedSet.Contains(neighbour))
                     continue;
+
+                if (units[neighbour.x, neighbour.y] != null)
+                {
+                    if (units[neighbour.x, neighbour.y] != targetUnit)
+                    {
+                        continue;
+                    }
                 }
 
-                int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
+                int newMovementCostToNeighbour = currNode.gCost + GetDistance(currNode, neighbour);
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
-                    neighbour.parent = currentNode;
+                    neighbour.parent = currNode;
 
                     if (!openSet.Contains(neighbour))
                         openSet.Add(neighbour);
@@ -160,9 +176,9 @@ public class Pathfinding : MonoBehaviour
         {
             waypoints = RetracePath(startNode, targetNode);
         }
-        requestManager.FinishedProcessingPath(waypoints, pathSuccess, false);
+        requestManager.FinishedProcessingPath(waypoints, pathSuccess, inAttackRange, targetUnit);
     }
-    */
+
 
     public IEnumerator FindClosestUnitOfType(Vector2Int startPos, Unit askingUnit, UnitSearchType searchType, int reach)
     {
@@ -263,7 +279,7 @@ public class Pathfinding : MonoBehaviour
         return waypoints.ToArray();
     }
 
-    int GetDistance(Node nodeA, Node nodeB)
+    public int GetDistance(Node nodeA, Node nodeB)
     {
         int distX = Mathf.Abs(nodeA.x - nodeB.x);
         int distY = Mathf.Abs(nodeA.y - nodeB.y);

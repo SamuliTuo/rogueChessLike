@@ -12,13 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdced4eb7b6ab74e8f5f86156ce5809, type: 3}
   m_Name: attack_melee01
   m_EditorClassIdentifier: 
-  hitParticle: 0
+  targeting: 0
+  hitParticle: 4
   dmgInstanceType: 0
   projectileType: 1
   attackRange: 1
-  damage: 7777
-  attackInterval: 0.13
+  damage: 120
+  attackInterval: 1
   attackFlySpeed: 6
   minLifeTime: 0.066
   projectile: {fileID: 1684744735726426580, guid: d79e63160837f9a41b16e21f026b55d9, type: 3}
   damagesAllies: 0
+  bounceAttack: {fileID: 0}
+  bounceAttack_targeting: 0
+  bounceRange_atk: 1
+  bounceCount_atk: 0
+  bounceSpawnCount_atk: 0
+  bounceAbility: {fileID: 0}
+  bounceAbility_targeting: 0
+  bounceRange_ability: 1
+  bounceCount_ability: 0
+  bounceSpawnCount_ability: 0
+  bounceDamagePercChangePerJump: 1
+  onlyOneBouncePerUnit: 1

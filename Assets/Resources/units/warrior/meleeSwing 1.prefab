@@ -177,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b35a4a060b3c649a5f2c0bc6404162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bounceDamagePercChangePerJump: 1
 --- !u!1 &1718477175590944644
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,8 +396,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2569315638244363034}
   m_LocalRotation: {x: 0.6178082, y: 0.60946214, z: -0.44198126, w: -0.22698359}
-  m_LocalPosition: {x: 0.44, y: 3.4409, z: 6.47}
-  m_LocalScale: {x: 0.51022196, y: 2.0812416, z: 1.2529495}
+  m_LocalPosition: {x: 0.078695, y: 3.0332, z: 5.7095}
+  m_LocalScale: {x: 0.39747822, y: 1.6213497, z: 0.97608525}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7066079836315447315}

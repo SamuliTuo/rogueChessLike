@@ -9,12 +9,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bdced4eb7b6ab74e8f5f86156ce5809, type: 3}
+  m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
   m_Name: spawnSkeleton
   m_EditorClassIdentifier: 
-  attackRange: 3
-  attackDamage: 10
-  attackInterval: 1
-  attackFlySpeed: 10
-  damagesTeams: 
-  projectile: {fileID: 0}
+  targetSearchType: 0
+  validTargets: 0
+  centerOnYourself: 0
+  hitParticle: 0
+  dmgInstanceType: 0
+  projectileType: 0
+  projectile: {fileID: 1684744735726426580, guid: 7e1e95b677614bd46a62e4e2737f74c2, type: 3}
+  reach: 5
+  damage: 10
+  castSpeed: 0.7
+  cooldown: 16
+  flySpeed: 19
+  minLifeTime: 0
+  damagesAllies: 0
+  bounceAttack: {fileID: 0}
+  bounceAttack_targeting: 0
+  bounceRange_attack: 1
+  bounceCount_atk: 0
+  bounceSpawnCount_atk: 0
+  bounceAbility: {fileID: 11400000}
+  bounceAbility_targeting: 0
+  bounceRange_ability: 80
+  bounceCount_ability: 0
+  bounceSpawnCount_ability: 0
+  bounceDamagePercChangePerJump: 1
+  onlyOneBouncePerUnit: 1
+  spawnUnit: {fileID: 2368073843827195385, guid: 81cb4fbb9b19f74428a9e41dcba6aee0, type: 3}
+  spawnCount: 2
+  spawnDuration: 0

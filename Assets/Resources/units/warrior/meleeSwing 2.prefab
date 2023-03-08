@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926373961874851910}
   m_LocalRotation: {x: -0.08349497, y: 0.9961018, z: 0.005036116, w: 0.028008824}
-  m_LocalPosition: {x: -0.61, y: 1.29, z: 19.22}
-  m_LocalScale: {x: 11.294206, y: 4.2416844, z: 52.916733}
+  m_LocalPosition: {x: -0.31054, y: 1.3681, z: 13.846}
+  m_LocalScale: {x: 7.6005483, y: 2.8544838, z: 35.610844}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4433798520785654399}
@@ -79,8 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b35a4a060b3c649a5f2c0bc6404162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageInstance: {fileID: 11400000, guid: abb4bbdb5708ad6429c2beb9bf52248c, type: 2}
-  type: 1
+  bounceDamagePercChangePerJump: 1
 --- !u!1 &2794639883946220039
 GameObject:
   m_ObjectHideFlags: 0

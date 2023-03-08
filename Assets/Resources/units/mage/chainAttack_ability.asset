@@ -12,15 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
   m_Name: chainAttack_ability
   m_EditorClassIdentifier: 
-  targetingMode: 0
-  hitParticle: 3
+  targetSearchType: 0
+  validTargets: 0
+  centerOnYourself: 0
+  hitParticle: 5
   dmgInstanceType: 1
   projectileType: 0
   projectile: {fileID: 1684744735726426580, guid: 0f512b4f36b917345a39865dd5118112, type: 3}
-  reach: 4
-  damage: 4000
+  reach: 5
+  damage: 360
   castSpeed: 0.5
-  cooldown: 6
-  flySpeed: 333
+  cooldown: 5
+  flySpeed: 33
   minLifeTime: 0
   damagesAllies: 0
+  bounceAttack: {fileID: 0}
+  bounceAttack_targeting: 0
+  bounceRange_attack: 1
+  bounceCount_atk: 0
+  bounceSpawnCount_atk: 0
+  bounceAbility: {fileID: 11400000}
+  bounceAbility_targeting: 0
+  bounceRange_ability: 90
+  bounceCount_ability: 6
+  bounceSpawnCount_ability: 1
+  bounceDamagePercChangePerJump: 1
+  onlyOneBouncePerUnit: 1
+  spawnUnit: {fileID: 0}
+  spawnCount: 1
+  spawnDuration: 0

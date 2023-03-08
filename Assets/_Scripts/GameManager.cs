@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum GameState
 {
     NONE = 0,
     PRE_BATTLE = 1,
-    BATTLE = 2
+    BATTLE = 2,
+    MAP = 3,
+    SCENARIO_BUILDER = 4,
 }
 
 public class GameManager : MonoBehaviour
@@ -15,14 +18,19 @@ public class GameManager : MonoBehaviour
     public HPBarSpawner HPBars { get; private set; }
     public ParticleSpawner ParticleSpawner { get; private set; }
     public DamageInstance DamageInstance { get; private set; }
+    public SaveSlots SaveSlots { get; private set; }
+    public MapController MapController { get; private set; }
 
-
+    public Color hpBarTeam0Color = Color.green;
+    public Color hpBarTeam1Color = Color.red;
+    [Space(5)]
     public bool spawnMage = true;
     public bool spawnWarrior = true;
     public bool spawnHealer = true;
     public bool spawnRanger = true;
-    public GameState state;
-    public Scenario testScenario = null;
+    public GameState state { get; private set; }
+    public Scenario currentScenario;
+    ScenarioBuilder builder;
 
     private Chessboard board;
 
@@ -36,18 +44,39 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        board = GameObject.Find("Board").GetComponent<Chessboard>();
+        state = GameState.MAP;
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
         HPBars = GetComponentInChildren<HPBarSpawner>();
+        SaveSlots = GetComponentInChildren<SaveSlots>();
+        var b = GameObject.Find("Board");
+        if (b != null)
+            board = b.GetComponent<Chessboard>();
+        var m = GameObject.Find("Map");
+        if (m != null)
+            MapController = m.GetComponent<MapController>();
     }
 
     void Update()
     {
         if (state == GameState.BATTLE)
             BattleUpdate();
+
         else if (state == GameState.PRE_BATTLE)
             board.UnitPlacerUpdate();
+
+        else if (state == GameState.MAP)
+            MapController.MapUpdate();
+
+        else if (state == GameState.SCENARIO_BUILDER)
+        {
+            if (builder == null)
+            {
+                builder = ScenarioBuilder.Instance;
+            }
+            builder.ScenarioBuilderUpdate();
+        }
+        
     }
 
     void BattleUpdate()
@@ -95,8 +124,17 @@ public class GameManager : MonoBehaviour
                 return attacker.team == target.team;
             case UnitSearchType.ONLY_SELF:
                 return attacker == target;
+            case UnitSearchType.LOWEST_HP_ALLY_PERC:
+                return target == Chessboard.Instance.GetLowestTeammate(search, attacker);
             default:
                 return true;
         }
+    }
+    public bool IsValidTarget(int attacker, Unit target, UnitSearchType search)
+    {
+        if (search == UnitSearchType.ENEMIES_ONLY)
+            return attacker != target.team;
+        else
+            return attacker == target.team;
     }
 }

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
+  m_Name: healer_healTargetUnit_BIGG
+  m_EditorClassIdentifier: 
+  targetSearchType: 5
+  validTargets: 3
+  centerOnYourself: 0
+  hitParticle: 6
+  dmgInstanceType: 0
+  projectileType: 1
+  projectile: {fileID: 1684744735726426580, guid: c6104e1bd258f81408f4ffc9ae74b2a7, type: 3}
+  reach: 2
+  damage: -777
+  castSpeed: 0.05
+  cooldown: 4
+  flySpeed: 88
+  minLifeTime: 0.35
+  damagesAllies: 0
+  bounceAttack: {fileID: 0}
+  bounceAttack_targeting: 0
+  bounceRange_attack: 1
+  bounceCount_atk: 0
+  bounceSpawnCount_atk: 0
+  bounceAbility: {fileID: 11400000, guid: aca77e75ad5a7fe43ac80d8a398bc5a7, type: 2}
+  bounceAbility_targeting: 2
+  bounceRange_ability: 30
+  bounceCount_ability: 1
+  bounceSpawnCount_ability: 10
+  bounceDamagePercChangePerJump: 1
+  onlyOneBouncePerUnit: 1
+  spawnUnit: {fileID: 0}
+  spawnCount: 1
+  spawnDuration: 0

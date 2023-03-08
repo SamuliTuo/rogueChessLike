@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitAbilityManager : MonoBehaviour
@@ -15,16 +17,22 @@ public class UnitAbilityManager : MonoBehaviour
     private void Awake()
     {
         thisUnit = GetComponent<Unit>();
-
         abilitiesWithCooldown.Clear();
+
         if (ability_1 != null)
-           abilitiesWithCooldown.Add(ability_1, false);
+            InitAbility(ability_1);
         if (ability_2 != null)
-           abilitiesWithCooldown.Add(ability_2, false);
+            InitAbility(ability_2);
         if (ability_3 != null)
-           abilitiesWithCooldown.Add(ability_3, false);
+            InitAbility(ability_3);
         if (ability_4 != null)
-           abilitiesWithCooldown.Add(ability_4, false);
+           InitAbility(ability_4);
+    }
+    void InitAbility(UnitAbility _ability)
+    {
+        abilitiesWithCooldown.Add(_ability, true);
+        StartCoroutine(AbilityCooldown(_ability, _ability.cooldown * 0.5f));
+
     }
 
     public UnitAbility ConsiderUsingAnAbility()
@@ -41,10 +49,6 @@ public class UnitAbilityManager : MonoBehaviour
 
     public void ActivateAbility(UnitAbility _ability, Unit _attackTarget, Vector2Int[] _path)
     {
-        abilitiesWithCooldown[_ability] = true;
-        StartCoroutine("AbilityCooldown", _ability);
-
-        
         if (_attackTarget == null)
         {
             thisUnit.savedAttackTimerAmount = _ability.castSpeed * thisUnit.percentOfAttackTimerSave;
@@ -53,7 +57,7 @@ public class UnitAbilityManager : MonoBehaviour
         }
         thisUnit.savedAttackTimerAmount = 0;
 
-        if (_path != null)
+        if (_path != null && _path.Length > 0)
         {
             var targetPos = _path[_path.Length - 1];
             thisUnit.RotateUnit(targetPos);
@@ -62,16 +66,19 @@ public class UnitAbilityManager : MonoBehaviour
         Vector3 offset = transform.TransformVector(thisUnit.attackPositionOffset);
         Vector3 startPos = transform.position + offset;
 
+        abilitiesWithCooldown[_ability] = true;
+        StartCoroutine(AbilityCooldown(_ability, _ability.cooldown));
+
         GameObject clone = Instantiate(_ability.projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        clone.GetComponent<AbilityInstance>().Init(_ability, startPos, _path, thisUnit, _attackTarget);
+        clone.GetComponent<AbilityInstance>().Init(_ability, startPos, _path, _ability.bounceCount_atk, _ability.bounceCount_ability, thisUnit, _attackTarget);
 
         thisUnit.ResetAI();
     }
 
-    IEnumerator AbilityCooldown(UnitAbility _ability)
+    IEnumerator AbilityCooldown(UnitAbility _ability, float _cooldown)
     {
         var t = Time.time;
-        while (Time.time < t + _ability.cooldown)
+        while (Time.time < t + _cooldown)
         {
             yield return null;
         }

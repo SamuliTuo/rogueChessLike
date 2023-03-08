@@ -16,4 +16,20 @@ public class Unit_NormalAttack : ScriptableObject
     public float minLifeTime = 0;
     public GameObject projectile;
     public bool damagesAllies;
+
+    [Header("Bouncing and multiplying:")]
+    public Unit_NormalAttack bounceAttack = null;
+    public UnitSearchType bounceAttack_targeting = UnitSearchType.ENEMIES_ONLY;
+    public int bounceRange_atk = 1;
+    public int bounceCount_atk = 0;
+    public int bounceSpawnCount_atk = 0;
+    [Space(4)]
+    public UnitAbility bounceAbility = null;
+    public UnitSearchType bounceAbility_targeting = UnitSearchType.ENEMIES_ONLY;
+    public int bounceRange_ability = 1;
+    public int bounceCount_ability = 0;
+    public int bounceSpawnCount_ability = 0;
+    [Header("This is not used for anything, thinking...")]
+    public float bounceDamagePercChangePerJump = 1;
+    public bool onlyOneBouncePerUnit = true;
 }

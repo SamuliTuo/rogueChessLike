@@ -7,6 +7,7 @@ public class HPBarSpawner : MonoBehaviour
 {
     private GameObject hpBarPrefab;
     private IObjectPool<GameObject> barPool;
+    [SerializeField] private Vector3 originalScale;
 
     private void Start()
     {
@@ -16,7 +17,9 @@ public class HPBarSpawner : MonoBehaviour
 
     public GameObject SpawnBar()
     {
-        return barPool.Get();
+        var r = barPool.Get();
+        r.transform.localScale = originalScale;
+        return r;
     }
 
 

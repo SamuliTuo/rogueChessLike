@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6084532898269002595}
-  - component: {fileID: 8865861554971053949}
+  - component: {fileID: -7760506957644378920}
   m_Layer: 0
   m_Name: projectile_fireBall
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8865861554971053949
+--- !u!114 &-7760506957644378920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f0edc90fd97199d4fbf18286cbdfff66, type: 2}
+  - {fileID: 2100000, guid: d311413bcf021e7449a97088cfe2aac4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

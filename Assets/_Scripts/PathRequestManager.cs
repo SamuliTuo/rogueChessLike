@@ -40,8 +40,19 @@ public class PathRequestManager : MonoBehaviour
         instance.pathRequestQueue.Enqueue(newRequest);
         instance.TryProcessNext();
     }*/
+    public static void RequestFindUnit(
+        Vector2Int pathStart,
+        Unit askinUnit,
+        Unit targetUnit,
+        UnitSearchType searchType,
+        int reach,
+        Action<Vector2Int[], bool, bool, Unit> callback)
+    {
+        PathRequest newRequest = new PathRequest(pathStart, askinUnit, searchType, reach, targetUnit, callback);
+        instance.pathRequestQueue.Enqueue(newRequest);
+        instance.TryProcessNext();
+    }
     public static void RequestFindClosestEnemy(
-        //PathType type,
         Vector2Int pathStart,
         Unit askingUnit,
         UnitSearchType searchType,
@@ -60,19 +71,12 @@ public class PathRequestManager : MonoBehaviour
             currentPathRequest = pathRequestQueue.Dequeue();
             isProcessingPath = true;
 
-            //switch (currentPathRequest.pathType)
-            //{
-            //    case PathType.NORMAL:
-            //        pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd); 
-            //        break;
-            //    case PathType.CLOSEST_NODE_OF_TYPE:
-            //        pathfinding.StartFindClosestNodeOfType(currentPathRequest.pathStart, currentPathRequest.targetNodeType);
-            //        break;
-            //    case PathType.CLOSEST_ENEMY:
-                    pathfinding.StartFindClosestUnitOfType(currentPathRequest.pathStart, currentPathRequest.askingUnit, currentPathRequest.searchType, currentPathRequest.reach);
-            //        break;
-            //    default: break;
-            //}   
+            if (currentPathRequest.searchType == UnitSearchType.LOWEST_HP_ALLY_PERC || currentPathRequest.searchType == UnitSearchType.LOWEST_HP_ALLY_ABS)
+            {
+                pathfinding.StartFindUnit(currentPathRequest.pathStart, currentPathRequest.askingUnit, currentPathRequest.searchType, currentPathRequest.reach, currentPathRequest.targetUnit);
+                return;
+            }
+            pathfinding.StartFindClosestUnitOfType(currentPathRequest.pathStart, currentPathRequest.askingUnit, currentPathRequest.searchType, currentPathRequest.reach);
         }
     }
 
@@ -89,6 +93,7 @@ public class PathRequestManager : MonoBehaviour
         public NodeType targetNodeType;
         public UnitSearchType searchType;
         public Unit askingUnit;
+        public Unit targetUnit;
         public int reach;
         public Action<Vector2Int[], bool, bool, Unit> callback;
 
@@ -112,6 +117,17 @@ public class PathRequestManager : MonoBehaviour
             unit = null;
             callback = _callback;
         }*/
+        public PathRequest(Vector2Int _start, Unit _askingUnit, UnitSearchType _searchType, int _reach, Unit _targetUnit, Action<Vector2Int[], bool, bool, Unit> _callback)
+        {
+            pathStart = _start;
+            searchType = _searchType;
+            pathEnd = -Vector2Int.one;
+            targetNodeType = NodeType.NONE;
+            askingUnit = _askingUnit;
+            targetUnit = _targetUnit;
+            callback = _callback;
+            reach = _reach;
+        }
 
         public PathRequest(Vector2Int _start, Unit _askingUnit, UnitSearchType _searchType, int _reach, Action<Vector2Int[], bool, bool, Unit> _callback)
         {
@@ -120,6 +136,7 @@ public class PathRequestManager : MonoBehaviour
             pathEnd = -Vector2Int.one;
             targetNodeType = NodeType.NONE;
             askingUnit = _askingUnit;
+            targetUnit = null;
             callback = _callback;
             reach = _reach;
         }

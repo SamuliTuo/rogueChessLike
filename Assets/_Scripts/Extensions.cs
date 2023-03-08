@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class Extensions
 {
@@ -39,5 +40,73 @@ public static class Extensions
             return reach * 12;
         }
         return 0;
+    }
+
+    public static List<Vector2Int> GetFreeNodesAtAndAround(int x, int y)
+    {
+        List<Vector2Int> r = new List<Vector2Int>();
+        var units = Chessboard.Instance.GetUnits();
+        Vector2Int tilecount = Chessboard.Instance.GetTilecount();
+
+        // Current pos
+        if (units[x,y] == null) 
+            r.Add(new Vector2Int(x, y));
+
+        // Right
+        if (x + 1 < tilecount.x)
+        {
+            // Right
+            if (units[x + 1, y] == null)
+                r.Add(new Vector2Int(x + 1, y));
+            //else if (units[x + 1, y].team != team)
+                //r.Add(new Vector2Int(x + 1, y));
+
+            // Top right
+            if (y + 1 < tilecount.y)
+                if (units[x + 1, y + 1] == null)
+                    r.Add(new Vector2Int(x + 1, y + 1));
+                //else if (units[x + 1, y + 1].team != team)
+                    //r.Add(new Vector2Int(x + 1, y + 1));
+
+            // Bottom right
+            if (y - 1 >= 0)
+                if (units[x + 1, y - 1] == null)
+                    r.Add(new Vector2Int(x + 1, y - 1));
+                //else if (units[x + 1, y - 1].team != team)
+                    //r.Add(new Vector2Int(x + 1, y - 1));
+        }
+        // Left
+        if (x - 1 >= 0)
+        {
+            // Left
+            if (units[x - 1, y] == null)
+                r.Add(new Vector2Int(x - 1, y));
+            //else if (units[x - 1, y].team != team)
+                //r.Add(new Vector2Int(x - 1, y));
+
+            // Top left
+            if (y + 1 < tilecount.y)
+                if (units[x - 1, y + 1] == null)
+                    r.Add(new Vector2Int(x - 1, y + 1));
+                //else if (units[x - 1, y + 1].team != team)
+                    //r.Add(new Vector2Int(x - 1, y + 1));
+
+            // Bottom left
+            if (y - 1 >= 0)
+                if (units[x - 1, y - 1] == null)
+                    r.Add(new Vector2Int(x - 1, y - 1));
+                //else if (units[x - 1, y - 1].team != team)
+                    //r.Add(new Vector2Int(x - 1, y - 1));
+        }
+        // Up
+        if (y + 1 < tilecount.y)
+            if (units[x, y + 1] == null) // || units[x, y + 1].team != team)
+                r.Add(new Vector2Int(x, y + 1));
+        // Down
+        if (y - 1 >= 0)
+            if (units[x, y - 1] == null) // || units[x, y - 1].team != team)
+                r.Add(new Vector2Int(x, y - 1));
+
+        return r;
     }
 }

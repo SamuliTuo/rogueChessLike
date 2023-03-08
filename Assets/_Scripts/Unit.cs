@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 
 public enum UnitType
@@ -32,6 +33,8 @@ public class Unit : MonoBehaviour
     [SerializeField] private List<Unit_NormalAttack> normalAttacks = new List<Unit_NormalAttack>();
 
     [HideInInspector] public float savedAttackTimerAmount = 0f;
+
+    //  player team = 0, enemy team = 1
     [HideInInspector] public int team;
     [HideInInspector] public int x;
     [HideInInspector] public int y;
@@ -93,12 +96,29 @@ public class Unit : MonoBehaviour
             pathPending = true;
             ResetPath();
 
+            // Auto-attack
             if (nextAbility == null)
             {
                 PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttack].targeting, normalAttacks[currentAttack].attackRange, OnPathFound);
                 return;
             }
-            PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.targetingMode, nextAbility.reach, OnPathFound);
+
+            // Use an ability
+            if (nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_ABS || nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
+            {
+                var targetUnit = board.GetLowestTeammate(nextAbility.targetSearchType, this);
+                if (targetUnit != null)
+                {
+                    PathRequestManager.RequestFindUnit(new Vector2Int(x, y), this, targetUnit, nextAbility.targetSearchType, nextAbility.reach, OnPathFound);
+                    return;
+                }
+                nextAbility = null;
+                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttack].targeting, normalAttacks[currentAttack].attackRange, OnPathFound);
+            }
+            else
+            {
+                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.targetSearchType, nextAbility.reach, OnPathFound);
+            }
         }
     }
 
@@ -174,7 +194,6 @@ public class Unit : MonoBehaviour
         }
         ResetAI();
     }
-
     void NormalAttack()
     {
         var atk = normalAttacks[currentAttack];
@@ -193,7 +212,7 @@ public class Unit : MonoBehaviour
         Vector3 startPos = transform.position + offset;
 
         var clone = Instantiate(atk.projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        clone.GetComponent<Projectile>().Init(atk, startPos, path, this, attackTarget);
+        clone.GetComponent<Projectile>().Init(atk, startPos, path, atk.bounceCount_atk, atk.bounceCount_ability, this, attackTarget);
 
         currentAttack++;
         if (currentAttack >= normalAttacks.Count)
@@ -208,17 +227,14 @@ public class Unit : MonoBehaviour
         nextAction = Action.NONE;
         pathPending = false;
     }
-
     public void ResetPath()
     {
         path = null;
     }
-
     public void RotateUnit(Vector2Int lookAt)
     {
         transform.LookAt(board.GetTileCenter(lookAt.x, lookAt.y));
     }
-
     public virtual List<Vector2Int> GetAvailableMoves(ref Unit[,] units, int tileCountX, int tileCountY)
     {
         List<Vector2Int> r = new List<Vector2Int>();

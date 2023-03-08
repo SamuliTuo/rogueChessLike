@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Chessboard : MonoBehaviour
 {
-    [SerializeField] private const int TILE_COUNT_X = 20;
-    [SerializeField] private const int TILE_COUNT_Y = 20;
+    [SerializeField] private int TILE_COUNT_X = 20;
+    [SerializeField] private int TILE_COUNT_Y = 20;
     public Vector2Int GetTilecount()
     {
         return new Vector2Int(TILE_COUNT_X, TILE_COUNT_Y);
     }
-    
 
     [Header("Art Stuff")]
     [SerializeField] private Material tileMat;
@@ -29,6 +28,7 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private Material[] teamMaterials;
 
     public static Chessboard Instance { get; private set; }
+    public Pathfinding Pathfinding { get; private set; }
 
     // LOGIC
     private Unit[,] activeUnits;
@@ -44,7 +44,8 @@ public class Chessboard : MonoBehaviour
     private List<Unit> deadUnits_enemy = new List<Unit>();
     private Camera currentCam;
     private Vector2Int currentHover;
-    private PlayerParty party;
+    GameObject platform_team0;
+    GameObject platform_team1;
 
     [SerializeField] private GameObject enemy;
 
@@ -56,15 +57,18 @@ public class Chessboard : MonoBehaviour
             Instance = this;
 
         GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
+        Pathfinding = GetComponent<Pathfinding>();
     }
 
     private void Start()
     {
-        party = GameManager.Instance.GetComponentInChildren<PlayerParty>();
-        SpawnAllUnits();
+        platform_team0 = Resources.Load<GameObject>("units/_platforms/platform_team0");
+        platform_team1 = Resources.Load<GameObject>("units/_platforms/platform_team1");
+        SpawnAllUnits(GameManager.Instance.currentScenario);
         PositionAllUnits();
     }
 
+    
     public void UnitPlacerUpdate()
     {
         if (!currentCam)
@@ -239,7 +243,7 @@ public class Chessboard : MonoBehaviour
         mesh.triangles = tris;
 
         /////////////////////// 
-        // jätän nää nyt tänne pyörimään vihjeeks kun alan tekee esteitä kartalle:
+        // jätän nää nyt tänne pyörimään vihjeeks sitä varten, kun alan taas tekee esteitä kartalle:
         /*
         if ((x==7 && y==3) || (x==7 && y==5))
         {
@@ -282,6 +286,37 @@ public class Chessboard : MonoBehaviour
 
         return tileObject;
     }
+    public void AddTileCount(int x, int y)
+    {
+        currentHover = -Vector2Int.one;
+
+        TILE_COUNT_X = Mathf.Max(1, TILE_COUNT_X + x);
+        TILE_COUNT_Y = Mathf.Max(1, TILE_COUNT_Y + y);
+        RefreshBoard();
+    }
+    public void RefreshBoard(Unit[,] quickSave = null)
+    {
+        foreach (var unit in activeUnits)
+        {
+            if (unit == null) continue;
+            unit.GetComponent<UnitHealth>().Die();
+        }
+        foreach (var tile in tiles)
+        {
+            if (tile == null) continue;
+            Destroy(tile.gameObject);
+        }
+
+        nodes = null;
+        activeUnits = null;
+        tiles = null;
+        GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
+
+        if (quickSave != null) SpawnAllUnits(quickSave);
+        else SpawnAllUnits(GameManager.Instance.currentScenario);
+
+        PositionAllUnits();  
+    }
     public List<Node> GetNeighbourNodes(Node node)
     {
         List<Node> neighbours = new List<Node>();
@@ -319,38 +354,43 @@ public class Chessboard : MonoBehaviour
         return (IsOfType(x-1, y, type) || IsOfType(x+1, y, type) || IsOfType(x, y-1, type) || IsOfType(x, y+1, type));
     }
 
-    private void SpawnAllUnits()
+    public void SpawnUnit(GameObject unit, int team, Vector2Int pos)
+    {
+        if (activeUnits[pos.x, pos.y] != null)
+            return;
+
+        activeUnits[pos.x, pos.y] = SpawnSingleUnit(unit, team);
+    }
+    private void SpawnAllUnits(Scenario scenario)
     {
         activeUnits = new Unit[TILE_COUNT_X, TILE_COUNT_Y];
-
-        int playerTeam = 0;
-        int enemyTeam = 1;
-
-        // Player units
-        if (GameManager.Instance.spawnHealer)
-            activeUnits[party.slot1_spawn.x, party.slot1_spawn.y] = SpawnSingleUnit(party.slot1_unit, playerTeam);
-        if (GameManager.Instance.spawnMage)
-            activeUnits[party.slot2_spawn.x, party.slot2_spawn.y] = SpawnSingleUnit(party.slot2_unit, playerTeam);
-        if (GameManager.Instance.spawnWarrior)
-            activeUnits[party.slot3_spawn.x, party.slot3_spawn.y] = SpawnSingleUnit(party.slot3_unit, playerTeam);
-        if (GameManager.Instance.spawnRanger)
-            activeUnits[party.slot4_spawn.x, party.slot4_spawn.y] = SpawnSingleUnit(party.slot4_unit, playerTeam);
-
-        // Enemies
-
-        foreach (var e in GameManager.Instance.testScenario.enemies)
-        {
-            activeUnits[e.spawnPos.x, e.spawnPos.y] = SpawnSingleUnit(e.unit, enemyTeam);
-        }
+        foreach (var unit in scenario.scenarioUnits)
+            if (unit.spawnPos.x >= 0 && unit.spawnPos.x < TILE_COUNT_X)
+                if (unit.spawnPos.y >= 0 && unit.spawnPos.y < TILE_COUNT_Y)
+                    activeUnits[unit.spawnPos.x, unit.spawnPos.y] = SpawnSingleUnit(unit.unit, unit.team);
     }
-    private Unit SpawnSingleUnit(GameObject _unit, int team)
+    private void SpawnAllUnits(Unit[,] _units)
+    {
+        activeUnits = new Unit[TILE_COUNT_X, TILE_COUNT_Y];
+        for (int x = 0; x < _units.GetLength(0); x++)
+            for (int y = 0; y < _units.GetLength(1); y++)
+                if (_units[x,y] != null)
+                    activeUnits[x,y] = SpawnSingleUnit(ScenarioBuilder.Instance.GetOriginalUnitType_From_InstantiatedUnitObject(_units[x, y].gameObject), _units[x, y].team);
+    }
+
+    
+    public Unit SpawnSingleUnit(GameObject _unit, int team)
     {
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
-        //unit.type = type;
+        
         unit.team = team;
-        if (unit.team == 1)
+        if (unit.team == 0)
         {
-            unit.GetComponent<MeshRenderer>().material = teamMaterials[team];
+            GameObject unit_platform = Instantiate(platform_team0, unit.transform);
+        }
+        else
+        {
+            GameObject unit_platform = Instantiate(platform_team1, unit.transform);
         }
 
         return unit;
@@ -363,7 +403,7 @@ public class Chessboard : MonoBehaviour
                 if (activeUnits[x, y] != null)
                     PositionSingleUnit(x, y, true);
     }
-    private void PositionSingleUnit(int x, int y, bool force = false)
+    public void PositionSingleUnit(int x, int y, bool force = false)
     {
         activeUnits[x, y].x = x;
         activeUnits[x, y].y = y;
@@ -387,12 +427,12 @@ public class Chessboard : MonoBehaviour
     }
 
     // Highlight tiles
-    private void HighlightTiles()
+    public void HighlightTiles()
     {
         for (int i = 0; i < availableMoves.Count; i++)
             tiles[availableMoves[i].x, availableMoves[i].y].layer = LayerMask.NameToLayer("Highlight");
     }
-    private void RemoveHighlightTiles()
+    public void RemoveHighlightTiles()
     {
         for (int i = 0; i < availableMoves.Count; i++)
             tiles[availableMoves[i].x, availableMoves[i].y].layer = LayerMask.NameToLayer("Tile");
@@ -401,7 +441,7 @@ public class Chessboard : MonoBehaviour
     }
 
     // Operations
-    private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
+    public bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
     {
         for (int i = 0; i < moves.Count; i++)
             if (moves[i].x == pos.x && moves[i].y == pos.y)
@@ -409,7 +449,7 @@ public class Chessboard : MonoBehaviour
 
         return false;
     }
-    private bool MoveTo(Unit unit, int x, int y, ref List<Vector2Int> moves)
+    public bool MoveTo(Unit unit, int x, int y, ref List<Vector2Int> moves)
     {
         if (!ContainsValidMove(ref moves, new Vector2(x,y)))
             return false;
@@ -482,7 +522,7 @@ public class Chessboard : MonoBehaviour
         }   
     }
 
-    private Vector2Int LookupTileIndex(GameObject hitInfo)
+    public Vector2Int LookupTileIndex(GameObject hitInfo)
     {
         for (int x = 0; x < TILE_COUNT_X; x++)
             for (int y = 0; y < TILE_COUNT_Y; y++)
@@ -490,5 +530,51 @@ public class Chessboard : MonoBehaviour
                     return new Vector2Int(x,y);
 
         return -Vector2Int.one; // Invalid
+    }
+
+    public Unit GetLowestTeammate(UnitSearchType searchType, Unit askingUnit, int range = 100000, bool canBeSelf = true, bool dontReturnFullHPTargets = true)
+    {
+        Unit u = null;
+        float lowest = Mathf.Infinity;
+        foreach (Unit unit in activeUnits)
+        {
+            if (unit == null)
+                continue;
+            if (unit.team != askingUnit.team)// || unit == askingUnit)
+                continue;
+            if (range < Pathfinding.GetDistance(nodes[askingUnit.x, askingUnit.y], nodes[unit.x, unit.y]))
+                continue;
+
+            if (searchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
+            {
+                var hpPerc = unit.GetComponent<UnitHealth>().GetHealthPercentage();
+
+                if (hpPerc >= 1 && dontReturnFullHPTargets)
+                    continue;
+                if (unit == askingUnit && !canBeSelf)
+                    continue;
+
+                if (hpPerc < lowest)
+                {
+                    lowest = hpPerc;
+                    u = unit;
+                }
+            }
+
+            else if (searchType == UnitSearchType.LOWEST_HP_ALLY_ABS)
+            {
+                if (
+                    unit.GetComponent<UnitHealth>().hp < lowest 
+                    && unit.GetComponent<UnitHealth>().GetHealthPercentage() < 1 
+                    && Pathfinding.GetDistance(nodes[askingUnit.x, askingUnit.y], nodes[unit.x, unit.y]) <= range
+                    && (unit != askingUnit || canBeSelf)
+                    )
+                {
+                    lowest = unit.GetComponent<UnitHealth>().hp;
+                    u = unit;
+                }
+            }
+        }
+        return u;
     }
 }

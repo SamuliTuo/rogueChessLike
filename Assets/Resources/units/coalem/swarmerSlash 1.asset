@@ -12,13 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdced4eb7b6ab74e8f5f86156ce5809, type: 3}
   m_Name: swarmerSlash 1
   m_EditorClassIdentifier: 
+  targeting: 0
   hitParticle: 0
   dmgInstanceType: 0
   projectileType: 0
   attackRange: 1
-  damage: 45
-  attackInterval: 0.2
+  damage: 70
+  attackInterval: 1
   attackFlySpeed: 25
   minLifeTime: 0.09
   projectile: {fileID: 1684744735726426580, guid: 4ce87cc1ecec465489b72a602198a0ec, type: 3}
   damagesAllies: 0
+  bounceAttack: {fileID: 0}
+  bounceAttack_targeting: 0
+  bounceRange_atk: 1
+  bounceCount_atk: 0
+  bounceSpawnCount_atk: 0
+  bounceAbility: {fileID: 0}
+  bounceAbility_targeting: 0
+  bounceRange_ability: 1
+  bounceCount_ability: 0
+  bounceSpawnCount_ability: 0
+  bounceDamagePercChangePerJump: 1
+  onlyOneBouncePerUnit: 1

@@ -16,7 +16,6 @@ public class HpBarInstance : MonoBehaviour
     private IObjectPool<GameObject> pool;
     private bool initialized = false;
 
-
     void Update()
     {
         if (initialized)
@@ -26,9 +25,7 @@ public class HpBarInstance : MonoBehaviour
         }
     }
 
-
-
-    public void Init(Transform _unit, float _posOffset)
+    public void Init(Transform _unit, float _posOffset, int team)
     {
         if (canvas == null)
             canvas = GetComponent<RectTransform>();
@@ -40,6 +37,11 @@ public class HpBarInstance : MonoBehaviour
             bar = barObj.GetComponent<Image>();
 
         barObj.SetActive(false);
+        if (team == 0)
+            barObj.GetComponent<Image>().color = GameManager.Instance.hpBarTeam0Color;
+        else
+            barObj.GetComponent<Image>().color = GameManager.Instance.hpBarTeam1Color;
+
         bgObj.SetActive(false);
         cam = Camera.main.transform;
         unit = _unit;

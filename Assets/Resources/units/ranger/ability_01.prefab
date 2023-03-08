@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395677042821862019}
   m_LocalRotation: {x: 0.34311682, y: 0.6182791, z: 0.6182814, w: 0.3431181}
-  m_LocalPosition: {x: 0.0066859, y: 0.015375, z: -0.565}
-  m_LocalScale: {x: 0.12803698, y: 0.44153747, z: 0.12803698}
+  m_LocalPosition: {x: 0.020892, y: 0.015375, z: -0.70726}
+  m_LocalScale: {x: 0.40008634, y: 0.876995, z: 0.40008634}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6084532898269002595}
@@ -270,8 +270,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4205101413578848447}
   m_LocalRotation: {x: -0, y: -0, z: 0.8743803, w: 0.4852413}
-  m_LocalPosition: {x: 0.0066859, y: 0.015375, z: 0.011915028}
-  m_LocalScale: {x: 0.6556779, y: 0.6556779, z: 0.25647458}
+  m_LocalPosition: {x: 0.020892, y: 0.015375, z: 0.43864}
+  m_LocalScale: {x: 2.048844, y: 2.048844, z: 0.50941753}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4737997233334422151}
@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b35a4a060b3c649a5f2c0bc6404162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bounceDamagePercChangePerJump: 1
 --- !u!1 &6057469526867153054
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,8 +318,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6057469526867153054}
   m_LocalRotation: {x: -0, y: -0, z: 0.8743803, w: 0.4852413}
-  m_LocalPosition: {x: 0.082733, y: 0.062792, z: -1.1595249}
-  m_LocalScale: {x: 0.047874674, y: 0.11027934, z: 0.3891045}
+  m_LocalPosition: {x: 0.25852, y: 0.16353, z: -1.888}
+  m_LocalScale: {x: 0.14959744, y: 0.34459776, z: 0.77285105}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6084532898269002595}
@@ -412,8 +413,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6931869522284552030}
   m_LocalRotation: {x: -0, y: -0, z: 0.8743803, w: 0.4852413}
-  m_LocalPosition: {x: 0.0066859, y: 0.015375, z: -0.12055498}
-  m_LocalScale: {x: 1.298295, y: 1.298295, z: 0.27004167}
+  m_LocalPosition: {x: 0.020892, y: 0.015375, z: 0.17551}
+  m_LocalScale: {x: 4.0568757, y: 4.0568757, z: 0.53636485}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1418499465420908355}
@@ -432,6 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b35a4a060b3c649a5f2c0bc6404162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bounceDamagePercChangePerJump: 1
 --- !u!1 &7542923927975800465
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,8 +559,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8077506834975671219}
   m_LocalRotation: {x: -0, y: -0, z: 0.8743803, w: 0.4852413}
-  m_LocalPosition: {x: -0.082733, y: -0.040378, z: -1.1595249}
-  m_LocalScale: {x: 0.047874674, y: 0.11027934, z: 0.3891045}
+  m_LocalPosition: {x: -0.25852, y: -0.15883, z: -1.888}
+  m_LocalScale: {x: 0.14959744, y: 0.34459776, z: 0.77285105}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6084532898269002595}

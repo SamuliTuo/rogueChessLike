@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum DamageInstanceType 
@@ -10,7 +11,7 @@ public enum DamageInstanceType
 
 public class DamageInstance : MonoBehaviour
 {
-    public void Activate(Node target, float damage, Unit shooter, UnitSearchType targeting, DamageInstanceType type)
+    public void Activate(Node target, float damage, Unit shooter, UnitSearchType targeting, DamageInstanceType type, ParticleType particle = ParticleType.NONE)
     {
         Unit[,] units = Chessboard.Instance.GetUnits();
         if (type == DamageInstanceType.SINGLE_TARGET)
@@ -18,13 +19,21 @@ public class DamageInstance : MonoBehaviour
             if (units[target.x, target.y] != null)
                 if (GameManager.Instance.IsValidTarget(shooter, units[target.x, target.y], targeting))
                     units[target.x, target.y].GetComponent<UnitHealth>().GetDamaged(damage);
+                    
         }
         else
         {
             foreach (Vector2Int node in GetSquare(target.x, target.y))
                 if (units[node.x, node.y] != null)
                     if (GameManager.Instance.IsValidTarget(shooter, units[node.x, node.y], targeting))
+                    {
                         units[node.x, node.y].GetComponent<UnitHealth>().GetDamaged(damage);
+                        if (node.x != target.x && node.y != target.y)
+                        {
+                            GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x, target.y));
+                        }
+                    }
+                        
         }
     }
 
