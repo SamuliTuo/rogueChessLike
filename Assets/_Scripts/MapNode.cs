@@ -18,14 +18,25 @@ public enum MapNodeType
 public class MapNode : MonoBehaviour
 {
     public MapNodeType type;
-    public Vector3 position;
     public Scenario battleScenario;
-    public List<MapNode> connections;
+    public List<MapNode> nextNodeConnections;
+    public int row;
+    public int index;
+    public bool splitting;
+    public bool mergingRight;
 
-    public void Init(MapNodeType _type, Vector3 _position, Scenario _scenario)
+    public void Init(MapNodeType _type, Scenario _scenario, int _row, int _index, bool _splitting, bool _mergingRight)
     {
         type = _type;
-        position = _position;
         battleScenario = _scenario;
+        row = _row;
+        index = _index;
+        splitting = _splitting;
+        mergingRight = _mergingRight;
+    }
+
+    public void AddConnection(MapNode connection)
+    {
+        nextNodeConnections.Add(connection);
     }
 }

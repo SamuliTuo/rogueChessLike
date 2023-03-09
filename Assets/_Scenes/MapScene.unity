@@ -74181,12 +74181,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4c26b7389fb4140b5699bdd4b3a9c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathLength: 10
   minDistance: 1.5
   nodeCountMinMax: {x: 33, y: 40}
   startPos: {x: 10.1, y: 0, z: -7.6099997}
   endPos: {x: 10.1, y: 0, z: 9.38}
   xMargin: 1
   yMargin: 2.5
+  startSplitsRange: {x: 9, y: 9}
+  pathSteps: 5
+  stepDistance_first: 2.4
+  stepDistance: 2
+  stepDistance_last: 4
+  positionSideOffset: 1.5
+  positionRandomFactor: 0
+  splitChance: 0.3
+  mergeChance: 0.3
 --- !u!1 &1376440084
 GameObject:
   m_ObjectHideFlags: 0
