@@ -74114,6 +74114,7 @@ MonoBehaviour:
   spawnWarrior: 1
   spawnHealer: 1
   spawnRanger: 0
+  sceneState: 3
   currentScenario: {fileID: 11400000, guid: 76cae81aea83d3e43a606070b4a5d995, type: 2}
 --- !u!4 &1331056200
 Transform:

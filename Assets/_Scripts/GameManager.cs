@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public bool spawnHealer = true;
     public bool spawnRanger = true;
     public GameState state { get; private set; }
+    [SerializeField] private GameState sceneState = GameState.NONE;
     public Scenario currentScenario;
     ScenarioBuilder builder;
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        state = GameState.MAP;
+        state = sceneState;
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
         HPBars = GetComponentInChildren<HPBarSpawner>();

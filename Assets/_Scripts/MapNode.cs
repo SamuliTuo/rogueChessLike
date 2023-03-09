@@ -8,18 +8,24 @@ public enum MapNodeType
     START_POS,
     END_POS,
     BATTLE,
+    BATTLE_ELITE,
+    BATTLE_BOSS,
+    TREASURE,
+    SHOP,
+    RANDOM_ENCOUNTER,
 }
 
 public class MapNode : MonoBehaviour
 {
     public MapNodeType type;
+    public Vector3 position;
+    public Scenario battleScenario;
+    public List<MapNode> connections;
 
-    // Having a scenario is optional
-    public Scenario scenario;
-
-    public void Init(MapNodeType type, Scenario scenario)
+    public void Init(MapNodeType _type, Vector3 _position, Scenario _scenario)
     {
-        this.type = type;
-        this.scenario = scenario;
+        type = _type;
+        position = _position;
+        battleScenario = _scenario;
     }
 }
