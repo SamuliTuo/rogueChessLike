@@ -1,166 +1,141 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MapController : MonoBehaviour
 {
+    public MapSettings mapSettings;
+    public Material lineMat;
+
     public int pathLength = 10;
     public float minDistance;
     public Vector2 nodeCountMinMax = new Vector2(33, 40);
     public Vector3 startPos, endPos;
     public float xMargin, yMargin;
+    public Transform lineTransforms;
+    public GameObject playerPrefab;
 
     private GameObject mapNode;
     private List<MapNode> mapNodes = new List<MapNode>();
-
+    private Camera cam;
     private MapNode startNode;
     private MapNode endNode;
+    private GameObject player;
+    private Transform currentMapTransform;
+    private bool canMove = false;
+
+    public Vector3 mapCameraLastPos = Vector3.zero;
+
 
     void Start()
     {
+        currentMapTransform = GameManager.Instance.CurrentMap.transform;
+        var map = GameManager.Instance.CurrentMap.currentMap;
+        if (map != null)
+        {
+            mapNodes = map.mapNodes;
+            StartCoroutine("PositionAndSetupMapNodes");
+            return;
+        }
+
         mapNode = Resources.Load<GameObject>("map/mapNode");
-        //ClearMapNodes();
-        //GenerateMapNodes();
         GeneratePaths();
-        PositionMapNodes();
+        StartCoroutine("PositionAndSetupMapNodes");
     }
-        
-    public void MapUpdate()
+
+    MapNode currentPosition;
+
+
+    private void Update()
     {
-        //implementing later. . .
+        if (currentPosition == null || !canMove)
+            return;
+        if (!cam)
+        {
+            cam = Camera.main;
+            return;
+        }
+
+        RaycastHit hit;
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("MapNode")))
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                MoveOnMap(hit.collider.transform.parent.GetComponent<MapNode>());
+            }
+        }
+        //print(currentPosition.name + ", pos: " + currentPosition.transform.position + ", nodeType: " + currentPosition.type);
     }
 
-    //void GenerateMapNodes()
-    //{
-    //    startNode = CreateMapNode(startPos, MapNodeType.START_POS);
-    //    endNode = CreateMapNode(endPos, MapNodeType.END_POS);
-
-    //    for (int i = 0; i < Random.Range(nodeCountMinMax.x, nodeCountMinMax.y); i++)
-    //    {
-    //        tries = 0;
-    //        Vector3 spawnPosition = GetRandomPosition();
-    //        CreateMapNode(spawnPosition, MapNodeType.NONE);
-    //    }
-    //}
-
-    MapNode CreateMapNode(MapNodeType type, int row, int index, bool splitting, bool mergingRight, Scenario scenario = null)
+    public void MoveOnMap(MapNode node)
     {
-        GameObject obj = Instantiate(mapNode, transform.position, Quaternion.identity, transform);
-        var _node = obj.GetComponent<MapNode>();
-        _node.Init(type, scenario, row, index, splitting, mergingRight);
-        mapNodes.Add(_node);
-        return _node;
+        if (currentPosition.nextNodeConnections.Contains(node))
+        {
+            canMove = false;
+            print("moved to: " + node.type);
+            currentPosition = node;
+            player.transform.position = currentPosition.transform.position;
+            ActivateNode(node);
+        }
     }
 
-    //Vector3 GetRandomPosition()
-    //{
-    //    if (tries > 99)
-    //        return Vector3.zero;
-
-    //    tries++;
-    //    Bounds bounds = transform.GetChild(0).GetComponent<Renderer>().bounds;
-    //    Vector3 position = new (
-    //        Random.Range(bounds.min.x + xMargin, bounds.max.x - xMargin),
-    //        0,
-    //        Random.Range(bounds.min.z + yMargin, bounds.max.z - yMargin)
-    //    );
-    //    if (IsTooClose(position))
-    //    {
-    //        return GetRandomPosition();
-    //    }
-    //    return position;
-    //}
-
-    //int tries = 0;
-    //bool IsTooClose(Vector3 position)
-    //{
-    //    foreach (MapNode unit in mapNodes)
-    //    {
-    //        if (Vector3.Distance(position, unit.transform.position) < minDistance)
-    //        {
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-    //}
-
-    //void ClearMapNodes()
-    //{
-    //    foreach (var node in mapNodes)
-    //    {
-    //        Destroy(node);
-    //    }
-    //    mapNodes.Clear();
-    //}
+    void ActivateNode(MapNode node)
+    {
+        if (node.type == MapNodeType.BATTLE)
+        {
+            GameManager.Instance.CurrentMap.AddNextNodeOnPath(node);
+            GameManager.Instance.SceneManagement.LoadScene("BattleScene");
+        }
+        else if (node.type == MapNodeType.END_POS)
+        {
+            print("BOSS BATTLEEEEEEEE!!!");
+        }
+        else
+        {
+            canMove = true;
+        }
+    }
 
 
 
-    //private void ConnectNodes()
-    //{
-    //    // connect nodes to form paths
-    //    for (int i = 0; i < mapNodes.Count; i++)
-    //    {
-    //        for (int j = i + 1; j < mapNodes.Count; j++)
-    //        {
-    //            float distance = Vector3.Distance(mapNodes[i].position, mapNodes[j].position);
-    //            if (distance < overlap)
-    //            {
-    //                nodes[i].connections.Add(nodes[j]);
-    //                nodes[j].connections.Add(nodes[i]);
-    //            }
-    //        }
-    //    }
-    //}
-
-    [SerializeField] private Vector2 startSplitsRange = new Vector2(2, 5);
-    [SerializeField] private int pathSteps = 5;
-    [SerializeField] private float stepDistance_first = 4;
-    [SerializeField] private float stepDistance = 2;
-    [SerializeField] private float stepDistance_last = 4;
-    [SerializeField] private float positionSideOffset = 2;
-    [SerializeField] private float positionRandomFactor = 2f;
-    [SerializeField] private float splitChance = 0.3f;
-    [SerializeField] private float mergeChance = 0.3f;
-
+    //     __  __                                                          _     _              
+    //    |  \/  |  __ _   _ __     __ _   ___   _ _    ___   _ _   __ _  | |_  (_)  ___   _ _  
+    //    | |\/| | / _` | | '_ \   / _` | / -_) | ' \  / -_) | '_| / _` | |  _| | | / _ \ | ' \ 
+    //    |_|  |_| \__,_| | .__/   \__, | \___| |_||_| \___| |_|   \__,_|  \__| |_| \___/ |_||_|
+    //                    |_|      |___/                                  
     void GeneratePaths()
     {
         // First node
-        startNode = CreateMapNode(MapNodeType.START_POS, 0, 0, false, false);
+        startNode = CreateMapNode(0, 0, false, false, MapNodeType.START_POS);
 
         List<MapNode> lastRow = new List<MapNode>();
         List<MapNode> nextRow = new List<MapNode>();
-        int firstStepSplits = (int)Random.Range(startSplitsRange.x, startSplitsRange.y);
+        int firstStepSplits = (int)Random.Range(mapSettings.randomRangeForSplitsAtFirstNode.x, mapSettings.randomRangeForSplitsAtFirstNode.y);
 
         // Second row of nodes
         for (int i = 0; i < firstStepSplits; i++)
         {
-            bool splitting = (Random.Range(0.00f, 1.00f) < splitChance);
-            bool mergingRight = (i != firstStepSplits - 1 && Random.Range(0.00f, 1.00f) < mergeChance);
-
-            //var pos = currentStepPos - (Vector3.right * (firstStepSplits - 1) * positionSideOffset * 0.5f) + new Vector3(i * positionSideOffset, 0, 0);
-            //pos += new Vector3(Random.Range(-1.00f, 1.00f) * positionRandomFactor, 0, Random.Range(-1.00f, 1.00f) * positionRandomFactor);
-            var clone = CreateMapNode(MapNodeType.NONE, 1, i, splitting, mergingRight);
+            bool splitting = (Random.Range(0.00f, 1.00f) < mapSettings.splitChance);
+            bool mergingRight = (i != firstStepSplits - 1 && Random.Range(0.00f, 1.00f) < mapSettings.mergeChance);
+            var clone = CreateMapNode(0, i, splitting, mergingRight);
             startNode.AddConnection(clone);
             nextRow.Add(clone);
         }
 
-        // Intermediate rows
-        for (int pathStep = 0; pathStep < pathSteps; pathStep++)
+        // Middle rows
+        for (int row = 1; row < mapSettings.encountersByRow.Count; row++)
         {
             lastRow.Clear();
-            mapNodes.AddRange(nextRow);
             lastRow.AddRange(nextRow);
             nextRow.Clear();
             MapNode nextMergesWith = null;
             int rowIndex = 0;
             for (int i = 0; i < lastRow.Count; i++)
             {
-                if (lastRow[i].splitting == true)
+                if ((lastRow[i].splitting == true && lastRow.Count < mapSettings.maximumNodesWideness) || lastRow.Count == 1)
                 {
                     if (nextMergesWith != null)
                     {
@@ -169,16 +144,16 @@ public class MapController : MonoBehaviour
                     }
                     else
                     {
-                        bool split = Random.Range(0.00f, 1.00f) < splitChance;
-                        var o = CreateMapNode(MapNodeType.NONE, pathStep + 2, rowIndex, split, false);
+                        bool split = Random.Range(0.00f, 1.00f) < mapSettings.splitChance;
+                        var o = CreateMapNode(row, rowIndex, split, false);
                         lastRow[i].AddConnection(o);
                         nextRow.Add(o);
                         rowIndex++;
                     }
 
-                    bool splitting = Random.Range(0.00f, 1.00f) < splitChance;
-                    bool mergingRight = (i != lastRow.Count - 1 && Random.Range(0.00f, 1.00f) < mergeChance);
-                    var obj = CreateMapNode(MapNodeType.NONE, pathStep + 2, rowIndex, splitting, mergingRight);
+                    bool splitting = (Random.Range(0.00f, 1.00f) < mapSettings.splitChance && lastRow.Count < mapSettings.maximumNodesWideness);
+                    bool mergingRight = (i != lastRow.Count - 1 && Random.Range(0.00f, 1.00f) < mapSettings.mergeChance);
+                    var obj = CreateMapNode(row, rowIndex, splitting, mergingRight);
                     lastRow[i].AddConnection(obj);
                     nextRow.Add(obj);
                     if (mergingRight) 
@@ -195,9 +170,9 @@ public class MapController : MonoBehaviour
                     }
                     else
                     {
-                        bool splitting = Random.Range(0.00f, 1.00f) < splitChance;
-                        bool mergingRight = (i != lastRow.Count - 1 && Random.Range(0.00f, 1.00f) < mergeChance);
-                        var obj = CreateMapNode(MapNodeType.NONE, pathStep + 2, rowIndex, splitting, mergingRight);
+                        bool splitting = Random.Range(0.00f, 1.00f) < mapSettings.splitChance;
+                        bool mergingRight = (i != lastRow.Count - 1 && Random.Range(0.00f, 1.00f) < mapSettings.mergeChance);
+                        var obj = CreateMapNode(row, rowIndex, splitting, mergingRight);
                         lastRow[i].AddConnection(obj);
                         nextRow.Add(obj);
                         if (mergingRight)
@@ -207,32 +182,54 @@ public class MapController : MonoBehaviour
                     }
                 }
             }
-
-
-            //var pos = currentStepPos - (Vector3.right * (firstStepSplits - 1) * positionSideOffset * 0.5f) + new Vector3(i * positionSideOffset, 0, 0);
-            //pos += new Vector3(Random.Range(-1.00f, 1.00f) * positionRandomFactor, 0, Random.Range(-1.00f, 1.00f) * positionRandomFactor);
-            //var clone = CreateMapNode(MapNodeType.NONE, );
-            //lastRow[i].AddConnection(clone);
-            //nextRow.Add(clone);
         }
 
         // Last node
-        endNode = CreateMapNode(MapNodeType.END_POS, pathSteps + 2, 0, false, false);
-        foreach (var node in lastRow)
-            node.AddConnection(endNode);
+        endNode = CreateMapNode(mapSettings.encountersByRow.Count, 0, false, false, MapNodeType.END_POS);
+        for (int i = 0; i < nextRow.Count; i++)
+        {
+            nextRow[i].AddConnection(endNode);
+        }
     }
 
-    void PositionMapNodes()
+    MapNode CreateMapNode(int row, int index, bool splitting, bool mergingRight, MapNodeType type = MapNodeType.NONE)
     {
-        startNode.transform.position = startPos;
+        GameObject obj = Instantiate(mapNode, transform.position, Quaternion.identity, currentMapTransform);
+        var _node = obj.GetComponent<MapNode>();
+        var _type = (type != MapNodeType.NONE) ? type : mapSettings.encountersByRow[row].type[Random.Range(0, mapSettings.encountersByRow[row].type.Count)];
+        _node.Init(_type, row, index, splitting, mergingRight);
+        mapNodes.Add(_node);
+        //obj.transform.parent = currentMapTransform;
+        return _node;
+    }
 
-        Vector3 currentStepPos = startPos + Vector3.forward * stepDistance_first;
-        int row = 1;
-        
-        while (mapNodes.Count > 0)
+    IEnumerator PositionAndSetupMapNodes()
+    {
+        // Position nodes
+        List<MapNode> unpositionedNodes = new List<MapNode>();
+        unpositionedNodes.AddRange(mapNodes);
+        Vector3 currentStepPos = startPos + Vector3.forward * mapSettings.stepDistance_first;
+        int row = 0;
+
+        for (int i = unpositionedNodes.Count - 1; i >= 0; i--)
+        {
+            if (unpositionedNodes[i].type == MapNodeType.START_POS)
+            {
+                startNode = unpositionedNodes[i];
+                unpositionedNodes[i].transform.position = startPos;
+                unpositionedNodes.RemoveAt(i);
+            }
+            else if (unpositionedNodes[i].type == MapNodeType.END_POS)
+            {
+                endNode = unpositionedNodes[i];
+                unpositionedNodes.RemoveAt(i);
+            }
+        }
+
+        while (unpositionedNodes.Count > 0)
         {
             List<MapNode> rowNodes = new List<MapNode>();
-            foreach (var node in mapNodes)
+            foreach (var node in unpositionedNodes)
             {
                 if (node.row == row)
                 {
@@ -241,105 +238,109 @@ public class MapController : MonoBehaviour
             }
             foreach (var rowNode in rowNodes)
             {
-                mapNodes.Remove(rowNode);
+                unpositionedNodes.Remove(rowNode);
             }
-
             for (int i = 0; i < rowNodes.Count; i++)
             {
-                var pos = currentStepPos - (Vector3.right * (rowNodes.Count - 1) * positionSideOffset * 0.5f) + new Vector3(i * positionSideOffset, 0, 0);
-                pos += new Vector3(Random.Range(-1.00f, 1.00f) * positionRandomFactor, 0, Random.Range(-1.00f, 1.00f) * positionRandomFactor);
+                var pos = currentStepPos - (Vector3.right * (rowNodes.Count - 1) * mapSettings.positionSideOffset * 0.5f) + new Vector3(i * mapSettings.positionSideOffset, 0, 0);
+                pos += new Vector3(Random.Range(-1.00f, 1.00f) * mapSettings.positionRandomFactor, 0, Random.Range(-1.00f, 1.00f) * mapSettings.positionRandomFactor);
 
                 rowNodes[i].transform.position = pos;
             }
+            currentStepPos += Vector3.forward * mapSettings.stepDistance;
 
-            currentStepPos += Vector3.forward * stepDistance;
             row++;
+            yield return null;
         }
 
-        endNode.transform.position = currentStepPos + Vector3.forward * stepDistance_last;
+        endNode.transform.position = 
+            currentStepPos + Vector3.forward * mapSettings.stepDistance_last + 
+            new Vector3(Random.Range(-1.00f, 1.00f) * mapSettings.positionRandomFactor, 0, Random.Range(-1.00f, 1.00f) * mapSettings.positionRandomFactor);
 
+        SpawnPlayerUnit();
 
+        DrawPaths();
+        canMove = true;
+
+        if (GameManager.Instance.CurrentMap.currentMap == null)
+        {
+            GameManager.Instance.CurrentMap.ClearMap();
+            GameManager.Instance.CurrentMap.SetCurrentMap(new Map(mapNodes));
+            GameManager.Instance.CurrentMap.AddNextNodeOnPath(startNode);
+        }
     }
 
-    //void GeneratePaths()
-    //{
-    //    mapNodes = mapNodes.OrderBy(p => p.position.z).ToList();
-
-    //    TryCreatePath();
-    //}
-    void TryCreatePath()
+    void SpawnPlayerUnit()
     {
-        List<MapNode> path = new List<MapNode>();
-        path.Add(mapNodes[0]);
-        int currentNode = 0;
-        for (int i = 0; i < pathLength; i++)
+        player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity, transform);
+        //print("player: "+player);
+        if (GameManager.Instance.CurrentMap.currentMap != null)
         {
-            var nextNode = currentNode + Random.Range(1, 4);
-            if (mapNodes[nextNode] == null)
+            currentPosition = GameManager.Instance.CurrentMap.GetCurrentNode();
+            //print("curr map != null,   curr pos: " + currentPosition);
+        }
+        else
+        {
+            currentPosition = startNode;
+            //print("curr map == null,   curr pos: " + currentPosition);
+        }
+
+        player.transform.position = currentPosition.transform.position;
+    }
+    
+    void DrawPaths()
+    {
+        foreach (var node in mapNodes)
+        {
+            foreach (var connection in node.nextNodeConnections)
             {
-                if (mapNodes[currentNode + 1] == null)
-                {
-                    break;
-                }
+                DrawLine(node.transform.position, connection.transform.position, Color.green, Mathf.Infinity);
             }
         }
     }
 
+    public void GenerateNewMap()
+    {
+        for (int i = mapNodes.Count - 1; i >= 0; i--)
+        {
+            Destroy(mapNodes[i].gameObject);
+        }
+        for (int i = lineTransforms.childCount - 1; i >= 0; i--)
+        {
+            Destroy(lineTransforms.GetChild(i).gameObject);
+        }
+        Destroy(player);
+        GameManager.Instance.CurrentMap.ClearMap();
+        player = null;
+        startNode = endNode = null;
+        mapNodes.Clear();
+        mapNode = Resources.Load<GameObject>("map/mapNode");
+        GeneratePaths();
+        StartCoroutine("PositionAndSetupMapNodes");
+    }
 
-    //private void ConnectNodes()
-    //{
-    //    List<List<MapNode>> paths = new List<List<MapNode>>();
-    //    // reorder along Z
-    //    mapNodes = mapNodes.OrderBy(p => p.position.z).ToList();
-    //    startNode.connections.Add(mapNodes[1]);
-    //    startNode.connections.Add(mapNodes[2]);
-    //    startNode.connections.Add(mapNodes[3]);
+    void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 0.2f)
+    {
+        GameObject myLine = new GameObject();
+        myLine.transform.position = start;
+        myLine.AddComponent<LineRenderer>();
+        LineRenderer lr = myLine.GetComponent<LineRenderer>();
+        lr.material = lineMat;
+        lr.startColor = color;
+        lr.endColor = color;
+        lr.startWidth = 0.1f;
+        lr.endWidth = 0.1f;
+        lr.SetPosition(0, start);
+        lr.SetPosition(1, end);
+        GameObject.Destroy(myLine, duration);
+        myLine.transform.SetParent(lineTransforms);
+    }
+}
 
-    //    // connect nodes to form paths using depth-first search
-    //    Stack<MapNode> stack = new Stack<MapNode>();
-    //    HashSet<MapNode> visited = new HashSet<MapNode>();
-    //    stack.Push(startNode);
-
-    //    while (stack.Count > 0)
-    //    {
-    //        MapNode node = stack.Pop();
-
-    //        // mark node as visited
-    //        visited.Add(node);
-
-    //        // check if path is valid
-    //        if (node != startNode && node != endNode && node.position.y <= node.connections[0].position.y)
-    //        {
-    //            node.connections.Remove(node.connections[0]);
-    //            continue;
-    //        }
-    //        if (node.connections[0] != null)
-    //        {
-    //            if (node.position.y <= node.connections[0].position.y)
-    //            {
-    //                node.connections.Remove(node.connections[0]);
-    //                continue;
-    //            }
-    //        }
-
-            
-
-    //        // add connections to stack
-    //        foreach (MapNode connection in node.connections)
-    //        {
-    //            if (!visited.Contains(connection))
-    //            {
-    //                stack.Push(connection);
-
-    //                // add path if it reaches end node and has correct number of steps
-    //                if (connection == endNode && stack.Count == 11)
-    //                {
-    //                    List<MapNode> path = new List<MapNode>();
-    //                    paths.Add(path);
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
+public class Map {
+    public List<MapNode> mapNodes = new List<MapNode>();
+    public Map(List<MapNode> mapNodes)
+    {
+        this.mapNodes = mapNodes;
+    }
 }

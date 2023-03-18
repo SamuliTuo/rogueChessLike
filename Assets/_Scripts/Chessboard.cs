@@ -64,6 +64,7 @@ public class Chessboard : MonoBehaviour
     {
         platform_team0 = Resources.Load<GameObject>("units/_platforms/platform_team0");
         platform_team1 = Resources.Load<GameObject>("units/_platforms/platform_team1");
+
         SpawnAllUnits(GameManager.Instance.currentScenario);
         PositionAllUnits();
     }
@@ -364,10 +365,26 @@ public class Chessboard : MonoBehaviour
     private void SpawnAllUnits(Scenario scenario)
     {
         activeUnits = new Unit[TILE_COUNT_X, TILE_COUNT_Y];
+        if (scenario.scenarioUnits == null)
+            scenario.scenarioUnits = new List<Scenario.ScenarioUnit>();
+
         foreach (var unit in scenario.scenarioUnits)
+        {
+            if (unit.spawnPosX >= 0 && unit.spawnPosX < TILE_COUNT_X)
+                if (unit.spawnPosY >= 0 && unit.spawnPosY < TILE_COUNT_Y)
+                {
+                    print(unit.unit);
+                    print(GameManager.Instance.UnitSavePaths);
+                    var path = GameManager.Instance.UnitSavePaths.GetPath(unit.unit);
+                    activeUnits[unit.spawnPosX, unit.spawnPosY]
+                        = SpawnSingleUnit(path, unit.team);
+                }
+        }
+        /*foreach (var unit in scenario.scenarioUnits)
             if (unit.spawnPos.x >= 0 && unit.spawnPos.x < TILE_COUNT_X)
                 if (unit.spawnPos.y >= 0 && unit.spawnPos.y < TILE_COUNT_Y)
                     activeUnits[unit.spawnPos.x, unit.spawnPos.y] = SpawnSingleUnit(unit.unit, unit.team);
+        */
     }
     private void SpawnAllUnits(Unit[,] _units)
     {
@@ -383,6 +400,23 @@ public class Chessboard : MonoBehaviour
     {
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
         
+        unit.team = team;
+        if (unit.team == 0)
+        {
+            GameObject unit_platform = Instantiate(platform_team0, unit.transform);
+        }
+        else
+        {
+            GameObject unit_platform = Instantiate(platform_team1, unit.transform);
+        }
+
+        return unit;
+    }
+    public Unit SpawnSingleUnit(string unitName, int team)
+    {
+        GameObject _unit = Resources.Load<GameObject>(unitName);
+        Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
+
         unit.team = team;
         if (unit.team == 0)
         {

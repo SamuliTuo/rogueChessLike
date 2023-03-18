@@ -18,7 +18,6 @@ public class ButtonScript : MonoBehaviour
         Chessboard.Instance.RefreshBoard(quickSave);
         GameManager.Instance.ChangeGamestate(GameState.SCENARIO_BUILDER);
     }
-
     public void AddGridX()
     {
         Chessboard.Instance.AddTileCount(1, 0);
@@ -42,5 +41,9 @@ public class ButtonScript : MonoBehaviour
     public void LoadGame(int slot)
     {
         GameManager.Instance.SaveSlots.LoadFromSlot(slot);
+    }
+    public void MoveOnMap(MapNode node)
+    {
+        GameManager.Instance.MapController.MoveOnMap(node);
     }
 }

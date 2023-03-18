@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -19,7 +20,11 @@ public class GameManager : MonoBehaviour
     public ParticleSpawner ParticleSpawner { get; private set; }
     public DamageInstance DamageInstance { get; private set; }
     public SaveSlots SaveSlots { get; private set; }
+    public CurrentMap CurrentMap { get; private set; }
     public MapController MapController { get; private set; }
+    public SceneManagement SceneManagement { get; private set; }
+    public SaveGameManager SaveGameManager { get; private set; }
+    public UnitSavePaths UnitSavePaths { get; private set; }
 
     public Color hpBarTeam0Color = Color.green;
     public Color hpBarTeam1Color = Color.red;
@@ -32,8 +37,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameState sceneState = GameState.NONE;
     public Scenario currentScenario;
     ScenarioBuilder builder;
-
     private Chessboard board;
+
 
     void Awake()
     {
@@ -50,6 +55,14 @@ public class GameManager : MonoBehaviour
         DamageInstance = GetComponentInChildren<DamageInstance>();
         HPBars = GetComponentInChildren<HPBarSpawner>();
         SaveSlots = GetComponentInChildren<SaveSlots>();
+        CurrentMap = GetComponentInChildren<CurrentMap>();
+        SceneManagement = GetComponentInChildren<SceneManagement>();
+        SaveGameManager = GetComponentInChildren<SaveGameManager>();
+        UnitSavePaths = GetComponentInChildren<UnitSavePaths>();
+        LoadBoardAndMap();
+    }
+    public void LoadBoardAndMap()
+    {
         var b = GameObject.Find("Board");
         if (b != null)
             board = b.GetComponent<Chessboard>();
@@ -66,8 +79,8 @@ public class GameManager : MonoBehaviour
         else if (state == GameState.PRE_BATTLE)
             board.UnitPlacerUpdate();
 
-        else if (state == GameState.MAP)
-            MapController.MapUpdate();
+        //else if (state == GameState.MAP)
+            //MapController.MapUpdate();
 
         else if (state == GameState.SCENARIO_BUILDER)
         {
@@ -77,17 +90,21 @@ public class GameManager : MonoBehaviour
             }
             builder.ScenarioBuilderUpdate();
         }
-        
     }
 
     void BattleUpdate()
     {
+        if (board == null)
+            if (GameObject.Find("Board") != null)
+                board = GameObject.Find("Board").GetComponent<Chessboard>();
+
         // Unit AI's
         Unit[,] activeUnits = board.GetUnits();
         for (int x = 0; x < activeUnits.GetLength(0); x++)
             for (int y = 0; y < activeUnits.GetLength(1); y++)
                 if (activeUnits[x, y] != null)
                     activeUnits[x, y].AI();
+
 
         //foreach (var unit in activeUnits)
         //if (unit != null) unit.   
@@ -137,5 +154,50 @@ public class GameManager : MonoBehaviour
             return attacker != target.team;
         else
             return attacker == target.team;
+    }
+
+    public void UnitHasDied(Unit unit)
+    {
+        bool allUnitsDead = true;
+        foreach (var aliveUnit in board.GetUnits())
+        {
+            if (aliveUnit == null)
+                continue;
+
+            if (aliveUnit.team == unit.team && aliveUnit != unit)
+            {
+                allUnitsDead = false;
+                break;
+            }
+        }
+
+        if (allUnitsDead)
+        {
+            foreach (var u in board.GetUnits())
+            {
+                if (u != null)
+                {
+                    //print(u.GetComponent<UnitHealth>());
+                    var hp = u.GetComponent<UnitHealth>();
+                    if (!hp.dying)
+                        hp.Die();
+                }
+            }
+            StartCoroutine("BattleEnd", "MapScene");
+        }
+    }
+
+    IEnumerator BattleEnd(string scene)
+    {
+        yield return new WaitForSeconds(1);
+
+        SceneManagement.LoadScene(scene);
+
+        while (SceneManager.GetActiveScene().name != scene)
+        {
+            yield return null;
+        }
+        HPBars.Reset();
+        state = GameState.MAP;
     }
 }

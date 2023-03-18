@@ -18,17 +18,16 @@ public enum MapNodeType
 public class MapNode : MonoBehaviour
 {
     public MapNodeType type;
-    public Scenario battleScenario;
+    public Scenario scenario;
     public List<MapNode> nextNodeConnections;
     public int row;
     public int index;
     public bool splitting;
     public bool mergingRight;
 
-    public void Init(MapNodeType _type, Scenario _scenario, int _row, int _index, bool _splitting, bool _mergingRight)
+    public void Init(MapNodeType _type, int _row, int _index, bool _splitting, bool _mergingRight)
     {
         type = _type;
-        battleScenario = _scenario;
         row = _row;
         index = _index;
         splitting = _splitting;
@@ -38,5 +37,13 @@ public class MapNode : MonoBehaviour
     public void AddConnection(MapNode connection)
     {
         nextNodeConnections.Add(connection);
+    }
+
+    public void SetupMapNode(Scenario _scenario, MapNodeType _type = MapNodeType.NONE) //rewards?? etc..
+    {
+        if (_type != MapNodeType.NONE)
+            type = _type;
+
+        scenario = _scenario;
     }
 }

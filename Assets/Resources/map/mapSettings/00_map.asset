@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898f32cf2eb42b843ad6382b2468d189, type: 3}
+  m_Name: 00_map
+  m_EditorClassIdentifier: 
+  encountersByRow:
+  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
+  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
+  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
+  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
+  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
+  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
+  randomRangeForSplitsAtFirstNode: {x: 2, y: 4}
+  maximumNodesWideness: 4
+  stepDistance_first: 1.5
+  stepDistance: 1.5
+  stepDistance_last: 0
+  positionSideOffset: 1.5
+  positionRandomFactor: 0.4
+  splitChance: 0.3
+  mergeChance: 0.5

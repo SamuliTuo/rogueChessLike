@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -12,6 +10,11 @@ public class HPBarSpawner : MonoBehaviour
     private void Start()
     {
         hpBarPrefab = Resources.Load<GameObject>("HpBarInstance");
+        barPool = new ObjectPool<GameObject>(CreateBar, OnTakeBarFromPool, OnReturnBarToPool);
+    }
+
+    public void Reset()
+    {
         barPool = new ObjectPool<GameObject>(CreateBar, OnTakeBarFromPool, OnReturnBarToPool);
     }
 

@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_00
   m_EditorClassIdentifier: 
-  numba: 0
-  enemies: []
+  scenarioUnits: []

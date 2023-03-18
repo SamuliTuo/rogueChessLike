@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UnitHealth : MonoBehaviour
 {
+    public bool dying;
 
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private float hpBarOffset = 1f;
@@ -18,7 +19,7 @@ public class UnitHealth : MonoBehaviour
     private Color originalColor;
     private GameObject hpBar = null;
     private HpBarInstance hpScript;
-    private bool dying;
+    
     private Unit unit;
     private Vector3 hpBarOriginalScale;
 
@@ -31,10 +32,8 @@ public class UnitHealth : MonoBehaviour
     {
         dying = false;
         hp = maxHp;
-        //mat = GetComponentInChildren<MeshRenderer>().materials[0];
-        //originalColor = mat.color;
 
-        if (hpBar == null)
+        if (hpScript == null)
         {
             hpBar = GameManager.Instance.HPBars.SpawnBar();
             hpScript = hpBar.GetComponent<HpBarInstance>();
@@ -51,10 +50,13 @@ public class UnitHealth : MonoBehaviour
         if (hp >= maxHp)
             hp = maxHp;
 
-        hpScript.SetBarValue(hp / maxHp);
+        if (hpScript != null)
+            hpScript.SetBarValue(hp / maxHp);
+        
         if (hp <= 0 && dying == false)
         {
             dying = true;
+            GameManager.Instance.UnitHasDied(unit);
             Die();
         }
         else
@@ -72,7 +74,11 @@ public class UnitHealth : MonoBehaviour
 
     public void Die()
     {
-        hpScript.Deactivate();
+        if (hpScript != null)
+        {
+            hpScript.Deactivate();
+            hpScript = null;
+        }
         Destroy(this.gameObject);
     }
 
@@ -123,5 +129,14 @@ public class UnitHealth : MonoBehaviour
             yield return null;
         }
         hpBar.transform.localScale = hpBarOriginalScale;
+    }
+
+    private void OnDisable()
+    {
+        if (hpScript != null)
+        {
+            hpScript.Deactivate();
+            hpScript = null;
+        }
     }
 }
