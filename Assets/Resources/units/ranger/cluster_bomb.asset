@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: cluster_bomb
   m_EditorClassIdentifier: 
   targetSearchType: 0
+  validTargets: 0
   centerOnYourself: 0
   hitParticle: 0
   dmgInstanceType: 0
   projectileType: 0
-  projectile: {fileID: 1684744735726426580, guid: 0a548312f48dde54eb4b80858e6992e5, type: 3}
+  projectilePath: cluster_bomb_proj
   reach: 6
   damage: 300
   castSpeed: 1
   cooldown: 10
+  startCooldownMultiplier: 0.5
   flySpeed: 44
   minLifeTime: 0
   damagesAllies: 0
@@ -37,6 +39,6 @@ MonoBehaviour:
   bounceSpawnCount_ability: 0
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0

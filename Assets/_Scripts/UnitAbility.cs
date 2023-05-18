@@ -1,25 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
+[Serializable]
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/NewUnitAbility", order = 4)]
 public class UnitAbility : ScriptableObject
 {
-    //PartyMemberFindingOrder ???
     public UnitSearchType targetSearchType;
     public UnitSearchType validTargets;
     public bool centerOnYourself;
     public ParticleType hitParticle;
     public DamageInstanceType dmgInstanceType;
     public ProjectileType projectileType;
-    public GameObject projectile;
+
+    [Header("Full path of projectile in Resources folder, ie: units/ranger/projectile1")]
+    public string projectilePath;
+
     public int reach = 1;
 
     [Space(10)]
     public float damage = 10f;
     public float castSpeed = 1;
     public float cooldown = 10f;
+    [Tooltip("cooldown multiplied by this is how long the spell has cooldown at Start")]
+    public float startCooldownMultiplier = 0.5f;
     public float flySpeed = 10f;
     public float minLifeTime = 0;
     public bool damagesAllies;
@@ -40,8 +46,8 @@ public class UnitAbility : ScriptableObject
     public float bounceDamagePercChangePerJump = 1;
     public bool onlyOneBouncePerUnit = true;
 
-    [Header("Spawn stuff!")]
-    public GameObject spawnUnit = null;
+    [Header("Leave spawnUnit empty if nothing spawns, else the name of unit")]
+    public string spawnUnit = null;
     public int spawnCount = 1;
     public float spawnDuration;
 

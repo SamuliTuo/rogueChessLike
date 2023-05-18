@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: ability_01
   m_EditorClassIdentifier: 
   targetSearchType: 0
+  validTargets: 0
   centerOnYourself: 0
   hitParticle: 3
   dmgInstanceType: 0
   projectileType: 0
-  projectile: {fileID: 1684744735726426580, guid: 9bce70759f238d747a6a8831f9660755, type: 3}
+  projectilePath: ability_01_pro
   reach: 8
   damage: 1000
   castSpeed: 1.2

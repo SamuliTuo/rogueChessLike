@@ -14,16 +14,29 @@ public class UnitSavePaths : MonoBehaviour
 
     public string GetPath(string unit)
     {
-        print("trying to get path with: " + unit);
+        //print("trying to get path with: " + unit);
         foreach (var unitPath in unitPaths)
         {
             if (unitPath.unit == unit)
             {
-                print("returning unit path: " + unitPath.path + unit);
+                //print("returning unit path: " + unitPath.path + unit);
                 return unitPath.path + unit;
             }
         }
-        print("returning a null");
+        //print("returning a null");
         return null;
+    }
+
+    public void GetUnit(string unit)
+    {
+        //find the correct unit from unitPaths
+        foreach (var unitPath in unitPaths)
+        {
+            if (unitPath.unit == unit)
+            {
+                unitPath.unit = unit;
+            }
+        }
+
     }
 }

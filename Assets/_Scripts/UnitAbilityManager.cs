@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class UnitAbilityManager : MonoBehaviour
 {
-    [SerializeField] private UnitAbility ability_1 = null;
-    [SerializeField] private UnitAbility ability_2 = null;
-    [SerializeField] private UnitAbility ability_3 = null;
-    [SerializeField] private UnitAbility ability_4 = null;
+    public UnitAbility ability_1 = null;
+    public UnitAbility ability_2 = null;
+    public UnitAbility ability_3 = null;
+    public UnitAbility ability_4 = null;
 
     private Dictionary<UnitAbility, bool> abilitiesWithCooldown = new Dictionary<UnitAbility, bool>();
     private Unit thisUnit;
@@ -20,19 +20,18 @@ public class UnitAbilityManager : MonoBehaviour
         abilitiesWithCooldown.Clear();
 
         if (ability_1 != null)
-            InitAbility(ability_1);
+            AbilityCooldownAtGameStart(ability_1);
         if (ability_2 != null)
-            InitAbility(ability_2);
+            AbilityCooldownAtGameStart(ability_2);
         if (ability_3 != null)
-            InitAbility(ability_3);
+            AbilityCooldownAtGameStart(ability_3);
         if (ability_4 != null)
-           InitAbility(ability_4);
+           AbilityCooldownAtGameStart(ability_4);
     }
-    void InitAbility(UnitAbility _ability)
+    void AbilityCooldownAtGameStart(UnitAbility _ability)
     {
         abilitiesWithCooldown.Add(_ability, true);
-        StartCoroutine(AbilityCooldown(_ability, _ability.cooldown * 0.5f));
-
+        StartCoroutine(AbilityCooldown(_ability, _ability.cooldown * _ability.startCooldownMultiplier));
     }
 
     public UnitAbility ConsiderUsingAnAbility()
@@ -69,8 +68,16 @@ public class UnitAbilityManager : MonoBehaviour
         abilitiesWithCooldown[_ability] = true;
         StartCoroutine(AbilityCooldown(_ability, _ability.cooldown));
 
-        GameObject clone = Instantiate(_ability.projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        clone.GetComponent<AbilityInstance>().Init(_ability, startPos, _path, _ability.bounceCount_atk, _ability.bounceCount_ability, thisUnit, _attackTarget);
+        var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
+            _ability.projectilePath, startPos, Quaternion.identity);
+
+        if (projectile != null)
+        {
+            projectile.GetComponent<AbilityInstance>().Init(
+                _ability, startPos, _path, _ability.bounceCount_atk, 
+                _ability.bounceCount_ability, thisUnit, _attackTarget);
+        }
+        
 
         thisUnit.ResetAI();
     }

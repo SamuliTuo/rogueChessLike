@@ -4,7 +4,9 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
+using UnityEngine.Pool;
 
+[System.Serializable]
 public enum ProjectileType
 {
     RANGED, MELEE
@@ -28,6 +30,9 @@ public class Projectile : MonoBehaviour
     UnitAbility ability;
     Vector2Int[] path;
     List<Unit> bouncedOn;
+
+    private IObjectPool<GameObject> pool;
+    public void SetPool(IObjectPool<GameObject> pool) => this.pool = pool;
 
     public void Init(  //, Vector3 _startPos, Vector3 _endPos, Node _targetNode, float _flySpeed, float _damage, List<int> damagesTeams, float forcedTimer = 0f)
         Unit_NormalAttack _attack,
@@ -67,7 +72,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Deactivate();
             return;
         }
         
@@ -106,7 +111,7 @@ public class Projectile : MonoBehaviour
         GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position);
 
         Bounces();
-        Destroy(gameObject);
+        Deactivate();
     }
 
 
@@ -128,7 +133,7 @@ public class Projectile : MonoBehaviour
         }
 
         Bounces();
-        Destroy(gameObject);
+        Deactivate();
     }
 
     void Bounces()
@@ -157,7 +162,8 @@ public class Projectile : MonoBehaviour
                 continue;
 
             i++;
-            var clone = Instantiate(attack.bounceAttack.projectile, transform.position, Quaternion.identity);
+            var projectile = Resources.Load<GameObject>(attack.bounceAttack.projectilePath);
+            var clone = Instantiate(projectile, transform.position, Quaternion.identity);
             clone.GetComponent<Projectile>().Init(
                 attack.bounceAttack, 
                 transform.position,
@@ -188,7 +194,8 @@ public class Projectile : MonoBehaviour
                 continue;
 
             i++;
-            var clone = Instantiate(attack.bounceAbility.projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+            var projectile = Resources.Load<GameObject>(ability.bounceAbility.projectilePath);
+            var clone = Instantiate(projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
             clone.GetComponent<AbilityInstance>().Init(
                 attack.bounceAbility, 
                 transform.position, 
@@ -260,5 +267,17 @@ public class Projectile : MonoBehaviour
         }
 
         return r;
+    }
+
+    void Deactivate()
+    {
+        if (pool != null)
+        {
+            pool.Release(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

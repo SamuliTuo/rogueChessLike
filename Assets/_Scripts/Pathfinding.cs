@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
+[Serializable]
 public enum UnitSearchType
 {
     ENEMIES_ONLY,

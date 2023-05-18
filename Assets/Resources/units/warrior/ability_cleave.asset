@@ -18,7 +18,7 @@ MonoBehaviour:
   hitParticle: 4
   dmgInstanceType: 1
   projectileType: 1
-  projectile: {fileID: 1684744735726426580, guid: a25c66cb4a69b7c469cbd85f8950bac4, type: 3}
+  projectilePath: ability_cleave_projectile
   reach: 1
   damage: 211
   castSpeed: 0.3

@@ -18,11 +18,12 @@ MonoBehaviour:
   hitParticle: 6
   dmgInstanceType: 0
   projectileType: 0
-  projectile: {fileID: 1684744735726426580, guid: bf900b858ebb68f44af41b232477252f, type: 3}
+  projectilePath: healer_healTargetUnit_projectile
   reach: 5
   damage: -420
   castSpeed: 0.1
   cooldown: 1
+  startCooldownMultiplier: 0.5
   flySpeed: 4
   minLifeTime: 0
   damagesAllies: 0
@@ -38,6 +39,6 @@ MonoBehaviour:
   bounceSpawnCount_ability: 0
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0

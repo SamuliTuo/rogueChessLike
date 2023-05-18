@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+[System.Serializable]
 public enum ParticleType
 {
     NONE,
@@ -56,6 +57,9 @@ public class ParticleSpawner : MonoBehaviour
                 break;
         }
     }
+
+    
+
 
     void PlayParticle(ParticleSystem s, Vector3 pos)
     {

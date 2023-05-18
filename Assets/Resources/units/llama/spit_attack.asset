@@ -21,7 +21,7 @@ MonoBehaviour:
   attackInterval: 1
   attackFlySpeed: 25
   minLifeTime: 0.1
-  projectile: {fileID: 1684744735726426580, guid: 1e3a5573aa1bc3c43a0e56313883820c, type: 3}
+  projectilePath: spit_attack_projectile
   damagesAllies: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0

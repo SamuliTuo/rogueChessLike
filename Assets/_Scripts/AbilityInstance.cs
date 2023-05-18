@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class AbilityInstance : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class AbilityInstance : MonoBehaviour
     Vector2Int[] path;
     List<Unit> bouncedOn;
 
+    private IObjectPool<GameObject> pool;
+    public void SetPool(IObjectPool<GameObject> pool) => this.pool = pool;
 
     //clone.GetComponent<AbilityInstance>().Init(_ability, startPos, unit.team, _path, _attackTarget);
     public void Init(  //, Vector3 _startPos, Vector3 _endPos, Node _targetNode, float _flySpeed, float _damage, List<int> damagesTeams, float forcedTimer = 0f)
@@ -60,7 +63,7 @@ public class AbilityInstance : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Deactivate();
             return;
         }
 
@@ -112,8 +115,10 @@ public class AbilityInstance : MonoBehaviour
         GameManager.Instance.DamageInstance.Activate(targetNode, ability.damage, shooter, ability.validTargets, ability.dmgInstanceType);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
         SpawnUnits();
+        print("spawns handled");
         Bounces();
-        Destroy(gameObject);
+        print("bounces handled");
+        Deactivate();
     }
 
 
@@ -141,7 +146,7 @@ public class AbilityInstance : MonoBehaviour
         }
 
         Bounces();
-        Destroy(gameObject);
+        Deactivate();
     }
 
 
@@ -171,8 +176,9 @@ public class AbilityInstance : MonoBehaviour
                 continue;
 
             i++;
-            var clone = Instantiate(ability.bounceAttack.projectile, transform.position, Quaternion.identity);
-            clone.GetComponent<Projectile>().Init(
+            var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
+                ability.bounceAttack.projectilePath, transform.position, Quaternion.identity);
+            projectile.GetComponent<Projectile>().Init(
                 ability.bounceAttack, 
                 transform.position, 
                 null, 
@@ -197,14 +203,14 @@ public class AbilityInstance : MonoBehaviour
         {
             if (i >= ability.bounceSpawnCount_ability)
                 break;
-
             if (target.distance >= ability.bounceRange_ability)
                 continue;
 
             i++;
-            var clone = Instantiate(ability.bounceAbility.projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-            clone.GetComponent<AbilityInstance>().Init(
-                ability.bounceAbility, 
+            var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
+                ability.bounceAbility.projectilePath, transform.position, Quaternion.identity);
+            projectile.GetComponent<AbilityInstance>().Init(
+                ability.bounceAbility,
                 transform.position,
                 null,
                 bouncesRemainingAttack - 1,
@@ -213,7 +219,6 @@ public class AbilityInstance : MonoBehaviour
                 target.unit,
                 bouncedOn);
         }
-
 
         bouncesRemainingAttack--;
     }
@@ -229,7 +234,7 @@ public class AbilityInstance : MonoBehaviour
 
     void SpawnUnits()
     {
-        if (ability.spawnUnit != null)
+        if (ability.spawnUnit.Length > 0)
         {
             //print("spawning: " + ability.spawnUnit.name);
             var freeNodes = Extensions.GetFreeNodesAtAndAround(targetNode.x, targetNode.y);
@@ -240,7 +245,8 @@ public class AbilityInstance : MonoBehaviour
                     var rand = Random.Range(0, freeNodes.Count);
                     var node = freeNodes[rand];
                     freeNodes.RemoveAt(rand);
-                    Chessboard.Instance.SpawnUnit(ability.spawnUnit, shooter.team, node);
+                    var path = GameManager.Instance.UnitSavePaths.GetPath(ability.spawnUnit);
+                    Chessboard.Instance.SpawnUnit(path, shooter.team, node);
                     Chessboard.Instance.PositionSingleUnit(node.x, node.y, true);
                 }
                 else
@@ -249,13 +255,12 @@ public class AbilityInstance : MonoBehaviour
         }
     }
 
-
-
     public class BOUNCETARGET
     {
         public Unit unit { get; set; }
         public float distance { get; set; }
     }
+
     List<BOUNCETARGET> FindTargetsForBounces(int bouncers, UnitSearchType targeting)
     {
 
@@ -309,5 +314,17 @@ public class AbilityInstance : MonoBehaviour
         }
 
         return r;
+    }
+
+    void Deactivate()
+    {
+        if (pool != null)
+        {
+            pool.Release(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

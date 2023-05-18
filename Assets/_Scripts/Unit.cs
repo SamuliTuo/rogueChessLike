@@ -25,16 +25,18 @@ public enum Action
 
 public class Unit : MonoBehaviour
 {
-    public float visiblelMoveSpeed = 10;
+    public float visibleMoveSpeed = 10;
     public float moveInterval = 1;
     public float percentOfAttackTimerSave = 0.8f;
     public Vector3 attackPositionOffset = Vector3.zero;
 
-    [SerializeField] private List<Unit_NormalAttack> normalAttacks = new List<Unit_NormalAttack>();
+    public List<Unit_NormalAttack> normalAttacks = new List<Unit_NormalAttack>();
+    public bool randomizeAttackOrder = false;
+    bool canBeSameAttackTwiceInRow = true;
 
     [HideInInspector] public float savedAttackTimerAmount = 0f;
 
-    //  player team = 0, enemy team = 1
+    //player team = 0, enemy team = 1
     [HideInInspector] public int team;
     [HideInInspector] public int x;
     [HideInInspector] public int y;
@@ -75,8 +77,8 @@ public class Unit : MonoBehaviour
     }
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * visiblelMoveSpeed);
-        transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * visiblelMoveSpeed);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * visibleMoveSpeed);
+        transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * visibleMoveSpeed);
     }
 
     private UnitAbility nextAbility;
@@ -122,6 +124,25 @@ public class Unit : MonoBehaviour
         }
     }
 
+    //Load unit from PlayerParty:
+    public void LoadUnit(UnitData data)
+    {
+        team = data.team;
+        hp.SetMaxHp(data.maxHp);
+        var pos = new Vector2Int(data.spawnPosX, data.spawnPosY);
+        if (board.GetUnits()[data.spawnPosX, data.spawnPosY] != null)
+        {
+            pos = board.GetFirstFreePos();
+        }
+        SetPosition(board.GetTileCenter(pos.x, pos.y), true);
+        normalAttacks = data.attacks;
+        abilities.ability_1 = data.ability1;
+        abilities.ability_2 = data.ability2;
+        abilities.ability_3 = data.ability3;
+        abilities.ability_4 = data.ability4;
+        ResetPath();
+        ResetAI();
+    }
 
     void ActivateAction()
     {
@@ -211,12 +232,43 @@ public class Unit : MonoBehaviour
         Vector3 offset = transform.TransformVector(attackPositionOffset);
         Vector3 startPos = transform.position + offset;
 
-        var clone = Instantiate(atk.projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        clone.GetComponent<Projectile>().Init(atk, startPos, path, atk.bounceCount_atk, atk.bounceCount_ability, this, attackTarget);
+        var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
+            atk.projectilePath, startPos, Quaternion.identity);
+        //var clone = Instantiate(projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+        if (projectile != null)
+        {
+            projectile.GetComponent<Projectile>().Init(
+                atk, startPos, path, atk.bounceCount_atk, 
+                atk.bounceCount_ability, this, attackTarget);
+        }
 
-        currentAttack++;
-        if (currentAttack >= normalAttacks.Count)
-            currentAttack = 0;
+        if (randomizeAttackOrder && normalAttacks.Count > 1)
+        {
+            if (canBeSameAttackTwiceInRow)
+            {
+                currentAttack = Random.Range(0, normalAttacks.Count);
+            }
+            else
+            {
+                int lastAtt = currentAttack;
+                for (int i = 0; i < 10; i++)
+                {
+                    var r = Random.Range(0, normalAttacks.Count);
+                    if (r != lastAtt)
+                    {
+                        currentAttack = r;
+                        break;
+                    }
+                }
+                
+            }
+        }
+        else
+        {
+            currentAttack++;
+            if (currentAttack >= normalAttacks.Count)
+                currentAttack = 0;
+        }
 
         ResetAI();
     }

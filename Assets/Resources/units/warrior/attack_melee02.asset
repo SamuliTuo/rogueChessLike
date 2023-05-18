@@ -21,7 +21,7 @@ MonoBehaviour:
   attackInterval: 1
   attackFlySpeed: 5
   minLifeTime: 0.066
-  projectile: {fileID: 1684744735726426580, guid: 485a8ffa1e199374b9f22d94dab1e167, type: 3}
+  projectilePath: meleeSwing1
   damagesAllies: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0

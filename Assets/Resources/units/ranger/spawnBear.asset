@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: spawnBear
   m_EditorClassIdentifier: 
   targetSearchType: 0
+  validTargets: 0
   centerOnYourself: 0
   hitParticle: 0
   dmgInstanceType: 0
   projectileType: 0
-  projectile: {fileID: 1684744735726426580, guid: 91c9ff015b35d4a4daa03d716875d6ea, type: 3}
+  projectilePath: spawnBearProjectile
   reach: 6
   damage: 0
   castSpeed: 0.7
-  cooldown: 33
-  flySpeed: 15
+  cooldown: 30
+  startCooldownMultiplier: 0.05
+  flySpeed: 40
   minLifeTime: 0
   damagesAllies: 0
   bounceAttack: {fileID: 0}
@@ -37,6 +39,6 @@ MonoBehaviour:
   bounceSpawnCount_ability: 0
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 2368073843827195385, guid: ace846762e493bd409e440d72534d1d7, type: 3}
+  spawnUnit: UNIT_bear
   spawnCount: 1
   spawnDuration: 0

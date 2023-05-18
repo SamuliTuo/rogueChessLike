@@ -65,7 +65,8 @@ public class Chessboard : MonoBehaviour
         platform_team0 = Resources.Load<GameObject>("units/_platforms/platform_team0");
         platform_team1 = Resources.Load<GameObject>("units/_platforms/platform_team1");
 
-        SpawnAllUnits(GameManager.Instance.currentScenario);
+        SpawnScenarioUnits(GameManager.Instance.currentScenario);
+        SpawnPlayerParty();
         PositionAllUnits();
     }
 
@@ -313,8 +314,14 @@ public class Chessboard : MonoBehaviour
         tiles = null;
         GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
 
-        if (quickSave != null) SpawnAllUnits(quickSave);
-        else SpawnAllUnits(GameManager.Instance.currentScenario);
+        if (quickSave != null)
+        {
+            SpawnAllUnits(quickSave);
+        }
+        else
+        {
+            SpawnScenarioUnits(GameManager.Instance.currentScenario);
+        }   
 
         PositionAllUnits();  
     }
@@ -358,11 +365,28 @@ public class Chessboard : MonoBehaviour
     public void SpawnUnit(GameObject unit, int team, Vector2Int pos)
     {
         if (activeUnits[pos.x, pos.y] != null)
-            return;
+        {
+            var emptyPos = GetFirstFreePos();
+            if (emptyPos != errorVector)
+                SpawnUnit(unit, team, emptyPos);
 
+            return;
+        }
         activeUnits[pos.x, pos.y] = SpawnSingleUnit(unit, team);
     }
-    private void SpawnAllUnits(Scenario scenario)
+    public void SpawnUnit(string unit, int team, Vector2Int pos)
+    {
+        if (activeUnits[pos.x, pos.y] != null)
+        {
+            var emptyPos = GetFirstFreePos();
+            if (emptyPos != errorVector)
+                SpawnUnit(unit, team, emptyPos);
+
+            return;
+        }
+        activeUnits[pos.x, pos.y] = SpawnSingleUnit(unit, team);
+    }
+    private void SpawnScenarioUnits(Scenario scenario)
     {
         activeUnits = new Unit[TILE_COUNT_X, TILE_COUNT_Y];
         if (scenario.scenarioUnits == null)
@@ -373,8 +397,8 @@ public class Chessboard : MonoBehaviour
             if (unit.spawnPosX >= 0 && unit.spawnPosX < TILE_COUNT_X)
                 if (unit.spawnPosY >= 0 && unit.spawnPosY < TILE_COUNT_Y)
                 {
-                    print(unit.unit);
-                    print(GameManager.Instance.UnitSavePaths);
+                    //print(unit.unit);
+                    //print(GameManager.Instance.UnitSavePaths);
                     var path = GameManager.Instance.UnitSavePaths.GetPath(unit.unit);
                     activeUnits[unit.spawnPosX, unit.spawnPosY]
                         = SpawnSingleUnit(path, unit.team);
@@ -395,7 +419,40 @@ public class Chessboard : MonoBehaviour
                     activeUnits[x,y] = SpawnSingleUnit(ScenarioBuilder.Instance.GetOriginalUnitType_From_InstantiatedUnitObject(_units[x, y].gameObject), _units[x, y].team);
     }
 
-    
+    Vector2Int errorVector = new Vector2Int(-1, -1);
+    private void SpawnPlayerParty()
+    {
+        var partyUnits = GameManager.Instance.PlayerParty.partyUnits;
+        if (partyUnits == null)
+            return;
+
+        for (int x = 0; x < partyUnits.GetLength(0); x++)
+            for (int y = 0; y < partyUnits.GetLength(1); y++)
+                if (partyUnits[x, y] != null)
+                {
+                    var path = GameManager.Instance.UnitSavePaths.GetPath(partyUnits[x, y].name);
+                    Vector2Int pos = activeUnits[x, y] != null ? GetFirstFreePos() : new Vector2Int(x, y);
+                    if (pos == errorVector)
+                        return;
+
+                    var unit = SpawnSingleUnit(path, 0);
+                    //Init unit with saved data
+                    //unit.Init(partyUnits[x, y]);
+                    
+                    activeUnits[pos.x, pos.y] = unit;
+                }
+    }
+
+    public Vector2Int GetFirstFreePos()
+    {
+        for (int y = 0; y < TILE_COUNT_Y; y++)
+            for (int x = 0; x < TILE_COUNT_X; x++)
+                if (activeUnits[x, y] == null)
+                    return new Vector2Int(x, y);
+
+        return errorVector;
+    }
+
     public Unit SpawnSingleUnit(GameObject _unit, int team)
     {
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
@@ -412,9 +469,9 @@ public class Chessboard : MonoBehaviour
 
         return unit;
     }
-    public Unit SpawnSingleUnit(string unitName, int team)
+    public Unit SpawnSingleUnit(string unitPath, int team)
     {
-        GameObject _unit = Resources.Load<GameObject>(unitName);
+        GameObject _unit = Resources.Load<GameObject>(unitPath);
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
 
         unit.team = team;

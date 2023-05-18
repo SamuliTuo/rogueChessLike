@@ -10,8 +10,10 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private float hpBarOffset = 1f;
     [SerializeField] private float maxHp = 100;
+    public float GetMaxHp() { return maxHp; }
+    public void SetMaxHp(float value) { maxHp = value; }
     private float hpBarBiggenTime = 0.6f;
-    private float hpBarMaxBiggenPerc = 2.3f;
+    private float hpBarMaxBiggenPerc = 2.3f;    
 
     [HideInInspector] public float hp;
 
@@ -85,6 +87,13 @@ public class UnitHealth : MonoBehaviour
     public float GetHealthPercentage()
     {
         return hp / maxHp;
+    }
+
+    public void AddMaxHealth(float add)
+    {
+        var perc = GetHealthPercentage();
+        maxHp += add;
+        hp = maxHp * perc;
     }
 
     IEnumerator DamageFlash()

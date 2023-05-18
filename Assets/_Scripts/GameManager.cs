@@ -16,8 +16,10 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
     public HPBarSpawner HPBars { get; private set; }
     public ParticleSpawner ParticleSpawner { get; private set; }
+    public PlayerParty PlayerParty { get; private set; }
     public DamageInstance DamageInstance { get; private set; }
     public SaveSlots SaveSlots { get; private set; }
     public CurrentMap CurrentMap { get; private set; }
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     public SceneManagement SceneManagement { get; private set; }
     public SaveGameManager SaveGameManager { get; private set; }
     public UnitSavePaths UnitSavePaths { get; private set; }
+    public ProjectilePools ProjectilePools { get; private set; }
 
     public Color hpBarTeam0Color = Color.green;
     public Color hpBarTeam1Color = Color.red;
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour
 
         state = sceneState;
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
+        PlayerParty = GetComponentInChildren<PlayerParty>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
         HPBars = GetComponentInChildren<HPBarSpawner>();
         SaveSlots = GetComponentInChildren<SaveSlots>();
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
         SceneManagement = GetComponentInChildren<SceneManagement>();
         SaveGameManager = GetComponentInChildren<SaveGameManager>();
         UnitSavePaths = GetComponentInChildren<UnitSavePaths>();
+        ProjectilePools = GetComponentInChildren<ProjectilePools>();
         LoadBoardAndMap();
     }
     public void LoadBoardAndMap()
@@ -171,7 +176,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (allUnitsDead)
+        if (allUnitsDead && state == GameState.BATTLE)
         {
             foreach (var u in board.GetUnits())
             {

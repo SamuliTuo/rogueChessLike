@@ -13,7 +13,8 @@ public class MapSettings : ScriptableObject
     //}
     [Header("These are the floors between StartNode and EndNode")]
     public List<MapFloor> encountersByRow = new List<MapFloor>();
-
+    public Encounter startEncounter;
+    public List<Encounter> lastEncounters = new List<Encounter>();
 
     public Vector2 randomRangeForSplitsAtFirstNode = new Vector2(2, 4);
     public int maximumNodesWideness = 6;

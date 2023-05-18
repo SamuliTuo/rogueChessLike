@@ -18,7 +18,7 @@ MonoBehaviour:
   hitParticle: 6
   dmgInstanceType: 0
   projectileType: 0
-  projectile: {fileID: 1684744735726426580, guid: bf900b858ebb68f44af41b232477252f, type: 3}
+  projectilePath: healer_healTargetUnit_projectile
   reach: 4
   damage: -420
   castSpeed: 0.2

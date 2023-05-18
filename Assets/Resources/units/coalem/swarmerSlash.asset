@@ -21,7 +21,7 @@ MonoBehaviour:
   attackInterval: 1
   attackFlySpeed: 25
   minLifeTime: 0.09
-  projectile: {fileID: 1684744735726426580, guid: 25eaee6b3fa158b42ac528c82cf724dc, type: 3}
+  projectilePath: swarmerSlash
   damagesAllies: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0
