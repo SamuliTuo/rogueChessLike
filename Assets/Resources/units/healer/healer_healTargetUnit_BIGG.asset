@@ -18,7 +18,7 @@ MonoBehaviour:
   hitParticle: 6
   dmgInstanceType: 0
   projectileType: 1
-  projectile: {fileID: 1684744735726426580, guid: c6104e1bd258f81408f4ffc9ae74b2a7, type: 3}
+  projectilePath: healer_healTargetUnit_BIGG_Projectile
   reach: 2
   damage: -777
   castSpeed: 0.05

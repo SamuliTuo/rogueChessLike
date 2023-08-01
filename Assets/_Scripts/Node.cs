@@ -4,7 +4,9 @@ using UnityEngine;
 
 public enum NodeType
 {
-    NONE
+    NONE,
+    EMPTY,
+    SWAMP
 }
 
 public class Node : IHeapItem<Node>
@@ -17,14 +19,16 @@ public class Node : IHeapItem<Node>
     public int hCost;
     public Node parent;
     int heapIndex;
-    public NodeType type;
+    public string tileTypeLayerName;
 
-    public Node(bool walkable, int x, int y, NodeType type)
+    public Node(bool walkable, int x, int y, string type)// string tileTypeLayerName)
     {
         this.walkable = walkable;
         this.x = x;
         this.y = y;
-        this.type = type;
+        tileTypeLayerName = type;
+        //if (type == NodeType.NONE) { tileTypeLayerName = "Tile"; }
+        //else if (type == NodeType.SWAMP) { tileTypeLayerName = "Swamp"; }
     }
 
     public int fCost {
@@ -54,5 +58,4 @@ public class Node : IHeapItem<Node>
         }
         return -compare;
     }
-
 }

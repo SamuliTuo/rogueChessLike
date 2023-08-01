@@ -21,7 +21,7 @@ MonoBehaviour:
   attackInterval: 0.9
   attackFlySpeed: 28
   minLifeTime: 0
-  projectile: {fileID: 1684744735726426580, guid: 49726ea770ea26247abbc8c62925475f, type: 3}
+  projectilePath: ranger_arrow_proj
   damagesAllies: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0

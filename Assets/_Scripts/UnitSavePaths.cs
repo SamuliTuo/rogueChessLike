@@ -2,28 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class UnitAndSavePath
+{
+    public string savePath;
+    public GameObject unitPrefab;
+    public Sprite image;
+}
+
 public class UnitSavePaths : MonoBehaviour
 {
-    [System.Serializable]
-    public class UnitPath
-    {
-        public string unit;
-        public string path;
-    }
-    public List<UnitPath> unitPaths = new List<UnitPath>();
+    [Header("Name has to match the unitPrefab's name")]
+    public List<UnitAndSavePath> unitsDatas = new List<UnitAndSavePath>();
 
-    public string GetPath(string unit)
+    public string GetSavePath(string unitName)
     {
-        print("trying to get path with: " + unit);
-        foreach (var unitPath in unitPaths)
+        foreach (var ud in unitsDatas)
         {
-            if (unitPath.unit == unit)
+            if (ud.unitPrefab.name == unitName)
             {
-                print("returning unit path: " + unitPath.path + unit);
-                return unitPath.path + unit;
+                return ud.savePath + unitName;
             }
         }
-        print("returning a null");
+        //print("returning a null");
+        return null;
+    }
+    public string GetName(string path)
+    {
+        foreach (var unitPath in unitsDatas)
+        {
+            if (unitPath.savePath == path)
+            {
+                return unitPath.unitPrefab.name;
+            }
+        }
+        return null;
+    }
+
+    public Sprite GetImg(Unit unit)
+    {
+        //find the correct unit from spawnableUnits
+        foreach (var ud in unitsDatas)
+        {
+            if (ud.unitPrefab == unit.gameObject)
+            {
+                return ud.image;
+            }
+        }
         return null;
     }
 }

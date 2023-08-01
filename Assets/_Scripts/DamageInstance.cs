@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+[System.Serializable]
 public enum DamageInstanceType 
 { 
     SINGLE_TARGET,

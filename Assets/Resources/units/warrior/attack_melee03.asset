@@ -18,10 +18,10 @@ MonoBehaviour:
   projectileType: 1
   attackRange: 1
   damage: 60
-  attackInterval: 1.4
+  attackInterval: 0.7
   attackFlySpeed: 5
   minLifeTime: 0.066
-  projectile: {fileID: 1684744735726426580, guid: ee214bc95625b8f4ea103dc1c1c4a735, type: 3}
+  projectilePath: meleeSwing2
   damagesAllies: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0

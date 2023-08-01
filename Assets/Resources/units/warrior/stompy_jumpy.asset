@@ -18,7 +18,7 @@ MonoBehaviour:
   hitParticle: 4
   dmgInstanceType: 0
   projectileType: 1
-  projectile: {fileID: 1684744735726426580, guid: 0dfeadfcab51e8c42b169bdfdf40d6cd, type: 3}
+  projectilePath: stompy_jumpy_proj
   reach: 1
   damage: 60
   castSpeed: 0.16
