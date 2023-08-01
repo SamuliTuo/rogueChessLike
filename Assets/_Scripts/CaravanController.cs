@@ -7,17 +7,16 @@ public class CaravanController : MonoBehaviour
 {
     [SerializeField] GameObject caravanPanel;
 
-    private List<SpawnableUnit> units;
-    private SpawnableUnit caravanSlot1;
-    private SpawnableUnit caravanSlot2;
-    private SpawnableUnit caravanSlot3;
+    private List<UnitAndSavePath> units;
+    private UnitAndSavePath caravanSlot1;
+    private UnitAndSavePath caravanSlot2;
+    private UnitAndSavePath caravanSlot3;
     private Image caravanSlot1Image;
     private Image caravanSlot2Image;
     private Image caravanSlot3Image;
 
     private void Start()
     {
-        units = ScenarioBuilder.Instance.units;
         caravanSlot1Image = caravanPanel.transform.Find("Image1").GetComponent<Image>();
         caravanSlot2Image = caravanPanel.transform.Find("Image2").GetComponent<Image>();
         caravanSlot3Image = caravanPanel.transform.Find("Image3").GetComponent<Image>();
@@ -43,15 +42,15 @@ public class CaravanController : MonoBehaviour
         //add unit to party
         if (chosenSlot == 0)
         {
-            GameManager.Instance.PlayerParty.AddUnit(caravanSlot1.unit.GetComponent<Unit>());
+            GameManager.Instance.PlayerParty.AddUnit(caravanSlot1.unitPrefab.GetComponent<Unit>());
         }
         else if (chosenSlot == 1)
         {
-            GameManager.Instance.PlayerParty.AddUnit(caravanSlot2.unit.GetComponent<Unit>());
+            GameManager.Instance.PlayerParty.AddUnit(caravanSlot2.unitPrefab.GetComponent<Unit>());
         }
         else if (chosenSlot == 2)
         {
-            GameManager.Instance.PlayerParty.AddUnit(caravanSlot3.unit.GetComponent<Unit>());
+            GameManager.Instance.PlayerParty.AddUnit(caravanSlot3.unitPrefab.GetComponent<Unit>());
         }
 
         //close panel
@@ -59,12 +58,12 @@ public class CaravanController : MonoBehaviour
     }
 
 
-    List<SpawnableUnit> GetUnitChoices()
+    List<UnitAndSavePath> GetUnitChoices()
     {
-        var r = new List<SpawnableUnit>();
+        var r = new List<UnitAndSavePath>();
         for (int i = 0; i < 3; i++)
         {
-            r.Add(units[Random.Range(0, units.Count)]);
+            r.Add(GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)]);
         }
         return r;
     }

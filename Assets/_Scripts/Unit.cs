@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using UnityEditor.Animations;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEditor;
 
 public enum UnitType
 {
@@ -13,7 +16,6 @@ public enum UnitType
     SUMMONER = 5,
     COOK = 6,
 }
-
 public enum Action
 {
     NONE,
@@ -25,6 +27,9 @@ public enum Action
 
 public class Unit : MonoBehaviour
 {
+    public string unitPath { get; set; }
+
+    public float experienceWorth = 10;
     public float visibleMoveSpeed = 10;
     public float moveInterval = 1;
     public float percentOfAttackTimerSave = 0.8f;
@@ -74,6 +79,8 @@ public class Unit : MonoBehaviour
         pathfinding = board.GetComponent<Pathfinding>();
         ResetPath();
         abilities = GetComponent<UnitAbilityManager>();
+
+        animator = GetComponentInChildren<Animator>();
     }
     private void Update()
     {
@@ -81,14 +88,15 @@ public class Unit : MonoBehaviour
         transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * visibleMoveSpeed);
     }
 
+    private Animator animator;
     private UnitAbility nextAbility;
     public void AI()
     {
-        if (t > 0)
+        if (t > 0) 
         {
             t -= Time.deltaTime;
         }
-        else if (nextAction != Action.NONE)
+        else if (nextAction != Action.NONE) 
         {
             ActivateAction();
         }
@@ -148,13 +156,16 @@ public class Unit : MonoBehaviour
     {
         switch (nextAction)
         {
-            case Action.MOVE:               
+            case Action.MOVE:
+                if (animator != null) animator.Play("move", 0, 0);
                 MoveUnit(); 
                 break;
-            case Action.NORMAL_ATTACK:      
+            case Action.NORMAL_ATTACK:
+                if (animator != null) animator.Play("attack", 0, 0);
                 NormalAttack(); 
                 break;
             case Action.ABILITY:
+                if (animator != null) animator.Play("attack", 0, 0);
                 abilities.ActivateAbility(nextAbility, attackTarget, path); 
                 break;
             default: break;
@@ -162,8 +173,7 @@ public class Unit : MonoBehaviour
     }
 
     // Chooses the action
-    public void OnPathFound(
-        Vector2Int[] newPath, bool pathSuccesfull, bool _inRangeToAttack, Unit targetUnit = null)
+    public void OnPathFound(Vector2Int[] newPath, bool pathSuccesfull, bool _inRangeToAttack, Unit targetUnit = null)
     {
         if (hp.hp <= 0)
             return;
@@ -173,6 +183,7 @@ public class Unit : MonoBehaviour
         if (pathSuccesfull == false)
         {
             pathPending = false;
+            t = 1;
             return;
         }
 
@@ -195,7 +206,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            t = moveInterval;
+            t = moveInterval * Mathf.Min(3.5f, pathfinding.GetMultiplier(Chessboard.Instance.nodes[x,y]));
             nextAction = Action.MOVE;
         }
 

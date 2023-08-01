@@ -535,7 +535,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 3.5
-  maxHp: 1000
+  maxHp: 500000
   hp: 100
 --- !u!114 &-3612060213080868243
 MonoBehaviour:
@@ -554,9 +554,9 @@ MonoBehaviour:
   percentOfAttackTimerSave: 0.7
   attackPositionOffset: {x: 0, y: 0, z: 0}
   normalAttacks:
-  - {fileID: 11400000, guid: 8ecc5feedf3477d45b9d7b808691f991, type: 2}
-  - {fileID: 11400000, guid: 8ecc5feedf3477d45b9d7b808691f991, type: 2}
-  - {fileID: 11400000, guid: 8ecc5feedf3477d45b9d7b808691f991, type: 2}
+  - {fileID: 11400000, guid: 94fedbd3f34c5154e89f0064cf1ce7e0, type: 2}
+  - {fileID: 11400000, guid: 1b1e7ab9ed55b48458e51eea538f7d30, type: 2}
+  - {fileID: 11400000, guid: 793724644a36770439110fdb9dfe597c, type: 2}
   randomizeAttackOrder: 0
   savedAttackTimerAmount: 0
   team: 0
@@ -583,10 +583,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955052b73f631944fa6b675cbbcd6b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ability_1: {fileID: 11400000, guid: 933404f15f441424193538665d84f2a6, type: 2}
+  ability_1: {fileID: 0}
   ability_2: {fileID: 0}
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
+  possibleAbilities:
+  - {fileID: 11400000, guid: 933404f15f441424193538665d84f2a6, type: 2}
+  - {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
+  - {fileID: 11400000, guid: 6adc37ac9e3f80c4abbdd13c02093c65, type: 2}
 --- !u!1 &2520054267100070615
 GameObject:
   m_ObjectHideFlags: 0

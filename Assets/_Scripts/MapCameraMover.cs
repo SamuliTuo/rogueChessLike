@@ -26,12 +26,15 @@ public class MapCameraMover : MonoBehaviour
         transform.position += (new Vector3(camXPos, camYPos, player.position.z) + Vector3.forward * lookaheadAmount - transform.position) * Time.deltaTime * scrollSpeed;
     }
 
+    public void SetCameraHeight()
+    {
+        
+    }
     private void Start()
     {
-
-        if (GameManager.Instance.MapController.mapCameraLastPos != new Vector3(10, 900, 2))
+        if (GameManager.Instance.pathTaken.Count > 0)
         {
-            transform.position = GameManager.Instance.MapController.mapCameraLastPos + Vector3.up * returningToMapHeight;
+            transform.position = GameManager.Instance.mapCameraLastPos + Vector3.up * returningToMapHeight;
         }
     }
 }

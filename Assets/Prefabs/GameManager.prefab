@@ -1,5 +1,100 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &551207542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 551207543}
+  - component: {fileID: 551207544}
+  m_Layer: 0
+  m_Name: ProjectilePools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &551207543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551207542}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.7323134, y: -0.20349833, z: 4.787072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6089650262552058419}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &551207544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551207542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ec95887257a07448ac6b1534e66433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectiles:
+  - name: meleeSwing03
+    projectile: {fileID: 1684744735726426580, guid: a10fd39ba9ea2ea4f9d7b521161e8272, type: 3}
+  - name: swarmerSlash
+    projectile: {fileID: 1684744735726426580, guid: 25eaee6b3fa158b42ac528c82cf724dc, type: 3}
+  - name: swarmerSlash1
+    projectile: {fileID: 1684744735726426580, guid: 4ce87cc1ecec465489b72a602198a0ec, type: 3}
+  - name: basic_cast_projectile
+    projectile: {fileID: 1684744735726426580, guid: 0443a5967e0206345b2b3ab75259312d, type: 3}
+  - name: chainHeal_projectile
+    projectile: {fileID: 1684744735726426580, guid: cfbb5f2a2fc702f49ab4b31d285ddece, type: 3}
+  - name: healer_healTargetUnit_projectile
+    projectile: {fileID: 1684744735726426580, guid: bf900b858ebb68f44af41b232477252f, type: 3}
+  - name: healer_healTargetUnit_BIGG_Projectile
+    projectile: {fileID: 1684744735726426580, guid: c6104e1bd258f81408f4ffc9ae74b2a7, type: 3}
+  - name: spit_attack_projectile
+    projectile: {fileID: 1684744735726426580, guid: 1e3a5573aa1bc3c43a0e56313883820c, type: 3}
+  - name: chain_attack_projectile
+    projectile: {fileID: 1684744735726426580, guid: 0f512b4f36b917345a39865dd5118112, type: 3}
+  - name: fireAttack_rangedproject
+    projectile: {fileID: 1684744735726426580, guid: 3b16f631253e0f045af61796385c239a, type: 3}
+  - name: fireBall_bounces_projectile
+    projectile: {fileID: 1684744735726426580, guid: d78fb5d4dff775941b345ac23f3fdc23, type: 3}
+  - name: iceBombProjectile
+    projectile: {fileID: 1684744735726426580, guid: 7f00d022f6a23e04980d02210f961836, type: 3}
+  - name: projectile_fireBall
+    projectile: {fileID: 1684744735726426580, guid: 72f2dc199936e2542892e4818b465499, type: 3}
+  - name: spawnSkeletonProjectile
+    projectile: {fileID: 1684744735726426580, guid: 7e1e95b677614bd46a62e4e2737f74c2, type: 3}
+  - name: meleeSwing4
+    projectile: {fileID: 1684744735726426580, guid: 4e20f4d7915c0064b847c2c5f7d1b1ff, type: 3}
+  - name: ability_01_pro
+    projectile: {fileID: 1684744735726426580, guid: 9bce70759f238d747a6a8831f9660755, type: 3}
+  - name: ranger_arrow_pro
+    projectile: {fileID: 1684744735726426580, guid: 49726ea770ea26247abbc8c62925475f, type: 3}
+  - name: cluster_bomb_pro
+    projectile: {fileID: 1684744735726426580, guid: 0a548312f48dde54eb4b80858e6992e5, type: 3}
+  - name: spawnBearProjectile
+    projectile: {fileID: 1684744735726426580, guid: 91c9ff015b35d4a4daa03d716875d6ea, type: 3}
+  - name: meleeSwing
+    projectile: {fileID: 1684744735726426580, guid: 447cc3ee9d066124eb2acf0edd76567b, type: 3}
+  - name: ability_cleave_projectile
+    projectile: {fileID: 1684744735726426580, guid: a25c66cb4a69b7c469cbd85f8950bac4, type: 3}
+  - name: meleeSwing0
+    projectile: {fileID: 1684744735726426580, guid: d79e63160837f9a41b16e21f026b55d9, type: 3}
+  - name: meleeSwing1
+    projectile: {fileID: 1684744735726426580, guid: 485a8ffa1e199374b9f22d94dab1e167, type: 3}
+  - name: meleeSwing2
+    projectile: {fileID: 1684744735726426580, guid: ee214bc95625b8f4ea103dc1c1c4a735, type: 3}
+  - name: stompy_jumpy_proj
+    projectile: {fileID: 1684744735726426580, guid: 0dfeadfcab51e8c42b169bdfdf40d6cd, type: 3}
 --- !u!1 &684346977
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 684346978}
   - component: {fileID: 684346979}
+  - component: {fileID: 1961058996}
   m_Layer: 0
   m_Name: PlayerParty
   m_TagString: Untagged
@@ -30,7 +126,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6089650262552058419}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &684346979
 MonoBehaviour:
@@ -45,9 +141,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyPanel: {fileID: 0}
-  randomUnit1: {fileID: -3612060213080868243, guid: b3863b1337fdc1541ba62368a38762ce, type: 3}
-  randomUnit2: {fileID: 3010070026873305624, guid: 256969a9013668c4981209ec3c323891, type: 3}
-  randomUnit3: {fileID: -3612060213080868243, guid: b3863b1337fdc1541ba62368a38762ce, type: 3}
+--- !u!114 &1961058996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684346977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5108bbdb210c03f41846c722d1d7f597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1266760812
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +183,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6089650262552058419}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1266760814
 MonoBehaviour:
@@ -123,7 +228,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6089650262552058419}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2023567846
 MonoBehaviour:
@@ -149,25 +254,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d9f1756dd7f264ab536dc0ec4efa1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPaths:
-  - unit: UNIT_bear
-    path: units/bear/
-  - unit: UNIT_coalem
-    path: units/coalem/
-  - unit: Unit_healer
-    path: units/healer/
-  - unit: UNIT_llama
-    path: units/llama/
-  - unit: Unit_necromancer
-    path: units/mage/
-  - unit: UNIT_owl-ish
-    path: units/owl-ish/
-  - unit: Unit_ranger
-    path: units/ranger/
-  - unit: UNIT_skelestrong
-    path: units/skeleton/
-  - unit: Unit_melee
-    path: units/warrior/
+  unitsDatas:
+  - savePath: units/bear/
+    unitPrefab: {fileID: 2368073843827195385, guid: ace846762e493bd409e440d72534d1d7, type: 3}
+    image: {fileID: 21300000, guid: 05f68b04ae5c6d14980b84f6200255f2, type: 3}
+  - savePath: units/coalem/
+    unitPrefab: {fileID: 1146606507638548932, guid: 2cfdeed00b3a9354b86ebb6b4fa77bee, type: 3}
+    image: {fileID: 21300000, guid: cf7388f902f0bfc469713c0e19440ecc, type: 3}
+  - savePath: units/dog/
+    unitPrefab: {fileID: 2368073843827195385, guid: 9a9d1463612060a40895c9390e8a52ef, type: 3}
+    image: {fileID: 21300000, guid: 83da3b9442d8b234585ba96870c9662e, type: 3}
+  - savePath: units/healer/
+    unitPrefab: {fileID: 4956104183781391756, guid: 256969a9013668c4981209ec3c323891, type: 3}
+    image: {fileID: 21300000, guid: 6a8c3b03cf47cc7429f2d72c735e28f3, type: 3}
+  - savePath: units/llama/
+    unitPrefab: {fileID: 2368073843827195385, guid: b3863b1337fdc1541ba62368a38762ce, type: 3}
+    image: {fileID: 21300000, guid: 9f15299e6525cda499c97a2f4a04c906, type: 3}
+  - savePath: units/mage/
+    unitPrefab: {fileID: 3485971199592952580, guid: f5b04cc6c6e0d484e95b165d4ef6ca87, type: 3}
+    image: {fileID: 21300000, guid: 459db9e1661cf544c96fd4ecb33e037c, type: 3}
+  - savePath: units/necromang/
+    unitPrefab: {fileID: 3485971199592952580, guid: 1c0a622bb25295840966dd773886836d, type: 3}
+    image: {fileID: 21300000, guid: d1b392a021e055d4585378316cd6df79, type: 3}
+  - savePath: units/owl-ish/
+    unitPrefab: {fileID: 2368073843827195385, guid: 0c491cee8012e534daafeaad52e2bc89, type: 3}
+    image: {fileID: 21300000, guid: 444861d7b8d5d0d44bb1a476cba4da27, type: 3}
+  - savePath: units/pixel_duck/
+    unitPrefab: {fileID: 2368073843827195385, guid: bd5cb676bb8774d4ba0e3460909087d5, type: 3}
+    image: {fileID: 21300000, guid: 36b73252d351a004d80dbca59501c3e2, type: 3}
+  - savePath: units/pixel_frogo/
+    unitPrefab: {fileID: 2368073843827195385, guid: 6c283143973d0d24d90b66ac3f0abd49, type: 3}
+    image: {fileID: 21300000, guid: 20a3f940776c9cc49b415e4b0aa250c0, type: 3}
+  - savePath: units/ranger/
+    unitPrefab: {fileID: 7393243441863934362, guid: ad50a08ad018fb248956c36796dba6c5, type: 3}
+    image: {fileID: 21300000, guid: 77be5678046248f4285930316a19c1e5, type: 3}
+  - savePath: units/skeleton/
+    unitPrefab: {fileID: 2368073843827195385, guid: 81cb4fbb9b19f74428a9e41dcba6aee0, type: 3}
+    image: {fileID: 21300000, guid: 60655298e6c30a241b35a16dfee6182d, type: 3}
+  - savePath: units/skeleton/
+    unitPrefab: {fileID: 7765936273728097012, guid: c28078562dd8d0d48b3ae3825936d59d, type: 3}
+    image: {fileID: 21300000, guid: 5fe2ca3feaebaf4429e447b9d22bb91c, type: 3}
 --- !u!1 &6089650261518574623
 GameObject:
   m_ObjectHideFlags: 0
@@ -34365,7 +34491,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6089650262457237846}
   - component: {fileID: 6089650262457237845}
-  - component: {fileID: 1752940488}
   m_Layer: 0
   m_Name: SaveSlots
   m_TagString: Untagged
@@ -34386,7 +34511,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6089650262552058419}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6089650262457237845
 MonoBehaviour:
@@ -34402,18 +34527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scenario: {fileID: 0}
   saveSlots: []
---- !u!114 &1752940488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6089650262457237847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19d436369322210469b12eb5c758490c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  saveSlotsOnCanvas: []
+  loadSlotsOnCanvas: []
 --- !u!1 &6089650262519863219
 GameObject:
   m_ObjectHideFlags: 0
@@ -39430,11 +39545,12 @@ Transform:
   - {fileID: 6089650262988493601}
   - {fileID: 6089650262802086208}
   - {fileID: 6089650263587112005}
-  - {fileID: 6089650262457237846}
   - {fileID: 6089650262561114868}
   - {fileID: 1266760813}
-  - {fileID: 2023567845}
   - {fileID: 684346978}
+  - {fileID: 6089650262457237846}
+  - {fileID: 2023567845}
+  - {fileID: 551207543}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -39452,12 +39568,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpBarTeam0Color: {r: 0.25943398, g: 1, b: 0.7488512, a: 1}
   hpBarTeam1Color: {r: 0.9339623, g: 0.3039783, b: 0.3039783, a: 1}
-  spawnMage: 0
-  spawnWarrior: 1
-  spawnHealer: 1
-  spawnRanger: 0
-  sceneState: 3
+  startingSceneGameState: 3
   currentScenario: {fileID: 11400000, guid: 76cae81aea83d3e43a606070b4a5d995, type: 2}
+  currentFightCumulatedExperience: 0
 --- !u!1 &6089650262561114869
 GameObject:
   m_ObjectHideFlags: 0
@@ -39488,7 +39601,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6089650262552058419}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6089650262561114859
 MonoBehaviour:

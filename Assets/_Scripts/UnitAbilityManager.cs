@@ -11,6 +11,8 @@ public class UnitAbilityManager : MonoBehaviour
     public UnitAbility ability_3 = null;
     public UnitAbility ability_4 = null;
 
+    public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
+
     private Dictionary<UnitAbility, bool> abilitiesWithCooldown = new Dictionary<UnitAbility, bool>();
     private Unit thisUnit;
 
@@ -44,6 +46,15 @@ public class UnitAbilityManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public int GetFreeSlot()
+    {
+        if (ability_1 == null) return 0;
+        if (ability_2 == null) return 1;
+        if (ability_3 == null) return 2;
+        if (ability_4 == null) return 3;
+        return -1;
     }
 
     public void ActivateAbility(UnitAbility _ability, Unit _attackTarget, Vector2Int[] _path)

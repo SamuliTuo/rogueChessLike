@@ -22,7 +22,6 @@ public class MapController : MonoBehaviour
     public Transform lineTransforms;
     public GameObject playerPrefab;
 
-
     private MapNode currentPosition;
     private EncounterManager encounterManager;
     private GameObject mapNode;
@@ -34,8 +33,6 @@ public class MapController : MonoBehaviour
     private Transform currentMapTransform;
     private bool canMove = false;
     public void SetCanMove(bool canMove) { this.canMove = canMove; }
-
-    public Vector3 mapCameraLastPos { get; set; }
 
 
     void Start()
@@ -98,6 +95,7 @@ public class MapController : MonoBehaviour
             print("moved to: " + node.type);
             currentPosition = node;
             player.transform.position = currentPosition.transform.position;
+            GameManager.Instance.pathTaken.Add(node);
             encounterManager.ActivateNode(node);
         }
     }

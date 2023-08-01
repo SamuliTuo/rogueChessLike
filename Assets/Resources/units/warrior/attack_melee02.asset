@@ -18,7 +18,7 @@ MonoBehaviour:
   projectileType: 1
   attackRange: 1
   damage: 120
-  attackInterval: 1
+  attackInterval: 0.7
   attackFlySpeed: 5
   minLifeTime: 0.066
   projectilePath: meleeSwing1

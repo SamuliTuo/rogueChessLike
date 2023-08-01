@@ -32,7 +32,6 @@ public class SceneManagement : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "MapScene")
         {
             GameManager.Instance.CurrentMap.gameObject.SetActive(true);
-            GameManager.Instance.MapController.mapCameraLastPos = Camera.main.transform.position;
         }
         if (SceneManager.GetActiveScene().name == "BattleScene")
         {

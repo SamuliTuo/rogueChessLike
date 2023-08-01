@@ -33,8 +33,11 @@ public class EncounterManager : MonoBehaviour
         }
         if (node.type == MapNodeType.BATTLE)
         {
+            GameManager.Instance.currentFightCumulatedExperience = 0;
+            GameManager.Instance.mapCameraLastPos = node.transform.position;
             GameManager.Instance.currentScenario = node.encounter.battleScenario;
             GameManager.Instance.CurrentMap.AddNextNodeOnPath(node);
+            GameManager.Instance.ChangeGamestate(GameState.PRE_BATTLE);
             GameManager.Instance.SceneManagement.LoadScene("BattleScene");
         }
         else if (node.type == MapNodeType.END_POS)

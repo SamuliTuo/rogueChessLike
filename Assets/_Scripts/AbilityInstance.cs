@@ -245,7 +245,7 @@ public class AbilityInstance : MonoBehaviour
                     var rand = Random.Range(0, freeNodes.Count);
                     var node = freeNodes[rand];
                     freeNodes.RemoveAt(rand);
-                    var path = GameManager.Instance.UnitSavePaths.GetPath(ability.spawnUnit);
+                    var path = GameManager.Instance.UnitSavePaths.GetSavePath(ability.spawnUnit);
                     Chessboard.Instance.SpawnUnit(path, shooter.team, node);
                     Chessboard.Instance.PositionSingleUnit(node.x, node.y, true);
                 }

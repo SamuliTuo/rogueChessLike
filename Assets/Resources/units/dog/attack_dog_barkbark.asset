@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: attack_dog_barkbark
   m_EditorClassIdentifier: 
   targeting: 0
-  hitParticle: 0
+  hitParticle: 4
   dmgInstanceType: 0
   projectileType: 1
   attackRange: 1
   damage: 500
   attackInterval: 0.5
   attackFlySpeed: 60
-  minLifeTime: 0
-  projectilePath: projectile
-  damagesAllies: 1
+  minLifeTime: 0.3
+  projectilePath: projektiili
+  damagesAllies: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0
   bounceRange_atk: 1

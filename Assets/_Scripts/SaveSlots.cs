@@ -1,10 +1,14 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SaveSlots : MonoBehaviour
 {
     public Scenario scenario;
     public List<Scenario> saveSlots = new List<Scenario>();
+    public List<Transform> saveSlotsOnCanvas = new List<Transform>();
+    public List<Transform> loadSlotsOnCanvas = new List<Transform>();
 
     private void Awake()
     {
@@ -17,17 +21,51 @@ public class SaveSlots : MonoBehaviour
         }
     }
 
+
     private void Start()
     {
+        if (GameManager.Instance.state == GameState.SCENARIO_BUILDER)
+        {
+            // Find the slots on the canvas if in builder mode
+            var canvasSlots = GameObject.Find("SavingAndLoading").transform;
+            saveSlotsOnCanvas.Clear();
+            loadSlotsOnCanvas.Clear();
+            for (int i = 0; i < 10; i++)
+            {
+                saveSlotsOnCanvas.Add(canvasSlots.GetChild(2).GetChild(0).GetChild(i));
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                loadSlotsOnCanvas.Add(canvasSlots.GetChild(3).GetChild(0).GetChild(i));
+            }
+        }
+
         GameManager.Instance.SaveGameManager.LoadScenarios();
     }
 
-    public void SaveToSlot(int slot)
+
+
+    public void OpenSaveSlotsUI()
     {
-        if (slot >= 0 && slot < 10) {
-            saveSlots[slot].SaveScenario();
+        for (int i = 0; i < saveSlotsOnCanvas.Count; i++)
+        {
+            saveSlotsOnCanvas[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = saveSlots[i].saveName;
         }
-        print(saveSlots.Count);
+    }
+    public void OpenLoadSlotsUI() 
+    {
+        for (int i = 0; i < loadSlotsOnCanvas.Count; i++)
+        {
+            loadSlotsOnCanvas[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = saveSlots[i].saveName;
+        }
+    }
+
+    public void SaveToSlot(int slot, string saveName)
+    {
+        if (slot >= 0 && slot < saveSlots.Count) {
+            saveSlots[slot].SaveScenario(saveName);
+            saveSlotsOnCanvas[slot].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = saveName;
+        }
         GameManager.Instance.SaveGameManager.SaveScenarios();
     }
 
@@ -45,7 +83,11 @@ public class SaveSlots : MonoBehaviour
         if (saveSlots[slot] != null)
         {
             s = saveSlots[slot];
+            s.saveName = data.saveName;
+            s.sizeX = data.boardSizeX;
+            s.sizeY = data.boardSizeY;
             s.scenarioUnits = data.unitList;
+            s.scenarioNodes = data.scenarioNodes;
         }
         return s;
     }

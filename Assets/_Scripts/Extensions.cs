@@ -34,7 +34,7 @@ public static class Extensions
         {
             return 14;
         }
-        //Arbirary value of 12 which is between 10 and 14 cause those are the cardinal and diagonal movement gCost for pathfinding when calculating
+        //Using a semi-arbitrarily chosen value of 12 which is between 10 and 14 cause those are the cardinal and diagonal movement gCost for pathfinding when calculating and 12 had nice results.
         else if (reach > 1)
         {
             return reach * 12;

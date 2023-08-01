@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Chessboard : MonoBehaviour
 {
@@ -56,10 +57,10 @@ public class Chessboard : MonoBehaviour
         else
             Instance = this;
 
-        GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
+        //GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
+        GenerateGrid(GameManager.Instance.currentScenario);
         Pathfinding = GetComponent<Pathfinding>();
     }
-
     private void Start()
     {
         platform_team0 = Resources.Load<GameObject>("units/_platforms/platform_team0");
@@ -70,7 +71,6 @@ public class Chessboard : MonoBehaviour
         PositionAllUnits();
     }
 
-    
     public void UnitPlacerUpdate()
     {
         if (!currentCam)
@@ -85,7 +85,7 @@ public class Chessboard : MonoBehaviour
 
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Hover", "Highlight")))
+        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Empty", "Swamp", "Hover", "Highlight")))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = LookupTileIndex(hit.transform.gameObject);
@@ -100,6 +100,7 @@ public class Chessboard : MonoBehaviour
             // If already were hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
+                /*
                 // Spawn enemy if empty
                 if (Input.GetMouseButton(0) && currentlyDragging == null && activeUnits[hitPosition.x, hitPosition.y] == null)
                 {
@@ -113,8 +114,8 @@ public class Chessboard : MonoBehaviour
                     activeUnits[hitPosition.x, hitPosition.y] = null;
                     u.GetComponent<UnitHealth>().GetDamaged(Mathf.Infinity);
                 }
-
-                tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer("Tile");
+                */
+                tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer(nodes[currentHover.x, currentHover.y].tileTypeLayerName);
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
             }
@@ -132,13 +133,8 @@ public class Chessboard : MonoBehaviour
 
                         // Get a list of where i can go, highlight the tiles
                         availableMoves = GetEmptyCoordinates(); //currentlyDragging.GetAvailableMoves(ref activeUnits, TILE_COUNT_X, TILE_COUNT_Y);
-                        HighlightTiles();
+                        //HighlightTiles();
                     }
-                }
-                else // SPAWN ENEMY UNIT WHEN CLICKED EMPTY  \\
-                {
-                    activeUnits[hitPosition.x, hitPosition.y] = SpawnSingleUnit(enemy, 1);
-                    PositionSingleUnit(hitPosition.x, hitPosition.y, true);
                 }
             }
 
@@ -161,7 +157,9 @@ public class Chessboard : MonoBehaviour
         {
             if (currentHover != -Vector2Int.one)
             {
-                tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer("Tile");
+                tiles[currentHover.x, currentHover.y].layer =
+                    (ContainsValidMove(ref availableMoves, currentHover)) ?
+                        LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer(nodes[currentHover.x, currentHover.y].tileTypeLayerName);
                 currentHover = -Vector2Int.one;
             }
 
@@ -185,7 +183,6 @@ public class Chessboard : MonoBehaviour
             }
         }
     }
-
     public bool TryMoveUnit(Unit unit, Vector2Int targetPos)
     {
         Vector2Int previousPos = new Vector2Int(unit.x, unit.y);
@@ -203,27 +200,67 @@ public class Chessboard : MonoBehaviour
         //currentlyDragging = null;
         //RemoveHighlightTiles();
     }
-
-    // Board
-    private void GenerateGrid(float tileSize, int tileCountX, int tileCountY)
+    private void GenerateGrid()//Basic version
     {
-        tiles = new GameObject[tileCountX, tileCountY];
-        nodes = new Node[tileCountX, tileCountY];
-        GenerateKitchen(tileSize, 0, tileCountX, tileCountY);
-        //GenerateGarden(tileSize, 8, 10, tileCountY);
-        //GenerateQueue(tileSize, 0, 1, tileCountY);
-    }
-    private void GenerateKitchen(float tileSize, int fromRow, int toRow, int tileCountY)
-    {
-        yOffset += transform.position.y;
-        int tileCountX = toRow - fromRow;
-
-        for (int x = fromRow; x < toRow; x++)
-            for (int y = 0; y < tileCountY; y++)
+        TILE_COUNT_X = 10;
+        TILE_COUNT_Y = 10;
+        tiles = new GameObject[TILE_COUNT_X, TILE_COUNT_Y];
+        nodes = new Node[TILE_COUNT_X, TILE_COUNT_Y];
+        for (int x = 0; x < TILE_COUNT_X; x++)
+            for (int y = 0; y < TILE_COUNT_Y; y++)
                 tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
     }
+    private void GenerateGrid(Scenario scenario, Node[,] quickSaveNodes = null)
+    {
+        TILE_COUNT_X = scenario.sizeX;
+        TILE_COUNT_Y = scenario.sizeY;
+        tiles = new GameObject[TILE_COUNT_X, TILE_COUNT_Y];
+        nodes = new Node[TILE_COUNT_X, TILE_COUNT_Y];
 
-    private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer)
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+            {
+                // Using this ... when changing the map on the fly.
+                if (quickSaveNodes != null)
+                {
+                    if (x < quickSaveNodes.GetLength(0) && y < quickSaveNodes.GetLength(1))
+                    {
+                        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, quickSaveNodes[x, y].tileTypeLayerName, quickSaveNodes[x, y].walkable);
+                    }
+                    else
+                    {
+                        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
+                    }
+                }
+                // ... when loading a scenario.
+                else if (scenario.scenarioNodes != null)
+                {
+                    bool found = false;
+                    foreach (var item in scenario.scenarioNodes)
+                    {
+                        if (item.x == x && item.y == y)
+                        {
+                            tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, item.terrainLayer, item.walkable == 1 ? true : false);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
+                    }
+                }
+                // ... when it's a fresh board.
+                else
+                {
+                    tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
+                }
+            }
+        }
+    }
+
+    private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer, bool walkable = true)
     {
         GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
         tileObject.transform.parent = transform;
@@ -244,43 +281,8 @@ public class Chessboard : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = tris;
 
-        /////////////////////// 
-        // jätän nää nyt tänne pyörimään vihjeeks sitä varten, kun alan taas tekee esteitä kartalle:
-        /*
-        if ((x==7 && y==3) || (x==7 && y==5))
-        {
-            tileObject.layer = LayerMask.NameToLayer("Sink");
-            nodes[x, y] = new Node(false, x, y, NodeType.SINK);
-            Instantiate(Resources.Load("furniture_sink") as GameObject, GetTileCenter(x, y), Quaternion.identity);
-        }
-        else if ((x==2 && y==2) || (x==4 && y==2))
-        {
-            tileObject.layer = LayerMask.NameToLayer("Counter");
-            nodes[x, y] = new Node(false, x, y, NodeType.COUNTER);
-            Instantiate(Resources.Load("furniture_counter") as GameObject, GetTileCenter(x, y), Quaternion.identity);
-        }
-        else if (x==5 && y==9)
-        {
-            tileObject.layer = LayerMask.NameToLayer("Fridge");
-            nodes[x, y] = new Node(false, x, y, NodeType.FRIDGE);
-            Instantiate(Resources.Load("furniture_fridge") as GameObject, GetTileCenter(x, y), Quaternion.identity);
-        }
-        else if (x==1 && y==0)
-        {
-            tileObject.layer = LayerMask.NameToLayer("Counter");
-            nodes[x,y] = new Node(false, x, y, NodeType.PIZZA_BOXES);
-            Instantiate(Resources.Load("furniture_pizzaBoxes") as GameObject, GetTileCenter(x, y), Quaternion.identity);
-        }
-        else if (x==0 && y==9)
-        {
-            tileObject.layer = LayerMask.NameToLayer("Counter");
-            nodes[x,y] = new Node(false, x, y, NodeType.OVEN);
-            Instantiate(Resources.Load("furniture_oven") as GameObject, GetTileCenter(x, y), Quaternion.identity);
-        }
-        */
-        ///////////////////////
         tileObject.layer = LayerMask.NameToLayer(layer);
-        nodes[x, y] = new Node(true, x, y, NodeType.NONE);
+        nodes[x, y] = new Node(walkable, x, y, layer);
 
         tileObject.AddComponent<BoxCollider>().size = new Vector3(tileSize, 0.1f, tileSize);
         mesh.RecalculateNormals();
@@ -288,20 +290,26 @@ public class Chessboard : MonoBehaviour
 
         return tileObject;
     }
+
     public void AddTileCount(int x, int y)
     {
         currentHover = -Vector2Int.one;
 
         TILE_COUNT_X = Mathf.Max(1, TILE_COUNT_X + x);
         TILE_COUNT_Y = Mathf.Max(1, TILE_COUNT_Y + y);
-        RefreshBoard();
+        GameManager.Instance.currentScenario.sizeX = TILE_COUNT_X;
+        GameManager.Instance.currentScenario.sizeY = TILE_COUNT_Y;
     }
-    public void RefreshBoard(Unit[,] quickSave = null)
+
+    public void RefreshBoard(Unit[,] quickSaveUnits = null, Node[,] quickSaveNodes = null)
     {
-        foreach (var unit in activeUnits)
+        if (activeUnits != null)
         {
-            if (unit == null) continue;
-            unit.GetComponent<UnitHealth>().Die();
+            foreach (var unit in activeUnits)
+            {
+                if (unit == null) continue;
+                unit.GetComponent<UnitHealth>().Die();
+            }
         }
         foreach (var tile in tiles)
         {
@@ -312,11 +320,12 @@ public class Chessboard : MonoBehaviour
         nodes = null;
         activeUnits = null;
         tiles = null;
-        GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
+        GenerateGrid(GameManager.Instance.currentScenario, quickSaveNodes); 
+        //GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
 
-        if (quickSave != null)
+        if (quickSaveUnits != null)
         {
-            SpawnAllUnits(quickSave);
+            SpawnAllUnits(quickSaveUnits);
         }
         else
         {
@@ -349,15 +358,15 @@ public class Chessboard : MonoBehaviour
         return neighbours;
     }
 
-    private bool IsOfType(int x, int y, NodeType type)
+    private bool IsOfType(int x, int y, string type)
     {
         if (x < TILE_COUNT_X && x >= 0 && y < TILE_COUNT_Y && y >= 0) {
-            return nodes[x,y].type == type;
+            return nodes[x,y].tileTypeLayerName == type;
         }
         return false;
     }
 
-    public bool IsNeighbourOfType(int x, int y, NodeType type)
+    public bool IsNeighbourOfType(int x, int y, string type)
     {
         return (IsOfType(x-1, y, type) || IsOfType(x+1, y, type) || IsOfType(x, y-1, type) || IsOfType(x, y+1, type));
     }
@@ -399,7 +408,7 @@ public class Chessboard : MonoBehaviour
                 {
                     //print(unit.unit);
                     //print(GameManager.Instance.UnitSavePaths);
-                    var path = GameManager.Instance.UnitSavePaths.GetPath(unit.unit);
+                    var path = GameManager.Instance.UnitSavePaths.GetSavePath(unit.unit);
                     activeUnits[unit.spawnPosX, unit.spawnPosY]
                         = SpawnSingleUnit(path, unit.team);
                 }
@@ -430,7 +439,7 @@ public class Chessboard : MonoBehaviour
             for (int y = 0; y < partyUnits.GetLength(1); y++)
                 if (partyUnits[x, y] != null)
                 {
-                    var path = GameManager.Instance.UnitSavePaths.GetPath(partyUnits[x, y].name);
+                    var path = GameManager.Instance.UnitSavePaths.GetSavePath(partyUnits[x, y].name);
                     Vector2Int pos = activeUnits[x, y] != null ? GetFirstFreePos() : new Vector2Int(x, y);
                     if (pos == errorVector)
                         return;
@@ -460,11 +469,11 @@ public class Chessboard : MonoBehaviour
         unit.team = team;
         if (unit.team == 0)
         {
-            GameObject unit_platform = Instantiate(platform_team0, unit.transform);
+            Instantiate(platform_team0, unit.transform);
         }
         else
         {
-            GameObject unit_platform = Instantiate(platform_team1, unit.transform);
+            Instantiate(platform_team1, unit.transform);
         }
 
         return unit;
@@ -475,13 +484,14 @@ public class Chessboard : MonoBehaviour
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
 
         unit.team = team;
+        unit.unitPath = unitPath;
         if (unit.team == 0)
         {
-            GameObject unit_platform = Instantiate(platform_team0, unit.transform);
+            Instantiate(platform_team0, unit.transform);
         }
         else
         {
-            GameObject unit_platform = Instantiate(platform_team1, unit.transform);
+            Instantiate(platform_team1, unit.transform);
         }
 
         return unit;
@@ -509,7 +519,7 @@ public class Chessboard : MonoBehaviour
         List<Vector2Int> r = new List<Vector2Int>();
         foreach (var node in nodes)
         {
-            if (activeUnits[node.x, node.y] == null)
+            if (activeUnits[node.x, node.y] == null && node.walkable)
             {
                 r.Add(new Vector2Int(node.x, node.y));
             }
@@ -526,7 +536,7 @@ public class Chessboard : MonoBehaviour
     public void RemoveHighlightTiles()
     {
         for (int i = 0; i < availableMoves.Count; i++)
-            tiles[availableMoves[i].x, availableMoves[i].y].layer = LayerMask.NameToLayer("Tile");
+            tiles[availableMoves[i].x, availableMoves[i].y].layer = LayerMask.NameToLayer(nodes[availableMoves[i].x, availableMoves[i].y].tileTypeLayerName);
 
         availableMoves.Clear();
     }

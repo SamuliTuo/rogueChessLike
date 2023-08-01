@@ -64,6 +64,10 @@ MonoBehaviour:
     image: {fileID: 21300000, guid: 05f68b04ae5c6d14980b84f6200255f2, type: 3}
   - unit: {fileID: 2368073843827195385, guid: 0c491cee8012e534daafeaad52e2bc89, type: 3}
     image: {fileID: 21300000, guid: 444861d7b8d5d0d44bb1a476cba4da27, type: 3}
+  - unit: {fileID: 2368073843827195385, guid: 9a9d1463612060a40895c9390e8a52ef, type: 3}
+    image: {fileID: 21300000, guid: 83da3b9442d8b234585ba96870c9662e, type: 3}
+  - unit: {fileID: 2368073843827195385, guid: bd5cb676bb8774d4ba0e3460909087d5, type: 3}
+    image: {fileID: 21300000, guid: 36b73252d351a004d80dbca59501c3e2, type: 3}
   draggingScale: 0.8
   draggingOffset: 1.5
   yOffset: 0.2

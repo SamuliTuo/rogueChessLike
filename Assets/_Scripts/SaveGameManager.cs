@@ -12,15 +12,12 @@ public class SaveGameManager : MonoBehaviour
     {
         string key = SCENARIO_KEY;
         string countKey = SCENARIO_COUNT_KEY;
-
         SaveSystem.Save(scenarios.Count, countKey);
         for (int i = 0; i < scenarios.Count; i++)
         {
-            print(scenarios[i]);
             ScenarioData data = new ScenarioData(scenarios[i]);
-
             SaveSystem.Save(data, key + i);
-            print("Saving. . .  units: " + scenarios[i].scenarioUnits + ", scenario: " + scenarios[i]);
+            //print("Saving. . .  units: " + scenarios[i].scenarioUnits + ", scenario: " + scenarios[i]);
         }
     }
 
@@ -40,5 +37,4 @@ public class SaveGameManager : MonoBehaviour
                 scenarios[i] = s;
         }
     }
-
 }

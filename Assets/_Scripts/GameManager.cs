@@ -31,16 +31,21 @@ public class GameManager : MonoBehaviour
 
     public Color hpBarTeam0Color = Color.green;
     public Color hpBarTeam1Color = Color.red;
-    [Space(5)]
-    public bool spawnMage = true;
-    public bool spawnWarrior = true;
-    public bool spawnHealer = true;
-    public bool spawnRanger = true;
+    public Vector3 mapCameraLastPos { get; set; }
+
+    [SerializeField] private GameState startingSceneGameState = GameState.MAP;
     public GameState state { get; private set; }
-    [SerializeField] private GameState sceneState = GameState.NONE;
+    public void ChangeGamestate(GameState state)
+    {
+        this.state = state;
+    }
+
     public Scenario currentScenario;
+    public List<MapNode> pathTaken { get; set; }
     ScenarioBuilder builder;
     private Chessboard board;
+    private GameObject victoryScreen;
+    private GameObject lostScreen;
 
 
     void Awake()
@@ -53,7 +58,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        state = sceneState;
+        state = startingSceneGameState;
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         PlayerParty = GetComponentInChildren<PlayerParty>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
@@ -65,6 +70,7 @@ public class GameManager : MonoBehaviour
         UnitSavePaths = GetComponentInChildren<UnitSavePaths>();
         ProjectilePools = GetComponentInChildren<ProjectilePools>();
         LoadBoardAndMap();
+        pathTaken = new List<MapNode>();
     }
     public void LoadBoardAndMap()
     {
@@ -130,11 +136,6 @@ public class GameManager : MonoBehaviour
         // ClearCollisions();
     }
 
-    public void ChangeGamestate(GameState state)
-    {
-        this.state = state;
-    }
-
     public bool IsValidTarget(Unit attacker, Unit target, UnitSearchType search)
     {
         switch (search)
@@ -161,40 +162,57 @@ public class GameManager : MonoBehaviour
             return attacker == target.team;
     }
 
+    public float currentFightCumulatedExperience = 0;
     public void UnitHasDied(Unit unit)
     {
+        if (unit.team == 1)
+            currentFightCumulatedExperience += unit.experienceWorth;
+
         bool allUnitsDead = true;
         foreach (var aliveUnit in board.GetUnits())
         {
             if (aliveUnit == null)
+            {
                 continue;
-
+            }
             if (aliveUnit.team == unit.team && aliveUnit != unit)
             {
                 allUnitsDead = false;
                 break;
             }
         }
-
         if (allUnitsDead && state == GameState.BATTLE)
         {
-            foreach (var u in board.GetUnits())
-            {
-                if (u != null)
-                {
-                    //print(u.GetComponent<UnitHealth>());
-                    var hp = u.GetComponent<UnitHealth>();
-                    if (!hp.dying)
-                        hp.Die();
-                }
-            }
-            StartCoroutine("BattleEnd", "MapScene");
+            if (unit.team == 1)
+                StartCoroutine(OpenVictoryScreen());
+            else
+                OpenLossScreen();
+            //StartCoroutine("BattleEnd", "MapScene");
         }
     }
 
-    IEnumerator BattleEnd(string scene)
+    IEnumerator OpenVictoryScreen()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.7f);
+        if (victoryScreen == null)
+            victoryScreen = GameObject.Find("Canvas").transform.Find("VictoryScreen").gameObject;
+
+        victoryScreen.SetActive(true);
+        victoryScreen.GetComponent<VictoryPanel>().InitVictoryScreen();
+    }
+    void OpenLossScreen()
+    {
+        if (lostScreen == null)
+        {
+            lostScreen = GameObject.Find("Canvas").transform.Find("LostScreen").gameObject;
+        }
+        lostScreen.SetActive(true);
+    }
+
+
+    public IEnumerator BattleEnd(string scene)
+    {
+        yield return new WaitForEndOfFrame();
 
         SceneManagement.LoadScene(scene);
 
@@ -203,6 +221,10 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         HPBars.Reset();
-        state = GameState.MAP;
+        ChangeGamestate(GameState.MAP);
+    }
+    public void ResetPath()
+    {
+        pathTaken = new List<MapNode>();
     }
 }

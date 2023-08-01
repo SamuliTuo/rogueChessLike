@@ -157,8 +157,7 @@ public class Pathfinding : MonoBehaviour
                         continue;
                     }
                 }
-
-                int newMovementCostToNeighbour = currNode.gCost + GetDistance(currNode, neighbour);
+                int newMovementCostToNeighbour = currNode.gCost + Mathf.RoundToInt(GetDistance(currNode, neighbour) * GetMultiplier(neighbour));
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
@@ -225,7 +224,14 @@ public class Pathfinding : MonoBehaviour
                     }
                 }
 
-                int newMovementCostToNeighbour = currNode.gCost + GetDistance(currNode, neighbour);
+                ///////////////////huom
+                //////////////////////
+                //////////////////////
+                //print("distance: " + distanceee + ", multiplier" + numba + ", final number: " + finalNumba);
+                int newMovementCostToNeighbour = currNode.gCost + Mathf.RoundToInt(GetDistance(currNode, neighbour) * GetMultiplier(neighbour));  // TÄNNE! tähän kohtaan terrain-kerroin movement costiin
+                ///////////////////
+                //////////////////////
+                //////////////////////
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
@@ -287,5 +293,18 @@ public class Pathfinding : MonoBehaviour
         if (distX > distY)
             return 14 * distY + 10 * (distX - distY);
         return 14 * distX + 10 * (distY - distX);
+    }
+
+
+    float swampmultiplier = 9;
+    public float GetMultiplier(Node node)
+    {
+        switch (node.tileTypeLayerName)
+        {
+            case "Swamp":
+                return swampmultiplier;
+            default:
+                return 1;
+        }
     }
 }

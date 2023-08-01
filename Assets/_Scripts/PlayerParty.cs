@@ -32,7 +32,7 @@ public class PlayerParty : MonoBehaviour
     public void AddUnit(Unit unit)
     {
         if (partyUnits == null)
-            partyUnits = new Unit[25, 25];
+            partyUnits = new Unit[GameManager.Instance.currentScenario.sizeX, GameManager.Instance.currentScenario.sizeY];
 
         for (int y = 0; y < partyUnits.GetLength(0); y++)
         {
@@ -74,7 +74,7 @@ public class PlayerParty : MonoBehaviour
             for (int i = 0; i < partyData.Count; i++)
             {
                 UnitData data = partyData[i];
-                var path = GameManager.Instance.UnitSavePaths.GetPath(data.unitName);
+                var path = GameManager.Instance.UnitSavePaths.GetSavePath(data.unitName);
                 Unit unit = Chessboard.Instance.SpawnSingleUnit(path, 0);
                 AddUnit(unit);
             }

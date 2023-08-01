@@ -20,9 +20,10 @@ MonoBehaviour:
   projectileType: 0
   projectilePath: projectile_fireBall
   reach: 7
-  damage: 850
+  damage: 1
   castSpeed: 1
   cooldown: 5.5
+  startCooldownMultiplier: 0.5
   flySpeed: 21
   minLifeTime: 0
   damagesAllies: 0
@@ -38,6 +39,6 @@ MonoBehaviour:
   bounceSpawnCount_ability: 0
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
