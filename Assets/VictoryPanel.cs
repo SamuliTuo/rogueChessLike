@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.UI.CanvasScaler;
 
 public class VictoryPanel : MonoBehaviour
 {
+    [SerializeField] private float expFillSpeed = 1;
     [SerializeField] private Sprite emptySlotImage = null;
+    public Sprite abilityImg_PLACEHOLDER = null;
     public List<VictoryScreenUnitSlot> unitSlots = new List<VictoryScreenUnitSlot>();
+    
 
     public void InitVictoryScreen()
     {
@@ -16,6 +19,7 @@ public class VictoryPanel : MonoBehaviour
 
         float exp = GameManager.Instance.currentFightCumulatedExperience;
         Unit[,] units = GameManager.Instance.PlayerParty.partyUnits;
+        List<VictoryScreenUnitSlot> slotsInUse = new List<VictoryScreenUnitSlot>();
         for (int x = 0; x < units.GetLength(0); x++)
         {
             for (int y = 0; y < units.GetLength(1); y++)
@@ -26,34 +30,87 @@ public class VictoryPanel : MonoBehaviour
                     if (slot != null)
                     {
                         slot.SlotAnUnit(units[x, y]);
-                        //give unit exp
-                        //check if leveled
-                        //present options when leveled
+                        slot.InitExpBar();
+                        slotsInUse.Add(slot);
                     }
-                        
-
                 }
             }
         }
-
-        /*//Test: give player a new spell
-        var units = GameManager.Instance.PlayerParty.partyUnits;
-        Unit unit = null;
-        for (int x = 0; x < units.GetLength(0); x++)
-            for (int y = 0; y < units.GetLength(1); y++)
-                if (units[x, y] != null) 
-                {
-                    unit = units[x, y];
-                    break;
-                }
-
-        if (unit == null)
-            return;
-
-        var abilities = unit.GetComponent<UnitAbilityManager>();
-        GameManager.Instance.PlayerParty.GetComponent<PlayerPartyUpgrades>().GiveUnitNewSpell(unit, abilities.possibleAbilities[Random.Range(0, abilities.possibleAbilities.Count)], abilities.GetFreeSlot());
-        */
+        float expGaind = 80;
+        for (int i = 0; i < slotsInUse.Count; i++)
+        {
+            GiveUnitExp(slotsInUse[i], expGaind);
+        }
     }
+
+    public async void GiveUnitExp(VictoryScreenUnitSlot slot, float exp)
+    {
+        print("giving exp to " + slot.slottedUnit.name + ", exp amount: " + exp);
+        float startPerc = slot.slottedUnit.CurrentExpPercent();
+        float leftoverExp = slot.slottedUnit.AddExpAndReturnLeftoverIfLvlUp(exp);
+
+        await AnimateExpGain(slot, startPerc);
+
+        if (leftoverExp >= 0)
+        {
+            slot.OpenLvlUpPopUp();
+
+
+            //leveled UP!
+            // 1. present player with options to upgrade the unit (ie. new skill, stats upgrades...)
+            // 2. wait for input...
+            // 3. give the leftover exp
+            // 4. repeat if reached more levels
+
+            /*
+            pendingInput = true;
+            while (pendingInput)
+            {
+                await Task.Yield();
+            }
+            */
+            slot.slottedUnit.currentExperience = 0;
+        }
+    }
+
+    private async Task AnimateExpGain(VictoryScreenUnitSlot slot, float startPerc)
+    {
+        slot.expBarFill.fillAmount = startPerc;
+        while (slot.expBarFill.fillAmount < slot.slottedUnit.CurrentExpPercent())
+        {
+            slot.expBarFill.fillAmount += Time.deltaTime * expFillSpeed;
+            if (slot.expBarFill.fillAmount > slot.slottedUnit.CurrentExpPercent())
+                slot.expBarFill.fillAmount = slot.slottedUnit.CurrentExpPercent();
+
+            await Task.Yield();
+        }
+    }
+
+
+    bool pendingInput = false;
+    public void UpgradeChosen(int button)
+    {
+        print(button);
+        pendingInput = false;
+    }
+
+    /*//Test: give player a new spell
+    var units = GameManager.Instance.PlayerParty.partyUnits;
+    Unit unit = null;
+    for (int x = 0; x < units.GetLength(0); x++)
+        for (int y = 0; y < units.GetLength(1); y++)
+            if (units[x, y] != null) 
+            {
+                unit = units[x, y];
+                break;
+            }
+
+    if (unit == null)
+        return;
+
+    var abilities = unit.GetComponent<UnitAbilityManager>();
+    GameManager.Instance.PlayerParty.GetComponent<PlayerPartyUpgrades>().GiveUnitNewSpell(unit, abilities.possibleAbilities[Random.Range(0, abilities.possibleAbilities.Count)], abilities.GetFreeSlot());
+*/
 
     private void StartPanel()
     {

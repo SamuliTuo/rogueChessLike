@@ -549,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  experienceWorth: 10
   visibleMoveSpeed: 15
   moveInterval: 0.5
   percentOfAttackTimerSave: 0.7
@@ -571,6 +572,7 @@ MonoBehaviour:
   targetIndex: 0
   availableMoves: []
   abilities: {fileID: 0}
+  currentExperience: 0
 --- !u!114 &6621577112940166097
 MonoBehaviour:
   m_ObjectHideFlags: 0

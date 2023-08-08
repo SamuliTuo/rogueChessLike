@@ -291,7 +291,7 @@ MonoBehaviour:
   - savePath: units/skeleton/
     unitPrefab: {fileID: 2368073843827195385, guid: 81cb4fbb9b19f74428a9e41dcba6aee0, type: 3}
     image: {fileID: 21300000, guid: 60655298e6c30a241b35a16dfee6182d, type: 3}
-  - savePath: units/skeleton/
+  - savePath: units/warrior/
     unitPrefab: {fileID: 7765936273728097012, guid: c28078562dd8d0d48b3ae3825936d59d, type: 3}
     image: {fileID: 21300000, guid: 5fe2ca3feaebaf4429e447b9d22bb91c, type: 3}
 --- !u!1 &6089650261518574623

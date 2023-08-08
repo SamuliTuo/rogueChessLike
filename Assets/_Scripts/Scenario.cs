@@ -52,8 +52,16 @@ public class Scenario : ScriptableObject
     public void SaveScenario(string saveName)
     {
         this.saveName = saveName;
-        scenarioUnits.Clear();
-        scenarioNodes.Clear();
+        if (scenarioUnits == null)
+            scenarioUnits = new List<ScenarioUnit>();
+        else
+            scenarioUnits.Clear();
+
+        if (scenarioNodes == null)  
+            scenarioNodes = new List<ScenarioNode>(); 
+        else
+            scenarioNodes.Clear();
+
         sizeX = Chessboard.Instance.GetBoardSize().x;
         sizeY = Chessboard.Instance.GetBoardSize().y;
         Unit[,] activeUnits = Chessboard.Instance.GetUnits();

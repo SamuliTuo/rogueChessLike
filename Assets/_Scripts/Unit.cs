@@ -374,4 +374,26 @@ public class Unit : MonoBehaviour
         if (force)
             transform.localScale = desiredScale;
     }
+
+
+
+    /// EXPERIENCE STUFF (maybe move somewhere else)
+    public float currentExperience = 0;
+    float expNeededForLevelUp = 100;
+    public float AddExpAndReturnLeftoverIfLvlUp(float experienceGained)
+    {
+        currentExperience += experienceGained;
+        if (currentExperience > expNeededForLevelUp)
+        {
+            // lvl++;
+            currentExperience -= expNeededForLevelUp;
+            return currentExperience;
+        }
+        return -1;
+    }
+
+    public float CurrentExpPercent()
+    {
+        return currentExperience / expNeededForLevelUp;
+    }
 }

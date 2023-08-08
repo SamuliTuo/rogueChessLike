@@ -465,36 +465,35 @@ public class Chessboard : MonoBehaviour
     public Unit SpawnSingleUnit(GameObject _unit, int team)
     {
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
-        
         unit.team = team;
-        if (unit.team == 0)
-        {
-            Instantiate(platform_team0, unit.transform);
-        }
-        else
-        {
-            Instantiate(platform_team1, unit.transform);
-        }
-
+        AddPlatform(unit);
         return unit;
     }
     public Unit SpawnSingleUnit(string unitPath, int team)
     {
         GameObject _unit = Resources.Load<GameObject>(unitPath);
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
-
         unit.team = team;
         unit.unitPath = unitPath;
-        if (unit.team == 0)
-        {
-            Instantiate(platform_team0, unit.transform);
-        }
-        else
-        {
-            Instantiate(platform_team1, unit.transform);
-        }
-
+        AddPlatform(unit);
         return unit;
+    }
+    public Unit SpawnSingleUnit(UnitData data)
+    {
+        string path = GameManager.Instance.UnitSavePaths.GetSavePath(data.unitName);
+        Unit u = Instantiate(Resources.Load<GameObject>(path), transform).GetComponent<Unit>();
+        u.team = data.team;
+        u.unitPath = path;
+        AddPlatform(u);
+        return u;
+        
+    }
+    private void AddPlatform(Unit unit)
+    {
+        if (unit.team == 0)
+            Instantiate(platform_team0, unit.transform);
+        else
+            Instantiate(platform_team1, unit.transform);
     }
 
     private void PositionAllUnits()

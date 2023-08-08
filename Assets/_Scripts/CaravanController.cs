@@ -7,7 +7,6 @@ public class CaravanController : MonoBehaviour
 {
     [SerializeField] GameObject caravanPanel;
 
-    private List<UnitAndSavePath> units;
     private UnitAndSavePath caravanSlot1;
     private UnitAndSavePath caravanSlot2;
     private UnitAndSavePath caravanSlot3;
@@ -35,10 +34,6 @@ public class CaravanController : MonoBehaviour
     }
     public void ChooseUnit(int chosenSlot)
     {
-        //print("huhuu");
-        //choose a unit from presented selection
-        var choices = GetUnitChoices();
-
         //add unit to party
         if (chosenSlot == 0)
         {

@@ -19,8 +19,8 @@ MonoBehaviour:
   attackRange: 3
   damage: 220
   attackInterval: 0.9
-  attackFlySpeed: 28
-  minLifeTime: 0
+  attackFlySpeed: 20
+  minLifeTime: 0.1
   projectilePath: ranger_arrow_proj
   damagesAllies: 0
   bounceAttack: {fileID: 0}

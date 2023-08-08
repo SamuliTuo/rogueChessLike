@@ -21386,6 +21386,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2023567847, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: unitsDatas.Array.data[12].savePath
+      value: units/warrior/
+      objectReference: {fileID: 0}
     - target: {fileID: 6089650262552058419, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
       propertyPath: m_RootOrder
       value: 10
