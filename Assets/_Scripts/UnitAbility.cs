@@ -50,5 +50,4 @@ public class UnitAbility : ScriptableObject
     public string spawnUnit = null;
     public int spawnCount = 1;
     public float spawnDuration;
-
 }

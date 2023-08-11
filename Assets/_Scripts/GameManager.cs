@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public SaveGameManager SaveGameManager { get; private set; }
     public UnitSavePaths UnitSavePaths { get; private set; }
     public ProjectilePools ProjectilePools { get; private set; }
+    public AbilityLibrary AbilityLibrary { get; private set; }
 
     public Color hpBarTeam0Color = Color.green;
     public Color hpBarTeam1Color = Color.red;
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
         SaveGameManager = GetComponentInChildren<SaveGameManager>();
         UnitSavePaths = GetComponentInChildren<UnitSavePaths>();
         ProjectilePools = GetComponentInChildren<ProjectilePools>();
+        AbilityLibrary = GetComponentInChildren<AbilityLibrary>();
         LoadBoardAndMap();
         pathTaken = new List<MapNode>();
     }

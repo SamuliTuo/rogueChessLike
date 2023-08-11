@@ -1087,6 +1087,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -1181,6 +1194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -2507,6 +2533,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -4418,6 +4457,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -5566,6 +5618,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -11142,6 +11207,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -11932,6 +12010,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -12332,6 +12423,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -13767,6 +13871,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -18899,6 +19016,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727005e274b428c4b8b7c8fd13832990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slottedUnit:
+    team: 0
+    currentExperience: 0
+    nextLevelExperience: 0
+    maxHp: 0
+    unitName: 
+    spawnPosX: 0
+    spawnPosY: 0
+    attacks: []
+    ability1: {fileID: 0}
+    ability2: {fileID: 0}
+    ability3: {fileID: 0}
+    ability4: {fileID: 0}
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}

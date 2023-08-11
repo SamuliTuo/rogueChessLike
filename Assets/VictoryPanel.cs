@@ -18,22 +18,16 @@ public class VictoryPanel : MonoBehaviour
         StartPanel();
 
         float exp = GameManager.Instance.currentFightCumulatedExperience;
-        Unit[,] units = GameManager.Instance.PlayerParty.partyUnits;
+        List<UnitData> units = GameManager.Instance.PlayerParty.partyUnits;
         List<VictoryScreenUnitSlot> slotsInUse = new List<VictoryScreenUnitSlot>();
-        for (int x = 0; x < units.GetLength(0); x++)
+        foreach (UnitData unitData in units)
         {
-            for (int y = 0; y < units.GetLength(1); y++)
+            var slot = FirstFreeSlot();
+            if (slot != null)
             {
-                if (units[x, y] != null)
-                {
-                    var slot = FirstFreeSlot();
-                    if (slot != null)
-                    {
-                        slot.SlotAnUnit(units[x, y]);
-                        slot.InitExpBar();
-                        slotsInUse.Add(slot);
-                    }
-                }
+                slot.SlotAnUnit(unitData);
+                slot.InitExpBar();
+                slotsInUse.Add(slot);
             }
         }
         float expGaind = 80;
@@ -45,9 +39,9 @@ public class VictoryPanel : MonoBehaviour
 
     public async void GiveUnitExp(VictoryScreenUnitSlot slot, float exp)
     {
-        print("giving exp to " + slot.slottedUnit.name + ", exp amount: " + exp);
+        print("giving exp to " + slot.slottedUnit.unitName + ", exp amount: " + exp);
         float startPerc = slot.slottedUnit.CurrentExpPercent();
-        float leftoverExp = slot.slottedUnit.AddExpAndReturnLeftoverIfLvlUp(exp);
+        float leftoverExp = AddExpAndReturnLeftoverIfLvlUp(slot.slottedUnit, exp);
 
         await AnimateExpGain(slot, startPerc);
 
@@ -71,6 +65,20 @@ public class VictoryPanel : MonoBehaviour
             */
             slot.slottedUnit.currentExperience = 0;
         }
+    }
+
+
+
+    public float AddExpAndReturnLeftoverIfLvlUp(UnitData unit, float experienceGained)
+    {
+        unit.currentExperience += experienceGained;
+        if (unit.currentExperience > unit.nextLevelExperience)
+        {
+            // lvl++;
+            unit.currentExperience -= unit.nextLevelExperience;
+            return unit.currentExperience;
+        }
+        return -1;
     }
 
     private async Task AnimateExpGain(VictoryScreenUnitSlot slot, float startPerc)

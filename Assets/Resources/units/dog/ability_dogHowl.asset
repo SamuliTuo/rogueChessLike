@@ -18,7 +18,7 @@ MonoBehaviour:
   hitParticle: 5
   dmgInstanceType: 1
   projectileType: 0
-  projectilePath: 
+  projectilePath: meleeSwing03
   reach: 4
   damage: 500
   castSpeed: 0.5

@@ -409,8 +409,9 @@ public class Chessboard : MonoBehaviour
                     //print(unit.unit);
                     //print(GameManager.Instance.UnitSavePaths);
                     var path = GameManager.Instance.UnitSavePaths.GetSavePath(unit.unit);
-                    activeUnits[unit.spawnPosX, unit.spawnPosY]
-                        = SpawnSingleUnit(path, unit.team);
+                    var clone = SpawnSingleUnit(path, unit.team);
+                    clone.GetComponent<UnitAbilityManager>().StartAbilities();
+                    activeUnits[unit.spawnPosX, unit.spawnPosY] = clone;
                 }
         }
         /*foreach (var unit in scenario.scenarioUnits)
@@ -435,21 +436,21 @@ public class Chessboard : MonoBehaviour
         if (partyUnits == null)
             return;
 
-        for (int x = 0; x < partyUnits.GetLength(0); x++)
-            for (int y = 0; y < partyUnits.GetLength(1); y++)
-                if (partyUnits[x, y] != null)
-                {
-                    var path = GameManager.Instance.UnitSavePaths.GetSavePath(partyUnits[x, y].name);
-                    Vector2Int pos = activeUnits[x, y] != null ? GetFirstFreePos() : new Vector2Int(x, y);
-                    if (pos == errorVector)
-                        return;
+        for (int i = 0; i < partyUnits.Count; i++)
+        {
+            var path = GameManager.Instance.UnitSavePaths.GetSavePath(partyUnits[i].unitName);
+            var clone = SpawnSingleUnit(path, 0);
+            clone.team = partyUnits[i].team;
+            clone.GetComponent<UnitHealth>().SetMaxHp(partyUnits[i].maxHp);
+            var cloneAbils = clone.GetComponent<UnitAbilityManager>();
+            cloneAbils.ability_1 = partyUnits[i].ability1;
+            cloneAbils.ability_2 = partyUnits[i].ability2;
+            cloneAbils.ability_3 = partyUnits[i].ability3;
+            cloneAbils.ability_4 = partyUnits[i].ability4;
+            cloneAbils.StartAbilities();
 
-                    var unit = SpawnSingleUnit(path, 0);
-                    //Init unit with saved data
-                    //unit.Init(partyUnits[x, y]);
-                    
-                    activeUnits[pos.x, pos.y] = unit;
-                }
+            activeUnits[partyUnits[i].spawnPosX, partyUnits[i].spawnPosY] = clone;
+        }
     }
 
     public Vector2Int GetFirstFreePos()

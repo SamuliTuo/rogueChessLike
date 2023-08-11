@@ -51,4 +51,16 @@ public class UnitSavePaths : MonoBehaviour
         }
         return null;
     }
+    public Sprite GetImg(string unitName)
+    {
+        foreach (var ud in unitsDatas)
+        {
+            if (ud.unitPrefab.name == unitName)
+            {
+                return ud.image;
+            }
+        }
+        return null;
+    }
+    
 }

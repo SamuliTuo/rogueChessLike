@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: SwampTiles
-    Event: 500
+    Event: 450
     filterSettings:
       RenderQueueType: 1
       LayerMask:
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: EmptyTiles
-    Event: 500
+    Event: 450
     filterSettings:
       RenderQueueType: 1
       LayerMask:
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: Highlight
-    Event: 500
+    Event: 450
     filterSettings:
       RenderQueueType: 1
       LayerMask:

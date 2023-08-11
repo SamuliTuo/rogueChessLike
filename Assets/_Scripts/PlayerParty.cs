@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerParty : MonoBehaviour
 {
-    public Unit[,] partyUnits { get; private set; }
+    public List<UnitData> partyUnits { get; private set; }
     public GameObject partyPanel;
 
     private int saveSlot = 0;
@@ -14,43 +15,55 @@ public class PlayerParty : MonoBehaviour
         if (Chessboard.Instance != null && partyUnits != null)
         {
             var oldParty = partyUnits;
-            partyUnits = new Unit[Chessboard.Instance.GetTilecount().x, Chessboard.Instance.GetTilecount().y];
+            partyUnits = new List<UnitData>();
 
-            for (int x = 0; x < oldParty.GetLength(0); x++)
+            for (int i = 0; i < oldParty.Count; i++)
             {
-                for (int y = 0; y < oldParty.GetLength(1); y++)
-                {
-                    if (oldParty[x, y] != null)
-                    {
-                        AddUnit(oldParty[x, y]);
-                    }
-                }
+                AddUnit(oldParty[i]);
             }
         }
     }
 
-    public void AddUnit(Unit unit)
+    public Vector2Int GetFirstFreePartyPos()
     {
         if (partyUnits == null)
-            partyUnits = new Unit[GameManager.Instance.currentScenario.sizeX, GameManager.Instance.currentScenario.sizeY];
+            partyUnits = new List<UnitData>();
 
-        for (int y = 0; y < partyUnits.GetLength(0); y++)
+        for (int y = 0; y < 20; y++)
         {
-            for (int x = 0; x < partyUnits.GetLength(1); x++)
+            for (int x = 0; x < 20; x++)
             {
-                if (partyUnits[x, y] == null)
+                bool isFree = true;
+                for (int i = 0; i < partyUnits.Count; i++)
                 {
-                    partyUnits[x, y] = unit;
-                    return;
+                    if (partyUnits[i].spawnPosX == x && partyUnits[i].spawnPosY == y)
+                    {
+                        isFree = false;
+                        break;
+                    }
                 }
+                if (isFree)
+                    return new Vector2Int(x, y);
             }
         }
+        return new Vector2Int(-1, -1);
+    }
+
+    public void AddUnit(UnitData unit)
+    {
+        if (partyUnits == null)
+            partyUnits = new List<UnitData>();
+
+        var spawnPos = GetFirstFreePartyPos();
+        unit.spawnPosX = spawnPos.x;
+        unit.spawnPosY = spawnPos.y;
+        partyUnits.Add(unit);
     }
 
     // tätä ei oo testattu vvv
     public void SaveParty()
     {
-        List<UnitData> partyData = new List<UnitData>();
+        /*List<UnitData> partyData = new List<UnitData>();
         for (int y = 0; y < partyUnits.GetLength(0); y++)
         {
             for (int x = 0; x < partyUnits.GetLength(1); x++)
@@ -62,12 +75,13 @@ public class PlayerParty : MonoBehaviour
             }
         }
         SaveSystem.Save(partyData, "party" + saveSlot);
+        */
     }
 
     //Load party
     public void LoadParty()
     {
-        List<UnitData> partyData = SaveSystem.Load<List<UnitData>>("party" + saveSlot);
+        /*List<UnitData> partyData = SaveSystem.Load<List<UnitData>>("party" + saveSlot);
         RefreshParty();
         if (partyData != null)
         {
@@ -78,7 +92,7 @@ public class PlayerParty : MonoBehaviour
                 Unit unit = Chessboard.Instance.SpawnSingleUnit(path, 0);
                 AddUnit(unit);
             }
-        }
+        }*/
     }
 
     public void OpenParty()

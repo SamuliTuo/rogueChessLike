@@ -5,6 +5,8 @@ using UnityEngine;
 public class UnitData
 {
     public int team;
+    public float currentExperience;
+    public float nextLevelExperience;
     public float maxHp;
     public string unitName;
     public int spawnPosX;
@@ -17,8 +19,10 @@ public class UnitData
 
     public UnitData(Unit unit, int posX, int posY)
     {
-        team = unit.team;
+        nextLevelExperience = 100;
         unitName = unit.name;
+
+        team = unit.team;
         spawnPosX = posX;
         spawnPosY = posY;
         attacks = unit.normalAttacks;
@@ -28,5 +32,10 @@ public class UnitData
         ability2 = abilities.ability_2;
         ability3 = abilities.ability_3;
         ability4 = abilities.ability_4;
+    }
+
+    public float CurrentExpPercent()
+    {
+        return currentExperience / nextLevelExperience;
     }
 }   

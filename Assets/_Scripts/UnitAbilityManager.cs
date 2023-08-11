@@ -16,7 +16,7 @@ public class UnitAbilityManager : MonoBehaviour
     private Dictionary<UnitAbility, bool> abilitiesWithCooldown = new Dictionary<UnitAbility, bool>();
     private Unit thisUnit;
 
-    private void Awake()
+    public void StartAbilities()
     {
         thisUnit = GetComponent<Unit>();
         abilitiesWithCooldown.Clear();
@@ -28,8 +28,9 @@ public class UnitAbilityManager : MonoBehaviour
         if (ability_3 != null)
             AbilityCooldownAtGameStart(ability_3);
         if (ability_4 != null)
-           AbilityCooldownAtGameStart(ability_4);
+            AbilityCooldownAtGameStart(ability_4);
     }
+
     void AbilityCooldownAtGameStart(UnitAbility _ability)
     {
         abilitiesWithCooldown.Add(_ability, true);

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class VictoryScreenUnitSlot : MonoBehaviour
 {
-    public Unit slottedUnit;
+    public UnitData slottedUnit;
     public Sprite emptyImage;
     public Image expBarFill;
     public GameObject lvlUpPopUp;
@@ -29,10 +29,10 @@ public class VictoryScreenUnitSlot : MonoBehaviour
         expBar.SetActive(false);
     }
 
-    public void SlotAnUnit(Unit unit)
+    public void SlotAnUnit(UnitData unit)
     {
         slottedUnit = unit;
-        img.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit);
+        img.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
     }
 
     public void InitExpBar()
@@ -50,15 +50,13 @@ public class VictoryScreenUnitSlot : MonoBehaviour
     public void OpenLvlUpPopUp()
     {
         lvlUpPopUp.SetActive(true);
-        var abilities = slottedUnit.GetComponent<UnitAbilityManager>();
-
-        if (abilities.ability_1 != null)
+        if (slottedUnit.ability1 != null)
             lvlUpPopUp.transform.GetChild(0).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
-        if (abilities.ability_2 != null)
+        if (slottedUnit.ability1 != null)
             lvlUpPopUp.transform.GetChild(1).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
-        if (abilities.ability_3 != null)
+        if (slottedUnit.ability1 != null)
             lvlUpPopUp.transform.GetChild(2).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
-        if (abilities.ability_4 != null)
+        if (slottedUnit.ability1 != null)
             lvlUpPopUp.transform.GetChild(3).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
     }
 

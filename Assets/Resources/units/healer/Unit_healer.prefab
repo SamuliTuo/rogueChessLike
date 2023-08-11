@@ -974,7 +974,6 @@ MonoBehaviour:
   targetIndex: 0
   availableMoves: []
   abilities: {fileID: 0}
-  currentExperience: 0
 --- !u!114 &-8280155713902308794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,11 +986,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955052b73f631944fa6b675cbbcd6b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ability_1: {fileID: 11400000, guid: 1b63e77e8d38d7e4f9575b6f10e9dadf, type: 2}
-  ability_2: {fileID: 11400000, guid: f6356f7ac70402c42aa3dad06b2abf7e, type: 2}
-  ability_3: {fileID: 11400000, guid: a759f5bc6a3fb524b81a5aecc32395c0, type: 2}
+  ability_1: {fileID: 0}
+  ability_2: {fileID: 0}
+  ability_3: {fileID: 0}
   ability_4: {fileID: 0}
-  possibleAbilities: []
+  possibleAbilities:
+  - {fileID: 11400000, guid: 1b63e77e8d38d7e4f9575b6f10e9dadf, type: 2}
+  - {fileID: 11400000, guid: f6356f7ac70402c42aa3dad06b2abf7e, type: 2}
+  - {fileID: 11400000, guid: a759f5bc6a3fb524b81a5aecc32395c0, type: 2}
 --- !u!1 &4963626783152073258
 GameObject:
   m_ObjectHideFlags: 0

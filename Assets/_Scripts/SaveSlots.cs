@@ -44,7 +44,6 @@ public class SaveSlots : MonoBehaviour
     }
 
 
-
     public void OpenSaveSlotsUI()
     {
         for (int i = 0; i < saveSlotsOnCanvas.Count; i++)
