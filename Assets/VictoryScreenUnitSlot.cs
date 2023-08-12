@@ -13,27 +13,27 @@ public class VictoryScreenUnitSlot : MonoBehaviour
     private Image img;
     private GameObject expBar;
     
-    private void Start()
+
+    public void Init(Sprite emptyImage)
     {
         img = GetComponent<Image>();
         expBar = transform.GetChild(0).gameObject;
         expBarFill = transform.GetChild(0).GetChild(0).GetComponent<Image>();
         lvlUpPopUp = transform.GetChild(1).gameObject;
-    }
-
-    public void Init(Sprite emptyImage)
-    {
-        Start();
         this.emptyImage = emptyImage;
         img.sprite = emptyImage;
         expBar.SetActive(false);
+        ClearSlot();
     }
+
 
     public void SlotAnUnit(UnitData unit)
     {
+        print("unit: " + unit + ",  unitName: " + unit.unitName);
         slottedUnit = unit;
         img.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
     }
+
 
     public void InitExpBar()
     {
@@ -41,30 +41,33 @@ public class VictoryScreenUnitSlot : MonoBehaviour
         expBarFill.fillAmount = slottedUnit.CurrentExpPercent();
     }
 
+
     public void ClearSlot()
     {
         slottedUnit = null;
-        img.sprite =  emptyImage;
+        img.sprite = emptyImage;
     }
+
 
     public void OpenLvlUpPopUp()
     {
         lvlUpPopUp.SetActive(true);
         if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(0).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
+            lvlUpPopUp.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability1);
         if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(1).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
+            lvlUpPopUp.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability2);
         if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(2).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
+            lvlUpPopUp.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability3);
         if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(3).GetComponent<Image>().sprite = GetComponentInParent<VictoryPanel>().abilityImg_PLACEHOLDER;
+            lvlUpPopUp.transform.GetChild(3).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability4);
     }
 
-    public void ChooseSkill()
+
+    public void ChooseSkill(int slot)
     {
-        print("asdasd");
-        GetComponentInParent<VictoryPanel>().UpgradeChosen(0);
+        GetComponentInParent<VictoryPanel>().UpgradeChosen(slot);
     }
+
 
     public bool IsEmpty()
     {

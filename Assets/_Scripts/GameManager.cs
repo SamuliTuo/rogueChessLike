@@ -185,16 +185,17 @@ public class GameManager : MonoBehaviour
         }
         if (allUnitsDead && state == GameState.BATTLE)
         {
-            if (unit.team == 1)
-                StartCoroutine(OpenVictoryScreen());
+            if (unit.team == 1 && victoryCoroutine == null)
+                victoryCoroutine = StartCoroutine(OpenVictoryScreen());
             else
                 OpenLossScreen();
             //StartCoroutine("BattleEnd", "MapScene");
         }
     }
 
+    Coroutine victoryCoroutine = null;
     IEnumerator OpenVictoryScreen()
-    {
+    { 
         yield return new WaitForSeconds(1.7f);
         if (victoryScreen == null)
             victoryScreen = GameObject.Find("Canvas").transform.Find("VictoryScreen").gameObject;
@@ -216,6 +217,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
+        victoryCoroutine = null;
         SceneManagement.LoadScene(scene);
 
         while (SceneManager.GetActiveScene().name != scene)

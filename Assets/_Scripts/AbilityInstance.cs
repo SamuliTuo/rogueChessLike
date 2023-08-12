@@ -115,9 +115,9 @@ public class AbilityInstance : MonoBehaviour
         GameManager.Instance.DamageInstance.Activate(targetNode, ability.damage, shooter, ability.validTargets, ability.dmgInstanceType);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
         SpawnUnits();
-        print("spawns handled");
+        //print("spawns handled");
         Bounces();
-        print("bounces handled");
+        //print("bounces handled");
         Deactivate();
     }
 

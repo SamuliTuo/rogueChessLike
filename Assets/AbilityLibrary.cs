@@ -16,7 +16,6 @@ public class AbilityLibrary : MonoBehaviour
 
     public Sprite GetImg(UnitAbility ability)
     {
-        print(ability);
         foreach (var item in abilitiesInLibrary)
         {
             if (item.ability == ability)

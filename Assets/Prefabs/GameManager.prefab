@@ -44,6 +44,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76b618df7e5f76147a570ca4486ddad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilitiesInLibrary:
+  - ability: {fileID: 11400000, guid: afc0e3f55611ecb44a0f19df02ba67c2, type: 2}
+    image: {fileID: 21300000, guid: b2f3785eb5c2b854d9f48ef45ac25456, type: 3}
+  - ability: {fileID: 11400000, guid: de34d70dea91d934ba461edcb4cc8f46, type: 2}
+    image: {fileID: 21300000, guid: d9fc588e78c740347ad9ac79917f80bb, type: 3}
+  - ability: {fileID: 11400000, guid: 5fae35e16b7ad904b8a682bcd507a093, type: 2}
+    image: {fileID: 21300000, guid: 361e7f2a999a0b147be1ea327cc68828, type: 3}
+  - ability: {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
+    image: {fileID: 21300000, guid: 78410c1be733a4745b24c326713052f3, type: 3}
+  - ability: {fileID: 11400000, guid: 6adc37ac9e3f80c4abbdd13c02093c65, type: 2}
+    image: {fileID: 21300000, guid: 7dc1620955bfc424994cb1dc325091b3, type: 3}
+  - ability: {fileID: 11400000, guid: 20ab983a633c3f24faa0071002036446, type: 2}
+    image: {fileID: 21300000, guid: 64cf7fd936d478f4c83ef41ca130ffc8, type: 3}
+  - ability: {fileID: 11400000, guid: c15f95f10f5bc2046b3532addf2508a0, type: 2}
+    image: {fileID: 21300000, guid: 6fae582eb225c154fbe0e884356be1f1, type: 3}
+  - ability: {fileID: 11400000, guid: a759f5bc6a3fb524b81a5aecc32395c0, type: 2}
+    image: {fileID: 21300000, guid: 980ca9b13c4ddef46a918cd82a49ee13, type: 3}
+  - ability: {fileID: 11400000, guid: f6356f7ac70402c42aa3dad06b2abf7e, type: 2}
+    image: {fileID: 21300000, guid: 8e15a0136e8da8c43a4ac7f0380bb041, type: 3}
+  - ability: {fileID: 11400000, guid: 1b63e77e8d38d7e4f9575b6f10e9dadf, type: 2}
+    image: {fileID: 21300000, guid: fd4df3bdd54c3fb4c8efced2610aff00, type: 3}
+  - ability: {fileID: 11400000, guid: 19a9c5c63a58a0d429f9ef685156a421, type: 2}
+    image: {fileID: 21300000, guid: fcd7c40d4299bd14b8f7a331647c7deb, type: 3}
+  - ability: {fileID: 11400000, guid: e5c7247f35bdc87498c9f5ba03ac8813, type: 2}
+    image: {fileID: 21300000, guid: 215283ffc4073854291f1c0b303df057, type: 3}
+  - ability: {fileID: 11400000, guid: 933404f15f441424193538665d84f2a6, type: 2}
+    image: {fileID: 21300000, guid: 83da3b9442d8b234585ba96870c9662e, type: 3}
 --- !u!1 &551207542
 GameObject:
   m_ObjectHideFlags: 0

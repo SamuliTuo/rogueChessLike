@@ -161,12 +161,26 @@ public class Unit : MonoBehaviour
                 MoveUnit(); 
                 break;
             case Action.NORMAL_ATTACK:
+                if (attackTarget == null)
+                {
+                    ResetAI();
+                    break;
+                }
                 if (animator != null) animator.Play("attack", 0, 0);
                 NormalAttack(); 
                 break;
             case Action.ABILITY:
+                if (attackTarget == null)
+                {
+                    ResetAI();
+                    break;
+                }
                 if (animator != null) animator.Play("attack", 0, 0);
-                abilities.ActivateAbility(nextAbility, attackTarget, path); 
+                print("next ability: " + nextAbility);
+                print("attack target: " + attackTarget);
+                print("path: " + path);
+                abilities.ActivateAbility(nextAbility, attackTarget, path);
+                print("TÄS YLEMMÄL RIVILLÄ TULEE NULL REF SATTUMALTA JOSKUS!"); //näyttäis, että se tulee usein yhden niistä warrior hyökkäyksistä yhteydessä.
                 break;
             default: break;
         }
