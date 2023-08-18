@@ -13,6 +13,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
 
     private Image img;
     private GameObject expBar;
+    public bool lvlUpPending { get; private set; }
     
 
     public void Init(Sprite emptyImage)
@@ -32,6 +33,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
     public void SlotAnUnit(UnitData unit)
     {
         slottedUnit = unit;
+        lvlUpPending = false;
         img.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
     }
 
@@ -51,6 +53,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
 
     public void SlotLevelUp()
     {
+        lvlUpPending = true;
         lvlUpSign.SetActive(true);
     }
 
@@ -59,7 +62,11 @@ public class VictoryScreenUnitSlot : MonoBehaviour
         if (!lvlUpSign.activeSelf)
             return;
 
-        GetComponentInParent<VictoryPanel>().OpenLvlUpPopUp(this);
+        if (GetComponentInParent<VictoryPanel>().OpenLvlUpPopUp(this))
+            lvlUpPending = false; //t‰‰ on placeholderina sille, ett‰ kun on oikeesti tehny level upin hahmolle niin pending vaihtuu "false"
+        
+
+
 
         /*
         lvlUpPopUp.SetActive(true);

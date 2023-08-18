@@ -79,24 +79,29 @@ public class VictoryPanel : MonoBehaviour
         if (leftoverExp >= 0)
             targetPerc = 1;
 
+        // lerp the exp gain animation
         while (slot.expBarFill.fillAmount < targetPerc)
         {
             if (t < 1)
-            { // lerp the exp gain animation
+            { 
                 t += Time.deltaTime * 0.3f;
                 float perc = t * t;
                 gainSpeed = Mathf.Lerp(0.2f, 1, perc);
                 if (t >= 1)
                     t = gainSpeed = 1;
             }
-
             slot.expBarFill.fillAmount += Time.deltaTime * gainSpeed * expFillMaxSpeed;
             yield return null;
         }
 
+        // Unit leveled up!
         if (leftoverExp >= 0)
         {
             slot.SlotLevelUp();
+            while (slot.lvlUpPending)
+            {
+                yield return null;
+            }
             //slot.OpenLvlUpPopUp();
 
 
@@ -117,7 +122,6 @@ public class VictoryPanel : MonoBehaviour
         }
 
         slot.expBarFill.fillAmount = slot.slottedUnit.CurrentExpPercent();
-
     }
 
 
@@ -196,9 +200,12 @@ public class VictoryPanel : MonoBehaviour
         return null;
     }
 
-    public void OpenLvlUpPopUp(VictoryScreenUnitSlot slot)
+    public bool OpenLvlUpPopUp(VictoryScreenUnitSlot slot)
     {
-        lvlUpPanel.SetActive(true);
+        if (lvlUpPanel.activeSelf)
+            return false;
 
+        lvlUpPanel.SetActive(true);
+        return true;
     }
 }
