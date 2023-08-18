@@ -32,8 +32,17 @@ public class MapController : MonoBehaviour
     private GameObject player;
     private Transform currentMapTransform;
     private bool canMove = false;
-    public void SetCanMove(bool canMove) { this.canMove = canMove; }
-
+    public void SetCanMove(bool canMove) {
+        if (!canMove)
+            this.canMove = false;
+        else
+            StartCoroutine(CanMoveDelay());
+    }
+    IEnumerator CanMoveDelay()
+    {
+        yield return new WaitForSeconds(0.25f);
+        canMove = true;
+    }
 
     void Start()
     {
@@ -44,6 +53,7 @@ public class MapController : MonoBehaviour
         {
             mapNodes = map.mapNodes;
             StartCoroutine("PositionMapNodes");
+            StartCoroutine(CanMoveDelay());
             return;
         }
 
@@ -53,9 +63,7 @@ public class MapController : MonoBehaviour
         canMove = false;
 
         if (currentPosition = startNode)
-        {
-            StartCoroutine(DelayStartNodeActivation(2.5f));
-        }
+            StartCoroutine(DelayStartNodeActivation(2.5f)); 
     }
 
     IEnumerator DelayStartNodeActivation(float time)
@@ -264,7 +272,7 @@ public class MapController : MonoBehaviour
         SpawnPlayerUnit();
 
         DrawPaths();
-        canMove = true;
+        //canMove = true;
 
         if (GameManager.Instance.CurrentMap.currentMap == null)
         {

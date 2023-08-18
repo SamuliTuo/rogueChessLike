@@ -9,35 +9,47 @@ public class VictoryPanel : MonoBehaviour
     public Sprite abilityImg_PLACEHOLDER = null;
     public List<VictoryScreenUnitSlot> unitSlots = new List<VictoryScreenUnitSlot>();
 
-    [SerializeField] private float expFillSpeed = 1;
+    private float expFillMaxSpeed = 1.5f;
     [SerializeField] private Sprite emptySlotImage = null;
+    [SerializeField] private GameObject lvlUpPanel = null;
 
     private List<VictoryScreenUnitSlot> slotsInUse = new List<VictoryScreenUnitSlot>();
-
+    bool allReady = false;
 
     public void InitVictoryScreen()
     {
+        allReady = false;
         StartPanel();
         float exp = GameManager.Instance.currentFightCumulatedExperience;
+        exp = 120; /////////////
         List<UnitData> units = GameManager.Instance.PlayerParty.partyUnits;
 
         slotsInUse.Clear();
         foreach (UnitData unitData in units)
         {
             var slot = FirstFreeSlot();
-            print("victory!  slot reserved = " + slot + ",  unitData = " + unitData);
-            if (slot != null)
-            {
-                slot.SlotAnUnit(unitData);
-                slot.InitExpBar();
-                slotsInUse.Add(slot);
-            }
+            if (slot == null)
+                continue;
+
+            slot.SlotAnUnit(unitData);
+            slot.InitExpBar();
+            slotsInUse.Add(slot);
         }
-        float expGaind = 80;
+
+        if (slotsInUse.Count == 0)
+        {
+            allReady = true;
+            return;
+        }
+
+        StartCoroutine(StartExpCoroutines(exp));
+    }
+    IEnumerator StartExpCoroutines(float exp)
+    {
         for (int i = 0; i < slotsInUse.Count; i++)
         {
-            StartCoroutine(ExperienceGainCoroutine(slotsInUse[i], expGaind));
-            //GiveUnitExp(slotsInUse[i], expGaind);
+            StartCoroutine(ExperienceGainCoroutine(slotsInUse[i], exp));
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
@@ -57,27 +69,35 @@ public class VictoryPanel : MonoBehaviour
 
     private IEnumerator ExperienceGainCoroutine(VictoryScreenUnitSlot slot, float exp)
     {
+        float t = 0;
+        float gainSpeed = 0;
         float startPerc = slot.slottedUnit.CurrentExpPercent();
         float leftoverExp = AddExpAndReturnLeftoverIfLvlUp(slot.slottedUnit, exp);
 
         slot.expBarFill.fillAmount = startPerc;
-        print("slotted unit: " + slot.slottedUnit + ",  curr exp: " + slot.slottedUnit.CurrentExpPercent());
         float targetPerc = slot.slottedUnit.CurrentExpPercent();
+        if (leftoverExp >= 0)
+            targetPerc = 1;
 
         while (slot.expBarFill.fillAmount < targetPerc)
         {
-            //print("slot: " + slot + ",  slot fill amount: " + slot.expBarFill.fillAmount + ",  expPercent: " + slot.slottedUnit.CurrentExpPercent() + ",  deltaTime: " + Time.deltaTime);
-            slot.expBarFill.fillAmount += Time.deltaTime * expFillSpeed;
+            if (t < 1)
+            { // lerp the exp gain animation
+                t += Time.deltaTime * 0.3f;
+                float perc = t * t;
+                gainSpeed = Mathf.Lerp(0.2f, 1, perc);
+                if (t >= 1)
+                    t = gainSpeed = 1;
+            }
+
+            slot.expBarFill.fillAmount += Time.deltaTime * gainSpeed * expFillMaxSpeed;
             yield return null;
         }
-        print("trying to end exp gainage");
-        print("slotted unit: " + slot.slottedUnit);
-        print("slotted exp: " + slot.slottedUnit.CurrentExpPercent());
-        slot.expBarFill.fillAmount = slot.slottedUnit.CurrentExpPercent();
 
         if (leftoverExp >= 0)
         {
-            slot.OpenLvlUpPopUp();
+            slot.SlotLevelUp();
+            //slot.OpenLvlUpPopUp();
 
 
             //leveled UP!
@@ -95,39 +115,10 @@ public class VictoryPanel : MonoBehaviour
             */
             slot.slottedUnit.currentExperience = 0;
         }
+
+        slot.expBarFill.fillAmount = slot.slottedUnit.CurrentExpPercent();
+
     }
-
-    //public async void GiveUnitExp(VictoryScreenUnitSlot slot, float exp)
-    //{
-    //    float startPerc = slot.slottedUnit.CurrentExpPercent();
-    //    float leftoverExp = AddExpAndReturnLeftoverIfLvlUp(slot.slottedUnit, exp);
-
-    //    print("starting exp gain: " + Time.time);
-    //    await AnimateExpGain(slot, startPerc);
-    //    print("exp gain awaited : "+Time.time);
-
-    //    if (leftoverExp >= 0)
-    //    {
-    //        slot.OpenLvlUpPopUp();
-
-
-    //        //leveled UP!
-    //        // 1. present player with options to upgrade the unit (ie. new skill, stats upgrades...)
-    //        // 2. wait for input...
-    //        // 3. give the leftover exp
-    //        // 4. repeat if reached more levels
-
-    //        /*
-    //        pendingInput = true;
-    //        while (pendingInput)
-    //        {
-    //            await Task.Yield();
-    //        }
-    //        */
-    //        slot.slottedUnit.currentExperience = 0;
-    //    }
-    //}
-
 
 
     public float AddExpAndReturnLeftoverIfLvlUp(UnitData unit, float experienceGained)
@@ -142,26 +133,30 @@ public class VictoryPanel : MonoBehaviour
         return -1;
     }
 
-    //private async Task AnimateExpGain(VictoryScreenUnitSlot slot, float startPerc)
-    //{
-    //    slot.expBarFill.fillAmount = startPerc;
-    //    print("slotted unit: " + slot.slottedUnit + ",  curr exp: " + slot.slottedUnit.CurrentExpPercent());
-    //    float targetPerc = slot.slottedUnit.CurrentExpPercent();
-    //    while (slot.expBarFill.fillAmount < targetPerc)
-    //    {
-    //        print("slot: "+slot+",  slot fill amount: " + slot.expBarFill.fillAmount + ",  expPercent: " + slot.slottedUnit.CurrentExpPercent() + ",  deltaTime: " + Time.deltaTime);
-    //        slot.expBarFill.fillAmount += Time.deltaTime * expFillSpeed;
-    //        await Task.Yield();
-    //    }
-    //    slot.expBarFill.fillAmount = slot.slottedUnit.CurrentExpPercent();
-    //}
 
-
-    bool pendingInput = false;
-    public void UpgradeChosen(int button)
+    public void UpgradeChosen(VictoryScreenUnitSlot slot, int button)
     {
-        print(button);
-        pendingInput = false;
+        print("fix meeeeee better pls " + button);
+        // 1. get the unit
+        // 2. get the upgrade
+        // 3. apply the upgrade
+        // 4. close the popup
+        // 5. check if there are more upgrades to be done
+
+
+        foreach (var s in slotsInUse)
+        {
+            if (s.lvlUpPopUp.activeSelf)
+            {
+                allReady = false;
+                break;
+            }
+            allReady = true;
+        }
+        if (allReady)
+        {
+            // avaa exit-nappi
+        }
     }
 
     /*//Test: give player a new spell
@@ -199,5 +194,11 @@ public class VictoryPanel : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void OpenLvlUpPopUp(VictoryScreenUnitSlot slot)
+    {
+        lvlUpPanel.SetActive(true);
+
     }
 }

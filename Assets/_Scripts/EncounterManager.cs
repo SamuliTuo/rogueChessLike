@@ -52,10 +52,10 @@ public class EncounterManager : MonoBehaviour
         {
             caravanController.OpenCaravan();
         }
-        else
+        /*else
         {
             ACTIVATE_EMPTY();
-        }
+        }*/
     }
 
     void ActivateEncounter()
