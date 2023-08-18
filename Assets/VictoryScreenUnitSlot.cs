@@ -9,6 +9,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
     public Sprite emptyImage;
     public Image expBarFill;
     public GameObject lvlUpPopUp;
+    public GameObject lvlUpSign;
 
     private Image img;
     private GameObject expBar;
@@ -20,6 +21,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
         expBar = transform.GetChild(0).gameObject;
         expBarFill = transform.GetChild(0).GetChild(0).GetComponent<Image>();
         lvlUpPopUp = transform.GetChild(1).gameObject;
+        lvlUpSign = transform.GetChild(2).gameObject;
         this.emptyImage = emptyImage;
         img.sprite = emptyImage;
         expBar.SetActive(false);
@@ -29,7 +31,6 @@ public class VictoryScreenUnitSlot : MonoBehaviour
 
     public void SlotAnUnit(UnitData unit)
     {
-        print("unit: " + unit + ",  unitName: " + unit.unitName);
         slottedUnit = unit;
         img.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
     }
@@ -48,9 +49,19 @@ public class VictoryScreenUnitSlot : MonoBehaviour
         img.sprite = emptyImage;
     }
 
+    public void SlotLevelUp()
+    {
+        lvlUpSign.SetActive(true);
+    }
 
     public void OpenLvlUpPopUp()
     {
+        if (!lvlUpSign.activeSelf)
+            return;
+
+        GetComponentInParent<VictoryPanel>().OpenLvlUpPopUp(this);
+
+        /*
         lvlUpPopUp.SetActive(true);
         if (slottedUnit.ability1 != null)
             lvlUpPopUp.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability1);
@@ -60,12 +71,14 @@ public class VictoryScreenUnitSlot : MonoBehaviour
             lvlUpPopUp.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability3);
         if (slottedUnit.ability1 != null)
             lvlUpPopUp.transform.GetChild(3).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability4);
+        */
     }
 
 
     public void ChooseSkill(int slot)
     {
-        GetComponentInParent<VictoryPanel>().UpgradeChosen(slot);
+        lvlUpPopUp.SetActive(false);
+        GetComponentInParent<VictoryPanel>().UpgradeChosen(this, slot);
     }
 
 

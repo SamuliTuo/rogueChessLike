@@ -75,7 +75,7 @@ public class CaravanController : MonoBehaviour
     }
 
     void CloseCaravan()
-    { 
+    {
         caravanPanel.SetActive(false);
         GameManager.Instance.MapController.SetCanMove(true);
     }

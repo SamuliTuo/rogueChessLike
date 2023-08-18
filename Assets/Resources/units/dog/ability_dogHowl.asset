@@ -18,7 +18,7 @@ MonoBehaviour:
   hitParticle: 5
   dmgInstanceType: 1
   projectileType: 0
-  projectilePath: meleeSwing03
+  projectilePath: projectile_dogHowl
   reach: 4
   damage: 500
   castSpeed: 0.5
