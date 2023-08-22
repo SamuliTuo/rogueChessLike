@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelUpPanel : MonoBehaviour
 {
+    VictoryScreenUnitSlot slot;
     UnitData unitThatsLevelingUp = null;
 
     Sprite upgrades1_slot1;
@@ -14,9 +15,10 @@ public class LevelUpPanel : MonoBehaviour
     Sprite upgrades2_slot2;
     Sprite upgrades2_slot3;
 
-    public void InitLevelUpPanel(UnitData unit)
+    public void InitLevelUpPanel(VictoryScreenUnitSlot slot)
     {
-        unitThatsLevelingUp = unit;
+        this.slot = slot;
+        this.unitThatsLevelingUp = slot.slottedUnit;
     }
 
 

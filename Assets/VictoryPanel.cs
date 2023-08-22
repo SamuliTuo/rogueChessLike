@@ -11,7 +11,7 @@ public class VictoryPanel : MonoBehaviour
 
     private float expFillMaxSpeed = 1.5f;
     [SerializeField] private Sprite emptySlotImage = null;
-    [SerializeField] private GameObject lvlUpPanel = null;
+    [SerializeField] private LevelUpPanel lvlUpPanel = null;
 
     private List<VictoryScreenUnitSlot> slotsInUse = new List<VictoryScreenUnitSlot>();
     bool allReady = false;
@@ -102,7 +102,6 @@ public class VictoryPanel : MonoBehaviour
             {
                 yield return null;
             }
-            //slot.OpenLvlUpPopUp();
 
 
             //leveled UP!
@@ -202,10 +201,12 @@ public class VictoryPanel : MonoBehaviour
 
     public bool OpenLvlUpPopUp(VictoryScreenUnitSlot slot)
     {
-        if (lvlUpPanel.activeSelf)
+        if (lvlUpPanel.gameObject.activeSelf)
             return false;
 
-        lvlUpPanel.SetActive(true);
+        lvlUpPanel.gameObject.SetActive(true);
+        lvlUpPanel.InitLevelUpPanel(slot);
+
         return true;
     }
 }

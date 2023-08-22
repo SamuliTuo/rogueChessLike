@@ -3496,7 +3496,7 @@ Transform:
   m_Children:
   - {fileID: 2126001723}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &897367570
 GameObject:
@@ -6506,7 +6506,7 @@ Transform:
   - {fileID: 813442270}
   - {fileID: 82005663}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1359954721
 MonoBehaviour:
@@ -7779,7 +7779,7 @@ RectTransform:
   - {fileID: 1085894094}
   - {fileID: 1955987046}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
