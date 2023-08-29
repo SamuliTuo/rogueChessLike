@@ -535,7 +535,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 3.5
-  maxHp: 500000
+  maxHp: 66
   hp: 100
 --- !u!114 &-3612060213080868243
 MonoBehaviour:
@@ -550,8 +550,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   experienceWorth: 10
-  visibleMoveSpeed: 15
-  moveInterval: 0.5
+  visibleMoveSpeed: 10
+  moveInterval: 0.8
   percentOfAttackTimerSave: 0.7
   attackPositionOffset: {x: 0, y: 0, z: 0}
   normalAttacks:
@@ -572,7 +572,6 @@ MonoBehaviour:
   targetIndex: 0
   availableMoves: []
   abilities: {fileID: 0}
-  currentExperience: 0
 --- !u!114 &6621577112940166097
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,15 +20,10 @@ public class UnitAbilityManager : MonoBehaviour
     {
         thisUnit = GetComponent<Unit>();
         abilitiesWithCooldown.Clear();
-
-        if (ability_1 != null)
-            AbilityCooldownAtGameStart(ability_1);
-        if (ability_2 != null)
-            AbilityCooldownAtGameStart(ability_2);
-        if (ability_3 != null)
-            AbilityCooldownAtGameStart(ability_3);
-        if (ability_4 != null)
-            AbilityCooldownAtGameStart(ability_4);
+        if (ability_1 != null) AbilityCooldownAtGameStart(ability_1);
+        if (ability_2 != null) AbilityCooldownAtGameStart(ability_2);
+        if (ability_3 != null) AbilityCooldownAtGameStart(ability_3);
+        if (ability_4 != null) AbilityCooldownAtGameStart(ability_4);
     }
 
     void AbilityCooldownAtGameStart(UnitAbility _ability)

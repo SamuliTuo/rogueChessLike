@@ -13,7 +13,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
 
     private Image img;
     private GameObject expBar;
-    public bool lvlUpPending { get; private set; }
+    public bool lvlUpPending { get; set; }
     
 
     public void Init(Sprite emptyImage)
@@ -67,7 +67,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
         
 
 
-
+        
         /*
         lvlUpPopUp.SetActive(true);
         if (slottedUnit.ability1 != null)

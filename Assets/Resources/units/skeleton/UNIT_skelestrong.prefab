@@ -435,9 +435,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb510b658df29684b94c7ff331eb85e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   flashDuration: 0.1
   hpBarOffset: 2.8
-  maxHp: 300
+  maxHp: 70
   hp: 100
 --- !u!114 &-3612060213080868243
 MonoBehaviour:
@@ -451,12 +452,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visiblelMoveSpeed: 13
-  moveInterval: 0.5
+  experienceWorth: 10
+  visibleMoveSpeed: 10
+  moveInterval: 1.2
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: 0, y: 0, z: 0}
   normalAttacks:
   - {fileID: 11400000, guid: 266ce59f43d173348bcab4630e1fa060, type: 2}
+  randomizeAttackOrder: 0
   savedAttackTimerAmount: 0
   team: 0
   x: 0
@@ -486,6 +489,7 @@ MonoBehaviour:
   ability_2: {fileID: 0}
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
+  possibleAbilities: []
 --- !u!1 &2372994460200914837
 GameObject:
   m_ObjectHideFlags: 0

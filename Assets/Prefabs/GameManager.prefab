@@ -148,9 +148,9 @@ MonoBehaviour:
     projectile: {fileID: 1684744735726426580, guid: 4e20f4d7915c0064b847c2c5f7d1b1ff, type: 3}
   - name: ability_01_pro
     projectile: {fileID: 1684744735726426580, guid: 9bce70759f238d747a6a8831f9660755, type: 3}
-  - name: ranger_arrow_pro
+  - name: ranger_arrow_proj
     projectile: {fileID: 1684744735726426580, guid: 49726ea770ea26247abbc8c62925475f, type: 3}
-  - name: cluster_bomb_pro
+  - name: cluster_bomb_proj
     projectile: {fileID: 1684744735726426580, guid: 0a548312f48dde54eb4b80858e6992e5, type: 3}
   - name: spawnBearProjectile
     projectile: {fileID: 1684744735726426580, guid: 91c9ff015b35d4a4daa03d716875d6ea, type: 3}

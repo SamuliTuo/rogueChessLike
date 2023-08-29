@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 00_map
   m_EditorClassIdentifier: 
   encountersByRow:
+  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
   - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
-  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
-  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
-  - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
+  - {fileID: 11400000, guid: 80c275d2de0545746ad8bc8d53b03f90, type: 2}
+  - {fileID: 11400000, guid: c8d41b4cd8fd21a46b3455daea4260c7, type: 2}
   - {fileID: 11400000, guid: 8314c2583c2c6d64aa758c44260427f8, type: 2}
   - {fileID: 11400000, guid: 0f6b902260f82cd4e92255bc634c074d, type: 2}
   - {fileID: 11400000, guid: 7401c124718e8d44d8194e42601e10ce, type: 2}
@@ -26,8 +26,6 @@ MonoBehaviour:
   startEncounter: {fileID: 11400000, guid: be2a6c8472c7ee94d9832584e953ddd2, type: 2}
   lastEncounters:
   - {fileID: 11400000, guid: 7d5790768ff553940a3ed19ac9c4019f, type: 2}
-  - {fileID: 11400000, guid: 08633e863b7a7a145a058fee2b9c6ea1, type: 2}
-  - {fileID: 11400000, guid: c0acc32ae0ba57944b7fb668b5c05121, type: 2}
   randomRangeForSplitsAtFirstNode: {x: 2, y: 4}
   maximumNodesWideness: 4
   stepDistance_first: 1.5

@@ -112,7 +112,7 @@ public class ButtonScript : MonoBehaviour
 
     //Saving
     string input = "";
-    int currSlot;
+
     public void OpenSavingPanel()
     {
         ScenarioBuilder.Instance?.OpenPanel(ScenarioBuilderPanel.SAVE);
@@ -125,7 +125,7 @@ public class ButtonScript : MonoBehaviour
     }
     public void OpenSaveConfirm(int slot)
     {
-        currSlot = slot;
+        GetComponentInParent<ScenarioSaving>().currSlot = slot;
     }
     public void ReadStringInput(string s)
     {
@@ -135,15 +135,20 @@ public class ButtonScript : MonoBehaviour
     {
         if (input.Length > 0 && input.Length < 25)
         {
-            GameManager.Instance.SaveSlots.SaveToSlot(currSlot, input);
+            GameManager.Instance.SaveSlots.SaveToSlot(GetComponentInParent<ScenarioSaving>().currSlot, input);
             ScenarioBuilder.Instance?.OpenPanel(ScenarioBuilderPanel.TERRAIN);
         }
     }
     public void CancelSave()
     {
         input = "";
-        currSlot = -1;
+        if (GetComponentInParent<ScenarioSaving>() != null)
+            GetComponentInParent<ScenarioSaving>().currSlot = -1;
         ScenarioBuilder.Instance?.OpenPanel(ScenarioBuilderPanel.TERRAIN);
+    }
+    public void CancelLoad()
+    {
+
     }
 
     public void LoadGame(int slot)

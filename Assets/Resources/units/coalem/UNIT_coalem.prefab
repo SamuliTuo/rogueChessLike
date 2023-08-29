@@ -688,7 +688,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3612060213080868243, guid: 6ab8dc1de53be864dad80265b88194cb, type: 3}
       propertyPath: moveInterval
-      value: 1.6
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: -3612060213080868243, guid: 6ab8dc1de53be864dad80265b88194cb, type: 3}
       propertyPath: normalAttack
@@ -698,6 +698,10 @@ PrefabInstance:
       propertyPath: normalAttack2
       value: 
       objectReference: {fileID: 11400000, guid: 975c8b51c2d4bf445b657af7137f4864, type: 2}
+    - target: {fileID: -3612060213080868243, guid: 6ab8dc1de53be864dad80265b88194cb, type: 3}
+      propertyPath: visibleMoveSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: -3612060213080868243, guid: 6ab8dc1de53be864dad80265b88194cb, type: 3}
       propertyPath: visiblelMoveSpeed
       value: 10
@@ -716,7 +720,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 975c8b51c2d4bf445b657af7137f4864, type: 2}
     - target: {fileID: -987463109391865520, guid: 6ab8dc1de53be864dad80265b88194cb, type: 3}
       propertyPath: maxHp
-      value: 10000
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: -987463109391865520, guid: 6ab8dc1de53be864dad80265b88194cb, type: 3}
       propertyPath: hpBarOffset

@@ -374,7 +374,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 3
-  maxHp: 800
+  maxHp: 90
   hp: 100
 --- !u!114 &-3612060213080868243
 MonoBehaviour:
@@ -388,8 +388,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  experienceWorth: 10
   visibleMoveSpeed: 10
-  moveInterval: 0.7
+  moveInterval: 0.8
   percentOfAttackTimerSave: 0.7
   attackPositionOffset: {x: 0, y: 2.5, z: 0.1}
   normalAttacks:
@@ -424,6 +425,7 @@ MonoBehaviour:
   ability_2: {fileID: 0}
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
+  possibleAbilities: []
 --- !u!1 &2398391414654540771
 GameObject:
   m_ObjectHideFlags: 0

@@ -904,7 +904,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 3
-  maxHp: 1800
+  maxHp: 110
   hp: 500
 --- !u!114 &835531528963474958
 MonoBehaviour:
@@ -920,7 +920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   experienceWorth: 10
   visibleMoveSpeed: 10
-  moveInterval: 0.7
+  moveInterval: 0.8
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: 0.517, y: 1.365, z: 0.675}
   normalAttacks:

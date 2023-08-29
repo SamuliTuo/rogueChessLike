@@ -231,4 +231,30 @@ public class GameManager : MonoBehaviour
     {
         pathTaken = new List<MapNode>();
     }
+
+
+
+    // Saisko tän siirrettyy Extensions-classiin jotenki? ei menny suorilta sinne
+    public int[] GenerateRandomUniqueIntegers(Vector2Int countRange, Vector2Int valueRange)
+    {
+        if (valueRange == Vector2Int.zero)
+            return null;
+
+        var values = new List<int>();
+        for (int i = Mathf.Min(valueRange.x, valueRange.y); i < Mathf.Max(valueRange.x, valueRange.y); i++)
+            values.Add(i);
+
+        var randomNumbers = new int[Random.Range(Mathf.Min(countRange.x, countRange.y), Mathf.Max(countRange.x, countRange.y))];
+        for (int i = 0; i < randomNumbers.Length; i++)
+        {
+            if (values.Count == 0)
+                continue;
+
+            var thisNumber = Random.Range(0, values.Count);
+            randomNumbers[i] = values[thisNumber];
+            values.RemoveAt(thisNumber);
+        }
+
+        return randomNumbers;
+    }
 }

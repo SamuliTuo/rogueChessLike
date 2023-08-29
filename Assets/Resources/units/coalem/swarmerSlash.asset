@@ -17,8 +17,8 @@ MonoBehaviour:
   dmgInstanceType: 0
   projectileType: 0
   attackRange: 1
-  damage: 70
-  attackInterval: 1
+  damage: 3
+  attackInterval: 0.5
   attackFlySpeed: 25
   minLifeTime: 0.09
   projectilePath: swarmerSlash

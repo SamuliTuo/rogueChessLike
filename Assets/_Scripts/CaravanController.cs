@@ -40,23 +40,22 @@ public class CaravanController : MonoBehaviour
             caravanSlots.Add(choice);
         }
         caravanSlot1Image.sprite = GameManager.Instance.UnitSavePaths.GetImg(caravanSlots[0].unitName);
-        slot1_spells[0].sprite = caravanSlots[0].ability1 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[0].ability1);
-        slot1_spells[1].sprite = caravanSlots[0].ability2 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[0].ability2);
-        slot1_spells[2].sprite = caravanSlots[0].ability3 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[0].ability3);
-        slot1_spells[3].sprite = caravanSlots[0].ability4 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[0].ability4);
         caravanSlot2Image.sprite = GameManager.Instance.UnitSavePaths.GetImg(caravanSlots[1].unitName);
-        slot2_spells[0].sprite = caravanSlots[1].ability1 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[1].ability1);
-        slot2_spells[1].sprite = caravanSlots[1].ability2 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[1].ability2);
-        slot2_spells[2].sprite = caravanSlots[1].ability3 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[1].ability3);
-        slot2_spells[3].sprite = caravanSlots[1].ability4 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[1].ability4);
         caravanSlot3Image.sprite = GameManager.Instance.UnitSavePaths.GetImg(caravanSlots[2].unitName);
-        slot3_spells[0].sprite = caravanSlots[2].ability1 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[2].ability1);
-        slot3_spells[1].sprite = caravanSlots[2].ability2 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[2].ability2);
-        slot3_spells[2].sprite = caravanSlots[2].ability3 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[2].ability3);
-        slot3_spells[3].sprite = caravanSlots[2].ability4 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(caravanSlots[2].ability4);
-
+        SetSpellImages(caravanSlots[0], slot1_spells);
+        SetSpellImages(caravanSlots[1], slot2_spells);
+        SetSpellImages(caravanSlots[2], slot3_spells);
         caravanPanel.SetActive(true);
     }
+
+    void SetSpellImages(UnitData slot, Image[] accordingImageSlots)
+    {
+        accordingImageSlots[0].sprite = slot.ability1 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability1);
+        accordingImageSlots[1].sprite = slot.ability2 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability2);
+        accordingImageSlots[2].sprite = slot.ability3 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability3);
+        accordingImageSlots[3].sprite = slot.ability4 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability4);
+    }
+
     public void ChooseUnit(int chosenSlot)
     {
         GameManager.Instance.PlayerParty.AddUnit(caravanSlots[chosenSlot]);
@@ -88,7 +87,7 @@ public class CaravanController : MonoBehaviour
 
         var unitAbilityManager = randomUnit.unitPrefab.GetComponent<UnitAbilityManager>();
         List<UnitAbility> abilities = new List<UnitAbility>();
-        int[] abilChoices = GenerateRandomUniqueIntegers(new Vector2Int(1, 3), new Vector2Int(0, unitAbilityManager.possibleAbilities.Count));
+        int[] abilChoices = GameManager.Instance.GenerateRandomUniqueIntegers(new Vector2Int(0, 2), new Vector2Int(0, unitAbilityManager.possibleAbilities.Count));
         //print("abil choices: " + abilChoices + ", name: " + data.unitName);
         if (abilChoices != null)
         {
@@ -105,26 +104,4 @@ public class CaravanController : MonoBehaviour
         return data;
     }
     
-    private int[] GenerateRandomUniqueIntegers(Vector2Int countRange, Vector2Int valueRange)
-    {
-        if (valueRange == Vector2Int.zero)
-            return null;
-
-        var values = new List<int>();
-        for (int i = Mathf.Min(valueRange.x, valueRange.y); i < Mathf.Max(valueRange.x, valueRange.y); i++)
-            values.Add(i);
-
-        var randomNumbers = new int[Random.Range(Mathf.Min(countRange.x, countRange.y), Mathf.Max(countRange.x, countRange.y))];
-        for (int i = 0; i < randomNumbers.Length; i++)
-        {
-            if (values.Count == 0)
-                continue;
-
-            var thisNumber = Random.Range(0, values.Count);
-            randomNumbers[i] = values[thisNumber];
-            values.RemoveAt(thisNumber);
-        }
-
-        return randomNumbers;
-    }
 }

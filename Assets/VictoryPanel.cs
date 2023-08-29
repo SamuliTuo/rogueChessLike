@@ -209,4 +209,9 @@ public class VictoryPanel : MonoBehaviour
 
         return true;
     }
+    public void LevelUpDone(VictoryScreenUnitSlot slot)
+    {
+        lvlUpPanel.gameObject.SetActive(false);
+        slot.lvlUpPending = false;
+    }
 }
