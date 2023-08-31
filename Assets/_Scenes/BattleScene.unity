@@ -1245,6 +1245,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -1412,6 +1413,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -3033,6 +3035,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -5170,6 +5173,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -6691,6 +6695,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -9958,7 +9963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1064248613
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12906,6 +12911,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -13991,6 +13997,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -14464,6 +14471,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -16194,6 +16202,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0
@@ -21187,7 +21196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2050947236
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21235,6 +21244,11 @@ MonoBehaviour:
   - {fileID: 1973176122}
   - {fileID: 493665871}
   - {fileID: 1427692948}
+  upgradeDMG: {fileID: 21300000, guid: 0c9f4f19b402bf14db047146d128e7da, type: 3}
+  upgradeMAGIC: {fileID: 21300000, guid: 01cb7c1d4e695b84f808d0dbc899ca23, type: 3}
+  upgradeATTSPD: {fileID: 21300000, guid: 6fae582eb225c154fbe0e884356be1f1, type: 3}
+  upgradeHP: {fileID: 21300000, guid: 60d188def6770f34d8e3deb05bc5a1ae, type: 3}
+  upgradeMOVEMENTSPD: {fileID: 21300000, guid: e39dd7c6f05a36b4d87463d6df1da7f3, type: 3}
 --- !u!1 &2052379486
 GameObject:
   m_ObjectHideFlags: 0
@@ -22069,6 +22083,7 @@ MonoBehaviour:
     currentExperience: 0
     nextLevelExperience: 0
     maxHp: 0
+    moveInterval: 0
     unitName: 
     spawnPosX: 0
     spawnPosY: 0

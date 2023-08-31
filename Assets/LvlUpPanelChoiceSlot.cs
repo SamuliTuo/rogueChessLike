@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,7 @@ using UnityEngine.UI;
 public class LvlUpPanelChoiceSlot : MonoBehaviour
 {
     private UnitAbility abi;
-    private string attribute;
-    private float attributeChange;
+    private string upgrade;
 
     public void SetChoice(UnitAbility abi)
     {
@@ -16,16 +16,19 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
         GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(abi);
     }
 
-    public void SetChoice(string attribute, float attributeChange, Sprite img)
+    public void SetChoice(Tuple<string, Sprite> upgrade)
     {
-        this.attribute = attribute;
-        this.attributeChange = attributeChange;
-        GetComponent<Image>().sprite = img;
+        this.upgrade = upgrade.Item1;
+        GetComponent<Image>().sprite = upgrade.Item2;
     }
 
     public void ChooseThis()
     {
-        GetComponentInParent<LevelUpPanel>().ChooseOption(abi);
+        if (this.abi != null)
+            GetComponentInParent<LevelUpPanel>().ChooseOption(abi);
+        else if (this.upgrade != null)
+            GetComponentInParent<LevelUpPanel>().ChooseOption(upgrade);
+        
         gameObject.SetActive(false);
     }
 }

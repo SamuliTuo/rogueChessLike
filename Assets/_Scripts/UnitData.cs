@@ -8,6 +8,7 @@ public class UnitData
     public float currentExperience;
     public float nextLevelExperience;
     public float maxHp;
+    public float moveInterval;
     public string unitName;
     public int spawnPosX;
     public int spawnPosY;
@@ -22,7 +23,7 @@ public class UnitData
     {
         nextLevelExperience = 100;
         unitName = unit.name;
-
+        moveInterval = unit.moveInterval;
         team = unit.team;
         spawnPosX = posX;
         spawnPosY = posY;
@@ -57,20 +58,33 @@ public class UnitData
     {
         return (ability1 == null || ability2 == null || ability3 == null || ability4 == null);
     }
-    public bool LearnedAbility(UnitAbility a)
+
+    public bool HasLearnedAbility(UnitAbility a)
     {
         return (ability1 == a || ability2 == a || ability3 == a || ability4 == a);
     }
+
+    public List<UnitAbility> LearnedAbilities()
+    {
+        var r = new List<UnitAbility>();
+        if (ability1 != null) r.Add(ability1);
+        if (ability2 != null) r.Add(ability2);
+        if (ability3 != null) r.Add(ability3);
+        if (ability4 != null) r.Add(ability4);
+        return r;
+    }
+
     public List<UnitAbility> RemainingPossibleAbilities()
     {
         var r = new List<UnitAbility>();
         foreach (var a in possibleAbilities)
         {
-            if (!LearnedAbility(a))
+            if (!HasLearnedAbility(a))
             {
                 r.Add(a);
             }
         }
         return r;
     }
+    
 }   
