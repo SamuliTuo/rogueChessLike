@@ -69,6 +69,7 @@ public class Chessboard : MonoBehaviour
         SpawnScenarioUnits(GameManager.Instance.currentScenario);
         SpawnPlayerParty();
         PositionAllUnits();
+        Camera.main.GetComponent<CameraManager>()?.SetCameraForBoardsize(GetBoardSize(), tileSize);
     }
 
     public void UnitPlacerUpdate()
@@ -294,11 +295,11 @@ public class Chessboard : MonoBehaviour
     public void AddTileCount(int x, int y)
     {
         currentHover = -Vector2Int.one;
-
         TILE_COUNT_X = Mathf.Max(1, TILE_COUNT_X + x);
         TILE_COUNT_Y = Mathf.Max(1, TILE_COUNT_Y + y);
         GameManager.Instance.currentScenario.sizeX = TILE_COUNT_X;
         GameManager.Instance.currentScenario.sizeY = TILE_COUNT_Y;
+        Camera.main.GetComponent<CameraManager>()?.SetCameraForBoardsize(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
     }
 
     public void RefreshBoard(Unit[,] quickSaveUnits = null, Node[,] quickSaveNodes = null)
@@ -330,8 +331,9 @@ public class Chessboard : MonoBehaviour
         else
         {
             SpawnScenarioUnits(GameManager.Instance.currentScenario);
-        }   
+        }
 
+        Camera.main.GetComponent<CameraManager>()?.SetCameraForBoardsize(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
         PositionAllUnits();  
     }
     public List<Node> GetNeighbourNodes(Node node)
@@ -452,7 +454,6 @@ public class Chessboard : MonoBehaviour
             activeUnits[partyUnits[i].spawnPosX, partyUnits[i].spawnPosY] = clone;
         }
     }
-
     public Vector2Int GetFirstFreePos()
     {
         for (int y = 0; y < TILE_COUNT_Y; y++)
@@ -462,7 +463,6 @@ public class Chessboard : MonoBehaviour
 
         return errorVector;
     }
-
     public Unit SpawnSingleUnit(GameObject _unit, int team)
     {
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
@@ -496,7 +496,6 @@ public class Chessboard : MonoBehaviour
         else
             Instantiate(platform_team1, unit.transform);
     }
-
     private void PositionAllUnits()
     {
         for (int x = 0; x < TILE_COUNT_X; x++)
@@ -622,7 +621,6 @@ public class Chessboard : MonoBehaviour
                 + (Vector3.forward * deathSpacing) * deadUnits_player.Count);
         }   
     }
-
     public Vector2Int LookupTileIndex(GameObject hitInfo)
     {
         for (int x = 0; x < TILE_COUNT_X; x++)
@@ -632,7 +630,6 @@ public class Chessboard : MonoBehaviour
 
         return -Vector2Int.one; // Invalid
     }
-
     public Unit GetLowestTeammate(UnitSearchType searchType, Unit askingUnit, int range = 100000, bool canBeSelf = true, bool dontReturnFullHPTargets = true)
     {
         Unit u = null;

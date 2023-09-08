@@ -160,4 +160,14 @@ public class ButtonScript : MonoBehaviour
     {
         GameManager.Instance.MapController.MoveOnMap(node);
     }
+
+    //Text Encounters
+    TextEncounterManager encounters;
+    public void ChooseTextResponse(int response)
+    {
+        if (encounters == null) 
+            encounters = GameObject.Find("EncounterManager").GetComponentInChildren<TextEncounterManager>();
+
+        encounters?.ChooseTextResponse(response);
+    }
 }

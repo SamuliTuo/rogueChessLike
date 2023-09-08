@@ -348,8 +348,7 @@ public class ScenarioBuilder : MonoBehaviour
             }
         }
     }
-
-    void ObjectPlacerUpdate()
+    private void ObjectPlacerUpdate()
     {
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);

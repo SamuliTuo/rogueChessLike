@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityUpgrade : MonoBehaviour
+//[System.Serializable]
+public class AbilityUpgrade
 {
-    UnitAbility ability;
-    string upgradeName;
-    float upgradeAmount;
+    public UnitAbility ability;
+    public string upgradeName;
+    public float upgradeAmount;
 
 
     public AbilityUpgrade(UnitAbility ability, string upgradeName, float upgradeAmount)

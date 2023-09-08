@@ -34,9 +34,13 @@ public class MapController : MonoBehaviour
     private bool canMove = false;
     public void SetCanMove(bool canMove) {
         if (!canMove)
+        {
             this.canMove = false;
+        }
         else
+        {
             StartCoroutine(CanMoveDelay());
+        }
     }
     IEnumerator CanMoveDelay()
     {
@@ -63,7 +67,9 @@ public class MapController : MonoBehaviour
         canMove = false;
 
         if (currentPosition = startNode)
-            StartCoroutine(DelayStartNodeActivation(2.5f)); 
+        {
+            StartCoroutine(DelayStartNodeActivation(2.5f));
+        }
     }
 
     IEnumerator DelayStartNodeActivation(float time)
@@ -75,6 +81,7 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
+        print(canMove);
         if (currentPosition == null || !canMove)
             return;
         if (!cam)
@@ -117,6 +124,7 @@ public class MapController : MonoBehaviour
     //    | |\/| | / _` | | '_ \   / _` | / -_) | ' \  / -_) | '_| / _` | |  _| | | / _ \ | ' \ 
     //    |_|  |_| \__,_| | .__/   \__, | \___| |_||_| \___| |_|   \__,_|  \__| |_| \___/ |_||_|
     //                    |_|      |___/                                  
+    #region Map Generation
     void GeneratePaths()
     {
         // First node
@@ -347,6 +355,7 @@ public class MapController : MonoBehaviour
         GameObject.Destroy(myLine, duration);
         myLine.transform.SetParent(lineTransforms);
     }
+    #endregion
 }
 
 public class Map {

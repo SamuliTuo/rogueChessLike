@@ -18,7 +18,7 @@ public class AbilityLibrary : MonoBehaviour
     {
         foreach (var item in abilitiesInLibrary)
         {
-            if (item.ability == ability)
+            if (item.ability.name == ability.name)
             {
                 return item.image;
             }

@@ -162,24 +162,6 @@ public class VictoryPanel : MonoBehaviour
         }
     }
 
-    /*//Test: give player a new spell
-    var units = GameManager.Instance.PlayerParty.partyUnits;
-    Unit unit = null;
-    for (int x = 0; x < units.GetLength(0); x++)
-        for (int y = 0; y < units.GetLength(1); y++)
-            if (units[x, y] != null) 
-            {
-                unit = units[x, y];
-                break;
-            }
-
-    if (unit == null)
-        return;
-
-    var abilities = unit.GetComponent<UnitAbilityManager>();
-    GameManager.Instance.PlayerParty.GetComponent<PlayerPartyUpgrades>().GiveUnitNewSpell(unit, abilities.possibleAbilities[Random.Range(0, abilities.possibleAbilities.Count)], abilities.GetFreeSlot());
-*/
-
     // Button
     public void Proceed()
     {

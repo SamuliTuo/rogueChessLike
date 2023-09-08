@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using UnityEngine;
 
 [System.Serializable]
@@ -44,14 +45,10 @@ public class UnitData
 
     public void GiveNewAbility(UnitAbility abi)
     {
-        if (ability1 == null)
-            ability1 = abi;
-        else if (ability2 == null)
-            ability2 = abi;
-        else if (ability3 == null)
-            ability3 = abi;
-        else if (ability4 == null)
-            ability4 = abi;
+        if      (ability1 == null) ability1 = abi;
+        else if (ability2 == null) ability2 = abi;
+        else if (ability3 == null) ability3 = abi;
+        else if (ability4 == null) ability4 = abi;
     }
 
     public bool HasFreeAbilitySlots()
@@ -61,7 +58,7 @@ public class UnitData
 
     public bool HasLearnedAbility(UnitAbility a)
     {
-        return (ability1 == a || ability2 == a || ability3 == a || ability4 == a);
+        return ((ability1!=null && ability1.name==a.name) || (ability2!=null && ability2.name==a.name) || (ability3!=null && ability3.name==a.name) || (ability4!=null && ability4.name==a.name));
     }
 
     public List<UnitAbility> LearnedAbilities()
@@ -87,4 +84,48 @@ public class UnitData
         return r;
     }
     
+    public int AbilityIsInSlot(UnitAbility abi)
+    {
+        if      (ability1 = abi) return 1;
+        else if (ability2 = abi) return 2;
+        else if (ability3 = abi) return 3;
+        else if (ability4 = abi) return 4;
+        else return -1;
+    }
+
+    public void UpgradeAbility(AbilityUpgrade upgrade)
+    {
+        if (ability1 == upgrade.ability)
+            GiveAbilityUpgrade(ability1, upgrade);
+        else if (ability2 == upgrade.ability)
+            GiveAbilityUpgrade(ability2, upgrade);
+        else if (ability3 == upgrade.ability)
+            GiveAbilityUpgrade(ability3, upgrade);
+        else if (ability4 == upgrade.ability)
+            GiveAbilityUpgrade(ability4, upgrade);
+    }
+
+    void GiveAbilityUpgrade(UnitAbility a, AbilityUpgrade upgrade)
+    {
+        switch (upgrade.upgradeName)
+        {
+            case "damage": a.damage += upgrade.upgradeAmount; break;
+
+            case "bounceAbilityAmount": a.bounceCount_ability += (int)upgrade.upgradeAmount; break;
+
+            case "reach": a.reach += (int)upgrade.upgradeAmount; break;
+
+            case "cooldown":
+                a.cooldown -= upgrade.upgradeAmount;
+                if (a.cooldown < 0.5f) a.cooldown = 0.5f;
+                break;
+
+            case "spawnCount": a.spawnCount += (int)upgrade.upgradeAmount; break;
+
+            case "flySpeed": a.flySpeed += upgrade.upgradeAmount; break;
+
+            default:
+                break;
+        }
+    }
 }   
