@@ -20,9 +20,10 @@ MonoBehaviour:
   projectileType: 1
   projectilePath: iceBombProjectile
   reach: 4
-  damage: 333
-  castSpeed: 0.5
+  damage: 25
+  castSpeed: 0.8
   cooldown: 9
+  startCooldownMultiplier: 0.5
   flySpeed: 18
   minLifeTime: 0.34
   damagesAllies: 0
@@ -38,6 +39,16 @@ MonoBehaviour:
   bounceSpawnCount_ability: 0
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
+  damage_upgradeable: 1
+  cooldown_upgradeable: 1
+  castSpeed_upgradeable: 1
+  flySpeed_upgradeable: 0
+  reach_upgradeable: 1
+  bounceCount_upgradeable: 0
+  bounceRange_upgradeable: 0
+  bounceDamageAmp_upgradeable: 0
+  projectilesPerBounce_upgradeable: 0
+  spawnUnitCount_upgradeable: 0

@@ -20,10 +20,11 @@ MonoBehaviour:
   projectileType: 0
   projectilePath: chainHeal_projectile
   reach: 6
-  damage: -510
+  damage: -15
   castSpeed: 0.1
-  cooldown: 6
-  flySpeed: 33
+  cooldown: 9
+  startCooldownMultiplier: 0.5
+  flySpeed: 9
   minLifeTime: 0
   damagesAllies: 0
   bounceAttack: {fileID: 0}
@@ -38,6 +39,16 @@ MonoBehaviour:
   bounceSpawnCount_ability: 1
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 0
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
+  damage_upgradeable: 1
+  cooldown_upgradeable: 1
+  castSpeed_upgradeable: 0
+  flySpeed_upgradeable: 1
+  reach_upgradeable: 1
+  bounceCount_upgradeable: 1
+  bounceRange_upgradeable: 1
+  bounceDamageAmp_upgradeable: 0
+  projectilesPerBounce_upgradeable: 1
+  spawnUnitCount_upgradeable: 0

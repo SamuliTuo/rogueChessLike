@@ -20,7 +20,7 @@ MonoBehaviour:
   projectileType: 0
   projectilePath: healer_healTargetUnit_projectile
   reach: 5
-  damage: -420
+  damage: -11
   castSpeed: 0.1
   cooldown: 1
   startCooldownMultiplier: 0.5

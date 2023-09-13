@@ -19,7 +19,7 @@ MonoBehaviour:
   dmgInstanceType: 0
   projectileType: 0
   projectilePath: spawnBearProjectile
-  reach: 6
+  reach: 4
   damage: 0
   castSpeed: 0.7
   cooldown: 30
@@ -42,3 +42,13 @@ MonoBehaviour:
   spawnUnit: UNIT_bear
   spawnCount: 1
   spawnDuration: 0
+  damage_upgradeable: 0
+  cooldown_upgradeable: 1
+  castSpeed_upgradeable: 0
+  flySpeed_upgradeable: 0
+  reach_upgradeable: 1
+  bounceCount_upgradeable: 0
+  bounceRange_upgradeable: 0
+  bounceDamageAmp_upgradeable: 0
+  projectilesPerBounce_upgradeable: 0
+  spawnUnitCount_upgradeable: 1

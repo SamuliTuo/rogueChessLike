@@ -24,7 +24,6 @@ public class UnitSavePaths : MonoBehaviour
                 return ud.savePath + unitName;
             }
         }
-        //print("returning a null");
         return null;
     }
     public string GetName(string path)

@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
     private GameObject victoryScreen;
     private GameObject lostScreen;
 
-
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -231,6 +230,11 @@ public class GameManager : MonoBehaviour
     {
         pathTaken = new List<MapNode>();
     }
+
+
+
+
+
 
 
 

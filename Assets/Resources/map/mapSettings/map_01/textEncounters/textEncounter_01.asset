@@ -13,9 +13,83 @@ MonoBehaviour:
   m_Name: textEncounter_01
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: 30d97772b3d8e9e40a1ead3cf244a80e, type: 3}
-  textPrompt: Deep within the desolate swamp, an ancient hag dwells, her twisted
-    form hidden beneath tangled moss, her eyes gleaming with dark secrets.
-  responsesWithRewards:
-  - response: Stay a while and listen.
-  - response: 
-  - response: no okei
+  textPrompt: Deep within the desolate swamp, you come across an ancient hag, her
+    twisted form hidden beneath tangled moss, her eyes gleaming with dark secrets.
+    She offers you three choices.
+  responses:
+  - response: hiiohoi
+    requirements:
+      money: 0
+      minimumRoll: 0
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+  - response: eiheihei
+    requirements:
+      money: 0
+      minimumRoll: 0
+      needsUnit: 1
+      attemptingUnit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0

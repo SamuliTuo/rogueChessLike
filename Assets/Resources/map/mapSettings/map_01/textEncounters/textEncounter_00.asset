@@ -15,7 +15,164 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 6b1b973629667344296bcffcf4854556, type: 3}
   textPrompt: In the enchanted forest, radiant birds painted the sky with their vivid
     plumage and melodious songs.
-  responsesWithRewards:
+  responses:
   - response: Stay a while and listen.
-  - response: 
-  - response: no okei
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 0
+      minimumRoll: 0
+      needsUnit: 1
+      attemptingUnit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+  - response: Try to catch a bird.
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 0
+      minimumRoll: 0
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+  - response: 10 000 moneys!?
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 10000
+      minimumRoll: 0
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+  - response: 250 mon(k)eys.
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 249
+      minimumRoll: 0
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        maxHp: 0
+        moveInterval: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0

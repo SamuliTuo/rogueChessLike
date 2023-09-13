@@ -20,9 +20,10 @@ MonoBehaviour:
   projectileType: 1
   projectilePath: stompy_jumpy_proj
   reach: 1
-  damage: 60
+  damage: 11
   castSpeed: 0.16
   cooldown: 8
+  startCooldownMultiplier: 0.5
   flySpeed: 0
   minLifeTime: 0.15
   damagesAllies: 0
@@ -33,11 +34,21 @@ MonoBehaviour:
   bounceSpawnCount_atk: 0
   bounceAbility: {fileID: 11400000}
   bounceAbility_targeting: 0
-  bounceRange_ability: 20
+  bounceRange_ability: 1
   bounceCount_ability: 3
   bounceSpawnCount_ability: 2
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
+  damage_upgradeable: 1
+  cooldown_upgradeable: 0
+  castSpeed_upgradeable: 0
+  flySpeed_upgradeable: 0
+  reach_upgradeable: 0
+  bounceCount_upgradeable: 1
+  bounceRange_upgradeable: 1
+  bounceDamageAmp_upgradeable: 1
+  projectilesPerBounce_upgradeable: 0
+  spawnUnitCount_upgradeable: 0

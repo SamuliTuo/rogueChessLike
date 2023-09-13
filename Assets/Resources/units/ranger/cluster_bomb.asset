@@ -20,7 +20,7 @@ MonoBehaviour:
   projectileType: 0
   projectilePath: cluster_bomb_proj
   reach: 6
-  damage: 300
+  damage: 15
   castSpeed: 1
   cooldown: 10
   startCooldownMultiplier: 0.5
@@ -42,3 +42,13 @@ MonoBehaviour:
   spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
+  damage_upgradeable: 1
+  cooldown_upgradeable: 1
+  castSpeed_upgradeable: 1
+  flySpeed_upgradeable: 0
+  reach_upgradeable: 1
+  bounceCount_upgradeable: 0
+  bounceRange_upgradeable: 0
+  bounceDamageAmp_upgradeable: 0
+  projectilesPerBounce_upgradeable: 0
+  spawnUnitCount_upgradeable: 0

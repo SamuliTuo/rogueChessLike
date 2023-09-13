@@ -18,7 +18,7 @@ MonoBehaviour:
   projectileType: 0
   attackRange: 3
   damage: 15
-  attackInterval: 0.8
+  attackInterval: 0.9
   attackFlySpeed: 28
   minLifeTime: 0
   projectilePath: fireAttack_rangedproject

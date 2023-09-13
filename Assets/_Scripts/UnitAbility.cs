@@ -50,4 +50,20 @@ public class UnitAbility : ScriptableObject
     public string spawnUnit = null;
     public int spawnCount = 1;
     public float spawnDuration;
+
+
+    [Header("Upgrade potentials")]
+    public bool damage_upgradeable = false;
+    public bool cooldown_upgradeable = false;
+    public bool castSpeed_upgradeable = false;
+    public bool flySpeed_upgradeable = false;
+    public bool reach_upgradeable = false;
+
+    public bool bounceCount_upgradeable = false;
+    public bool bounceRange_upgradeable = false;
+    public bool bounceDamageAmp_upgradeable = false;
+    public bool projectilesPerBounce_upgradeable = false;
+
+    public bool spawnUnitCount_upgradeable = false;
+    
 }

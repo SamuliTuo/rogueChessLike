@@ -50,6 +50,7 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.PlayerParty.RefreshMoneyCounter();
         encounterManager = GameObject.Find("EncounterManager").GetComponent<EncounterManager>();
         currentMapTransform = GameManager.Instance.CurrentMap.transform;
         var map = GameManager.Instance.CurrentMap.currentMap;
@@ -81,7 +82,6 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
-        print(canMove);
         if (currentPosition == null || !canMove)
             return;
         if (!cam)

@@ -20,9 +20,10 @@ MonoBehaviour:
   projectileType: 0
   projectilePath: ability_01_pro
   reach: 8
-  damage: 1000
+  damage: 50
   castSpeed: 1.2
   cooldown: 8
+  startCooldownMultiplier: 0.5
   flySpeed: 90
   minLifeTime: 0
   damagesAllies: 0
@@ -38,6 +39,16 @@ MonoBehaviour:
   bounceSpawnCount_ability: 0
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
+  damage_upgradeable: 1
+  cooldown_upgradeable: 1
+  castSpeed_upgradeable: 1
+  flySpeed_upgradeable: 0
+  reach_upgradeable: 0
+  bounceCount_upgradeable: 0
+  bounceRange_upgradeable: 0
+  bounceDamageAmp_upgradeable: 0
+  projectilesPerBounce_upgradeable: 0
+  spawnUnitCount_upgradeable: 0

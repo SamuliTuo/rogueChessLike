@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class TextEncounterManager : MonoBehaviour
 {
@@ -22,43 +21,93 @@ public class TextEncounterManager : MonoBehaviour
         encounterPanel.SetActive(true);
         encounterText.text = currentEncounter.textPrompt;
         encounterImage.sprite = currentEncounter.image;
-        SetButtons();
+        SetButtons(encounter);
     }
 
     public void ChooseTextResponse(int button)
     {
-        switch (button)
+        if (CheckForMoney(button) && CheckForUnit(button))
         {
-            case 0:
-                print("0");
-                break;
-            case 1:
-                print("1");
-                break;
-            case 2:
-                print("2");
-                break;
-            case 3:
-                print("3");
-                break;
-            default:
-                break;
+            // Give REWARD
+            //RollDice(button); tsekkaa voititko, häviökin aktivoi napin joten tätä ei tsekata ylemmässä tsekis
+            GiveReward(button);
+            CloseEncounter();
         }
     }
 
-    private void SetButtons()
+    private void SetButtons(TextEncounter encounter)
     {
         for (int i = 0; i < buttons.Count; i++)
         {
-            if (i < currentEncounter.responsesWithRewards.Count)
+            if (i < encounter.responses.Count)
             {
                 buttons[i].SetActive(true);
-                buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = currentEncounter.responsesWithRewards[i].response;
+                buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = currentEncounter.responses[i].response;
+                if (encounter.responses[i].requirements.needsUnit)
+                {
+                    buttons[i].transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else
+                {
+                    buttons[i].transform.GetChild(1).gameObject.SetActive(false);
+                }
             }
             else
             {
                 buttons[i].SetActive(false);
             }
         }
+    }
+
+    private void CloseEncounter()
+    {
+        GameManager.Instance.MapController.SetCanMove(true);
+        encounterPanel.SetActive(false);
+    }
+
+    bool CheckForMoney(int button)
+    {
+        if (currentEncounter.responses[button].requirements.money != 0)
+        {
+            if (GameManager.Instance.PlayerParty.partyMoney < currentEncounter.responses[button].requirements.money)
+            {
+                return false;
+            }
+            else
+            {
+                GameManager.Instance.PlayerParty.AddMoney(-currentEncounter.responses[button].requirements.money);
+            }
+        }
+        return true;
+    }
+
+    bool RollDice(int button)
+    {
+        if (currentEncounter.responses[button].requirements.minimumRoll != 0)
+        {
+            int roll = Random.Range(1, 21);
+            if (roll < currentEncounter.responses[button].requirements.minimumRoll)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool CheckForUnit(int button)
+    {
+        if (currentEncounter.responses[button].requirements.needsUnit)
+        {
+            if (buttons[button].GetComponentInChildren<TextEncounterResponseUnitSlot>().slottedUnit == null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void GiveReward(int button)
+    {
+
     }
 }

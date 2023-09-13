@@ -13,7 +13,7 @@ public class UnitData
     public string unitName;
     public int spawnPosX;
     public int spawnPosY;
-    public List<Unit_NormalAttack> attacks;
+    public List<Unit_NormalAttack> attacks = new List<Unit_NormalAttack>();
     public UnitAbility ability1;
     public UnitAbility ability2;
     public UnitAbility ability3;
@@ -28,14 +28,8 @@ public class UnitData
         team = unit.team;
         spawnPosX = posX;
         spawnPosY = posY;
-        attacks = unit.normalAttacks;
         maxHp = unit.GetComponent<UnitHealth>().GetMaxHp();
-        var abilities = unit.GetComponent<UnitAbilityManager>();
-        ability1 = abilities.ability_1;
-        ability2 = abilities.ability_2;
-        ability3 = abilities.ability_3;
-        ability4 = abilities.ability_4;
-        this.possibleAbilities = abilities.possibleAbilities;
+        this.possibleAbilities = unit.GetComponent<UnitAbilityManager>().possibleAbilities;
     }
 
     public float CurrentExpPercent()
@@ -107,22 +101,42 @@ public class UnitData
 
     void GiveAbilityUpgrade(UnitAbility a, AbilityUpgrade upgrade)
     {
-        switch (upgrade.upgradeName)
+        switch (upgrade.upgradeType)
         {
-            case "damage": a.damage += upgrade.upgradeAmount; break;
+            case "damage": 
+                a.damage = Mathf.Sign(a.damage) * (Mathf.Abs(a.damage) + upgrade.upgradeAmount); break;
 
-            case "bounceAbilityAmount": a.bounceCount_ability += (int)upgrade.upgradeAmount; break;
+            case "cooldown":
+                a.cooldown *= upgrade.upgradeAmount;
+                if (a.cooldown < 0.5f)
+                {
+                    a.cooldown = 0.5f;
+                    a.cooldown_upgradeable = false;
+                }
+                break;
+
+            case "castSpeed":
+                a.castSpeed *= upgrade.upgradeAmount;
+                if (a.castSpeed < 0.1f)
+                {
+                    a.castSpeed = 0.1f;
+                    a.castSpeed_upgradeable = false;
+                }
+                break;
+
+            case "flySpeed": a.flySpeed += upgrade.upgradeAmount; break;
 
             case "reach": a.reach += (int)upgrade.upgradeAmount; break;
 
-            case "cooldown":
-                a.cooldown -= upgrade.upgradeAmount;
-                if (a.cooldown < 0.5f) a.cooldown = 0.5f;
-                break;
+            case "bounceCount": a.bounceCount_ability += (int)upgrade.upgradeAmount; break;
 
-            case "spawnCount": a.spawnCount += (int)upgrade.upgradeAmount; break;
+            case "bounceRange": a.bounceRange_ability += (int)upgrade.upgradeAmount; break;
 
-            case "flySpeed": a.flySpeed += upgrade.upgradeAmount; break;
+            case "bounceDamageAmp": a.bounceDamagePercChangePerJump += upgrade.upgradeAmount; break;
+
+            case "projectilesPerBounce": a.bounceSpawnCount_ability += (int)upgrade.upgradeAmount; break;
+
+            case "spawnUnitCount": a.spawnCount += (int)upgrade.upgradeAmount; break;
 
             default:
                 break;

@@ -60,25 +60,10 @@ public class VictoryScreenUnitSlot : MonoBehaviour
     public void OpenLvlUpPopUp()
     {
         if (!lvlUpSign.activeSelf)
+        {
             return;
-
-        if (GetComponentInParent<VictoryPanel>().OpenLvlUpPopUp(this))
-            lvlUpPending = false; //t‰‰ on placeholderina sille, ett‰ kun on oikeesti tehny level upin hahmolle niin pending vaihtuu "false"
-        
-
-
-        
-        /*
-        lvlUpPopUp.SetActive(true);
-        if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability1);
-        if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability2);
-        if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability3);
-        if (slottedUnit.ability1 != null)
-            lvlUpPopUp.transform.GetChild(3).GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(slottedUnit.ability4);
-        */
+        }
+        GetComponentInParent<VictoryPanel>().OpenLvlUpPopUp(this);
     }
 
 

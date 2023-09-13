@@ -394,7 +394,7 @@ MonoBehaviour:
   percentOfAttackTimerSave: 0.7
   attackPositionOffset: {x: 0, y: 2.5, z: 0.1}
   normalAttacks:
-  - {fileID: 11400000, guid: 42c0174384d75ac42a7b632ce388357b, type: 2}
+  - {fileID: 11400000, guid: f37105a3a31b0ff4fb74a31828be7b19, type: 2}
   randomizeAttackOrder: 0
   savedAttackTimerAmount: 0
   team: 0

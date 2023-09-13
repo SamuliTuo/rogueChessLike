@@ -444,6 +444,11 @@ public class Chessboard : MonoBehaviour
             var clone = SpawnSingleUnit(path, 0);
             clone.team = partyUnits[i].team;
             clone.GetComponent<UnitHealth>().SetMaxHp(partyUnits[i].maxHp);
+            clone.normalAttacks.Clear();
+            foreach (var attack in partyUnits[i].attacks)
+            {
+                clone.normalAttacks.Add(attack);
+            }
             var cloneAbils = clone.GetComponent<UnitAbilityManager>();
             cloneAbils.ability_1 = partyUnits[i].ability1;
             cloneAbils.ability_2 = partyUnits[i].ability2;

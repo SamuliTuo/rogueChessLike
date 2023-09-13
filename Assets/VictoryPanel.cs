@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,13 +14,14 @@ public class VictoryPanel : MonoBehaviour
 
     private List<VictoryScreenUnitSlot> slotsInUse = new List<VictoryScreenUnitSlot>();
     bool allReady = false;
-
+    
     public void InitVictoryScreen()
     {
         allReady = false;
         StartPanel();
         float exp = GameManager.Instance.currentFightCumulatedExperience;
-        exp = 120; /////////////
+        exp = Random.Range(75, 166); /////////////
+        print("Giving flat " + exp + " exp for all units for testing.");
         List<UnitData> units = GameManager.Instance.PlayerParty.partyUnits;
 
         slotsInUse.Clear();
@@ -45,7 +45,7 @@ public class VictoryPanel : MonoBehaviour
         StartCoroutine(StartExpCoroutines(exp));
     }
     IEnumerator StartExpCoroutines(float exp)
-    {
+    { // 'Tis for staggering the start of exp-gains between units.
         for (int i = 0; i < slotsInUse.Count; i++)
         {
             StartCoroutine(ExperienceGainCoroutine(slotsInUse[i], exp));
@@ -102,35 +102,26 @@ public class VictoryPanel : MonoBehaviour
             {
                 yield return null;
             }
-
-
-            //leveled UP!
-            // 1. present player with options to upgrade the unit (ie. new skill, stats upgrades...)
-            // 2. wait for input...
-            // 3. give the leftover exp
-            // 4. repeat if reached more levels
-
-            /*
-            pendingInput = true;
-            while (pendingInput)
-            {
-                await Task.Yield();
-            }
-            */
             slot.slottedUnit.currentExperience = 0;
         }
 
+        // End lvl up, repeat if there is leftover exp
         slot.expBarFill.fillAmount = slot.slottedUnit.CurrentExpPercent();
+        if (leftoverExp > 0)
+        {
+            StartCoroutine(ExperienceGainCoroutine(slot, leftoverExp));
+        }
     }
 
 
     public float AddExpAndReturnLeftoverIfLvlUp(UnitData unit, float experienceGained)
     {
         unit.currentExperience += experienceGained;
-        if (unit.currentExperience > unit.nextLevelExperience)
+        if (unit.currentExperience >= unit.nextLevelExperience)
         {
             // lvl++;
             unit.currentExperience -= unit.nextLevelExperience;
+            unit.nextLevelExperience *= 1.5f;
             return unit.currentExperience;
         }
         return -1;
@@ -139,7 +130,7 @@ public class VictoryPanel : MonoBehaviour
 
     public void UpgradeChosen(VictoryScreenUnitSlot slot, int button)
     {
-        print("fix meeeeee better pls " + button);
+        print("fix meeeeee" + button);
         // 1. get the unit
         // 2. get the upgrade
         // 3. apply the upgrade
@@ -181,19 +172,18 @@ public class VictoryPanel : MonoBehaviour
         return null;
     }
 
-    public bool OpenLvlUpPopUp(VictoryScreenUnitSlot slot)
+    public void OpenLvlUpPopUp(VictoryScreenUnitSlot slot)
     {
         if (lvlUpPanel.gameObject.activeSelf)
-            return false;
+            return;
 
         lvlUpPanel.gameObject.SetActive(true);
         lvlUpPanel.InitLevelUpPanel(slot);
-
-        return true;
     }
     public void LevelUpDone(VictoryScreenUnitSlot slot)
     {
         lvlUpPanel.gameObject.SetActive(false);
+        slot.lvlUpSign.SetActive(false);
         slot.lvlUpPending = false;
     }
 }

@@ -6,8 +6,10 @@ using UnityEngine;
 public class PlayerParty : MonoBehaviour
 {
     public List<UnitData> partyUnits { get; private set; }
-    public GameObject partyPanel;
+    //public GameObject partyPanel;
+    public int partyMoney = 1000;
 
+    private PartyMoneyCounter moneyManager;
     private int saveSlot = 0;
 
     public void RefreshParty()
@@ -94,7 +96,7 @@ public class PlayerParty : MonoBehaviour
             }
         }*/
     }
-
+    /*
     public void OpenParty()
     {
         // Open the party panel
@@ -106,5 +108,23 @@ public class PlayerParty : MonoBehaviour
         // Close the party panel
         partyPanel.SetActive(false);
         GameManager.Instance.MapController.SetCanMove(true);
+    }*/
+
+    public void AddMoney(int amount)
+    {
+        partyMoney += amount;
+        if (GameManager.Instance.state == GameState.MAP)
+        {
+            RefreshMoneyCounter();
+        }
+    }
+
+    public void RefreshMoneyCounter()
+    {
+        if (moneyManager == null)
+        {
+            moneyManager = GameObject.Find("Canvas/money").GetComponent<PartyMoneyCounter>();
+        }
+        moneyManager.SetMoneyAmount(partyMoney);
     }
 }

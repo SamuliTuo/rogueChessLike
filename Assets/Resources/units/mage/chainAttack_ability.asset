@@ -19,11 +19,12 @@ MonoBehaviour:
   dmgInstanceType: 1
   projectileType: 0
   projectilePath: chain_attack_projectile
-  reach: 5
-  damage: 360
+  reach: 7
+  damage: 4.5
   castSpeed: 0.5
   cooldown: 5
-  flySpeed: 33
+  startCooldownMultiplier: 0.5
+  flySpeed: 99
   minLifeTime: 0
   damagesAllies: 0
   bounceAttack: {fileID: 0}
@@ -38,6 +39,6 @@ MonoBehaviour:
   bounceSpawnCount_ability: 1
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0

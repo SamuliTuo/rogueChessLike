@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LevelUpPanel : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class LevelUpPanel : MonoBehaviour
     [SerializeField] private Sprite upgradeATTSPD;
     [SerializeField] private Sprite upgradeHP;
     [SerializeField] private Sprite upgradeMOVEMENTSPD;
-
 
     private VictoryScreenUnitSlot slot;
     private UnitData unitThatsLevelingUp = null;
@@ -33,33 +33,29 @@ public class LevelUpPanel : MonoBehaviour
     private void SetupUpgradeChoices()
     {
         // P H A S E  1 :  ability upgrades
-        var possibleAbils = unitThatsLevelingUp.RemainingPossibleAbilities();
-        var learnedAbils = unitThatsLevelingUp.LearnedAbilities();
+        List<UnitAbility> possibleAbils = unitThatsLevelingUp.RemainingPossibleAbilities();
+        List<UnitAbility> learnedAbils = unitThatsLevelingUp.LearnedAbilities();
         Shuffle(possibleAbils);
 
         for (int i = 0; i < 3; i++)
         {
-            // new ability
+            bool isAbility = false;
             if (unitThatsLevelingUp.HasFreeAbilitySlots() && possibleAbils.Count > 0)
             {
-                upgradeSlots[i].transform.GetChild(0).gameObject.SetActive(false);
-                string spellName = possibleAbils[0].name;
-                var clone = Instantiate(possibleAbils[0]);
-                clone.name = spellName;
-                upgradeSlots[i].SetChoice(clone);
-                upgradeSlots[i].gameObject.SetActive(true);
-                possibleAbils.RemoveAt(0);
+                isAbility = true;
+                if (learnedAbils.Count > 0)
+                {
+                    isAbility = UnityEngine.Random.Range(0, 100) < 50;
+                }
             }
-            // upgrade existing ability
-            else if (learnedAbils.Count > 0)
+            
+            if (isAbility)
             {
-                var text = upgradeSlots[i].transform.GetChild(0);
-                var upgrade = GetRandomAbilityUpgrade(learnedAbils[UnityEngine.Random.Range(0, learnedAbils.Count)]);
-                text.gameObject.SetActive(true);
-                text.GetComponentInChildren<TextMeshProUGUI>().text = upgrade.upgradeName;
-
-                upgradeSlots[i].SetChoice(upgrade);
-                //upgradeSlots[i].gameObject.SetActive(true);
+                AddAbility(possibleAbils, i);
+            }
+            else
+            {
+                AddUpgrade(learnedAbils, i);
             }
         }
 
@@ -70,6 +66,34 @@ public class LevelUpPanel : MonoBehaviour
             upgradeSlots[i].SetChoice(GetRandomStatUpgrade(statUpgrades[i - 3]));
             upgradeSlots[i].gameObject.SetActive(true);
         }
+    }
+
+    private void AddAbility(List<UnitAbility> possibleAbils, int i)
+    {
+        upgradeSlots[i].transform.GetChild(0).gameObject.SetActive(false);
+        string spellName = possibleAbils[0].name;
+        var clone = Instantiate(possibleAbils[0]);
+        clone.name = spellName;
+        upgradeSlots[i].SetChoice(clone);
+        upgradeSlots[i].gameObject.SetActive(true);
+        possibleAbils.RemoveAt(0);
+    }
+
+    private void AddUpgrade(List<UnitAbility> learnedAbils, int i)
+    {
+        var text = upgradeSlots[i].transform.GetChild(0);
+        var upgrade = GetRandomAbilityUpgrade(learnedAbils[UnityEngine.Random.Range(0, learnedAbils.Count)]);
+        if (upgrade != null)
+        {
+            upgradeSlots[i].SetChoice(upgrade);
+            text.gameObject.SetActive(true);
+            text.GetComponentInChildren<TextMeshProUGUI>().text = upgrade.upgradeType;
+        }
+        else 
+        {
+            upgradeSlots[i].SetChoice(GetRandomStatUpgrade(UnityEngine.Random.Range(0, 5)));
+        }
+        upgradeSlots[i].gameObject.SetActive(true);
     }
 
 
@@ -86,31 +110,23 @@ public class LevelUpPanel : MonoBehaviour
 
     AbilityUpgrade GetRandomAbilityUpgrade(UnitAbility abi)
     {
-        if (abi.spawnCount > 0 && abi.spawnUnit != "")
-        {
-            switch (UnityEngine.Random.Range(0, 4))
-            {
-                case 0: return new AbilityUpgrade(abi, "flySpeed", 10);
-                case 1: return new AbilityUpgrade(abi, "bounceAbilityAmount", 1);
-                case 2: return new AbilityUpgrade(abi, "reach", 10);
-                case 3: return new AbilityUpgrade(abi, "cooldown", 1);
-                default: return new AbilityUpgrade(abi, "damage", 10);
-            }
-        }
-        else 
-        {
-            switch (UnityEngine.Random.Range(0, 5))
-            {
-                case 0: return new AbilityUpgrade(abi, "damage", 10);
-                case 1: return new AbilityUpgrade(abi, "bounceAbilityAmount", 1);
-                case 2: return new AbilityUpgrade(abi, "reach", 10);
-                case 3: return new AbilityUpgrade(abi, "cooldown", 1);
-                case 4: return new AbilityUpgrade(abi, "flySpeed", 5);
-                default: return new AbilityUpgrade(abi, "damage", 10);
-            }
-        }
-    }
+        List<AbilityUpgrade> possibleUpgrades = new List<AbilityUpgrade>();
+        if (abi.damage_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "damage", 10));
+        if (abi.cooldown_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "cooldown", 0.75f));
+        if (abi.castSpeed_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "castSpeed", 0.5f));
+        if (abi.flySpeed_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "flySpeed", 6));
+        if (abi.reach_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "reach", 1));
+        if (abi.bounceCount_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "bounceCount", 1));
+        if (abi.bounceRange_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "bounceRange", 1));
+        if (abi.bounceDamageAmp_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "bounceDamageAmp", 0.2f));
+        if (abi.projectilesPerBounce_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "projectilesPerBounce", 1));
+        if (abi.spawnUnitCount_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "spawnUnitCount", 1));
 
+        if (possibleUpgrades.Count > 0)
+            return possibleUpgrades[UnityEngine.Random.Range(0, possibleUpgrades.Count)];
+
+        return null;
+    }
 
     Tuple<string, Sprite> GetRandomStatUpgrade(int upgrade)
     {
@@ -167,21 +183,33 @@ public class LevelUpPanel : MonoBehaviour
         {
             case ("DMG"):
                 foreach (var attack in slot.slottedUnit.attacks)
+                {
+                    print(attack.damage);
                     attack.damage += 3;
+                    print(attack.damage);
+                }
                 break;
 
-            case ("MAGIC"): break;
+            case ("MAGIC"): 
+                break;
 
             case ("ATTSPD"):
                 foreach (var attack in slot.slottedUnit.attacks)
-                    attack.attackInterval = attack.attackInterval * 0.9f;
+                {
+                    attack.attackInterval *= 0.8f;
+                }
                 break;
 
-            case ("HP"): slot.slottedUnit.maxHp += 9; break;
+            case ("HP"): 
+                slot.slottedUnit.maxHp += 9; 
+                break;
 
-            case ("MOVESPD"): slot.slottedUnit.moveInterval = slot.slottedUnit.moveInterval * 0.9f; break;
+            case ("MOVESPD"): 
+                slot.slottedUnit.moveInterval *= 0.8f; 
+                break;
 
-            default: break;
+            default: 
+                break;
         }
         passiveChosen = true;
         CheckIfDone();
