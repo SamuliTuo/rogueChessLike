@@ -17,7 +17,7 @@ MonoBehaviour:
     passTag: Hover
     Event: 500
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 128
@@ -113,7 +113,7 @@ MonoBehaviour:
     passTag: SwampTiles
     Event: 450
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 32768
@@ -152,7 +152,7 @@ MonoBehaviour:
     passTag: EmptyTiles
     Event: 450
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 16384
@@ -191,7 +191,7 @@ MonoBehaviour:
     passTag: Highlight
     Event: 450
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 256

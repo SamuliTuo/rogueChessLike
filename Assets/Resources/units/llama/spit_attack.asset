@@ -16,10 +16,10 @@ MonoBehaviour:
   hitParticle: 4
   dmgInstanceType: 0
   projectileType: 0
-  attackRange: 3
-  damage: 15
-  attackInterval: 1
-  attackFlySpeed: 25
+  attackRange: 6
+  damage: 9.5
+  attackInterval: 1.7
+  attackFlySpeed: 28
   minLifeTime: 0.1
   projectilePath: spit_attack_projectile
   damagesAllies: 0

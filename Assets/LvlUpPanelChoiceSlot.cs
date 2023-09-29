@@ -10,12 +10,21 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     private UnitAbility abi;
     private string upgrade;
     private AbilityUpgrade upgradeObj;
+    private GameObject newAbilitySign;
 
+    private void ToggleNewAbilitySign(bool state)
+    {
+        if (newAbilitySign == null)
+            newAbilitySign = transform.GetChild(1).gameObject;
+
+        newAbilitySign?.SetActive(state);
+    }
     // New ability
     public void SetChoice(UnitAbility abi)
     {
         ResetSlots();
         this.abi = abi;
+        ToggleNewAbilitySign(true);
         GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(abi);
     }
 
@@ -23,6 +32,7 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     public void SetChoice(AbilityUpgrade upgrade)
     {
         ResetSlots();
+        ToggleNewAbilitySign(false);
         upgradeObj = upgrade;
         GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(upgrade.ability);
     }

@@ -6,10 +6,16 @@ using UnityEngine;
 public class UnitData
 {
     public int team;
+
+    public float maxHp;
+    public float damage;
+    public float magic;
+    public float attackSpeed;
+    public float moveSpeed;
+    public float moveInterval;
+
     public float currentExperience;
     public float nextLevelExperience;
-    public float maxHp;
-    public float moveInterval;
     public string unitName;
     public int spawnPosX;
     public int spawnPosY;
@@ -24,7 +30,12 @@ public class UnitData
     {
         nextLevelExperience = 100;
         unitName = unit.name;
-        moveInterval = unit.moveInterval;
+        this.damage = unit.GetDamage();
+        this.magic = unit.GetMagic();
+        this.attackSpeed = unit.attackSpeed;
+        //this.moveSpeed = unit.moveSpeed;
+        moveSpeed = unit.moveSpeed;
+        moveInterval = unit.moveInterval;// CalculateMoveInterval(unit.moveInterval, moveSpeed);
         team = unit.team;
         spawnPosX = posX;
         spawnPosY = posY;
@@ -116,10 +127,10 @@ public class UnitData
                 break;
 
             case "castSpeed":
-                a.castSpeed *= upgrade.upgradeAmount;
-                if (a.castSpeed < 0.1f)
+                a.castDuration_firstHalf *= upgrade.upgradeAmount;
+                if (a.castDuration_firstHalf < 0.1f)
                 {
-                    a.castSpeed = 0.1f;
+                    a.castDuration_firstHalf = 0.1f;
                     a.castSpeed_upgradeable = false;
                 }
                 break;

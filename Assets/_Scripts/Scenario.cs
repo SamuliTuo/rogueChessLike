@@ -11,6 +11,9 @@ public class Scenario : ScriptableObject
     public string saveName;
     public int sizeX;
     public int sizeY;
+    public float cameraRotationX;
+    public float cameraRotationY;
+    public float cameraRotationZ;
     public List<ScenarioNode> scenarioNodes = new List<ScenarioNode>();
     public List<ScenarioUnit> scenarioUnits = new List<ScenarioUnit>();
 
@@ -49,7 +52,7 @@ public class Scenario : ScriptableObject
         }
     }
 
-    public void SaveScenario(string saveName)
+    public void SaveScenario(string saveName, Vector3 cameRot)
     {
         this.saveName = saveName;
         if (scenarioUnits == null)
@@ -69,14 +72,16 @@ public class Scenario : ScriptableObject
         {
             scenarioNodes.Clear();
         }
-        
+
+        // Add board and camera settings to the scenario file.
         sizeX = Chessboard.Instance.GetBoardSize().x;
         sizeY = Chessboard.Instance.GetBoardSize().y;
-        Unit[,] activeUnits = Chessboard.Instance.GetUnits();
-        Node[,] nodes = Chessboard.Instance.nodes;
-        
+        cameraRotationX = cameRot.x;
+        cameraRotationY = cameRot.y;
+        cameraRotationZ = cameRot.z;
 
-        // Add the units to the scenario file
+        // Add the units...
+        Unit[,] activeUnits = Chessboard.Instance.GetUnits();
         for (int x = 0; x < activeUnits.GetLength(0); x++) {
             for (int y = 0; y < activeUnits.GetLength(1); y++) {
                 if (activeUnits[x, y] != null && x < sizeX && y < sizeY) {
@@ -88,7 +93,8 @@ public class Scenario : ScriptableObject
             }
         }
 
-        // Add nodes..
+        // Add the nodes...
+        Node[,] nodes = Chessboard.Instance.nodes;
         for (int x = 0; x < nodes.GetLength(0); x++) {
             for (int y = 0; y < nodes.GetLength(1); y++) {
                 if (nodes[x,y] != null && x < sizeX && y < sizeY) {

@@ -21,13 +21,21 @@ public enum Action
     NONE,
     MOVE,
     NORMAL_ATTACK,
+    NORMAL_ATTACK_SECONDHALF,
     ABILITY,
+    ABILITY_SECONDHALF,
     ITEM,
 }
 
 public class Unit : MonoBehaviour
 {
     public string unitPath { get; set; }
+
+    public float damage = 10;
+    public float magic = 10;
+    public float attackSpeed = 1;
+    public float moveSpeed = 1;
+    public float turnRate = 1;
 
     public float experienceWorth = 10;
     public float visibleMoveSpeed = 10;
@@ -74,6 +82,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        t = moveInterval + Random.Range(0, 0.5f);
         hp = GetComponent<UnitHealth>();
         board = GameObject.Find("Board").GetComponent<Chessboard>();
         pathfinding = board.GetComponent<Pathfinding>();
@@ -82,6 +91,7 @@ public class Unit : MonoBehaviour
 
         animator = GetComponentInChildren<Animator>();
     }
+    
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * visibleMoveSpeed);
@@ -137,6 +147,13 @@ public class Unit : MonoBehaviour
     {
         team = data.team;
         hp.SetMaxHp(data.maxHp);
+        damage = data.damage;
+        magic = data.magic;
+        attackSpeed = data.attackSpeed;
+        moveSpeed = data.moveSpeed;
+        moveInterval = data.moveInterval;
+        //moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(data.moveSpeed);
+
         var pos = new Vector2Int(data.spawnPosX, data.spawnPosY);
         if (board.GetUnits()[data.spawnPosX, data.spawnPosY] != null)
         {
@@ -152,32 +169,53 @@ public class Unit : MonoBehaviour
         ResetAI();
     }
 
+
+    
     void ActivateAction()
     {
         switch (nextAction)
         {
+            // Moving
             case Action.MOVE:
-                if (animator != null) animator.Play("move", 0, 0);
                 MoveUnit(); 
                 break;
+
+            //Attacking
             case Action.NORMAL_ATTACK:
                 if (attackTarget == null)
                 {
                     ResetAI();
                     break;
                 }
-                if (animator != null) animator.Play("attack", 0, 0);
                 NormalAttack(); 
                 break;
+            case Action.NORMAL_ATTACK_SECONDHALF:
+                if (attackTarget == null)
+                {
+                    ResetAI();
+                    break;
+                }
+                NormalAttackSecondHalf();
+                break;
+
+            //Abilities
             case Action.ABILITY:
                 if (attackTarget == null)
                 {
                     ResetAI();
                     break;
                 }
-                if (animator != null) animator.Play("attack", 0, 0);
                 abilities.ActivateAbility(nextAbility, attackTarget, path);
                 break;
+            case Action.ABILITY_SECONDHALF:
+                if (attackTarget == null)
+                {
+                    ResetAI();
+                    break;
+                }
+                abilities.ActivateAbilitySecondHalf(nextAbility, attackTarget, path);
+                break;
+
             default: break;
         }
     }
@@ -204,19 +242,17 @@ public class Unit : MonoBehaviour
             {
                 if (nextAbility != null)
                 {
-                    t = nextAbility.castSpeed;
                     nextAction = Action.ABILITY;
                 }
                 else
                 {
-                    t = normalAttacks[currentAttack].attackInterval;
                     nextAction = Action.NORMAL_ATTACK;
                 }
             }
         }
         else
         {
-            t = moveInterval * Mathf.Min(3.5f, pathfinding.GetMultiplier(Chessboard.Instance.nodes[x,y]));
+            //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]) + Random.Range(0.0f, 0.15f);
             nextAction = Action.MOVE;
         }
 
@@ -226,43 +262,84 @@ public class Unit : MonoBehaviour
 
     void MoveUnit()
     {
+        RotateUnit(path[0]);
+
         if (board.TryMoveUnit(this, path[0]))
         {
-            RotateUnit(path[0]);
+
+            ///
+            //////////////////////////WWWWWWWWWWWWWWWW
+            //Randomize animation (placeholder)
+            if (animator != null)
+            {
+                animator.speed = 1;
+                var rand = Random.Range(0, 100);
+                if (rand > 95)
+                    animator.Play("move5", 0, 0);
+                else if (rand > 87)
+                    animator.Play("move2", 0, 0);
+                else if (rand > 73)
+                    animator.Play("move1", 0, 0);
+                else if (rand > 62)
+                    animator.Play("move0", 0, 0);
+                else if (rand > 51)
+                    animator.Play("move3", 0, 0);
+                else
+                    animator.Play("move4", 0, 0);
+            }
+            //////////////////////////WWWWWWWWWWWWWWWWW
+            ///
+
             if (path.Length == 0)
             {
                 return;
             }
         }
+        t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
         ResetAI();
     }
+
+    float AttackSpeedMultiplier()
+    {
+
+        return Mathf.Min(0.80f, attackSpeed * 0.01f);
+    }
+
     void NormalAttack()
     {
-        var atk = normalAttacks[currentAttack];
+        t = normalAttacks[currentAttack].attackDuration_firstHalf * (1.0f - AttackSpeedMultiplier());
         if (attackTarget == null)
         {
-            savedAttackTimerAmount = atk.attackInterval * percentOfAttackTimerSave;
+            savedAttackTimerAmount = normalAttacks[currentAttack].attackDuration_firstHalf * percentOfAttackTimerSave;
             currentAttack = 0;
             ResetAI();
             return;
         }
         savedAttackTimerAmount = 0;
 
-        var targetPos = path[path.Length - 1];
-        RotateUnit(targetPos);
+        Vector2Int targetPos = new(target.x, target.y);// path[path.Length - 1];
+        RotateUnit(new Vector2Int(attackTarget.x, attackTarget.y));
+        if (animator != null)
+        {
+            animator.speed = 1 + AttackSpeedMultiplier();
+            animator?.Play("attack", 0, 0);
+        }
+        nextAction = Action.NORMAL_ATTACK_SECONDHALF;
+    }
+    void NormalAttackSecondHalf()
+    {
         Vector3 offset = transform.TransformVector(attackPositionOffset);
         Vector3 startPos = transform.position + offset;
-
         var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
-            atk.projectilePath, startPos, Quaternion.identity);
-        //var clone = Instantiate(projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        if (projectile != null)
-        {
-            projectile.GetComponent<Projectile>().Init(
-                atk, startPos, path, atk.bounceCount_atk, 
-                atk.bounceCount_ability, this, attackTarget);
-        }
+            normalAttacks[currentAttack].projectilePath, startPos, Quaternion.identity);
+        projectile?.GetComponent<Projectile>().Init(
+            normalAttacks[currentAttack], startPos, path, normalAttacks[currentAttack].bounceCount_atk,
+            normalAttacks[currentAttack].bounceCount_ability, this, attackTarget);
 
+        t = normalAttacks[currentAttack].attackDuration_secondHalf * (1.0f - AttackSpeedMultiplier());
+        ResetAI();
+
+        // Choosing the next attack
         if (randomizeAttackOrder && normalAttacks.Count > 1)
         {
             if (canBeSameAttackTwiceInRow)
@@ -281,7 +358,6 @@ public class Unit : MonoBehaviour
                         break;
                     }
                 }
-                
             }
         }
         else
@@ -290,8 +366,6 @@ public class Unit : MonoBehaviour
             if (currentAttack >= normalAttacks.Count)
                 currentAttack = 0;
         }
-
-        ResetAI();
     }
 
     public void ResetAI()
@@ -304,10 +378,31 @@ public class Unit : MonoBehaviour
     {
         path = null;
     }
+
+    Coroutine rotateCoroutine = null;
     public void RotateUnit(Vector2Int lookAt)
     {
-        transform.LookAt(board.GetTileCenter(lookAt.x, lookAt.y));
+        Vector3 lookTarget = board.GetTileCenter(lookAt.x, lookAt.y);
+        if (rotateCoroutine != null)
+        {
+            StopCoroutine(rotateCoroutine);
+        }
+        rotateCoroutine = StartCoroutine(UnitRotationCoroutine(lookTarget));
+        //transform.LookAt(board.GetTileCenter(lookAt.x, lookAt.y));
     }
+    private IEnumerator UnitRotationCoroutine(Vector3 lookTarget)
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(lookTarget - transform.position);
+        float time = 0;
+        while (time < 1)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
+            time += Time.deltaTime * turnRate;
+            yield return null;
+        }
+    }
+
+
     public virtual List<Vector2Int> GetAvailableMoves(ref Unit[,] units, int tileCountX, int tileCountY)
     {
         List<Vector2Int> r = new List<Vector2Int>();
@@ -384,4 +479,7 @@ public class Unit : MonoBehaviour
         if (force)
             transform.localScale = desiredScale;
     }
+
+    public float GetDamage() { return damage; }
+    public float GetMagic() { return magic; }
 }

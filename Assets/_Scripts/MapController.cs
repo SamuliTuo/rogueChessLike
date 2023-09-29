@@ -107,7 +107,7 @@ public class MapController : MonoBehaviour
         if (currentPosition.nextNodeConnections.Contains(node))
         {
             canMove = false;
-            print("moved to: " + node.type);
+            //print("moved to: " + node.type);
             currentPosition = node;
             player.transform.position = currentPosition.transform.position;
             GameManager.Instance.pathTaken.Add(node);

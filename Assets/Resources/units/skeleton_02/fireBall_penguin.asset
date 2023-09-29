@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
-  m_Name: fireBall
+  m_Name: fireBall_penguin
   m_EditorClassIdentifier: 
   targetSearchType: 0
   validTargets: 0
@@ -19,22 +19,22 @@ MonoBehaviour:
   dmgInstanceType: 1
   projectileType: 0
   projectilePath: projectile_fireBall
-  reach: 7
-  damage: 15
-  castSpeed: 1
-  cooldown: 5.5
-  startCooldownMultiplier: 0.5
-  flySpeed: 21
+  reach: 2
+  damage: 2.6
+  castSpeed: 1.2
+  cooldown: 8
+  startCooldownMultiplier: 0.1
+  flySpeed: 18
   minLifeTime: 0
   damagesAllies: 0
-  bounceAttack: {fileID: 11400000, guid: 74c48997716485e489249e0ef02bf884, type: 2}
+  bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0
-  bounceRange_attack: 80
-  bounceCount_atk: 3
-  bounceSpawnCount_atk: 3
+  bounceRange_attack: 0
+  bounceCount_atk: 0
+  bounceSpawnCount_atk: 0
   bounceAbility: {fileID: 11400000, guid: e3ce929a8806cf54187220e6c2062504, type: 2}
   bounceAbility_targeting: 0
-  bounceRange_ability: 40
+  bounceRange_ability: 0
   bounceCount_ability: 0
   bounceSpawnCount_ability: 0
   bounceDamagePercChangePerJump: 1

@@ -6,7 +6,7 @@ public class HPBarSpawner : MonoBehaviour
     private GameObject hpBarPrefab;
     private IObjectPool<GameObject> barPool;
     [SerializeField] private Vector3 originalScale;
-
+    
     private void Start()
     {
         hpBarPrefab = Resources.Load<GameObject>("HpBarInstance");

@@ -438,7 +438,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 2.8
-  maxHp: 70
+  maxHp: 50
   hp: 100
 --- !u!114 &-3612060213080868243
 MonoBehaviour:
@@ -452,6 +452,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  magic: 0
+  attackSpeed: 0
+  moveSpeed: 0
+  turnRate: 1
   experienceWorth: 10
   visibleMoveSpeed: 10
   moveInterval: 1.2

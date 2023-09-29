@@ -81,7 +81,15 @@ public class CaravanController : MonoBehaviour
 
     UnitData GetARandomCaravanChoice()
     {
-        var randomUnit = GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
+        UnitAndSavePath randomUnit = null;
+        foreach (var unit in GameManager.Instance.UnitSavePaths.unitsDatas)
+        {
+            if (unit.unitPrefab.name == "Unit_penguin")
+                randomUnit = unit;
+        }
+        
+        //GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
+        //var randomUnit = GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         Vector2Int spawnPos = GameManager.Instance.PlayerParty.GetFirstFreePartyPos();
         UnitData data = new UnitData(randomUnit.unitPrefab.GetComponent<Unit>(), spawnPos.x, spawnPos.y);
 

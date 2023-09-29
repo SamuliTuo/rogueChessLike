@@ -7,7 +7,9 @@ using UnityEngine.UIElements;
 
 public class LevelUpPanel : MonoBehaviour
 {
-    [SerializeField] private List<LvlUpPanelChoiceSlot> upgradeSlots;
+    [SerializeField] private UnitStatsPanel unitStatsPanel;
+    [SerializeField] private List<LvlUpPanelChoiceSlot> abilitySlots;
+    [SerializeField] private List<LvlUpPanelChoiceSlot> passiveSlots;
 
     [SerializeField] private Sprite upgradeDMG;
     [SerializeField] private Sprite upgradeMAGIC;
@@ -17,27 +19,33 @@ public class LevelUpPanel : MonoBehaviour
 
     private VictoryScreenUnitSlot slot;
     private UnitData unitThatsLevelingUp = null;
-    private bool abilityChosen, passiveChosen;
+    private int abilityPoints, passivePoints;
 
 
     public void InitLevelUpPanel(VictoryScreenUnitSlot slot)
     {
         this.slot = slot;
         unitThatsLevelingUp = slot.slottedUnit;
+        abilityPoints = 1;
+        passivePoints = 2;
 
-        abilityChosen = passiveChosen = false;
-        SetupUpgradeChoices();
+        SetupUpgradeChoices_Passives();
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitThatsLevelingUp);
     }
 
 
-    private void SetupUpgradeChoices()
+    private void SetupUpgradeChoices_Abilities()
     {
+        foreach (var ab in abilitySlots) ab.gameObject.SetActive(true);
+        foreach (var passive in passiveSlots) passive.gameObject.SetActive(false);
+
         // P H A S E  1 :  ability upgrades
         List<UnitAbility> possibleAbils = unitThatsLevelingUp.RemainingPossibleAbilities();
         List<UnitAbility> learnedAbils = unitThatsLevelingUp.LearnedAbilities();
         Shuffle(possibleAbils);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < abilitySlots.Count; i++)
         {
             bool isAbility = false;
             if (unitThatsLevelingUp.HasFreeAbilitySlots() && possibleAbils.Count > 0)
@@ -58,42 +66,48 @@ public class LevelUpPanel : MonoBehaviour
                 AddUpgrade(learnedAbils, i);
             }
         }
+    }
 
+    void SetupUpgradeChoices_Passives()
+    {
+        foreach (var ab in abilitySlots) ab.gameObject.SetActive(false);
+        foreach (var passive in passiveSlots) passive.gameObject.SetActive(true);
         // P H A S E  2 :  stat upgrades
-        int[] statUpgrades = GameManager.Instance.GenerateRandomUniqueIntegers(new Vector2Int(3, 3), new Vector2Int(0, 5));
-        for (int i = 3; i < 6; i++)
+        int[] statUpgrades = GameManager.Instance.GenerateRandomUniqueIntegers(new Vector2Int(passiveSlots.Count, passiveSlots.Count), new Vector2Int(0, 5));
+        //foreach (var su in statUpgrades) print(su.ToString());
+        for (int i = 0; i < passiveSlots.Count; i++)
         {
-            upgradeSlots[i].SetChoice(GetRandomStatUpgrade(statUpgrades[i - 3]));
-            upgradeSlots[i].gameObject.SetActive(true);
+            passiveSlots[i].SetChoice(GetRandomStatUpgrade(statUpgrades[i]));
+            passiveSlots[i].gameObject.SetActive(true);
         }
     }
 
     private void AddAbility(List<UnitAbility> possibleAbils, int i)
     {
-        upgradeSlots[i].transform.GetChild(0).gameObject.SetActive(false);
+        abilitySlots[i].transform.GetChild(0).gameObject.SetActive(false);
         string spellName = possibleAbils[0].name;
         var clone = Instantiate(possibleAbils[0]);
         clone.name = spellName;
-        upgradeSlots[i].SetChoice(clone);
-        upgradeSlots[i].gameObject.SetActive(true);
+        abilitySlots[i].SetChoice(clone);
+        abilitySlots[i].gameObject.SetActive(true);
         possibleAbils.RemoveAt(0);
     }
 
     private void AddUpgrade(List<UnitAbility> learnedAbils, int i)
     {
-        var text = upgradeSlots[i].transform.GetChild(0);
+        var text = abilitySlots[i].transform.GetChild(0);
         var upgrade = GetRandomAbilityUpgrade(learnedAbils[UnityEngine.Random.Range(0, learnedAbils.Count)]);
         if (upgrade != null)
         {
-            upgradeSlots[i].SetChoice(upgrade);
+            abilitySlots[i].SetChoice(upgrade);
             text.gameObject.SetActive(true);
             text.GetComponentInChildren<TextMeshProUGUI>().text = upgrade.upgradeType;
         }
         else 
         {
-            upgradeSlots[i].SetChoice(GetRandomStatUpgrade(UnityEngine.Random.Range(0, 5)));
+            abilitySlots[i].SetChoice(GetRandomStatUpgrade(UnityEngine.Random.Range(0, 5)));
         }
-        upgradeSlots[i].gameObject.SetActive(true);
+        abilitySlots[i].gameObject.SetActive(true);
     }
 
 
@@ -111,7 +125,7 @@ public class LevelUpPanel : MonoBehaviour
     AbilityUpgrade GetRandomAbilityUpgrade(UnitAbility abi)
     {
         List<AbilityUpgrade> possibleUpgrades = new List<AbilityUpgrade>();
-        if (abi.damage_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "damage", 10));
+        if (abi.damage_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "damage", 0.1f));
         if (abi.cooldown_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "cooldown", 0.75f));
         if (abi.castSpeed_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "castSpeed", 0.5f));
         if (abi.flySpeed_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "flySpeed", 6));
@@ -147,33 +161,36 @@ public class LevelUpPanel : MonoBehaviour
 
     public bool TryToChooseOption(UnitAbility abi)
     {
-        if (abilityChosen)
+        if (abilityPoints < 1)
         {
             Debug.Log("No more upgrade points");
             return false;
         }
-        slot.slottedUnit.GiveNewAbility(abi);
-        abilityChosen = true;
+        unitThatsLevelingUp.GiveNewAbility(abi);
+        unitStatsPanel.SetSpellslots();
+        abilityPoints--;
         CheckIfDone();
         return true;
     }
 
     public bool TryToChooseOption(AbilityUpgrade upgradeObj)
     {
-        if (abilityChosen)
+        if (abilityPoints < 1)
         {
             Debug.Log("No more upgrade points");
             return false;
         }
-        slot.slottedUnit.UpgradeAbility(upgradeObj);
-        abilityChosen = true;
+        unitThatsLevelingUp.UpgradeAbility(upgradeObj);
+        abilityPoints--;
         CheckIfDone();
         return true;
     }
 
+
+
     public bool TryToChooseOption(string option)
     {
-        if (passiveChosen)
+        if (passivePoints < 1)
         {
             Debug.Log("No more upgrade points");
             return false;
@@ -182,44 +199,47 @@ public class LevelUpPanel : MonoBehaviour
         switch (option)
         {
             case ("DMG"):
-                foreach (var attack in slot.slottedUnit.attacks)
-                {
-                    print(attack.damage);
-                    attack.damage += 3;
-                    print(attack.damage);
-                }
+                unitThatsLevelingUp.damage += 3.3f;
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, slot.slottedUnit.damage);
                 break;
 
-            case ("MAGIC"): 
+            case ("MAGIC"):
+                unitThatsLevelingUp.magic += 3.1f;
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, slot.slottedUnit.magic);
                 break;
 
             case ("ATTSPD"):
-                foreach (var attack in slot.slottedUnit.attacks)
-                {
-                    attack.attackInterval *= 0.8f;
-                }
+                unitThatsLevelingUp.attackSpeed += 15;
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, slot.slottedUnit.attackSpeed);
                 break;
 
             case ("HP"): 
-                slot.slottedUnit.maxHp += 9; 
+                unitThatsLevelingUp.maxHp += 25f;
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, slot.slottedUnit.maxHp);
                 break;
 
             case ("MOVESPD"): 
-                slot.slottedUnit.moveInterval *= 0.8f; 
+                unitThatsLevelingUp.moveSpeed += 10;
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, slot.slottedUnit.moveSpeed);
                 break;
 
             default: 
                 break;
         }
-        passiveChosen = true;
+        passivePoints--;
         CheckIfDone();
         return true;
     }
 
     void CheckIfDone()
     {
-        if (passiveChosen && abilityChosen)
+        if (abilityPoints == 1 && passivePoints < 1)
         {
+            SetupUpgradeChoices_Abilities();
+        }
+        if (passivePoints < 1 && abilityPoints < 1)
+        {
+            unitStatsPanel.gameObject.SetActive(false);
             GetComponentInParent<VictoryPanel>().LevelUpDone(slot);
         }
     }

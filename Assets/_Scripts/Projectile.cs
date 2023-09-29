@@ -90,16 +90,28 @@ public class Projectile : MonoBehaviour
     IEnumerator ProjectileMotion()
     {
         // Fly
-        while (t < dist || forcedTimer > 0)
+        bool atTarget = false;
+        Vector3 lastDir = Vector3.zero;
+
+        while (!atTarget || forcedTimer > 0)
         {
             forcedTimer -= Time.deltaTime;
-            t += Time.deltaTime * attack.attackFlySpeed;
+            var dir = endPos - transform.position;
+            if (dir.sqrMagnitude < 0.01f)
+            {
+                atTarget = true;
+                continue;
+            }
+
+            //t += Time.deltaTime * attack.attackFlySpeed;
             if (followUnit && targetUnit != null)
                 endPos = targetUnit.transform.position + Vector3.up * 1.5f;
 
             transform.LookAt(endPos);
-            var perc = t / dist;
-            transform.position = Vector3.Lerp(startPos, endPos, perc);
+            //var perc = t / dist;
+            dir = lastDir.normalized * 0.86f + dir.normalized;
+            transform.position += dir * attack.attackFlySpeed * Time.deltaTime; //Vector3.Lerp(startPos, endPos, perc);
+            lastDir = dir;
             yield return null;
         }
 
@@ -107,7 +119,8 @@ public class Projectile : MonoBehaviour
         if (followUnit)
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
 
-        GameManager.Instance.DamageInstance.Activate(targetNode, attack.damage, shooter, attack.targeting, attack.dmgInstanceType);
+        float damage = shooter.GetDamage() * attack.damage;
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType);
         GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position);
 
         Bounces();
@@ -117,12 +130,14 @@ public class Projectile : MonoBehaviour
 
     IEnumerator ProjectileMelee()
     {
-        var lookAtPos = Chessboard.Instance.GetTileCenter(path[0].x, path[0].y);
+        Vector2Int targetPos = targetUnit != null ? new(targetUnit.x, targetUnit.y) : path.Length > 0 ? new(path[0].x, path[0].y) : new(-1, -1);
+        var lookAtPos = Chessboard.Instance.GetTileCenter(targetPos.x, targetPos.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
-        targetNode = Chessboard.Instance.nodes[path[0].x, path[0].y];
+        targetNode = Chessboard.Instance.nodes[targetPos.x, targetPos.y];
 
         // Hit target
-        GameManager.Instance.DamageInstance.Activate(targetNode, attack.damage, shooter, attack.targeting, attack.dmgInstanceType, attack.hitParticle);
+        float damage = shooter.GetDamage() * attack.damage;
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.hitParticle);
         GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y));
 
         // Stay visible

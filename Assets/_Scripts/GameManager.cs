@@ -261,4 +261,13 @@ public class GameManager : MonoBehaviour
 
         return randomNumbers;
     }
+
+
+
+    [SerializeField] float maxMoveInterval = 2f;
+    [SerializeField] float minMoveInterval = 0.2f;
+    public float GetMoveIntervalFromMoveSpeed(float moveSpeed)
+    {
+        return Mathf.Lerp(maxMoveInterval, minMoveInterval, moveSpeed * 0.01f);
+    }
 }

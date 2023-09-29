@@ -8,7 +8,7 @@ public class VictoryPanel : MonoBehaviour
     public Sprite abilityImg_PLACEHOLDER = null;
     public List<VictoryScreenUnitSlot> unitSlots = new List<VictoryScreenUnitSlot>();
 
-    private float expFillMaxSpeed = 1.5f;
+    [SerializeField] private float expFillSpeed = 1.5f;
     [SerializeField] private Sprite emptySlotImage = null;
     [SerializeField] private LevelUpPanel lvlUpPanel = null;
 
@@ -84,13 +84,13 @@ public class VictoryPanel : MonoBehaviour
         {
             if (t < 1)
             { 
-                t += Time.deltaTime * 0.3f;
+                t += Time.deltaTime * expFillSpeed;
                 float perc = t * t;
                 gainSpeed = Mathf.Lerp(0.2f, 1, perc);
                 if (t >= 1)
                     t = gainSpeed = 1;
             }
-            slot.expBarFill.fillAmount += Time.deltaTime * gainSpeed * expFillMaxSpeed;
+            slot.expBarFill.fillAmount += Time.deltaTime * gainSpeed;
             yield return null;
         }
 
@@ -183,6 +183,7 @@ public class VictoryPanel : MonoBehaviour
     public void LevelUpDone(VictoryScreenUnitSlot slot)
     {
         lvlUpPanel.gameObject.SetActive(false);
+
         slot.lvlUpSign.SetActive(false);
         slot.lvlUpPending = false;
     }

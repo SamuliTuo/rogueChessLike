@@ -24,7 +24,7 @@ MonoBehaviour:
   castSpeed: 0.1
   cooldown: 9
   startCooldownMultiplier: 0.5
-  flySpeed: 9
+  flySpeed: 19
   minLifeTime: 0
   damagesAllies: 0
   bounceAttack: {fileID: 0}

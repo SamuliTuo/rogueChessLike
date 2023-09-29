@@ -22,7 +22,8 @@ public class UnitAbility : ScriptableObject
 
     [Space(10)]
     public float damage = 10f;
-    public float castSpeed = 1;
+    public float castDuration_firstHalf = 1;
+    public float castDuration_secondHalf = 1;
     public float cooldown = 10f;
     [Tooltip("cooldown multiplied by this is how long the spell has cooldown at Start")]
     public float startCooldownMultiplier = 0.5f;

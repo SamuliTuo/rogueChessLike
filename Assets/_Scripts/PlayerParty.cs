@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerParty : MonoBehaviour
 {
-    public List<UnitData> partyUnits { get; private set; }
+    public List<UnitData> partyUnits { get; set; }
     //public GameObject partyPanel;
     public int partyMoney = 1000;
 

@@ -12,7 +12,8 @@ public class Unit_NormalAttack : ScriptableObject
     public ProjectileType projectileType;
     public int attackRange = 1;
     public float damage = 10f;
-    public float attackInterval = 1f;
+    public float attackDuration_firstHalf = 1f;
+    public float attackDuration_secondHalf = 1f;
     public float attackFlySpeed = 10f;
     public float minLifeTime = 0;
 

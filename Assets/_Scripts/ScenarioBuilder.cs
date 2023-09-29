@@ -19,6 +19,7 @@ public class ScenarioBuilder : MonoBehaviour
     [SerializeField] Image currentlyChosenImage;
 
     public Chessboard board;
+    [HideInInspector] public ScenarioBuilderCameraSettings camSettings;
 
     public static ScenarioBuilder Instance;
     private void Awake()
@@ -43,6 +44,7 @@ public class ScenarioBuilder : MonoBehaviour
     private Vector2Int currentHover;
     private Unit currentlyDragging;
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
+    
 
 
     private void Start()
@@ -56,6 +58,7 @@ public class ScenarioBuilder : MonoBehaviour
             if (currentlyChosenImage != null)
                 currentlyChosenImage.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[0].image;
         }
+        camSettings = GameObject.Find("Canvas").GetComponentInChildren<ScenarioBuilderCameraSettings>();
     }
 
     public void SetCurrentNodeType(int type)

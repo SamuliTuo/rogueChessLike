@@ -135,7 +135,7 @@ public class ButtonScript : MonoBehaviour
     {
         if (input.Length > 0 && input.Length < 25)
         {
-            GameManager.Instance.SaveSlots.SaveToSlot(GetComponentInParent<ScenarioSaving>().currSlot, input);
+            GameManager.Instance.SaveSlots.SaveToSlot(GetComponentInParent<ScenarioSaving>().currSlot, input, ScenarioBuilder.Instance.camSettings.GetScenarioCameraRotation());
             ScenarioBuilder.Instance?.OpenPanel(ScenarioBuilderPanel.TERRAIN);
         }
     }

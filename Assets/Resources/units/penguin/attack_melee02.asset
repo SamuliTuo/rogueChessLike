@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdced4eb7b6ab74e8f5f86156ce5809, type: 3}
+  m_Name: attack_melee02
+  m_EditorClassIdentifier: 
+  targeting: 0
+  hitParticle: 4
+  dmgInstanceType: 0
+  projectileType: 1
+  attackRange: 1
+  damage: 0.92
+  attackDuration_firstHalf: 0.225
+  attackDuration_secondHalf: 0.4
+  attackFlySpeed: 5
+  minLifeTime: 0.05
+  projectilePath: penguin_attackSlash_01
+  damagesAllies: 0
+  bounceAttack: {fileID: 0}
+  bounceAttack_targeting: 0
+  bounceRange_atk: 1
+  bounceCount_atk: 0
+  bounceSpawnCount_atk: 0
+  bounceAbility: {fileID: 0}
+  bounceAbility_targeting: 0
+  bounceRange_ability: 1
+  bounceCount_ability: 0
+  bounceSpawnCount_ability: 0
+  bounceDamagePercChangePerJump: 1
+  onlyOneBouncePerUnit: 1

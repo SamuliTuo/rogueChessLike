@@ -40,6 +40,7 @@ public class Chessboard : MonoBehaviour
     private Unit currentlyDragging;
 
     public Vector2Int GetBoardSize() { return new(TILE_COUNT_X, TILE_COUNT_Y); }
+    public float GetYOffset() { return yOffset; }
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
     private List<Unit> deadUnits_player = new List<Unit>();
     private List<Unit> deadUnits_enemy = new List<Unit>();
@@ -69,7 +70,7 @@ public class Chessboard : MonoBehaviour
         SpawnScenarioUnits(GameManager.Instance.currentScenario);
         SpawnPlayerParty();
         PositionAllUnits();
-        Camera.main.GetComponent<CameraManager>()?.SetCameraForBoardsize(GetBoardSize(), tileSize);
+        Camera.main.GetComponent<CameraManager>()?.SetupBattleCamera(GetBoardSize(), tileSize);
     }
 
     public void UnitPlacerUpdate()
@@ -299,7 +300,7 @@ public class Chessboard : MonoBehaviour
         TILE_COUNT_Y = Mathf.Max(1, TILE_COUNT_Y + y);
         GameManager.Instance.currentScenario.sizeX = TILE_COUNT_X;
         GameManager.Instance.currentScenario.sizeY = TILE_COUNT_Y;
-        Camera.main.GetComponent<CameraManager>()?.SetCameraForBoardsize(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
+        //Camera.main.GetComponent<CameraManager>()?.SetupBattleCamera(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
     }
 
     public void RefreshBoard(Unit[,] quickSaveUnits = null, Node[,] quickSaveNodes = null)
@@ -333,7 +334,7 @@ public class Chessboard : MonoBehaviour
             SpawnScenarioUnits(GameManager.Instance.currentScenario);
         }
 
-        Camera.main.GetComponent<CameraManager>()?.SetCameraForBoardsize(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
+        Camera.main.GetComponent<CameraManager>()?.RefreshCamera(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
         PositionAllUnits();  
     }
     public List<Node> GetNeighbourNodes(Node node)
@@ -359,7 +360,6 @@ public class Chessboard : MonoBehaviour
         }
         return neighbours;
     }
-
     private bool IsOfType(int x, int y, string type)
     {
         if (x < TILE_COUNT_X && x >= 0 && y < TILE_COUNT_Y && y >= 0) {
@@ -367,12 +367,10 @@ public class Chessboard : MonoBehaviour
         }
         return false;
     }
-
     public bool IsNeighbourOfType(int x, int y, string type)
     {
         return (IsOfType(x-1, y, type) || IsOfType(x+1, y, type) || IsOfType(x, y-1, type) || IsOfType(x, y+1, type));
     }
-
     public void SpawnUnit(GameObject unit, int team, Vector2Int pos)
     {
         if (activeUnits[pos.x, pos.y] != null)
@@ -434,7 +432,7 @@ public class Chessboard : MonoBehaviour
     Vector2Int errorVector = new Vector2Int(-1, -1);
     private void SpawnPlayerParty()
     {
-        var partyUnits = GameManager.Instance.PlayerParty.partyUnits;
+        List<UnitData> partyUnits = GameManager.Instance.PlayerParty.partyUnits;
         if (partyUnits == null)
             return;
 
@@ -443,6 +441,11 @@ public class Chessboard : MonoBehaviour
             var path = GameManager.Instance.UnitSavePaths.GetSavePath(partyUnits[i].unitName);
             var clone = SpawnSingleUnit(path, 0);
             clone.team = partyUnits[i].team;
+            clone.damage = partyUnits[i].damage;
+            clone.magic = partyUnits[i].magic;
+            clone.attackSpeed = partyUnits[i].attackSpeed;
+            clone.moveSpeed = partyUnits[i].moveSpeed;
+            clone.moveInterval = CalculateMoveInterval(partyUnits[i].moveInterval, partyUnits[i].moveSpeed);
             clone.GetComponent<UnitHealth>().SetMaxHp(partyUnits[i].maxHp);
             clone.normalAttacks.Clear();
             foreach (var attack in partyUnits[i].attacks)
@@ -459,6 +462,12 @@ public class Chessboard : MonoBehaviour
             activeUnits[partyUnits[i].spawnPosX, partyUnits[i].spawnPosY] = clone;
         }
     }
+    public float CalculateMoveInterval(float interval, float moveSpeed)
+    {
+        float r = interval - (interval * moveSpeed * 0.01f * 0.75f); // (moveSpeed * interval) * interval;
+        return r;
+    }
+
     public Vector2Int GetFirstFreePos()
     {
         for (int y = 0; y < TILE_COUNT_Y; y++)
@@ -472,7 +481,7 @@ public class Chessboard : MonoBehaviour
     {
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
         unit.team = team;
-        AddPlatform(unit);
+        //AddPlatform(unit);
         return unit;
     }
     public Unit SpawnSingleUnit(string unitPath, int team)
@@ -481,7 +490,7 @@ public class Chessboard : MonoBehaviour
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
         unit.team = team;
         unit.unitPath = unitPath;
-        AddPlatform(unit);
+        //AddPlatform(unit);
         return unit;
     }
     public Unit SpawnSingleUnit(UnitData data)
@@ -490,7 +499,7 @@ public class Chessboard : MonoBehaviour
         Unit u = Instantiate(Resources.Load<GameObject>(path), transform).GetComponent<Unit>();
         u.team = data.team;
         u.unitPath = path;
-        AddPlatform(u);
+        //AddPlatform(u);
         return u;
         
     }
