@@ -13,6 +13,9 @@ public class Chessboard : MonoBehaviour
     }
 
     [Header("Art Stuff")]
+    [SerializeField] private GameObject tilePrefab_basic;
+    [SerializeField] private GameObject tilePrefab_swamp;
+    [SerializeField] private GameObject tilePrefab_hole;
     [SerializeField] private Material tileMat;
     [SerializeField] private Material gardenMat;
     [SerializeField] private Material queueMat;
@@ -265,6 +268,22 @@ public class Chessboard : MonoBehaviour
     private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer, bool walkable = true)
     {
         GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
+        GameObject graphics = null;
+        switch (layer)
+        {
+            case "Tile":
+                graphics = Instantiate(tilePrefab_basic);
+                break;
+            case "Swamp":
+                graphics = Instantiate(tilePrefab_swamp);
+                break;
+            case "Empty":
+                graphics = Instantiate(tilePrefab_hole);
+                break;
+            default:
+                break;
+        }
+        graphics.transform.SetParent(tileObject.transform, false);
         tileObject.transform.parent = transform;
 
         Mesh mesh = new Mesh();
@@ -290,7 +309,18 @@ public class Chessboard : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
+        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset, (y + 0.5f) * tileSize);
+        graphics.transform.localScale = new Vector3(tileSize, tileSize, tileSize);
+
         return tileObject;
+    }
+
+    public void ChangeTileGraphics(int x, int y, string layer, bool walkable)
+    {
+        if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y) return;
+        if (tiles[x, y] == null) return;
+        Destroy(tiles[x, y]);
+        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, layer, walkable);
     }
 
     public void AddTileCount(int x, int y)
