@@ -22,7 +22,8 @@ public class UnitAbility : ScriptableObject
 
     [Space(10)]
     public float damage = 10f;
-    public float castSpeed = 1;
+    public float castDuration_firstHalf = 1;
+    public float castDuration_secondHalf = 1;
     public float cooldown = 10f;
     [Tooltip("cooldown multiplied by this is how long the spell has cooldown at Start")]
     public float startCooldownMultiplier = 0.5f;
@@ -50,4 +51,20 @@ public class UnitAbility : ScriptableObject
     public string spawnUnit = null;
     public int spawnCount = 1;
     public float spawnDuration;
+
+
+    [Header("Upgrade potentials")]
+    public bool damage_upgradeable = false;
+    public bool cooldown_upgradeable = false;
+    public bool castSpeed_upgradeable = false;
+    public bool flySpeed_upgradeable = false;
+    public bool reach_upgradeable = false;
+
+    public bool bounceCount_upgradeable = false;
+    public bool bounceRange_upgradeable = false;
+    public bool bounceDamageAmp_upgradeable = false;
+    public bool projectilesPerBounce_upgradeable = false;
+
+    public bool spawnUnitCount_upgradeable = false;
+    
 }

@@ -111,8 +111,8 @@ public class AbilityInstance : MonoBehaviour
         else if (followUnit)
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
 
-        
-        GameManager.Instance.DamageInstance.Activate(targetNode, ability.damage, shooter, ability.validTargets, ability.dmgInstanceType);
+        float damage = shooter.GetMagic() * ability.damage;
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
         SpawnUnits();
         //print("spawns handled");
@@ -134,7 +134,8 @@ public class AbilityInstance : MonoBehaviour
         }
 
         // Hit target
-        GameManager.Instance.DamageInstance.Activate(targetNode, ability.damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.hitParticle);
+        float damage = shooter.GetMagic() * ability.damage;
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.hitParticle);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
         SpawnUnits();
 
@@ -166,7 +167,7 @@ public class AbilityInstance : MonoBehaviour
             return;
 
         int i = 0;
-        List<BOUNCETARGET> targets = FindTargetsForBounces(ability.bounceSpawnCount_atk, ability.bounceAttack_targeting);
+        List<BOUNCETARGET> targets = FindTargetsForBounces(ability.bounceAttack_targeting);
         foreach (BOUNCETARGET target in targets)
         {
             if (i >= ability.bounceSpawnCount_atk)
@@ -198,7 +199,7 @@ public class AbilityInstance : MonoBehaviour
             return;
 
         int i = 0;
-        List<BOUNCETARGET> targets = FindTargetsForBounces(ability.bounceSpawnCount_ability, ability.bounceAbility_targeting);
+        List<BOUNCETARGET> targets = FindTargetsForBounces(ability.bounceAbility_targeting);
         foreach (BOUNCETARGET target in targets)
         {
             if (i >= ability.bounceSpawnCount_ability)
@@ -207,15 +208,14 @@ public class AbilityInstance : MonoBehaviour
                 continue;
 
             i++;
-            var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
-                ability.bounceAbility.projectilePath, transform.position, Quaternion.identity);
+            var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(ability.bounceAbility.projectilePath, transform.position, Quaternion.identity);
             projectile.GetComponent<AbilityInstance>().Init(
                 ability.bounceAbility,
                 transform.position,
                 null,
                 bouncesRemainingAttack - 1,
                 bouncesRemainingAbility - 1,
-                shooter, 
+                shooter,
                 target.unit,
                 bouncedOn);
         }
@@ -261,19 +261,17 @@ public class AbilityInstance : MonoBehaviour
         public float distance { get; set; }
     }
 
-    List<BOUNCETARGET> FindTargetsForBounces(int bouncers, UnitSearchType targeting)
+    List<BOUNCETARGET> FindTargetsForBounces(UnitSearchType targeting)
     {
 
         List<BOUNCETARGET> targets = new List<BOUNCETARGET>();
-        var r = new List<BOUNCETARGET>();
 
         Unit[,] activeUnits = Chessboard.Instance.GetUnits();
 
-
+        // Targeting allies
         if (targeting == UnitSearchType.LOWEST_HP_ALLY_PERC || targeting == UnitSearchType.LOWEST_HP_ALLY_ABS)
         {
             var u = Chessboard.Instance.GetLowestTeammate(targeting, targetUnit, ability.bounceRange_ability, false, false);
-            //print(this.name + " is finding targets for bounce, found: " + u);
             if (u != null)
             {
                 targets.Add(new BOUNCETARGET
@@ -285,6 +283,7 @@ public class AbilityInstance : MonoBehaviour
             return targets;
         }
 
+        // Targeting enemies
         for (int x = 0; x < activeUnits.GetLength(0); x++)
         {
             for (int y = 0; y < activeUnits.GetLength(1); y++)
@@ -302,18 +301,10 @@ public class AbilityInstance : MonoBehaviour
 
         targets = targets.OrderBy(w => w.distance).ToList();
 
-        for (int i = 0; i < bouncers; i++)
-        {
-            if (i >= targets.Count)
-                return r;
+        if (ability.onlyOneBouncePerUnit == false)
+            targets.Add(new BOUNCETARGET { unit = targetUnit, distance = 0 });
 
-            if (targets[i] == null)
-                return r;
-
-            r.Add(targets[i]);
-        }
-
-        return r;
+        return targets;
     }
 
     void Deactivate()

@@ -10,6 +10,9 @@ public class ScenarioData
     public List<Scenario.ScenarioNode> scenarioNodes = new List<Scenario.ScenarioNode>();
     public int boardSizeX;
     public int boardSizeY;
+    public float cameraRotationX;
+    public float cameraRotationY;
+    public float cameraRotationZ;
 
     public ScenarioData(Scenario scenario)
     {
@@ -18,6 +21,9 @@ public class ScenarioData
         unitList = scenario.scenarioUnits;
         boardSizeX = scenario.sizeX;
         boardSizeY = scenario.sizeY;
+        cameraRotationX = scenario.cameraRotationX;
+        cameraRotationY = scenario.cameraRotationY;
+        cameraRotationZ = scenario.cameraRotationZ;
         scenarioNodes = scenario.scenarioNodes;
     }
 }

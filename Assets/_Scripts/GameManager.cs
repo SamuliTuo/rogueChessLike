@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
     private GameObject victoryScreen;
     private GameObject lostScreen;
 
-
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -234,6 +233,11 @@ public class GameManager : MonoBehaviour
 
 
 
+
+
+
+
+
     // Saisko tän siirrettyy Extensions-classiin jotenki? ei menny suorilta sinne
     public int[] GenerateRandomUniqueIntegers(Vector2Int countRange, Vector2Int valueRange)
     {
@@ -256,5 +260,14 @@ public class GameManager : MonoBehaviour
         }
 
         return randomNumbers;
+    }
+
+
+
+    [SerializeField] float maxMoveInterval = 2f;
+    [SerializeField] float minMoveInterval = 0.2f;
+    public float GetMoveIntervalFromMoveSpeed(float moveSpeed)
+    {
+        return Mathf.Lerp(maxMoveInterval, minMoveInterval, moveSpeed * 0.01f);
     }
 }

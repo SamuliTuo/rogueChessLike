@@ -8,9 +8,9 @@ public class Encounter : ScriptableObject
 {
     public MapNodeType mapNodeType;
 
-    [Header("If this is a random encounter, set the encounter text and image here")]
-    public string encounterText;
-    public Sprite encounterImage;
+    [Header("If this is a random encounter, set the possible encounters here")]
+    public List<TextEncounter> possibleTextScenarios;
+    public List<Scenario> possibleBattleScenarios;
 
     [Header("If this is a battle encounter, set the battle scenario here")]
     public Scenario battleScenario;

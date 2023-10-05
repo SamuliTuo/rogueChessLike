@@ -48,6 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TILE_COUNT_X: 10
   TILE_COUNT_Y: 10
+  tilePrefab_basic: {fileID: 5979079745936615585, guid: 3efb90aa05530034cba94f9e08bbe0b8, type: 3}
+  tilePrefab_swamp: {fileID: 8754318455094824511, guid: a9744b99ab6b52a46b019c2e0284aabd, type: 3}
+  tilePrefab_hole: {fileID: 2038485027609539328, guid: 49d98b7818750374d9765d5561751d55, type: 3}
   tileMat: {fileID: 2100000, guid: c19982f3955ccaf42a0508a2f15c7b20, type: 2}
   gardenMat: {fileID: 2100000, guid: fa9ea09e8c21d7d46bdc57d5f9de41e8, type: 2}
   queueMat: {fileID: 2100000, guid: 8f411ce04cba6fa4faaf8dca7caa273c, type: 2}

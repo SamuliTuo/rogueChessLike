@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 [Serializable]
 public enum UnitSearchType
@@ -132,6 +133,15 @@ public class Pathfinding : MonoBehaviour
             var units = board.GetUnits();
             Node currNode = openSet.RemoveFirst();
             closedSet.Add(currNode);
+
+            inAttackRange = GetDistance(board.nodes[currNode.x, currNode.y], board.nodes[targetUnit.x, targetUnit.y]) <= Extensions.ReachToRange(reach);
+            if (inAttackRange && units[currNode.x, currNode.y] != null)
+            {
+                pathSuccess = true;
+                targetNode = board.nodes[currNode.x, currNode.y];
+                break;
+            }
+            /*
             if (units[currNode.x, currNode.y] != null)
             {
                 if (units[currNode.x, currNode.y] == targetUnit)
@@ -142,8 +152,8 @@ public class Pathfinding : MonoBehaviour
                     targetUnit = units[currNode.x, currNode.y];
                     break;
                 }
-            }
-            
+            }*/
+
 
             foreach (Node neighbour in board.GetNeighbourNodes(currNode))
             {
@@ -157,7 +167,7 @@ public class Pathfinding : MonoBehaviour
                         continue;
                     }
                 }
-                int newMovementCostToNeighbour = currNode.gCost + Mathf.RoundToInt(GetDistance(currNode, neighbour) * GetMultiplier(neighbour));
+                int newMovementCostToNeighbour = currNode.gCost + Mathf.RoundToInt(GetDistance(currNode, neighbour) + AddTerrainEffects(neighbour));
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
@@ -196,20 +206,27 @@ public class Pathfinding : MonoBehaviour
         {
             Node currNode = openSet.RemoveFirst();
             closedSet.Add(currNode);
-            var units = board.GetUnits();
-            if (units[currNode.x, currNode.y] != null)
+            Unit[,] units = board.GetUnits();
+
+            Unit target = IsAnUnitInRangeFromNode(currNode, reach, Mathf.Abs(askingUnit.team - 1), units);
+            if (target != null && GameManager.Instance.IsValidTarget(askingUnit, target, searchType)) //units[currNode.x, currNode.y] != null)
             {
-                //print(askingUnit.name + " asking for valid target: " + IsValidTarget(askingUnit, units[currNode.x, currNode.y], searchType));
-                //print(askingUnit.name + "asking for distance between: " + askingUnit + " and " + units[currNode.x, currNode.y] +":  " + GetDistance(board.nodes[askingUnit.x, askingUnit.y], board.nodes[currNode.x, currNode.y]) + " and if it's bigger than: " + Extensions.ReachToRange(reach));
-                if (GameManager.Instance.IsValidTarget(askingUnit, units[currNode.x, currNode.y], searchType))
-                {
-                    inAttackRange = GetDistance(board.nodes[askingUnit.x, askingUnit.y], board.nodes[currNode.x, currNode.y]) <= Extensions.ReachToRange(reach);
-                    pathSuccess = true;
-                    targetNode = board.nodes[currNode.x, currNode.y];
-                    targetUnit = units[currNode.x, currNode.y];
-                    break;
-                }
+                inAttackRange = Chessboard.Instance.nodes[startPos.x, startPos.y] == currNode ? true : false;
+                pathSuccess = true;
+                targetNode = currNode;// board.nodes[currNode.x, currNode.y];
+                targetUnit = target;
+                break;
             }
+            /*
+            if (GameManager.Instance.IsValidTarget(askingUnit, units[currNode.x, currNode.y], searchType))
+            {
+                inAttackRange = GetDistance(board.nodes[askingUnit.x, askingUnit.y], board.nodes[currNode.x, currNode.y]) <= Extensions.ReachToRange(reach);
+                pathSuccess = true;
+                targetNode = board.nodes[currNode.x, currNode.y];
+                targetUnit = units[currNode.x, currNode.y];
+                break;
+            }*/
+            
 
             foreach (Node neighbour in board.GetNeighbourNodes(currNode))
             {
@@ -224,14 +241,8 @@ public class Pathfinding : MonoBehaviour
                     }
                 }
 
-                ///////////////////huom
-                //////////////////////
-                //////////////////////
-                //print("distance: " + distanceee + ", multiplier" + numba + ", final number: " + finalNumba);
-                int newMovementCostToNeighbour = currNode.gCost + Mathf.RoundToInt(GetDistance(currNode, neighbour) * GetMultiplier(neighbour));  // TÄNNE! tähän kohtaan terrain-kerroin movement costiin
-                ///////////////////
-                //////////////////////
-                //////////////////////
+                int newMovementCostToNeighbour = currNode.gCost + (Mathf.RoundToInt(GetDistance(currNode, neighbour) + AddTerrainEffects(neighbour)));
+
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
@@ -244,6 +255,7 @@ public class Pathfinding : MonoBehaviour
                 }
             }
         }
+
         yield return null;
         if (pathSuccess && targetNode != null)
         {
@@ -296,15 +308,37 @@ public class Pathfinding : MonoBehaviour
     }
 
 
-    float swampmultiplier = 9;
-    public float GetMultiplier(Node node)
+    float swampTax = 0.5f;
+    public float AddTerrainEffects(Node node)
     {
         switch (node.tileTypeLayerName)
         {
             case "Swamp":
-                return swampmultiplier;
+                return swampTax;
             default:
-                return 1;
+                return 0;
         }
+    }
+
+    public Unit IsAnUnitInRangeFromNode(Node node, int reach, int targetTeam, Unit[,] units)
+    {
+        Unit r = null;
+        int closestRange = 1000000;
+        for (int x = 0; x < units.GetLength(0); x++)
+        {
+            for (int y = 0; y < units.GetLength(1); y++)
+            {
+                if (units[x,y] == null || units[x,y].team != targetTeam)
+                    continue;
+
+                var dist = GetDistance(node, Chessboard.Instance.nodes[x,y]);
+                if (dist < closestRange && dist <= Extensions.ReachToRange(reach))
+                {
+                    closestRange = dist;
+                    r = units[x,y];
+                }
+            }
+        }
+        return r;
     }
 }

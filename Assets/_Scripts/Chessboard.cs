@@ -13,6 +13,9 @@ public class Chessboard : MonoBehaviour
     }
 
     [Header("Art Stuff")]
+    [SerializeField] private GameObject tilePrefab_basic;
+    [SerializeField] private GameObject tilePrefab_swamp;
+    [SerializeField] private GameObject tilePrefab_hole;
     [SerializeField] private Material tileMat;
     [SerializeField] private Material gardenMat;
     [SerializeField] private Material queueMat;
@@ -40,6 +43,7 @@ public class Chessboard : MonoBehaviour
     private Unit currentlyDragging;
 
     public Vector2Int GetBoardSize() { return new(TILE_COUNT_X, TILE_COUNT_Y); }
+    public float GetYOffset() { return yOffset; }
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
     private List<Unit> deadUnits_player = new List<Unit>();
     private List<Unit> deadUnits_enemy = new List<Unit>();
@@ -69,6 +73,7 @@ public class Chessboard : MonoBehaviour
         SpawnScenarioUnits(GameManager.Instance.currentScenario);
         SpawnPlayerParty();
         PositionAllUnits();
+        Camera.main.GetComponent<CameraManager>()?.SetupBattleCamera(GetBoardSize(), tileSize);
     }
 
     public void UnitPlacerUpdate()
@@ -263,6 +268,22 @@ public class Chessboard : MonoBehaviour
     private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer, bool walkable = true)
     {
         GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
+        GameObject graphics = null;
+        switch (layer)
+        {
+            case "Tile":
+                graphics = Instantiate(tilePrefab_basic);
+                break;
+            case "Swamp":
+                graphics = Instantiate(tilePrefab_swamp);
+                break;
+            case "Empty":
+                graphics = Instantiate(tilePrefab_hole);
+                break;
+            default:
+                break;
+        }
+        graphics.transform.SetParent(tileObject.transform, false);
         tileObject.transform.parent = transform;
 
         Mesh mesh = new Mesh();
@@ -288,17 +309,28 @@ public class Chessboard : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
+        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset, (y + 0.5f) * tileSize);
+        graphics.transform.localScale = new Vector3(tileSize, tileSize, tileSize);
+
         return tileObject;
+    }
+
+    public void ChangeTileGraphics(int x, int y, string layer, bool walkable)
+    {
+        if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y) return;
+        if (tiles[x, y] == null) return;
+        Destroy(tiles[x, y]);
+        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, layer, walkable);
     }
 
     public void AddTileCount(int x, int y)
     {
         currentHover = -Vector2Int.one;
-
         TILE_COUNT_X = Mathf.Max(1, TILE_COUNT_X + x);
         TILE_COUNT_Y = Mathf.Max(1, TILE_COUNT_Y + y);
         GameManager.Instance.currentScenario.sizeX = TILE_COUNT_X;
         GameManager.Instance.currentScenario.sizeY = TILE_COUNT_Y;
+        //Camera.main.GetComponent<CameraManager>()?.SetupBattleCamera(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
     }
 
     public void RefreshBoard(Unit[,] quickSaveUnits = null, Node[,] quickSaveNodes = null)
@@ -330,8 +362,9 @@ public class Chessboard : MonoBehaviour
         else
         {
             SpawnScenarioUnits(GameManager.Instance.currentScenario);
-        }   
+        }
 
+        Camera.main.GetComponent<CameraManager>()?.RefreshCamera(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
         PositionAllUnits();  
     }
     public List<Node> GetNeighbourNodes(Node node)
@@ -357,7 +390,6 @@ public class Chessboard : MonoBehaviour
         }
         return neighbours;
     }
-
     private bool IsOfType(int x, int y, string type)
     {
         if (x < TILE_COUNT_X && x >= 0 && y < TILE_COUNT_Y && y >= 0) {
@@ -365,12 +397,10 @@ public class Chessboard : MonoBehaviour
         }
         return false;
     }
-
     public bool IsNeighbourOfType(int x, int y, string type)
     {
         return (IsOfType(x-1, y, type) || IsOfType(x+1, y, type) || IsOfType(x, y-1, type) || IsOfType(x, y+1, type));
     }
-
     public void SpawnUnit(GameObject unit, int team, Vector2Int pos)
     {
         if (activeUnits[pos.x, pos.y] != null)
@@ -432,7 +462,7 @@ public class Chessboard : MonoBehaviour
     Vector2Int errorVector = new Vector2Int(-1, -1);
     private void SpawnPlayerParty()
     {
-        var partyUnits = GameManager.Instance.PlayerParty.partyUnits;
+        List<UnitData> partyUnits = GameManager.Instance.PlayerParty.partyUnits;
         if (partyUnits == null)
             return;
 
@@ -441,7 +471,17 @@ public class Chessboard : MonoBehaviour
             var path = GameManager.Instance.UnitSavePaths.GetSavePath(partyUnits[i].unitName);
             var clone = SpawnSingleUnit(path, 0);
             clone.team = partyUnits[i].team;
+            clone.damage = partyUnits[i].damage;
+            clone.magic = partyUnits[i].magic;
+            clone.attackSpeed = partyUnits[i].attackSpeed;
+            clone.moveSpeed = partyUnits[i].moveSpeed;
+            clone.moveInterval = CalculateMoveInterval(partyUnits[i].moveInterval, partyUnits[i].moveSpeed);
             clone.GetComponent<UnitHealth>().SetMaxHp(partyUnits[i].maxHp);
+            clone.normalAttacks.Clear();
+            foreach (var attack in partyUnits[i].attacks)
+            {
+                clone.normalAttacks.Add(attack);
+            }
             var cloneAbils = clone.GetComponent<UnitAbilityManager>();
             cloneAbils.ability_1 = partyUnits[i].ability1;
             cloneAbils.ability_2 = partyUnits[i].ability2;
@@ -451,6 +491,11 @@ public class Chessboard : MonoBehaviour
 
             activeUnits[partyUnits[i].spawnPosX, partyUnits[i].spawnPosY] = clone;
         }
+    }
+    public float CalculateMoveInterval(float interval, float moveSpeed)
+    {
+        float r = interval - (interval * moveSpeed * 0.01f * 0.75f); // (moveSpeed * interval) * interval;
+        return r;
     }
 
     public Vector2Int GetFirstFreePos()
@@ -462,12 +507,11 @@ public class Chessboard : MonoBehaviour
 
         return errorVector;
     }
-
     public Unit SpawnSingleUnit(GameObject _unit, int team)
     {
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
         unit.team = team;
-        AddPlatform(unit);
+        //AddPlatform(unit);
         return unit;
     }
     public Unit SpawnSingleUnit(string unitPath, int team)
@@ -476,7 +520,7 @@ public class Chessboard : MonoBehaviour
         Unit unit = Instantiate(_unit, transform).GetComponent<Unit>();
         unit.team = team;
         unit.unitPath = unitPath;
-        AddPlatform(unit);
+        //AddPlatform(unit);
         return unit;
     }
     public Unit SpawnSingleUnit(UnitData data)
@@ -485,7 +529,7 @@ public class Chessboard : MonoBehaviour
         Unit u = Instantiate(Resources.Load<GameObject>(path), transform).GetComponent<Unit>();
         u.team = data.team;
         u.unitPath = path;
-        AddPlatform(u);
+        //AddPlatform(u);
         return u;
         
     }
@@ -496,7 +540,6 @@ public class Chessboard : MonoBehaviour
         else
             Instantiate(platform_team1, unit.transform);
     }
-
     private void PositionAllUnits()
     {
         for (int x = 0; x < TILE_COUNT_X; x++)
@@ -622,7 +665,6 @@ public class Chessboard : MonoBehaviour
                 + (Vector3.forward * deathSpacing) * deadUnits_player.Count);
         }   
     }
-
     public Vector2Int LookupTileIndex(GameObject hitInfo)
     {
         for (int x = 0; x < TILE_COUNT_X; x++)
@@ -632,7 +674,6 @@ public class Chessboard : MonoBehaviour
 
         return -Vector2Int.one; // Invalid
     }
-
     public Unit GetLowestTeammate(UnitSearchType searchType, Unit askingUnit, int range = 100000, bool canBeSelf = true, bool dontReturnFullHPTargets = true)
     {
         Unit u = null;

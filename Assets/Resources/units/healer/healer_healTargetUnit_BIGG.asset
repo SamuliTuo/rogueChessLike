@@ -20,9 +20,10 @@ MonoBehaviour:
   projectileType: 1
   projectilePath: healer_healTargetUnit_BIGG_Projectile
   reach: 2
-  damage: -777
+  damage: -111
   castSpeed: 0.05
-  cooldown: 4
+  cooldown: 7
+  startCooldownMultiplier: 0.5
   flySpeed: 88
   minLifeTime: 0.35
   damagesAllies: 0
@@ -38,6 +39,16 @@ MonoBehaviour:
   bounceSpawnCount_ability: 10
   bounceDamagePercChangePerJump: 1
   onlyOneBouncePerUnit: 1
-  spawnUnit: {fileID: 0}
+  spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
+  damage_upgradeable: 0
+  cooldown_upgradeable: 1
+  castSpeed_upgradeable: 0
+  flySpeed_upgradeable: 0
+  reach_upgradeable: 1
+  bounceCount_upgradeable: 0
+  bounceRange_upgradeable: 0
+  bounceDamageAmp_upgradeable: 0
+  projectilesPerBounce_upgradeable: 0
+  spawnUnitCount_upgradeable: 0

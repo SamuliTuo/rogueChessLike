@@ -146,19 +146,19 @@ public class Obstacle : MonoBehaviour
             {
                 if (nextAbility != null)
                 {
-                    t = nextAbility.castSpeed;
+                    t = nextAbility.castDuration_firstHalf;
                     nextAction = ObstacleAction.ABILITY;
                 }
                 else
                 {
-                    t = normalAttacks[currentAttack].attackInterval;
+                    t = normalAttacks[currentAttack].attackDuration_firstHalf;
                     nextAction = ObstacleAction.NORMAL_ATTACK;
                 }
             }
         }
         else
         {
-            t = moveInterval * Mathf.Min(3.5f, pathfinding.GetMultiplier(Chessboard.Instance.nodes[x,y]));
+            t = moveInterval * pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]);
             nextAction = ObstacleAction.MOVE;
         }
 
@@ -183,7 +183,7 @@ public class Obstacle : MonoBehaviour
         var atk = normalAttacks[currentAttack];
         if (attackTarget == null)
         {
-            savedAttackTimerAmount = atk.attackInterval * percentOfAttackTimerSave;
+            savedAttackTimerAmount = atk.attackDuration_firstHalf * percentOfAttackTimerSave;
             currentAttack = 0;
             ResetAI();
             return;

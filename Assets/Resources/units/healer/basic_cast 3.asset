@@ -19,7 +19,7 @@ MonoBehaviour:
   attackRange: 3
   damage: 10
   attackInterval: 0.9
-  attackFlySpeed: 34
+  attackFlySpeed: 20
   minLifeTime: 0
   projectilePath: basic_cast_projectile
   damagesAllies: 0

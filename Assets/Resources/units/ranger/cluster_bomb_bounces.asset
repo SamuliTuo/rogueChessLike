@@ -16,8 +16,8 @@ MonoBehaviour:
   hitParticle: 3
   dmgInstanceType: 0
   projectileType: 0
-  attackRange: 6
-  damage: 120
+  attackRange: 4
+  damage: 15
   attackInterval: 0.15
   attackFlySpeed: 11
   minLifeTime: 0

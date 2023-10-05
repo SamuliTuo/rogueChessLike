@@ -1,19 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityUpgrade : MonoBehaviour
+
+public class AbilityUpgrade
 {
-    UnitAbility ability;
-    string upgradeName;
-    float upgradeAmount;
+    public UnitAbility ability;
+    public string upgradeType;
+    public float upgradeAmount;
 
-
-    public AbilityUpgrade(UnitAbility ability, string upgradeName, float upgradeAmount)
+    public AbilityUpgrade(UnitAbility ability, string upgradeType, float upgradeAmount)
     {
         this.ability = ability;
-        this.upgradeName = upgradeName;
+        this.upgradeType = upgradeType;
         this.upgradeAmount = upgradeAmount;
     }
-
 }

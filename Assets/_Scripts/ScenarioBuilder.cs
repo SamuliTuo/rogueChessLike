@@ -16,19 +16,12 @@ public enum ScenarioBuilderPanel
 
 public class ScenarioBuilder : MonoBehaviour
 {
-    [SerializeField] Image currentlyChosenImage;
-
-    public Chessboard board;
-
     public static ScenarioBuilder Instance;
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-            Destroy(this);
-        else
-            Instance = this;
-    }
+    [HideInInspector] public Chessboard board;
+    [HideInInspector] public ScenarioBuilderCameraSettings camSettings;
 
+    [SerializeField] private GameObject treeTESTER = null;
+    [SerializeField] private Image currentlyChosenImage;
     [SerializeField] private float draggingScale = 0.8f;
     [SerializeField] private float draggingOffset = 1.5f;
     [SerializeField] private GameObject unitsPanel, terrainPanel, objectsPanel;
@@ -44,6 +37,13 @@ public class ScenarioBuilder : MonoBehaviour
     private Unit currentlyDragging;
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
+    }
 
     private void Start()
     {  
@@ -56,6 +56,7 @@ public class ScenarioBuilder : MonoBehaviour
             if (currentlyChosenImage != null)
                 currentlyChosenImage.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[0].image;
         }
+        camSettings = GameObject.Find("Canvas").GetComponentInChildren<ScenarioBuilderCameraSettings>();
     }
 
     public void SetCurrentNodeType(int type)
@@ -348,8 +349,7 @@ public class ScenarioBuilder : MonoBehaviour
             }
         }
     }
-
-    void ObjectPlacerUpdate()
+    private void ObjectPlacerUpdate()
     {
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
@@ -548,16 +548,19 @@ public class ScenarioBuilder : MonoBehaviour
         switch (type)
         {
             case NodeType.NONE:
-                board.nodes[x, y].tileTypeLayerName = "Tile";
-                board.nodes[x, y].walkable = true;
+                board.ChangeTileGraphics(x, y, "Tile", true);
+                //board.nodes[x, y].tileTypeLayerName = "Tile";
+                //board.nodes[x, y].walkable = true;
                 break;
             case NodeType.SWAMP:
-                board.nodes[x, y].tileTypeLayerName = "Swamp";
-                board.nodes[x, y].walkable = true;
+                board.ChangeTileGraphics(x, y, "Swamp", false);
+                //board.nodes[x, y].tileTypeLayerName = "Swamp";
+                //board.nodes[x, y].walkable = true;
                 break;
             case NodeType.EMPTY:
-                board.nodes[x, y].tileTypeLayerName = "Empty";
-                board.nodes[x, y].walkable = false;
+                board.ChangeTileGraphics(x, y, "Empty", false);
+                //board.nodes[x, y].tileTypeLayerName = "Empty";
+                //board.nodes[x, y].walkable = false;
                 break;
             default:
                 break;

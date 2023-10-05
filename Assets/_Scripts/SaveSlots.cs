@@ -59,10 +59,10 @@ public class SaveSlots : MonoBehaviour
         }
     }
 
-    public void SaveToSlot(int slot, string saveName)
+    public void SaveToSlot(int slot, string saveName, Vector3 cameRot)
     {
         if (slot >= 0 && slot < saveSlots.Count) {
-            saveSlots[slot].SaveScenario(saveName);
+            saveSlots[slot].SaveScenario(saveName, cameRot);
             saveSlotsOnCanvas[slot].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = saveName;
         }
         GameManager.Instance.SaveGameManager.SaveScenarios();
@@ -85,6 +85,9 @@ public class SaveSlots : MonoBehaviour
             s.saveName = data.saveName;
             s.sizeX = data.boardSizeX;
             s.sizeY = data.boardSizeY;
+            s.cameraRotationX = data.cameraRotationX;
+            s.cameraRotationY = data.cameraRotationY;
+            s.cameraRotationZ = data.cameraRotationZ;
             s.scenarioUnits = data.unitList;
             s.scenarioNodes = data.scenarioNodes;
         }

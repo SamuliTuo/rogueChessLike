@@ -15,6 +15,7 @@ public class UnitAbilityManager : MonoBehaviour
 
     private Dictionary<UnitAbility, bool> abilitiesWithCooldown = new Dictionary<UnitAbility, bool>();
     private Unit thisUnit;
+    private Animator animator;
 
     public void StartAbilities()
     {
@@ -24,6 +25,7 @@ public class UnitAbilityManager : MonoBehaviour
         if (ability_2 != null) AbilityCooldownAtGameStart(ability_2);
         if (ability_3 != null) AbilityCooldownAtGameStart(ability_3);
         if (ability_4 != null) AbilityCooldownAtGameStart(ability_4);
+        animator = GetComponentInChildren<Animator>();
     }
 
     void AbilityCooldownAtGameStart(UnitAbility _ability)
@@ -55,36 +57,52 @@ public class UnitAbilityManager : MonoBehaviour
 
     public void ActivateAbility(UnitAbility _ability, Unit _attackTarget, Vector2Int[] _path)
     {
+        thisUnit.t = _ability.castDuration_firstHalf;
+
         if (_attackTarget == null)
         {
-            thisUnit.savedAttackTimerAmount = _ability.castSpeed * thisUnit.percentOfAttackTimerSave;
+            thisUnit.savedAttackTimerAmount = _ability.castDuration_firstHalf * thisUnit.percentOfAttackTimerSave;
             thisUnit.ResetAI();
             return;
         }
+        thisUnit.nextAction = Action.ABILITY_SECONDHALF;
         thisUnit.savedAttackTimerAmount = 0;
 
-        if (_path != null && _path.Length > 0)
+        if (animator != null)
+        {
+            animator.speed = 1;
+            animator.Play("ability", 0, 0);
+        }
+        
+        /*if (_path != null && _path.Length > 0)
         {
             var targetPos = _path[_path.Length - 1];
-            thisUnit.RotateUnit(targetPos);
-        }
+            //thisUnit.RotateUnit(targetPos);
+        }*/
+        thisUnit.RotateUnit(new Vector2Int(_attackTarget.x, _attackTarget.y));
+    }
 
+    public void ActivateAbilitySecondHalf(UnitAbility _ability, Unit _attackTarget, Vector2Int[] _path)
+    {
         Vector3 offset = transform.TransformVector(thisUnit.attackPositionOffset);
         Vector3 startPos = transform.position + offset;
+        thisUnit.t = _ability.castDuration_secondHalf;
 
-        abilitiesWithCooldown[_ability] = true;
-        StartCoroutine(AbilityCooldown(_ability, _ability.cooldown));
+        if (_ability.cooldown > 0)
+        {
+            abilitiesWithCooldown[_ability] = true;
+            StartCoroutine(AbilityCooldown(_ability, _ability.cooldown));
+        }
+        else
+        {
+            abilitiesWithCooldown[_ability] = false;
+        }
 
         var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
             _ability.projectilePath, startPos, Quaternion.identity);
-
-        if (projectile != null)
-        {
-            projectile.GetComponent<AbilityInstance>().Init(
-                _ability, startPos, _path, _ability.bounceCount_atk, 
-                _ability.bounceCount_ability, thisUnit, _attackTarget);
-        }
-        
+        projectile?.GetComponent<AbilityInstance>().Init(
+            _ability, startPos, _path, _ability.bounceCount_atk,
+            _ability.bounceCount_ability, thisUnit, _attackTarget);
 
         thisUnit.ResetAI();
     }

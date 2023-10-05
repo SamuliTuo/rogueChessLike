@@ -549,6 +549,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
+  magic: 0
+  attackSpeed: 0
+  moveSpeed: 0
+  turnRate: 0.2
   experienceWorth: 10
   visibleMoveSpeed: 10
   moveInterval: 1.3

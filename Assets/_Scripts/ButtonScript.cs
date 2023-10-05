@@ -135,7 +135,7 @@ public class ButtonScript : MonoBehaviour
     {
         if (input.Length > 0 && input.Length < 25)
         {
-            GameManager.Instance.SaveSlots.SaveToSlot(GetComponentInParent<ScenarioSaving>().currSlot, input);
+            GameManager.Instance.SaveSlots.SaveToSlot(GetComponentInParent<ScenarioSaving>().currSlot, input, ScenarioBuilder.Instance.camSettings.GetScenarioCameraRotation());
             ScenarioBuilder.Instance?.OpenPanel(ScenarioBuilderPanel.TERRAIN);
         }
     }
@@ -159,5 +159,15 @@ public class ButtonScript : MonoBehaviour
     public void MoveOnMap(MapNode node)
     {
         GameManager.Instance.MapController.MoveOnMap(node);
+    }
+
+    //Text Encounters
+    TextEncounterManager encounters;
+    public void ChooseTextResponse(int response)
+    {
+        if (encounters == null) 
+            encounters = GameObject.Find("EncounterManager").GetComponentInChildren<TextEncounterManager>();
+
+        encounters?.ChooseTextResponse(response);
     }
 }
