@@ -6,7 +6,5 @@ using UnityEngine;
 [System.Serializable]
 public class MapFloor : ScriptableObject
 {
-    //public List<MapNodeType> type;
-    public List<Encounter> encounters;
-    public Dictionary<string, int> rewards;
+    public List<Encounter> possibleEncounters;
 }

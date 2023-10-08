@@ -47,7 +47,7 @@ public class EncounterManager : MonoBehaviour
     {
         GameManager.Instance.currentFightCumulatedExperience = 0;
         GameManager.Instance.mapCameraLastPos = node.transform.position;
-        GameManager.Instance.currentScenario = node.encounter.battleScenario;
+        GameManager.Instance.currentScenario = node.encounter.possibleBattleScenarios[Random.Range(0, node.encounter.possibleBattleScenarios.Count)];
         GameManager.Instance.CurrentMap.AddNextNodeOnPath(node);
         GameManager.Instance.ChangeGamestate(GameState.PRE_BATTLE);
         GameManager.Instance.SceneManagement.LoadScene("BattleScene");

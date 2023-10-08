@@ -128,10 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff21cfa4c7b751459ba34d7e3fd48c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minIntensity: 10
-  maxIntensity: 15
-  minRange: 15
-  maxRange: 25
+  minIntensity: 1
+  maxIntensity: 5
+  minRange: 10
+  maxRange: 13
   minLerpSpeed: 0.2
   maxLerpSpeed: 2
 --- !u!1 &5860839376945867582

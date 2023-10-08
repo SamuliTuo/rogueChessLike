@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc57ca68a90ba6b4aa749523b30730c8, type: 3}
   m_Name: _floor_01
   m_EditorClassIdentifier: 
-  encounters:
-  - {fileID: 11400000, guid: fc91e9c821d45094cbd2acd6721e65d1, type: 2}
+  possibleEncounters:
+  - {fileID: 11400000, guid: 2cdc90539c6abdc4597d217d1c0d0b3e, type: 2}

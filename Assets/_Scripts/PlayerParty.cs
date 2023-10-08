@@ -8,6 +8,7 @@ public class PlayerParty : MonoBehaviour
     public List<UnitData> partyUnits { get; set; }
     //public GameObject partyPanel;
     public int partyMoney = 1000;
+    public int maxPartySize = 10;
 
     private PartyMoneyCounter moneyManager;
     private int saveSlot = 0;
@@ -109,6 +110,15 @@ public class PlayerParty : MonoBehaviour
         partyPanel.SetActive(false);
         GameManager.Instance.MapController.SetCanMove(true);
     }*/
+
+    public bool IsPartyFull()
+    {
+        if (partyUnits.Count > maxPartySize)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public void AddMoney(int amount)
     {

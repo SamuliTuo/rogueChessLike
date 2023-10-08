@@ -553,7 +553,7 @@ public class ScenarioBuilder : MonoBehaviour
                 //board.nodes[x, y].walkable = true;
                 break;
             case NodeType.SWAMP:
-                board.ChangeTileGraphics(x, y, "Swamp", false);
+                board.ChangeTileGraphics(x, y, "Swamp", true);
                 //board.nodes[x, y].tileTypeLayerName = "Swamp";
                 //board.nodes[x, y].walkable = true;
                 break;
