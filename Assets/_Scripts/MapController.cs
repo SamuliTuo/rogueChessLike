@@ -139,7 +139,7 @@ public class MapController : MonoBehaviour
         {
             bool splitting = (Random.Range(0.00f, 1.00f) < mapSettings.splitChance);
             bool mergingRight = (i != firstStepSplits - 1 && Random.Range(0.00f, 1.00f) < mapSettings.mergeChance);
-            Encounter e = mapSettings.encountersByRow[0].encounters[Random.Range(0, mapSettings.encountersByRow[0].encounters.Count)];
+            Encounter e = mapSettings.encountersByRow[0].possibleEncounters[Random.Range(0, mapSettings.encountersByRow[0].possibleEncounters.Count)];
             var clone = CreateMapNode(0, i, splitting, mergingRight, e);
             startNode.AddConnection(clone);
             nextRow.Add(clone);
@@ -155,7 +155,7 @@ public class MapController : MonoBehaviour
             int rowIndex = 0;
             for (int i = 0; i < lastRow.Count; i++)
             {
-                Encounter e = mapSettings.encountersByRow[row].encounters[Random.Range(0, mapSettings.encountersByRow[row].encounters.Count)];
+                Encounter e = mapSettings.encountersByRow[row].possibleEncounters[Random.Range(0, mapSettings.encountersByRow[row].possibleEncounters.Count)];
                 if ((lastRow[i].splitting == true && lastRow.Count < mapSettings.maximumNodesWideness) || lastRow.Count == 1)
                 {
                     if (nextMergesWith != null)
@@ -206,18 +206,25 @@ public class MapController : MonoBehaviour
         }
 
         // Last node
-        endNode = CreateMapNode(mapSettings.encountersByRow.Count, 0, false, false, mapSettings.lastEncounters[Random.Range(0, mapSettings.lastEncounters.Count)]);
+        endNode = CreateMapNode(mapSettings.encountersByRow.Count, 0, false, false, mapSettings.lastEncounters[Random.Range(0, mapSettings.lastEncounters.Count)], MapNodeType.END_POS);
         for (int i = 0; i < nextRow.Count; i++)
         {
             nextRow[i].AddConnection(endNode);
         }
     }
 
-    MapNode CreateMapNode(int row, int index, bool splitting, bool mergingRight, Encounter _encounter)
+    MapNode CreateMapNode(int row, int index, bool splitting, bool mergingRight, Encounter floorSettings, MapNodeType type = MapNodeType.NONE)
     {
         GameObject obj = Instantiate(mapNode, transform.position, Quaternion.identity, currentMapTransform);
         var _node = obj.GetComponent<MapNode>();
-        _node.Init(row, index, splitting, mergingRight, _encounter);
+        if (type == MapNodeType.NONE)
+        {
+            _node.Init(row, index, splitting, mergingRight, floorSettings);
+        }
+        else
+        {
+            _node.Init(row, index, splitting, mergingRight, floorSettings, type);
+        }
         mapNodes.Add(_node);
         return _node;
     }

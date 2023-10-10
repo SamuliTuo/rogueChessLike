@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abcbd9c9f695244ebf39d89c34aad57, type: 3}
   m_Name: battle_easy_00
   m_EditorClassIdentifier: 
-  mapNodeType: 3
-  encounterText: 
-  encounterImage: {fileID: 0}
-  battleScenario: {fileID: 11400000, guid: 76cae81aea83d3e43a606070b4a5d995, type: 2}
+  possibleTextScenarios:
+  - {fileID: 11400000, guid: 56c148ef739befa4c97d5b0d7cbdd2f1, type: 2}
+  possibleBattleScenarios: []

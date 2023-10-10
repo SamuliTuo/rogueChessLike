@@ -13,7 +13,7 @@ public class TextEncounterManager : MonoBehaviour
 
     private TextEncounter currentEncounter;
 
-
+    
     public void ActivateTextEncounter(TextEncounter encounter)
     {
         currentEncounter = encounter;
@@ -29,10 +29,19 @@ public class TextEncounterManager : MonoBehaviour
         if (CheckForMoney(button) && CheckForUnit(button))
         {
             // Give REWARD
-            //RollDice(button); tsekkaa voititko, häviökin aktivoi napin joten tätä ei tsekata ylemmässä tsekis
+            bool success = RollDice(button); //tsekkaa voititko, häviökin aktivoi napin joten tätä ei tsekata ylemmässä tsekis
+            DisplayResponsePrompt(button, success);
             GiveReward(button);
             CloseEncounter();
         }
+    }
+
+    public void DisplayResponsePrompt(int response, bool success)
+    {
+        if (success)
+            encounterText.text = currentEncounter.responses[response].successPrompt;
+        else
+            encounterText.text = currentEncounter.responses[response].failPrompt;
     }
 
     private void SetButtons(TextEncounter encounter)
@@ -83,7 +92,7 @@ public class TextEncounterManager : MonoBehaviour
 
     bool RollDice(int button)
     {
-        if (currentEncounter.responses[button].requirements.minimumRoll != 0)
+        if (currentEncounter.responses[button].requirements.minimumRoll > 0)
         {
             int roll = Random.Range(1, 21);
             if (roll < currentEncounter.responses[button].requirements.minimumRoll)
@@ -105,9 +114,27 @@ public class TextEncounterManager : MonoBehaviour
         }
         return true;
     }
-
+    
     void GiveReward(int button)
     {
-
+        // Money
+        if (currentEncounter.responses[button].reward.money > 0)
+        {
+            GameManager.Instance.PlayerParty.AddMoney(currentEncounter.responses[button].reward.money);
+        }
+        // Experience
+        if (currentEncounter.responses[button].requirements.needsUnit && currentEncounter.responses[button].reward.experience > 0)
+        {
+            if (buttons[button].GetComponentInChildren<TextEncounterResponseUnitSlot>().slottedUnit != null)
+            {
+                buttons[button].GetComponentInChildren<TextEncounterResponseUnitSlot>().slottedUnit.currentExperience
+                    += currentEncounter.responses[button].reward.experience;
+            }
+        }
+        // New unit
+        if (currentEncounter.responses[button].reward.unit.unitName != "" && GameManager.Instance.PlayerParty.IsPartyFull() == false)
+        {
+            GameManager.Instance.PlayerParty.AddUnit(currentEncounter.responses[button].reward.unit);
+        }
     }
 }

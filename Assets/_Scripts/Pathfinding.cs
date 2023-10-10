@@ -308,7 +308,7 @@ public class Pathfinding : MonoBehaviour
     }
 
 
-    float swampTax = 0.5f;
+    float swampTax = 0.75f;
     public float AddTerrainEffects(Node node)
     {
         switch (node.tileTypeLayerName)

@@ -32,9 +32,9 @@ public class ResponseRequirements
     public int money;
 
     [Tooltip("Roll a d20, pass with rolling 'minimumRoll' or above. Leave empty if no die-roll needed")]
-    public int minimumRoll;
+    [Range(0, 20)] public int minimumRoll;
     public bool needsUnit;
-    public UnitData attemptingUnit;
+    [HideInInspector] public UnitData attemptingUnit;
 }
 [System.Serializable]
 public class ResponseRewards
@@ -43,4 +43,4 @@ public class ResponseRewards
     public UnitData unit;
     [Tooltip("Experience is given to the units that succeeded in a die-roll.")]
     public float experience;
-}
+}   

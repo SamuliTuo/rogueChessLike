@@ -25,10 +25,14 @@ MonoBehaviour:
       needsUnit: 1
       attemptingUnit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
         spawnPosX: 0
         spawnPosY: 0
@@ -42,12 +46,16 @@ MonoBehaviour:
       money: 0
       unit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
-        spawnPosX: 0
+        spawnPosX: 2
         spawnPosY: 0
         attacks: []
         ability1: {fileID: 0}
@@ -55,7 +63,7 @@ MonoBehaviour:
         ability3: {fileID: 0}
         ability4: {fileID: 0}
         possibleAbilities: []
-      experience: 0
+      experience: 90
   - response: Try to catch a bird.
     successPrompt: 
     failPrompt: 
@@ -65,10 +73,14 @@ MonoBehaviour:
       needsUnit: 0
       attemptingUnit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
         spawnPosX: 0
         spawnPosY: 0
@@ -82,12 +94,16 @@ MonoBehaviour:
       money: 0
       unit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
-        spawnPosX: 0
+        spawnPosX: 1
         spawnPosY: 0
         attacks: []
         ability1: {fileID: 0}
@@ -105,10 +121,14 @@ MonoBehaviour:
       needsUnit: 0
       attemptingUnit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
         spawnPosX: 0
         spawnPosY: 0
@@ -122,10 +142,14 @@ MonoBehaviour:
       money: 0
       unit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
         spawnPosX: 0
         spawnPosY: 0
@@ -145,10 +169,14 @@ MonoBehaviour:
       needsUnit: 0
       attemptingUnit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
         spawnPosX: 0
         spawnPosY: 0
@@ -162,10 +190,14 @@ MonoBehaviour:
       money: 0
       unit:
         team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
         currentExperience: 0
         nextLevelExperience: 0
-        maxHp: 0
-        moveInterval: 0
         unitName: 
         spawnPosX: 0
         spawnPosY: 0
