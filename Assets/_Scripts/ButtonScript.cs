@@ -107,7 +107,7 @@ public class ButtonScript : MonoBehaviour
 
     public void ChooseGroundType(int type)
     {
-        ScenarioBuilder.Instance?.SetCurrentNodeType(type);
+        ScenarioBuilder.Instance?.SetToolCurrentNodeType(type);
     }
 
     //Saving
@@ -169,5 +169,12 @@ public class ButtonScript : MonoBehaviour
             encounters = GameObject.Find("EncounterManager").GetComponentInChildren<TextEncounterManager>();
 
         encounters?.ChooseTextResponse(response);
+    }
+    public void CloseEncounter()
+    {
+        if (encounters == null)
+            encounters = GameObject.Find("EncounterManager").GetComponentInChildren<TextEncounterManager>();
+
+        encounters?.CloseEncounter();
     }
 }

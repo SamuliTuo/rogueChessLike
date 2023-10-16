@@ -28,6 +28,12 @@ MonoBehaviour:
   flySpeed: 18
   minLifeTime: 0
   damagesAllies: 0
+  spawnAreaDOT: 1
+  areaDOTSize: 1
+  areaDOTParticle: 1
+  tickDamage: 0.3
+  tickIntervalSeconds: 0.6
+  intervalCount: 4
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0
   bounceRange_attack: 0

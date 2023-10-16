@@ -105,21 +105,6 @@ public class Chessboard : MonoBehaviour
             // If already were hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
-                /*
-                // Spawn enemy if empty
-                if (Input.GetMouseButton(0) && currentlyDragging == null && activeUnits[hitPosition.x, hitPosition.y] == null)
-                {
-                    activeUnits[hitPosition.x, hitPosition.y] = SpawnSingleUnit(enemy, 1);
-                    PositionSingleUnit(hitPosition.x, hitPosition.y, true);
-                }
-                // Remove if RighClicking an unit
-                else if (Input.GetMouseButton(1) && activeUnits[hitPosition.x, hitPosition.y] != null)
-                {
-                    var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
-                    activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().GetDamaged(Mathf.Infinity);
-                }
-                */
                 tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer(nodes[currentHover.x, currentHover.y].tileTypeLayerName);
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
@@ -310,7 +295,7 @@ public class Chessboard : MonoBehaviour
         mesh.RecalculateBounds();
 
         graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset, (y + 0.5f) * tileSize);
-        graphics.transform.localScale = new Vector3(tileSize, tileSize, tileSize);
+        graphics.transform.localScale = new Vector3(tileSize, tileSize, 0.1f);
 
         return tileObject;
     }

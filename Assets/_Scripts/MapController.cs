@@ -14,6 +14,7 @@ public class MapController : MonoBehaviour
     public Sprite mapImage_mystery;
     public Sprite mapImage_caravan;
 
+    public MapNode currentPosition;
     public int pathLength = 10;
     public float minDistance;
     public Vector2 nodeCountMinMax = new Vector2(33, 40);
@@ -21,8 +22,7 @@ public class MapController : MonoBehaviour
     public float xMargin, yMargin;
     public Transform lineTransforms;
     public GameObject playerPrefab;
-
-    private MapNode currentPosition;
+    
     private EncounterManager encounterManager;
     private GameObject mapNode;
     private List<MapNode> mapNodes = new List<MapNode>();

@@ -25,7 +25,6 @@ public class PartyPanel : MonoBehaviour
 
     public void ChooseUnit(int slot)
     {
-        print("unit: " + unitSlots[slot].slottedUnit + ",  currentSlot: " + currentSlot);
         if (unitSlots[slot].slottedUnit == null)
         {
             return;

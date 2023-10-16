@@ -120,7 +120,7 @@ public class Projectile : MonoBehaviour
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
 
         float damage = shooter.GetDamage() * attack.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers);
         GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position);
 
         Bounces();
@@ -137,7 +137,7 @@ public class Projectile : MonoBehaviour
 
         // Hit target
         float damage = shooter.GetDamage() * attack.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.hitParticle);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.hitParticle);
         GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y));
 
         // Stay visible

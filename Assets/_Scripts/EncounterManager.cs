@@ -42,14 +42,12 @@ public class EncounterManager : MonoBehaviour
         }
     }
 
-
     void ActivateBattleNode(MapNode node)
     {
         GameManager.Instance.currentFightCumulatedExperience = 0;
         GameManager.Instance.mapCameraLastPos = node.transform.position;
         GameManager.Instance.currentScenario = node.encounter.possibleBattleScenarios[Random.Range(0, node.encounter.possibleBattleScenarios.Count)];
         GameManager.Instance.CurrentMap.AddNextNodeOnPath(node);
-        GameManager.Instance.ChangeGamestate(GameState.PRE_BATTLE);
         GameManager.Instance.SceneManagement.LoadScene("BattleScene");
     }
     
@@ -60,6 +58,7 @@ public class EncounterManager : MonoBehaviour
 
     void ActivateRandomNode(MapNode node)
     {
+        GameManager.Instance.CurrentMap.AddNextNodeOnPath(node);
         GameManager.Instance.MapController.SetCanMove(false);
 
         int dieRoll = Random.Range(0, node.encounter.possibleTextScenarios.Count + node.encounter.possibleBattleScenarios.Count);
@@ -73,8 +72,6 @@ public class EncounterManager : MonoBehaviour
             GameManager.Instance.currentFightCumulatedExperience = 0;
             GameManager.Instance.mapCameraLastPos = node.transform.position;
             GameManager.Instance.currentScenario = battle;
-            GameManager.Instance.CurrentMap.AddNextNodeOnPath(node);
-            GameManager.Instance.ChangeGamestate(GameState.PRE_BATTLE);
             GameManager.Instance.SceneManagement.LoadScene("BattleScene");
         }
     }

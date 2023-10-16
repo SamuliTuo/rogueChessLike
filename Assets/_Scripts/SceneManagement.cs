@@ -31,10 +31,12 @@ public class SceneManagement : MonoBehaviour
         GameManager.Instance.LoadBoardAndMap();
         if (SceneManager.GetActiveScene().name == "MapScene")
         {
+            GameManager.Instance.ChangeGamestate(GameState.MAP);
             GameManager.Instance.CurrentMap.gameObject.SetActive(true);
         }
         if (SceneManager.GetActiveScene().name == "BattleScene")
         {
+            GameManager.Instance.ChangeGamestate(GameState.PRE_BATTLE);
             GameManager.Instance.CurrentMap.gameObject.SetActive(false);
             GameManager.Instance.PlayerParty.RefreshParty();
             GameManager.Instance.ProjectilePools.RefreshPools();

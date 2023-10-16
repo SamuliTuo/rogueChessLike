@@ -5062,10 +5062,7 @@ MonoBehaviour:
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
   possibleAbilities:
-  - {fileID: 11400000, guid: 32dbd9f9576652343917628482cb755f, type: 2}
-  - {fileID: 11400000, guid: 8f0a49494949a9a419c7b6980788e56c, type: 2}
-  - {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
-  - {fileID: 11400000, guid: c2c7744dfc9620144ad3399a1e983d45, type: 2}
+  - {fileID: 11400000, guid: 4102bd6015e256d4ea65ec646f41dd31, type: 2}
 --- !u!1001 &3883305874098133983
 PrefabInstance:
   m_ObjectHideFlags: 0

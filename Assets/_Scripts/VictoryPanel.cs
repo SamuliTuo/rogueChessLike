@@ -178,12 +178,13 @@ public class VictoryPanel : MonoBehaviour
             return;
 
         lvlUpPanel.gameObject.SetActive(true);
-        lvlUpPanel.InitLevelUpPanel(slot);
+        lvlUpPanel.InitLevelUpPanel(slot.slottedUnit);
     }
-    public void LevelUpDone(VictoryScreenUnitSlot slot)
+    public void LevelUpDone(UnitData unit)
     {
         lvlUpPanel.gameObject.SetActive(false);
 
+        var slot = slotsInUse.Find(x => x.slottedUnit == unit);
         slot.lvlUpSign.SetActive(false);
         slot.lvlUpPending = false;
     }

@@ -59,7 +59,7 @@ public class ScenarioBuilder : MonoBehaviour
         camSettings = GameObject.Find("Canvas").GetComponentInChildren<ScenarioBuilderCameraSettings>();
     }
 
-    public void SetCurrentNodeType(int type)
+    public void SetToolCurrentNodeType(int type)
     {
         // normal ground
         if (type == 0) 
@@ -85,6 +85,7 @@ public class ScenarioBuilder : MonoBehaviour
             terrainPanel.transform.GetChild(3).GetComponent<Image>().color = Color.yellow;
         }
     }
+
     public void ScenarioBuilderUpdate()
     {
         if (!currentCam)

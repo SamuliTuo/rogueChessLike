@@ -17,15 +17,13 @@ public class LevelUpPanel : MonoBehaviour
     [SerializeField] private Sprite upgradeHP;
     [SerializeField] private Sprite upgradeMOVEMENTSPD;
 
-    private VictoryScreenUnitSlot slot;
     private UnitData unitThatsLevelingUp = null;
     private int abilityPoints, passivePoints;
 
 
-    public void InitLevelUpPanel(VictoryScreenUnitSlot slot)
+    public void InitLevelUpPanel(UnitData unit)
     {
-        this.slot = slot;
-        unitThatsLevelingUp = slot.slottedUnit;
+        unitThatsLevelingUp = unit;
         abilityPoints = 1;
         passivePoints = 2;
 
@@ -200,27 +198,27 @@ public class LevelUpPanel : MonoBehaviour
         {
             case ("DMG"):
                 unitThatsLevelingUp.damage += 3.3f;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, slot.slottedUnit.damage);
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitThatsLevelingUp.damage);
                 break;
 
             case ("MAGIC"):
                 unitThatsLevelingUp.magic += 3.1f;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, slot.slottedUnit.magic);
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitThatsLevelingUp.magic);
                 break;
 
             case ("ATTSPD"):
                 unitThatsLevelingUp.attackSpeed += 15;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, slot.slottedUnit.attackSpeed);
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitThatsLevelingUp.attackSpeed);
                 break;
 
             case ("HP"): 
                 unitThatsLevelingUp.maxHp += 25f;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, slot.slottedUnit.maxHp);
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitThatsLevelingUp.maxHp);
                 break;
 
             case ("MOVESPD"): 
                 unitThatsLevelingUp.moveSpeed += 10;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, slot.slottedUnit.moveSpeed);
+                unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitThatsLevelingUp.moveSpeed);
                 break;
 
             default: 
@@ -240,7 +238,14 @@ public class LevelUpPanel : MonoBehaviour
         if (passivePoints < 1 && abilityPoints < 1)
         {
             unitStatsPanel.gameObject.SetActive(false);
-            GetComponentInParent<VictoryPanel>().LevelUpDone(slot);
+            if (GameManager.Instance.state == GameState.BATTLE)
+            {
+                GetComponentInParent<VictoryPanel>().LevelUpDone(unitThatsLevelingUp);
+            }
+            else if (GameManager.Instance.state == GameState.MAP) 
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

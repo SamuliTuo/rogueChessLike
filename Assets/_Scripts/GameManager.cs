@@ -224,7 +224,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         HPBars.Reset();
-        ChangeGamestate(GameState.MAP);
     }
     public void ResetPath()
     {

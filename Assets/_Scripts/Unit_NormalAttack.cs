@@ -10,6 +10,7 @@ public class Unit_NormalAttack : ScriptableObject
     public ParticleType hitParticle;
     public DamageInstanceType dmgInstanceType;
     public ProjectileType projectileType;
+    public UnitStatusModifier statusModifiers;
     public int attackRange = 1;
     public float damage = 10f;
     public float attackDuration_firstHalf = 1f;

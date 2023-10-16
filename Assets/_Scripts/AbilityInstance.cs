@@ -112,12 +112,12 @@ public class AbilityInstance : MonoBehaviour
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
 
         float damage = shooter.GetMagic() * ability.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
+
+        SpawnAreaDOT();
         SpawnUnits();
-        //print("spawns handled");
         Bounces();
-        //print("bounces handled");
         Deactivate();
     }
 
@@ -135,10 +135,9 @@ public class AbilityInstance : MonoBehaviour
 
         // Hit target
         float damage = shooter.GetMagic() * ability.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.hitParticle);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.hitParticle);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
-        SpawnUnits();
-
+        
         // Stay visible
         while (forcedTimer > 0)
         {
@@ -146,6 +145,8 @@ public class AbilityInstance : MonoBehaviour
             yield return null;
         }
 
+        SpawnAreaDOT();
+        SpawnUnits();
         Bounces();
         Deactivate();
     }
@@ -232,11 +233,19 @@ public class AbilityInstance : MonoBehaviour
             bouncedOn.Add(targetUnit);
     }
 
+    void SpawnAreaDOT()
+    {
+        if (ability.spawnAreaDOT == false)
+            return;
+
+        float tickDamage = shooter.GetMagic() * ability.tickDamage;
+        GameManager.Instance.DamageInstance.ActivateAreaDOT(targetNode, tickDamage, ability.tickIntervalSeconds, ability.intervalCount, shooter, ability.areaDOTValidTargets, ability.dmgInstanceType, ability.areaDOTStatusModifier, ability.hitParticle);
+    }
+    
     void SpawnUnits()
     {
         if (ability.spawnUnit.Length > 0)
         {
-            //print("spawning: " + ability.spawnUnit.name);
             var freeNodes = Extensions.GetFreeNodesAtAndAround(targetNode.x, targetNode.y);
             for (int i = 0; i < ability.spawnCount; i++)
             {

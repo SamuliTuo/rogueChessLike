@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: 00_map
   m_EditorClassIdentifier: 
   encountersByRow:
-  - {fileID: 11400000, guid: 0f6b902260f82cd4e92255bc634c074d, type: 2}
-  - {fileID: 11400000, guid: 0f6b902260f82cd4e92255bc634c074d, type: 2}
-  - {fileID: 11400000, guid: 0f6b902260f82cd4e92255bc634c074d, type: 2}
-  - {fileID: 11400000, guid: 0f6b902260f82cd4e92255bc634c074d, type: 2}
-  - {fileID: 11400000, guid: 8314c2583c2c6d64aa758c44260427f8, type: 2}
-  - {fileID: 11400000, guid: 0f6b902260f82cd4e92255bc634c074d, type: 2}
-  - {fileID: 11400000, guid: 012096715f429254f93e5eb559483a7e, type: 2}
   - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
-  - {fileID: 11400000, guid: 296c61bfe4c9f9b4f9b96e7fe34abc6c, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
+  - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
   - {fileID: 11400000, guid: 012096715f429254f93e5eb559483a7e, type: 2}
   startEncounter: {fileID: 11400000, guid: be2a6c8472c7ee94d9832584e953ddd2, type: 2}
   lastEncounters:

@@ -22,6 +22,7 @@ public class UnitAbility : ScriptableObject
 
     [Space(10)]
     public float damage = 10f;
+    public UnitStatusModifier directHitStatusModifier;
     public float castDuration_firstHalf = 1;
     public float castDuration_secondHalf = 1;
     public float cooldown = 10f;
@@ -30,6 +31,16 @@ public class UnitAbility : ScriptableObject
     public float flySpeed = 10f;
     public float minLifeTime = 0;
     public bool damagesAllies;
+
+    [Header("Damage leaves an area of effect:")]
+    public bool spawnAreaDOT = false;
+    public UnitStatusModifier areaDOTStatusModifier;
+    public DamageInstanceType areaDOTSize;
+    public UnitSearchType areaDOTValidTargets;
+    public ParticleType areaDOTParticle;
+    public float tickDamage = 0;
+    public float tickIntervalSeconds = 0;
+    public int intervalCount = 0;
 
     [Header("Bouncing and multiplying:")]
     public Unit_NormalAttack bounceAttack = null;

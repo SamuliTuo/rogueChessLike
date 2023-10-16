@@ -64,12 +64,14 @@ MonoBehaviour:
         ability4: {fileID: 0}
         possibleAbilities: []
       experience: 0
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}
   - response: Try to catch a bird.
     successPrompt: u catch
-    failPrompt: u no catsh
+    failPrompt: u NO catsh!! >:(
     requirements:
       money: 0
-      minimumRoll: 0
+      minimumRoll: 10
       needsUnit: 1
       attemptingUnit:
         team: 0
@@ -111,7 +113,9 @@ MonoBehaviour:
         ability3: {fileID: 0}
         ability4: {fileID: 0}
         possibleAbilities: []
-      experience: 30
+      experience: 120
+      battleOnSuccess: {fileID: 11400000, guid: 59096c3801298c042bb7574669048206, type: 2}
+      battleOnFailureOrAnyCase: {fileID: 11400000, guid: 76cae81aea83d3e43a606070b4a5d995, type: 2}
   - response: 10 000 moneys!?
     successPrompt: big money
     failPrompt: 
@@ -160,6 +164,8 @@ MonoBehaviour:
         ability4: {fileID: 0}
         possibleAbilities: []
       experience: 0
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}
   - response: 250 mon(k)eys.
     successPrompt: moeny was spendeds
     failPrompt: 
@@ -208,3 +214,5 @@ MonoBehaviour:
         ability4: {fileID: 0}
         possibleAbilities: []
       experience: 0
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}

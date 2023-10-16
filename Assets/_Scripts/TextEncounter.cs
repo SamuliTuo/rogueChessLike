@@ -43,4 +43,8 @@ public class ResponseRewards
     public UnitData unit;
     [Tooltip("Experience is given to the units that succeeded in a die-roll.")]
     public float experience;
+    [Tooltip("Use battleOnSuccess when you want to battle on successfull die-roll.")]
+    public Scenario battleOnSuccess;
+    [Tooltip("Use battleOnFailureOrAnyCase for battle initiated by failed rolls, BUT also if you want to always activate a battle.")]
+    public Scenario battleOnFailureOrAnyCase;
 }   

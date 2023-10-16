@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 
 public class SaveSlots : MonoBehaviour
 {
+    public int saveSlotsCount;
+
     public Scenario scenario;
     public List<Scenario> saveSlots = new List<Scenario>();
     public List<Transform> saveSlotsOnCanvas = new List<Transform>();
@@ -13,11 +15,16 @@ public class SaveSlots : MonoBehaviour
     private void Awake()
     {
         // Load the saveSlot - Scriptable Objects
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < saveSlotsCount; i++)
         {
-            var stringi = "scenarios/saveSlot_0" + i.ToString();
-            var blabla = Resources.Load<Scenario>(stringi);
-            saveSlots.Add(blabla);
+            string leString;
+            if (i < 10)
+                leString = "scenarios/saveSlot_0" + i.ToString();
+            else
+                leString = "scenarios/saveSlot_" + i.ToString();
+            
+            var scen = Resources.Load<Scenario>(leString);
+            saveSlots.Add(scen);
         }
     }
 
@@ -30,11 +37,11 @@ public class SaveSlots : MonoBehaviour
             var canvasSlots = GameObject.Find("SavingAndLoading").transform;
             saveSlotsOnCanvas.Clear();
             loadSlotsOnCanvas.Clear();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < saveSlotsCount; i++)
             {
                 saveSlotsOnCanvas.Add(canvasSlots.GetChild(2).GetChild(0).GetChild(i));
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < saveSlotsCount; i++)
             {
                 loadSlotsOnCanvas.Add(canvasSlots.GetChild(3).GetChild(0).GetChild(i));
             }
