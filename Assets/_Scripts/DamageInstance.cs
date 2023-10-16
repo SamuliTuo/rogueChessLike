@@ -21,7 +21,7 @@ public class DamageInstance : MonoBehaviour
         DamageInstanceType type, 
         UnitStatusModifier statusMods, 
         ParticleType particle = ParticleType.NONE)
-    {
+    {   
         Unit[,] units = Chessboard.Instance.GetUnits();
         var targetUnit = units[target.x, target.y];
         if (type == DamageInstanceType.SINGLE_TARGET)

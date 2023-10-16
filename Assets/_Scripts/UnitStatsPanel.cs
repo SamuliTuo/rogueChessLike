@@ -57,7 +57,6 @@ public class UnitStatsPanel : MonoBehaviour
 
     public void SetSlider(UnitStatSliderTypes slider, float value)
     {
-        print((int)slider);
         switch (slider)
         {
             case UnitStatSliderTypes.HP:

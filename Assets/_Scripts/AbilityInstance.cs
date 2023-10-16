@@ -54,7 +54,7 @@ public class AbilityInstance : MonoBehaviour
             followUnit = true;
             dist = (startPos - targetUnit.transform.position).magnitude;
         }
-        else if(path != null)
+        else if (path != null)
         {
             endPos = Chessboard.Instance.GetTileCenter(_path[_path.Length-1].x, _path[_path.Length-1].y) + Vector3.up * 1.5f;
             targetNode = Chessboard.Instance.nodes[_path[_path.Length - 1].x, _path[_path.Length - 1].y];
@@ -73,7 +73,7 @@ public class AbilityInstance : MonoBehaviour
             startPos = shooter.transform.position;
             endPos = shooter.transform.position;
         }
-
+        
         t = 0;
 
         if (ability.projectileType == ProjectileType.RANGED)
@@ -84,7 +84,6 @@ public class AbilityInstance : MonoBehaviour
         {
             StartCoroutine("ProjectileMelee");
         }
-        
     }
 
 

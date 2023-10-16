@@ -4967,6 +4967,7 @@ GameObject:
   - component: {fileID: 4130048183171669597}
   - component: {fileID: 487603890882792800}
   - component: {fileID: -3545518329655959451}
+  - component: {fileID: -7766099818865951958}
   m_Layer: 0
   m_Name: Unit_penguin
   m_TagString: Untagged
@@ -5005,7 +5006,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 3
-  maxHp: 145
+  maxHp: 145111100
   hp: 1000
 --- !u!114 &487603890882792800
 MonoBehaviour:
@@ -5063,6 +5064,18 @@ MonoBehaviour:
   ability_4: {fileID: 0}
   possibleAbilities:
   - {fileID: 11400000, guid: 4102bd6015e256d4ea65ec646f41dd31, type: 2}
+--- !u!114 &-7766099818865951958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765936273728097012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da365f71962f3549af9dc4df52326ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3883305874098133983
 PrefabInstance:
   m_ObjectHideFlags: 0

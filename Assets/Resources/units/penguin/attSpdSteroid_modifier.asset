@@ -30,7 +30,7 @@ MonoBehaviour:
   movementSpeedSlow: 0
   movementSpeedSlowDuration: 0
   slowsAttackSpeed: 1
-  attackSpeedSlow: -500
+  attackSpeedSlow: 2000
   attackSpeedSlowDuration: 3.6
   givesMissChance: 0
   missChance: 0

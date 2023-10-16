@@ -100,6 +100,7 @@ public class UnitAbilityManager : MonoBehaviour
 
         var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
             _ability.projectilePath, startPos, Quaternion.identity);
+        print(_ability.directHitStatusModifier);
         projectile?.GetComponent<AbilityInstance>().Init(
             _ability, startPos, _path, _ability.bounceCount_atk,
             _ability.bounceCount_ability, thisUnit, _attackTarget);

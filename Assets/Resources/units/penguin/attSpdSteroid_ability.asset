@@ -18,7 +18,7 @@ MonoBehaviour:
   hitParticle: 5
   dmgInstanceType: 0
   projectileType: 0
-  projectilePath: 
+  projectilePath: projectile_fireBall
   reach: 1
   damage: 0
   directHitStatusModifier: {fileID: 11400000, guid: fbc3551941fc0ca4aae2ad32077c5982, type: 2}

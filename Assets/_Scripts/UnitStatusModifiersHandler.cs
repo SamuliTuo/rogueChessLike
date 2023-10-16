@@ -18,6 +18,15 @@ public class UnitStatusModifiersHandler : MonoBehaviour
     // ================== PUBLIC ================== //
     public void AddNewStatusModifiers(UnitStatusModifier statuses)
     {
+        //print out all of the booleans of "statuses"
+
+        print("going for status effects:");
+        print(" - shield: "+statuses.givesShield);
+        print(" - stuns: " + statuses.stuns);
+        print(" - silence: " + statuses.silences);
+        print(" - attSpd: " + statuses.slowsAttackSpeed);
+
+
         if (statuses.slowsAttackSpeed)
             StartCoroutine(AttackSpeedMod(statuses));
 

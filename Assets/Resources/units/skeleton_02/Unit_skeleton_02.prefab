@@ -184,7 +184,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 4
-  maxHp: 180
+  maxHp: 180111100
   hp: 1000
 --- !u!114 &487603890882792800
 MonoBehaviour:

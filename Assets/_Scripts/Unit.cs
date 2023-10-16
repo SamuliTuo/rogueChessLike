@@ -135,13 +135,20 @@ public class Unit : MonoBehaviour
                 nextAbility = null;
                 PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttack].targeting, normalAttacks[currentAttack].attackRange, OnPathFound);
             }
+            else if (nextAbility.targetSearchType == UnitSearchType.ONLY_SELF)
+            {
+                nextAction = Action.ABILITY;
+                path = new Vector2Int[1];
+                path[0] = new Vector2Int(x, y);
+                attackTarget = this;
+            }
             else
             {
                 PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.targetSearchType, nextAbility.reach, OnPathFound);
             }
         }
     }
-
+        
     //Load unit from PlayerParty:
     public void LoadUnit(UnitData data)
     {
@@ -213,12 +220,14 @@ public class Unit : MonoBehaviour
                     ResetAI();
                     break;
                 }
+                print("nextAbi: " + nextAbility + ", att target: " + attackTarget + ", path length: " + path.Length);
                 abilities.ActivateAbilitySecondHalf(nextAbility, attackTarget, path);
                 break;
 
             default: break;
         }
     }
+    
 
     // Chooses the action
     public void OnPathFound(Vector2Int[] newPath, bool pathSuccesfull, bool _inRangeToAttack, Unit targetUnit = null)
