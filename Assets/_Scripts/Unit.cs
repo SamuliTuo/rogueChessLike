@@ -102,29 +102,34 @@ public class Unit : MonoBehaviour
     private UnitAbility nextAbility;
     public void AI()
     {
+        // Unit activated an action and needs to wait:
         if (t > 0) 
         {
             t -= Time.deltaTime;
         }
+        // Unit chose and action to activate:
         else if (nextAction != Action.NONE) 
         {
             ActivateAction();
         }
+
+
+        // ...otherwise choose what to do next:
         else if (pathPending == false)
         {
             nextAbility = abilities.ConsiderUsingAnAbility();
             pathPending = true;
             ResetPath();
 
-            // Auto-attack
+            // Auto-attack / move to attack range:
             if (nextAbility == null)
             {
                 PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttack].targeting, normalAttacks[currentAttack].attackRange, OnPathFound);
-                return;
             }
 
             // Use an ability
-            if (nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_ABS || nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
+            //  - on ally:
+            else if (nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_ABS || nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
             {
                 var targetUnit = board.GetLowestTeammate(nextAbility.targetSearchType, this);
                 if (targetUnit != null)
@@ -135,6 +140,7 @@ public class Unit : MonoBehaviour
                 nextAbility = null;
                 PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttack].targeting, normalAttacks[currentAttack].attackRange, OnPathFound);
             }
+            //  - on self:
             else if (nextAbility.targetSearchType == UnitSearchType.ONLY_SELF)
             {
                 nextAction = Action.ABILITY;
@@ -142,6 +148,7 @@ public class Unit : MonoBehaviour
                 path[0] = new Vector2Int(x, y);
                 attackTarget = this;
             }
+            //  - on enemy:
             else
             {
                 PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.targetSearchType, nextAbility.reach, OnPathFound);
@@ -220,11 +227,11 @@ public class Unit : MonoBehaviour
                     ResetAI();
                     break;
                 }
-                print("nextAbi: " + nextAbility + ", att target: " + attackTarget + ", path length: " + path.Length);
                 abilities.ActivateAbilitySecondHalf(nextAbility, attackTarget, path);
                 break;
 
-            default: break;
+            default: 
+                break;
         }
     }
     
@@ -261,7 +268,6 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]) + Random.Range(0.0f, 0.15f);
             nextAction = Action.MOVE;
         }
 
@@ -304,8 +310,7 @@ public class Unit : MonoBehaviour
                 return;
             }
         }
-        t = 450 / moveSpeed;
-        t += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]) + Random.Range(0.0f, 0.15f);
+        t = GetMoveInterval();
         print(t);
         //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
         ResetAI();
@@ -313,6 +318,7 @@ public class Unit : MonoBehaviour
 
     float AttackSpeedMultiplier()
     {
+
         return Mathf.Min(0.80f, attackSpeed * 0.01f);
     }
 
@@ -413,6 +419,13 @@ public class Unit : MonoBehaviour
         }
     }
 
+    private float GetMoveInterval()
+    {
+        float interval = Mathf.Clamp(1 / moveSpeed, 0.2f, 6);
+        //float interval = 12000 / (moveSpeed + diminishingReturnsStart);
+        //interval += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]);
+        return interval;
+    }
 
     public virtual List<Vector2Int> GetAvailableMoves(ref Unit[,] units, int tileCountX, int tileCountY)
     {

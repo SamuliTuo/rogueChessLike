@@ -25,7 +25,7 @@ MonoBehaviour:
   castDuration_firstHalf: 0.5
   castDuration_secondHalf: 0.5
   cooldown: 10
-  startCooldownMultiplier: 0.3
+  startCooldownMultiplier: 0.1
   flySpeed: 30
   minLifeTime: 0
   damagesAllies: 0
