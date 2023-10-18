@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 146db3f42bc99d244bb621605ad60876, type: 3}
-  m_Name: attSpdSteroid_modifier
+  m_Name: modifier_TESTER
   m_EditorClassIdentifier: 
   givesShield: 0
   shieldAmount: 0

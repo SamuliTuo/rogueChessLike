@@ -201,7 +201,7 @@ MonoBehaviour:
   damage: 9
   magic: 10
   attackSpeed: 0
-  moveSpeed: 0
+  moveSpeed: 300
   turnRate: 0.25
   experienceWorth: 10
   visibleMoveSpeed: 3

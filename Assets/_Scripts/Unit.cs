@@ -304,13 +304,15 @@ public class Unit : MonoBehaviour
                 return;
             }
         }
-        t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
+        t = 450 / moveSpeed;
+        t += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]) + Random.Range(0.0f, 0.15f);
+        print(t);
+        //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
         ResetAI();
     }
 
     float AttackSpeedMultiplier()
     {
-
         return Mathf.Min(0.80f, attackSpeed * 0.01f);
     }
 

@@ -9,7 +9,7 @@ public class UnitStatusModifiersHandler : MonoBehaviour
     private bool silenced = false;
     private Coroutine immunityCoroutine = null;
     private Coroutine silenceCoroutine = null;
-
+    
     private void Start()
     {
         unit = GetComponent<Unit>();
