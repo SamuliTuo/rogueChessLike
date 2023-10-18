@@ -81,7 +81,6 @@ public class TextEncounterManager : MonoBehaviour
         {
             queuedBattle = currentEncounter.responses[button].reward.battleOnFailureOrAnyCase;
             encounterText.text = currentEncounter.responses[button].successPrompt;
-            print(queuedBattle);
             return true;
         }
         else if (roll >= currentEncounter.responses[button].requirements.minimumRoll)
@@ -89,7 +88,6 @@ public class TextEncounterManager : MonoBehaviour
             queuedBattle = currentEncounter.responses[button].reward.battleOnSuccess;
             encounterText.text = "Roll: " + roll + " / " + currentEncounter.responses[button].requirements.minimumRoll + "\n" 
                 + currentEncounter.responses[button].successPrompt;
-            print(queuedBattle);
             return true;
         } 
         else
@@ -97,7 +95,6 @@ public class TextEncounterManager : MonoBehaviour
             queuedBattle = currentEncounter.responses[button].reward.battleOnFailureOrAnyCase;
             encounterText.text = "Roll: " + roll + " / " + currentEncounter.responses[button].requirements.minimumRoll + "\n"
                 + currentEncounter.responses[button].failPrompt;
-            print(queuedBattle);
             return false;
         }
     }

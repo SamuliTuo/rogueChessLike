@@ -5023,7 +5023,7 @@ MonoBehaviour:
   damage: 10
   magic: 10
   attackSpeed: 5
-  moveSpeed: 9
+  moveSpeed: 1
   turnRate: 0.7
   experienceWorth: 10
   visibleMoveSpeed: 8.7

@@ -18,14 +18,8 @@ public class UnitStatusModifiersHandler : MonoBehaviour
     // ================== PUBLIC ================== //
     public void AddNewStatusModifiers(UnitStatusModifier statuses)
     {
-        //print out all of the booleans of "statuses"
-
-        print("going for status effects:");
-        print(" - shield: "+statuses.givesShield);
-        print(" - stuns: " + statuses.stuns);
-        print(" - silence: " + statuses.silences);
-        print(" - attSpd: " + statuses.slowsAttackSpeed);
-
+        if (statuses.slowsMovementSpeed)
+            StartCoroutine(MovementSpeedMod(statuses));
 
         if (statuses.slowsAttackSpeed)
             StartCoroutine(AttackSpeedMod(statuses));
@@ -73,6 +67,12 @@ public class UnitStatusModifiersHandler : MonoBehaviour
         }
     }
 
+    private IEnumerator MovementSpeedMod(UnitStatusModifier statuses)
+    {
+        unit.moveSpeed += statuses.movementSpeedSlow;
+        yield return new WaitForSeconds(statuses.movementSpeedSlow);
+        unit.moveSpeed -= statuses.movementSpeedSlow;
+    }
     private IEnumerator AttackSpeedMod(UnitStatusModifier statuses)
     {
         unit.attackSpeed += statuses.attackSpeedSlow;

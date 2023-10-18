@@ -26,10 +26,10 @@ MonoBehaviour:
   tickDamage: 0
   tickIntervalSeconds: 0
   intervalCount: 0
-  slowsMovementSpeed: 0
-  movementSpeedSlow: 0
-  movementSpeedSlowDuration: 0
-  slowsAttackSpeed: 1
+  slowsMovementSpeed: 1
+  movementSpeedSlow: 500
+  movementSpeedSlowDuration: 1
+  slowsAttackSpeed: 0
   attackSpeedSlow: 2000
   attackSpeedSlowDuration: 3.6
   givesMissChance: 0
