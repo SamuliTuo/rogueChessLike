@@ -16,6 +16,7 @@ MonoBehaviour:
   hitParticle: 4
   dmgInstanceType: 0
   projectileType: 1
+  statusModifiers: {fileID: 0}
   attackRange: 1
   damage: 1
   attackDuration_firstHalf: 0.225

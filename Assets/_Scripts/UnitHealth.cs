@@ -16,6 +16,7 @@ public class UnitHealth : MonoBehaviour
     private float hpBarMaxBiggenPerc = 2.3f;    
 
     [HideInInspector] public float hp;
+    [HideInInspector] public float shield;
 
     //private Material mat;
     private Color originalColor;
@@ -44,11 +45,26 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
-    public void GetDamaged(float damage)
+    public void RemoveHP(float damage)
     {
-        hp -= damage;
         GameManager.Instance.ParticleSpawner.InitDamageNumbers(damage, transform.position + Vector3.up * hpBarOffset);
 
+        // If taking damage and we have an active shield:
+        if (damage > 0 && shield > 0)
+        {
+            shield -= damage;
+            if (shield >= 0)
+            {
+                return;
+            }
+            else
+            {
+                damage = Mathf.Abs(shield);
+                shield = 0;
+            }
+        }
+
+        hp -= damage;
         if (hp >= maxHp)
             hp = maxHp;
 
@@ -63,19 +79,19 @@ public class UnitHealth : MonoBehaviour
         }
         else
         {
-            StopCoroutine("DamageFlash");
-            StartCoroutine("DamageFlash");
+            //StopCoroutine("DamageFlash");
+            //StartCoroutine("DamageFlash");
             if (timer > 0.6f)
             {
-                StopCoroutine("DamageFlash");
+                //StopCoroutine("DamageFlash");
                 StartCoroutine("BiggenHPBar", Mathf.Min(Mathf.Abs(damage / maxHp), 1));
             }
-            
         }
     }
 
     public void Die()
     {
+        GetComponent<UnitStatusModifiersHandler>().StopAllCoroutines();
         if (hpScript != null)
         {
             hpScript.Deactivate();
@@ -96,11 +112,15 @@ public class UnitHealth : MonoBehaviour
         hp = maxHp * perc;
     }
 
-    IEnumerator DamageFlash()
+    public IEnumerator AddShield(float amount, float duration)
     {
-        //mat.color = Color.white;
-        yield return new WaitForSeconds(flashDuration);
-        //mat.color = originalColor;
+        shield += amount;
+        yield return new WaitForSeconds(duration);
+        shield -= amount;
+        if (shield < 0)
+        {
+            shield = 0;
+        }
     }
 
     float timer = 1;
@@ -115,21 +135,16 @@ public class UnitHealth : MonoBehaviour
             float d1 = 2.75f;
 
             if (perc < 1 / d1)
-            {
                 perc = n1 * perc * perc;
-            }
+
             else if (perc < 2 / d1)
-            {
                 perc = n1 * (perc -= 1.5f / d1) * perc + 0.75f;
-            }
+
             else if (perc < 2.5 / d1)
-            {
                 perc = n1 * (perc -= 2.25f / d1) * perc + 0.9375f;
-            }
+
             else
-            {
                 perc = n1 * (perc -= 2.625f / d1) * perc + 0.984375f;
-            }
 
             //perc = 1 - (1 - perc) * (1 - perc);
             timer += Time.deltaTime;

@@ -14,7 +14,7 @@ public enum DamageInstanceType
 public class DamageInstance : MonoBehaviour
 {
     public void Activate(
-        Node target, 
+        Node target,
         float damage, 
         Unit shooter, 
         UnitSearchType targeting, 
@@ -67,7 +67,19 @@ public class DamageInstance : MonoBehaviour
                 {
                     targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                 }
-                targetUnit.GetComponent<UnitHealth>().GetDamaged(damage);
+                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage);
+                // Lifesteal:
+                if (shooter != null)
+                {
+                    if (shooter.lifeSteal_perc > 0)
+                    {
+                        shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc);
+                    }
+                    if (shooter.lifeSteal_flat > 0)
+                    {
+                        shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat);
+                    }
+                }
             }
         }
     }
@@ -86,7 +98,7 @@ public class DamageInstance : MonoBehaviour
                 {
                     targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                 }
-                targetUnit.GetComponent<UnitHealth>().GetDamaged(damage);
+                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage);
             }
         }
     }
@@ -110,10 +122,22 @@ public class DamageInstance : MonoBehaviour
                     {
                         units[node.x, node.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                     }
-                    units[node.x,node.y].GetComponent<UnitHealth>().GetDamaged(damage);
+                    units[node.x,node.y].GetComponent<UnitHealth>().RemoveHP(damage);
                     if (node.x != target.x && node.y != target.y)
                     {
                         GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x,target.y));
+                    }
+                    // Lifesteal:
+                    if (shooter != null)
+                    {
+                        if (shooter.lifeSteal_perc > 0)
+                        {
+                            shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc);
+                        }
+                        if (shooter.lifeSteal_flat > 0)
+                        {
+                            shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat);
+                        }
                     }
                 }
             }
@@ -138,7 +162,7 @@ public class DamageInstance : MonoBehaviour
                     {
                         units[node.x, node.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                     }
-                    units[node.x, node.y].GetComponent<UnitHealth>().GetDamaged(damage);
+                    units[node.x, node.y].GetComponent<UnitHealth>().RemoveHP(damage);
 
                     if (node.x != target.x && node.y != target.y)
                     {

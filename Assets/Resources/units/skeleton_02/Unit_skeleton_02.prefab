@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 4130048183171669597}
   - component: {fileID: 487603890882792800}
   - component: {fileID: -3545518329655959451}
+  - component: {fileID: 3978201815652191734}
   m_Layer: 0
   m_Name: Unit_skeleton_02
   m_TagString: Untagged
@@ -186,6 +187,7 @@ MonoBehaviour:
   hpBarOffset: 4
   maxHp: 180111100
   hp: 1000
+  shield: 0
 --- !u!114 &487603890882792800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ MonoBehaviour:
   damage: 9
   magic: 10
   attackSpeed: 0
-  moveSpeed: 300
+  moveSpeed: 100
   turnRate: 0.25
   experienceWorth: 10
   visibleMoveSpeed: 3
@@ -244,6 +246,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c2c7744dfc9620144ad3399a1e983d45, type: 2}
   - {fileID: 11400000, guid: 8f0a49494949a9a419c7b6980788e56c, type: 2}
   - {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
+--- !u!114 &3978201815652191734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765936273728097012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da365f71962f3549af9dc4df52326ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1721875297009287830
 PrefabInstance:
   m_ObjectHideFlags: 0

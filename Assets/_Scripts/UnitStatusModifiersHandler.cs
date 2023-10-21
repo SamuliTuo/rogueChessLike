@@ -5,47 +5,33 @@ using UnityEngine;
 public class UnitStatusModifiersHandler : MonoBehaviour
 {
     private Unit unit;
+    private UnitHealth health;
     private bool immune = false;
     private bool silenced = false;
-    private Coroutine immunityCoroutine = null;
     private Coroutine silenceCoroutine = null;
     
     private void Start()
     {
         unit = GetComponent<Unit>();
+        health = GetComponent<UnitHealth>();
     }
 
     // ================== PUBLIC ================== //
     public void AddNewStatusModifiers(UnitStatusModifier statuses)
     {
-        if (statuses.slowsMovementSpeed)
-            StartCoroutine(MovementSpeedMod(statuses));
+        if (immune) return;
 
-        if (statuses.slowsAttackSpeed)
-            StartCoroutine(AttackSpeedMod(statuses));
-
-        if (statuses.givesCritChance)
-            StartCoroutine(CritChanceMod(statuses));
-
-        if (statuses.givesCritDamage)
-            StartCoroutine(CritDamageMod(statuses));
-
-        if (statuses.givesMissChance)
-            StartCoroutine(ShieldMod(statuses));
-
-        if (statuses.givesLifesteal)
-            StartCoroutine(LifeStealMod(statuses));
-
-        if (statuses.givesImmunity)
-        {
-            if (immunityCoroutine == null) 
-                StopCoroutine(immunityCoroutine);
-
-            immunityCoroutine = StartCoroutine(Immunity(statuses));
-        }
-
-        //if (statuses.stuns)
-            //unit.GetStunned(statuses.stunDuration);
+        if (statuses.slowsMovementSpeed) StartCoroutine(MovementSpeedMod(statuses));
+        if (statuses.slowsAttackSpeed) StartCoroutine(AttackSpeedMod(statuses));
+        if (statuses.givesCritChance) StartCoroutine(CritChanceMod(statuses));
+        if (statuses.givesCritDamage) StartCoroutine(CritDamageMod(statuses));
+        if (statuses.givesMissChance) StartCoroutine(MissChance(statuses));
+        if (statuses.givesLifesteal_flat) StartCoroutine(LifeStealMod_flat(statuses));
+        if (statuses.givesLifesteal_perc) StartCoroutine(LifeStealMod_perc(statuses));
+        if (statuses.damagesOverTime) StartCoroutine(DamageOverTime(statuses));
+        if (statuses.givesShield) StartCoroutine(health.AddShield(statuses.shieldAmount, statuses.shieldDuration));
+        if (statuses.givesImmunity) StartCoroutine(Immunity(statuses));
+        if (statuses.stuns) unit.GetStunned(statuses.stunDuration);
 
         if (statuses.silences)
         {
@@ -55,22 +41,21 @@ public class UnitStatusModifiersHandler : MonoBehaviour
             silenceCoroutine = StartCoroutine(Silence(statuses));
         }
 
-        if (statuses.cleanses)
+        /*if (statuses.cleanses)
         {
             if (silenceCoroutine != null)
             {
                 StopCoroutine(silenceCoroutine);
                 silenced = false;
             }
-            //unit.ClearStun();
-                
-        }
+            unit.tStun = 0;
+        }*/
     }
 
     private IEnumerator MovementSpeedMod(UnitStatusModifier statuses)
     {
         unit.moveSpeed += statuses.movementSpeedSlow;
-        yield return new WaitForSeconds(statuses.movementSpeedSlow);
+        yield return new WaitForSeconds(statuses.movementSpeedSlowDuration);
         unit.moveSpeed -= statuses.movementSpeedSlow;
     }
     private IEnumerator AttackSpeedMod(UnitStatusModifier statuses)
@@ -81,10 +66,9 @@ public class UnitStatusModifiersHandler : MonoBehaviour
     }
     private IEnumerator CritChanceMod(UnitStatusModifier statuses)
     {
-        //unit.critchance += jne
-        print("gaining crit chance for " + statuses.critChanceDuration + " seconds");
+        unit.critChance += statuses.critChance;
         yield return new WaitForSeconds(statuses.critChanceDuration);
-        // TEKEMÄTTÄ!
+        unit.critChance -= statuses.critChance;
     }
     private IEnumerator CritDamageMod(UnitStatusModifier statuses)
     {
@@ -93,26 +77,29 @@ public class UnitStatusModifiersHandler : MonoBehaviour
         yield return new WaitForSeconds(statuses.critDamageDuration);
         // TEKEMÄTTÄ!
     }
-    private IEnumerator ShieldMod(UnitStatusModifier statuses)
+    private IEnumerator MissChance(UnitStatusModifier statuses)
     {
-        //
-        print("gaining shield for " + statuses.shieldDuration + " seconds");
-        yield return new WaitForSeconds(statuses.shieldDuration);
-        // TEKEMÄTTÄ!
+        unit.missChance += statuses.missChance;
+        yield return null;
+        unit.missChance -= statuses.missChance;
     }
-    private IEnumerator LifeStealMod(UnitStatusModifier statuses)
+    private IEnumerator LifeStealMod_flat(UnitStatusModifier statuses)
     {
-        //
-        print("gaining crit DMG for " + statuses.lifestealDuration + " seconds");
-        yield return new WaitForSeconds(statuses.lifestealDuration);
-        // TEKEMÄTTÄ!
+        unit.lifeSteal_flat += statuses.lifesteal_flat;
+        yield return new WaitForSeconds(statuses.lifestealDuration_flat);
+        unit.lifeSteal_flat -= statuses.lifesteal_flat;
+    }
+    private IEnumerator LifeStealMod_perc(UnitStatusModifier statuses)
+    {
+        unit.lifeSteal_perc += statuses.lifesteal_perc;
+        yield return new WaitForSeconds(statuses.lifestealDuration_perc);
+        unit.lifeSteal_perc -= statuses.lifesteal_perc;
     }
     private IEnumerator Immunity(UnitStatusModifier statuses)
     {
         immune = true;
         yield return new WaitForSeconds(statuses.immunityDuration);
         immune = false;
-        immunityCoroutine = null;
     }
     private IEnumerator Silence(UnitStatusModifier statuses)
     {
@@ -120,5 +107,24 @@ public class UnitStatusModifiersHandler : MonoBehaviour
         yield return new WaitForSeconds(statuses.silenceDuration);
         silenced = false;
         silenceCoroutine = null;
+    }
+
+    private IEnumerator DamageOverTime(UnitStatusModifier statuses)
+    {
+        int i = 0;
+        while (i < statuses.dotIntervalCount)
+        {
+            health.RemoveHP(statuses.dotTickDamage);
+
+            // Wait for the next interval:
+            float t = 0;
+            while (t < statuses.dotTickIntervalSeconds)
+            {
+                t += Time.deltaTime;
+                yield return null;
+            }
+            i++;
+            yield return null;
+        }
     }
 }

@@ -19,28 +19,30 @@ MonoBehaviour:
   stunDuration: 0
   silences: 0
   silenceDuration: 0
-  cleanses: 0
   givesImmunity: 0
   immunityDuration: 0
   damagesOverTime: 0
-  tickDamage: 0
-  tickIntervalSeconds: 0
-  intervalCount: 0
-  slowsMovementSpeed: 1
-  movementSpeedSlow: 500
-  movementSpeedSlowDuration: 1
-  slowsAttackSpeed: 0
-  attackSpeedSlow: 2000
-  attackSpeedSlowDuration: 3.6
+  dotTickDamage: 0
+  dotTickIntervalSeconds: 0
+  dotIntervalCount: 0
+  slowsMovementSpeed: 0
+  movementSpeedSlow: 1500
+  movementSpeedSlowDuration: 1.5
+  slowsAttackSpeed: 1
+  attackSpeedSlow: 400
+  attackSpeedSlowDuration: 5
   givesMissChance: 0
   missChance: 0
   missChanceDuration: 0
-  givesCritChance: 0
-  critChance: 0
-  critChanceDuration: 0
+  givesCritChance: 1
+  critChance: 0.495
+  critChanceDuration: 5
   givesCritDamage: 0
   critDamage: 0
   critDamageDuration: 0
-  givesLifesteal: 0
-  lifesteal: 0
-  lifestealDuration: 0
+  givesLifesteal_flat: 1
+  lifesteal_flat: 10
+  lifestealDuration_flat: 5
+  givesLifesteal_perc: 1
+  lifesteal_perc: 1.68
+  lifestealDuration_perc: 5

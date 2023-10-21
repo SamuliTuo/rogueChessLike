@@ -23,6 +23,9 @@ public class Projectile : MonoBehaviour
     float t;
     float dist;
     float forcedTimer;
+    float critChance;
+    float critDamage;
+    float missChance;
     Unit targetUnit;
     Unit shooter;
     bool followUnit = false;
@@ -34,12 +37,15 @@ public class Projectile : MonoBehaviour
     private IObjectPool<GameObject> pool;
     public void SetPool(IObjectPool<GameObject> pool) => this.pool = pool;
 
-    public void Init(  //, Vector3 _startPos, Vector3 _endPos, Node _targetNode, float _flySpeed, float _damage, List<int> damagesTeams, float forcedTimer = 0f)
+    public void Init(
         Unit_NormalAttack _attack,
         Vector3 _startPos,
         Vector2Int[] _path,
         int _attackBounces,
         int _abilityBounces,
+        float _critChance,
+        float _critDamage,
+        float _missChance,
         Unit _shooter,
         Unit _targetUnit = null,
         List<Unit> _bouncedOn = null)
@@ -51,6 +57,9 @@ public class Projectile : MonoBehaviour
         targetUnit = _targetUnit;
         shooter = _shooter;
         forcedTimer = attack.minLifeTime;
+        critChance = _critChance;
+        critDamage = _critDamage;
+        missChance = _missChance;
         bouncesRemainingAttack = _attackBounces;
         bouncesRemainingAbility = _abilityBounces;
 
@@ -119,10 +128,17 @@ public class Projectile : MonoBehaviour
         if (followUnit)
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
 
-        float damage = shooter.GetDamage() * attack.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers);
+        // Hit target
         GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position);
-
+        if (Hits())
+        {
+            float damage = shooter.GetDamage() * attack.damage;
+            if (Crits())
+            {
+                damage *= 2;
+            }
+            GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers);
+        }
         Bounces();
         Deactivate();
     }
@@ -134,11 +150,18 @@ public class Projectile : MonoBehaviour
         var lookAtPos = Chessboard.Instance.GetTileCenter(targetPos.x, targetPos.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
         targetNode = Chessboard.Instance.nodes[targetPos.x, targetPos.y];
+        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y));
 
         // Hit target
-        float damage = shooter.GetDamage() * attack.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.hitParticle);
-        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y));
+        if (Hits())
+        {
+            float damage = shooter.GetDamage() * attack.damage;
+            if (Crits())
+            {
+                damage *= 2;
+            }
+            GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.hitParticle);
+        }
 
         // Stay visible
         while (forcedTimer > 0)
@@ -149,6 +172,29 @@ public class Projectile : MonoBehaviour
 
         Bounces();
         Deactivate();
+    }
+
+    bool Hits()
+    {
+        if (missChance > 0)
+        {
+            if (Random.Range(0.000f, 1.000f) < missChance)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    bool Crits()
+    {
+        if (critChance > 0)
+        {
+            if (Random.Range(0.000f, 1.000f) <= critChance)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void Bounces()
@@ -184,8 +230,11 @@ public class Projectile : MonoBehaviour
                 transform.position,
                 null, 
                 bouncesRemainingAttack - 1, 
-                bouncesRemainingAbility - 1, 
-                shooter, 
+                bouncesRemainingAbility - 1,
+                critChance,
+                critDamage,
+                0,
+                shooter,
                 target.unit,
                 bouncedOn);
         }

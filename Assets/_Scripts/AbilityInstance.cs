@@ -184,7 +184,10 @@ public class AbilityInstance : MonoBehaviour
                 transform.position, 
                 null, 
                 bouncesRemainingAttack - 1, 
-                bouncesRemainingAbility - 1, 
+                bouncesRemainingAbility - 1,
+                0,
+                0,
+                0,
                 shooter, 
                 target.unit,
                 bouncedOn);

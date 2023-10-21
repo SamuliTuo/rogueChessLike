@@ -21,6 +21,7 @@ MonoBehaviour:
   projectilePath: projectile_fireBall
   reach: 2
   damage: 2.6
+  directHitStatusModifier: {fileID: 11400000, guid: fbc3551941fc0ca4aae2ad32077c5982, type: 2}
   castDuration_firstHalf: 0.2
   castDuration_secondHalf: 1
   cooldown: 8
@@ -29,7 +30,9 @@ MonoBehaviour:
   minLifeTime: 0
   damagesAllies: 0
   spawnAreaDOT: 1
+  areaDOTStatusModifier: {fileID: 0}
   areaDOTSize: 1
+  areaDOTValidTargets: 0
   areaDOTParticle: 1
   tickDamage: 0.3
   tickIntervalSeconds: 0.6

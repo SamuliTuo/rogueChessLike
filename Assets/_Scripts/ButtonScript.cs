@@ -88,7 +88,7 @@ public class ButtonScript : MonoBehaviour
                     {
                         currUnits[x, y] = null;
                         GameManager.Instance.currentScenario.RemoveUnit(x, y);
-                        unit.GetComponent<UnitHealth>().GetDamaged(Mathf.Infinity);
+                        unit.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity);
                     }
                     else
                     {

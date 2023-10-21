@@ -5008,6 +5008,7 @@ MonoBehaviour:
   hpBarOffset: 3
   maxHp: 145111100
   hp: 1000
+  shield: 0
 --- !u!114 &487603890882792800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5023,8 +5024,13 @@ MonoBehaviour:
   damage: 10
   magic: 10
   attackSpeed: 5
-  moveSpeed: 1
+  moveSpeed: 300
   turnRate: 0.7
+  critChance: 0
+  critDamagePerc: 2
+  missChance: 0
+  lifeSteal_flat: 0
+  lifeSteal_perc: 0
   experienceWorth: 10
   visibleMoveSpeed: 8.7
   moveInterval: 1.2
@@ -5040,6 +5046,7 @@ MonoBehaviour:
   nextAction: 0
   board: {fileID: 0}
   t: 0
+  tStun: 0
   pathfinding: {fileID: 0}
   target: {x: 0, y: 0}
   path: []

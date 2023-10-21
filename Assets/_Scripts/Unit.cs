@@ -36,6 +36,11 @@ public class Unit : MonoBehaviour
     public float attackSpeed = 1;
     public float moveSpeed = 1;
     public float turnRate = 1;
+    public float critChance = 0;
+    public float critDamagePerc = 2;
+    public float missChance = 0;
+    public float lifeSteal_flat = 0;
+    public float lifeSteal_perc = 0;
 
     public float experienceWorth = 10;
     public float visibleMoveSpeed = 10;
@@ -58,6 +63,7 @@ public class Unit : MonoBehaviour
     //public bool goingToAttack = false;
     [HideInInspector] public Chessboard board;
     [HideInInspector] public float t = 0;
+    [HideInInspector] public float tStun = 0;
 
     // Pathing
     [HideInInspector] public Pathfinding pathfinding;
@@ -88,7 +94,6 @@ public class Unit : MonoBehaviour
         pathfinding = board.GetComponent<Pathfinding>();
         ResetPath();
         abilities = GetComponent<UnitAbilityManager>();
-
         animator = GetComponentInChildren<Animator>();
     }
     
@@ -103,10 +108,8 @@ public class Unit : MonoBehaviour
     public void AI()
     {
         // Unit activated an action and needs to wait:
-        if (t > 0) 
-        {
-            t -= Time.deltaTime;
-        }
+        if (tStun > 0) { tStun -= Time.deltaTime; }
+        else if (t > 0)  { t -= Time.deltaTime; }
         // Unit chose and action to activate:
         else if (nextAction != Action.NONE) 
         {
@@ -275,6 +278,15 @@ public class Unit : MonoBehaviour
         savedAttackTimerAmount = 0;
     }
 
+    public void GetStunned(float stunDuration)
+    {
+        print("pls lis‰‰ mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
+        animator.Play("idle", 0, 0);
+        ResetAI();
+        tStun = stunDuration;
+        t = 0;
+    }
+
     void MoveUnit()
     {
         RotateUnit(path[0]);
@@ -310,15 +322,15 @@ public class Unit : MonoBehaviour
                 return;
             }
         }
-        t = GetMoveInterval();
-        print(t);
+        t = 450 / moveSpeed;
+        t += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]);
+        t += Random.Range(0.0f, 0.2f);
         //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
         ResetAI();
     }
 
     float AttackSpeedMultiplier()
     {
-
         return Mathf.Min(0.80f, attackSpeed * 0.01f);
     }
 
@@ -351,7 +363,7 @@ public class Unit : MonoBehaviour
             normalAttacks[currentAttack].projectilePath, startPos, Quaternion.identity);
         projectile?.GetComponent<Projectile>().Init(
             normalAttacks[currentAttack], startPos, path, normalAttacks[currentAttack].bounceCount_atk,
-            normalAttacks[currentAttack].bounceCount_ability, this, attackTarget);
+            normalAttacks[currentAttack].bounceCount_ability, critChance, critDamagePerc, missChance, this, attackTarget);
 
         t = normalAttacks[currentAttack].attackDuration_secondHalf * (1.0f - AttackSpeedMultiplier());
         ResetAI();
@@ -389,6 +401,7 @@ public class Unit : MonoBehaviour
     {
         ResetPath();
         nextAction = Action.NONE;
+        nextAbility = null;
         pathPending = false;
     }
     public void ResetPath()
@@ -417,14 +430,6 @@ public class Unit : MonoBehaviour
             time += Time.deltaTime * turnRate;
             yield return null;
         }
-    }
-
-    private float GetMoveInterval()
-    {
-        float interval = Mathf.Clamp(1 / moveSpeed, 0.2f, 6);
-        //float interval = 12000 / (moveSpeed + diminishingReturnsStart);
-        //interval += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]);
-        return interval;
     }
 
     public virtual List<Vector2Int> GetAvailableMoves(ref Unit[,] units, int tileCountX, int tileCountY)
