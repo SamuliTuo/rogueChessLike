@@ -185,7 +185,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 4
-  maxHp: 180111100
+  maxHp: 150
   hp: 1000
   shield: 0
 --- !u!114 &487603890882792800
@@ -205,6 +205,11 @@ MonoBehaviour:
   attackSpeed: 0
   moveSpeed: 100
   turnRate: 0.25
+  critChance: 0
+  critDamagePerc: 2
+  missChance: 0
+  lifeSteal_flat: 0
+  lifeSteal_perc: 0
   experienceWorth: 10
   visibleMoveSpeed: 3
   moveInterval: 2
@@ -220,6 +225,7 @@ MonoBehaviour:
   nextAction: 0
   board: {fileID: 0}
   t: 0
+  tStun: 0
   pathfinding: {fileID: 0}
   target: {x: 0, y: 0}
   path: []

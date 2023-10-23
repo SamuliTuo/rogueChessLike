@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -987463109391865520}
   - component: {fileID: -3612060213080868243}
   - component: {fileID: 6621577112940166097}
+  - component: {fileID: 7661013217590933676}
   m_Layer: 0
   m_Name: UNIT_llama
   m_TagString: Untagged
@@ -52,6 +53,7 @@ MonoBehaviour:
   hpBarOffset: 3
   maxHp: 35
   hp: 100
+  shield: 0
 --- !u!114 &-3612060213080868243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +71,11 @@ MonoBehaviour:
   attackSpeed: 0
   moveSpeed: 0
   turnRate: 0
+  critChance: 0
+  critDamagePerc: 2
+  missChance: 0
+  lifeSteal_flat: 0
+  lifeSteal_perc: 0
   experienceWorth: 10
   visibleMoveSpeed: 10
   moveInterval: 1
@@ -84,6 +91,7 @@ MonoBehaviour:
   nextAction: 0
   board: {fileID: 0}
   t: 0
+  tStun: 0
   pathfinding: {fileID: 0}
   target: {x: 0, y: 0}
   path: []
@@ -107,6 +115,18 @@ MonoBehaviour:
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
   possibleAbilities: []
+--- !u!114 &7661013217590933676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2368073843827195385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da365f71962f3549af9dc4df52326ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5231188318006469104
 GameObject:
   m_ObjectHideFlags: 0

@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 4130048183171669597}
   - component: {fileID: 487603890882792800}
   - component: {fileID: -3545518329655959451}
+  - component: {fileID: -5952366919569640602}
   m_Layer: 0
   m_Name: Unit_wraith
   m_TagString: Untagged
@@ -184,8 +185,9 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 4
-  maxHp: 140
+  maxHp: 300
   hp: 1000
+  shield: 0
 --- !u!114 &487603890882792800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,8 +203,13 @@ MonoBehaviour:
   damage: 17
   magic: 10
   attackSpeed: 1
-  moveSpeed: 1
+  moveSpeed: 70
   turnRate: 0.01
+  critChance: 0
+  critDamagePerc: 2
+  missChance: 0
+  lifeSteal_flat: 0
+  lifeSteal_perc: 0
   experienceWorth: 10
   visibleMoveSpeed: 0.6
   moveInterval: 3.9
@@ -218,6 +225,7 @@ MonoBehaviour:
   nextAction: 0
   board: {fileID: 0}
   t: 0
+  tStun: 0
   pathfinding: {fileID: 0}
   target: {x: 0, y: 0}
   path: []
@@ -240,10 +248,19 @@ MonoBehaviour:
   ability_2: {fileID: 0}
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
-  possibleAbilities:
-  - {fileID: 11400000, guid: c2c7744dfc9620144ad3399a1e983d45, type: 2}
-  - {fileID: 11400000, guid: 8f0a49494949a9a419c7b6980788e56c, type: 2}
-  - {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
+  possibleAbilities: []
+--- !u!114 &-5952366919569640602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765936273728097012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da365f71962f3549af9dc4df52326ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4898292389801381291
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -886,6 +886,7 @@ GameObject:
   - component: {fileID: 1608167056007391525}
   - component: {fileID: 3010070026873305624}
   - component: {fileID: -8280155713902308794}
+  - component: {fileID: -3726833260200579747}
   m_Layer: 0
   m_Name: Unit_healer
   m_TagString: Untagged
@@ -937,6 +938,7 @@ MonoBehaviour:
   hpBarOffset: 3
   maxHp: 100
   hp: 1000
+  shield: 0
 --- !u!114 &3010070026873305624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -949,6 +951,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
+  magic: 10
+  attackSpeed: 1
+  moveSpeed: 1
+  turnRate: 1
+  critChance: 0
+  critDamagePerc: 2
+  missChance: 0
+  lifeSteal_flat: 0
+  lifeSteal_perc: 0
   experienceWorth: 10
   visibleMoveSpeed: 10
   moveInterval: 1.1
@@ -968,6 +980,7 @@ MonoBehaviour:
   nextAction: 0
   board: {fileID: 0}
   t: 0
+  tStun: 0
   pathfinding: {fileID: 0}
   target: {x: 0, y: 0}
   path: []
@@ -994,6 +1007,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b63e77e8d38d7e4f9575b6f10e9dadf, type: 2}
   - {fileID: 11400000, guid: f6356f7ac70402c42aa3dad06b2abf7e, type: 2}
   - {fileID: 11400000, guid: a759f5bc6a3fb524b81a5aecc32395c0, type: 2}
+--- !u!114 &-3726833260200579747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4956104183781391756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da365f71962f3549af9dc4df52326ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4963626783152073258
 GameObject:
   m_ObjectHideFlags: 0

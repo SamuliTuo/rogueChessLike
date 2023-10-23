@@ -27,6 +27,7 @@ public class MapNode : MonoBehaviour
     public bool splitting;
     public bool mergingRight;
 
+
     public void Init(int _row, int _index, bool _splitting, bool _mergingRight, Encounter _encounter, MapNodeType type = MapNodeType.NONE)
     {
         encounter = _encounter;

@@ -5006,7 +5006,7 @@ MonoBehaviour:
   dying: 0
   flashDuration: 0.1
   hpBarOffset: 3
-  maxHp: 145111100
+  maxHp: 200
   hp: 1000
   shield: 0
 --- !u!114 &487603890882792800
@@ -5070,7 +5070,11 @@ MonoBehaviour:
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
   possibleAbilities:
+  - {fileID: 11400000, guid: 32dbd9f9576652343917628482cb755f, type: 2}
+  - {fileID: 11400000, guid: 0180c635948190741a61d8adbf825e93, type: 2}
+  - {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
   - {fileID: 11400000, guid: 4102bd6015e256d4ea65ec646f41dd31, type: 2}
+  - {fileID: 11400000, guid: c2c7744dfc9620144ad3399a1e983d45, type: 2}
 --- !u!114 &-7766099818865951958
 MonoBehaviour:
   m_ObjectHideFlags: 0

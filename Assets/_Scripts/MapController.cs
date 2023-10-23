@@ -128,7 +128,7 @@ public class MapController : MonoBehaviour
     void GeneratePaths()
     {
         // First node
-        startNode = CreateMapNode(0, 0, false, false, mapSettings.startEncounter);
+        startNode = CreateMapNode(0, 0, false, false, mapSettings.startEncounter, MapNodeType.START_POS);
 
         List<MapNode> lastRow = new List<MapNode>();
         List<MapNode> nextRow = new List<MapNode>();
@@ -140,7 +140,7 @@ public class MapController : MonoBehaviour
             bool splitting = (Random.Range(0.00f, 1.00f) < mapSettings.splitChance);
             bool mergingRight = (i != firstStepSplits - 1 && Random.Range(0.00f, 1.00f) < mapSettings.mergeChance);
             Encounter e = mapSettings.encountersByRow[0].possibleEncounters[Random.Range(0, mapSettings.encountersByRow[0].possibleEncounters.Count)];
-            var clone = CreateMapNode(0, i, splitting, mergingRight, e);
+            var clone = CreateMapNode(0, i, splitting, mergingRight, e, e.mapNodeType);
             startNode.AddConnection(clone);
             nextRow.Add(clone);
         }
@@ -166,7 +166,7 @@ public class MapController : MonoBehaviour
                     else
                     {
                         bool split = Random.Range(0.00f, 1.00f) < mapSettings.splitChance;
-                        var o = CreateMapNode(row, rowIndex, split, false, e);
+                        var o = CreateMapNode(row, rowIndex, split, false, e, e.mapNodeType);
                         lastRow[i].AddConnection(o);
                         nextRow.Add(o);
                         rowIndex++;
@@ -174,7 +174,7 @@ public class MapController : MonoBehaviour
 
                     bool splitting = (Random.Range(0.00f, 1.00f) < mapSettings.splitChance && lastRow.Count < mapSettings.maximumNodesWideness);
                     bool mergingRight = (i != lastRow.Count - 1 && Random.Range(0.00f, 1.00f) < mapSettings.mergeChance);
-                    var obj = CreateMapNode(row, rowIndex, splitting, mergingRight, e);
+                    var obj = CreateMapNode(row, rowIndex, splitting, mergingRight, e, e.mapNodeType);
                     lastRow[i].AddConnection(obj);
                     nextRow.Add(obj);
                     if (mergingRight) 
@@ -193,7 +193,7 @@ public class MapController : MonoBehaviour
                     {
                         bool splitting = Random.Range(0.00f, 1.00f) < mapSettings.splitChance;
                         bool mergingRight = (i != lastRow.Count - 1 && Random.Range(0.00f, 1.00f) < mapSettings.mergeChance);
-                        var obj = CreateMapNode(row, rowIndex, splitting, mergingRight, e);
+                        var obj = CreateMapNode(row, rowIndex, splitting, mergingRight, e, e.mapNodeType);
                         lastRow[i].AddConnection(obj);
                         nextRow.Add(obj);
                         if (mergingRight)
