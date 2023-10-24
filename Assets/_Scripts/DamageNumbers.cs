@@ -49,21 +49,6 @@ public class DamageNumbers : MonoBehaviour
             }
             yield return null;
         }
-
-
-        /*
-        foreach (string line in String.Split(myString, "\n"))
-        {
-            GameObject obj = new GameObject(line);
-        }
-
-        foreach (char c in damageAsString)
-        {
-
-            var pos = location + transform.TransformVector(positionOffset);
-            int f = int.TryParse(c.ToString(), out f);
-            particleRenderer.mesh = numbers[f].GetComponent<MeshFilter>().mesh;
-        }*/
     }
 
     void SpawnNumber(int num, Vector3 pos, float posOffset, float damage)

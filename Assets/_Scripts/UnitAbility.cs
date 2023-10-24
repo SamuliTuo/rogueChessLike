@@ -24,7 +24,11 @@ public class UnitAbility : ScriptableObject
     public float damage = 10f;
     public UnitStatusModifier directHitStatusModifier;
     public float castDuration_firstHalf = 1;
+    [Tooltip("secondHalf is after additional damage phases")]
     public float castDuration_secondHalf = 1;
+    [Tooltip("additional phases are used for multi-hit abilities, add.phases happen between 1st half and 2nd half")]
+    public int additionalDamagePhases = 0;
+    public float additionalDamagePhaseDuration = 0;
     public float cooldown = 10f;
     [Tooltip("cooldown multiplied by this is how long the spell has cooldown at Start")]
     public float startCooldownMultiplier = 0.5f;

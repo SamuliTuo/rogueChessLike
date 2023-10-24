@@ -55,6 +55,7 @@ public class UnitAbilityManager : MonoBehaviour
         return -1;
     }
 
+    public int additionalPhases = 0;
     public void ActivateAbility(UnitAbility _ability, Unit _attackTarget, Vector2Int[] _path)
     {
         thisUnit.t = _ability.castDuration_firstHalf;
@@ -67,6 +68,15 @@ public class UnitAbilityManager : MonoBehaviour
         }
         thisUnit.nextAction = Action.ABILITY_SECONDHALF;
         thisUnit.savedAttackTimerAmount = 0;
+
+        if (_ability.additionalDamagePhases > 0)
+        {
+            additionalPhases = _ability.additionalDamagePhases;
+        }
+        else
+        {
+            additionalPhases = 0;
+        }
 
         if (animator != null)
         {
@@ -86,17 +96,6 @@ public class UnitAbilityManager : MonoBehaviour
     {
         Vector3 offset = transform.TransformVector(thisUnit.attackPositionOffset);
         Vector3 startPos = transform.position + offset;
-        thisUnit.t = _ability.castDuration_secondHalf;
-
-        if (_ability.cooldown > 0)
-        {
-            abilitiesWithCooldown[_ability] = true;
-            StartCoroutine(AbilityCooldown(_ability, _ability.cooldown));
-        }
-        else
-        {
-            abilitiesWithCooldown[_ability] = false;
-        }
 
         var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
             _ability.projectilePath, startPos, Quaternion.identity);
@@ -104,7 +103,25 @@ public class UnitAbilityManager : MonoBehaviour
             _ability, startPos, _path, _ability.bounceCount_atk,
             _ability.bounceCount_ability, thisUnit, _attackTarget);
 
-        thisUnit.ResetAI();
+        if (additionalPhases > 0)
+        {
+            thisUnit.t = _ability.additionalDamagePhaseDuration;
+            additionalPhases--;
+        }
+        else
+        {
+            thisUnit.t = _ability.castDuration_secondHalf;
+            if (_ability.cooldown > 0)
+            {
+                abilitiesWithCooldown[_ability] = true;
+                StartCoroutine(AbilityCooldown(_ability, _ability.cooldown));
+            }
+            else
+            {
+                abilitiesWithCooldown[_ability] = false;
+            }
+            thisUnit.ResetAI();
+        }
     }
 
     IEnumerator AbilityCooldown(UnitAbility _ability, float _cooldown)

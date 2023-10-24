@@ -84,7 +84,7 @@ public class CaravanController : MonoBehaviour
         UnitAndSavePath randomUnit = null;
         foreach (var unit in GameManager.Instance.UnitSavePaths.unitsDatas)
         {
-            if (unit.unitPrefab.name == "Unit_penguin")
+            if (unit.unitPrefab.name == "Unit_bearCub")
                 randomUnit = unit;
         }
         

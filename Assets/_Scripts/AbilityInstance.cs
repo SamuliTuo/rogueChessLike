@@ -34,7 +34,7 @@ public class AbilityInstance : MonoBehaviour
         int _abilityBounces,
         Unit _shooter,
         Unit _targetUnit = null,
-        List<Unit> _bouncedOn = null) 
+        List<Unit> _bouncedOn = null)
     {
         path = _path;
         ability = _ability;
@@ -131,7 +131,12 @@ public class AbilityInstance : MonoBehaviour
             transform.position = Chessboard.Instance.GetTileCenter(targetUnit.x, targetUnit.y);
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
         }
-
+        else
+        {
+            transform.position = endPos;
+            targetNode = Chessboard.Instance.nodes[shooter.x,shooter.y];
+        }
+        
         // Hit target
         float damage = shooter.GetMagic() * ability.damage;
         GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.hitParticle);
