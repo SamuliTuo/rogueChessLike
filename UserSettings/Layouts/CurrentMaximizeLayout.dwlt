@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 19881
+  controlID: 29699
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 19882
+  controlID: 29700
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 19883
+  controlID: 29659
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
+      scrollPos: {x: 0, y: 134.79999}
       m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 9893fbffce93fbffeaf8fffff6f8ffff40faffffe06c0000
@@ -498,7 +498,7 @@ MonoBehaviour:
       containerId: overlay-container--right
       floating: 0
       collapsed: 0
-      displayed: 1
+      displayed: 0
       snapOffset: {x: -231.99997, y: -202.40001}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
@@ -559,9 +559,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 2.3542092, y: 11.997408, z: -11.680709}
+    m_Target: {x: 1.604486, y: 7.935633, z: -17.856632}
     speed: 2
-    m_Value: {x: 2.3542092, y: 11.997408, z: -11.680709}
+    m_Value: {x: 1.604486, y: 7.935633, z: -17.856632}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -608,13 +608,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.089126445, y: -0.8892996, z: 0.19686037, w: 0.40323737}
+    m_Target: {x: -0.07076177, y: -0.9250589, z: 0.21345247, w: -0.30635804}
     speed: 2
-    m_Value: {x: 0.08911969, y: -0.88923216, z: 0.19684544, w: 0.4032068}
+    m_Value: {x: -0.07075617, y: -0.9249857, z: 0.21343558, w: -0.30633378}
   m_Size:
-    m_Target: 0.000016797938
+    m_Target: 4.31568
     speed: 2
-    m_Value: 0.000016797938
+    m_Value: 4.31568
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -867,21 +867,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/units/bearCub
+    - Assets/Art/3D_models
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Resources/units/bearCub
+  - Assets/Art/3D_models
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\_UNITY pelit\rogueChessLike
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 451}
-    m_SelectedIDs: c4970000
-    m_LastClickedID: 38852
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: fe950000
+    m_LastClickedID: 38398
     m_ExpandedIDs: 00000000f6950000f8950000fa950000fc950000fe950000009600000296000004960000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -935,9 +935,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: bc6afaff
-    m_LastClickedInstanceID: -365892
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: c8960000
+    m_LastClickedInstanceID: 38600
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000aa6d00000adc010016f50300649900007edc020084c9000078ca0000067000001e70000084970300347000006a820100588301004e700000e09a0000167000002270000012940000987f000062840000cc870000dc8700002875000098760000a4760000987a0000423806003ed60800163902003e3a02003c740000c4780000c6780000009e0000145d0600085d0600ea620700c292000006930000f67a0000f88c00006830000092a500002e840000ce640200127a000082d10500ea680000489200006e84000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -962,7 +962,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 276.40002}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 228
@@ -1056,8 +1056,8 @@ MonoBehaviour:
     m_CachedPref: -396
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -365892
-  m_LastVerticalScrollValue: 1026
+  m_LastInspectedObjectInstanceID: 38600
+  m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
