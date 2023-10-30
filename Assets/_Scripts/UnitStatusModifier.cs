@@ -8,51 +8,51 @@ using UnityEngine;
 
 public class UnitStatusModifier : ScriptableObject
 {
-    [Header("Give a shield:")] //TOIMII!
+    [Header("Give a shield:")]
     public bool givesShield = false;
     public float shieldAmount = 0;
     public float shieldDuration = 0;
 
-    [Header("Stun:")] //TOIMII!!
+    [Header("Stun:")]
     public bool stuns = false;
     public float stunDuration = 0;
 
-    [Header("Silence:")] // TOIMII!
+    [Header("Silence:")]
     public bool silences = false;
     public float silenceDuration = 0;
 
     //[Header("Cleanse:")]
     //public bool cleanses = false;
 
-    [Header("Immunity to statuses:")] // TOIMII!
+    [Header("Immunity to statuses:")]
     public bool givesImmunity = false;
     public float immunityDuration = 0;
 
     [Header("(You can use negative values for healing, attSpeed, etc... where it makes sense)")]
-    [Header("Damage over time:")] // TOIMIII!
+    [Header("Damage over time:")]
     public bool damagesOverTime = false;
     public float dotTickDamage = 0;
     public float dotTickIntervalSeconds = 0;
     public int dotIntervalCount = 0;
 
-    [Header("Slow movement speed:")] // TOIMII!
+    [Header("Slow movement speed:")]
     public bool slowsMovementSpeed = false;
     public float movementSpeedSlow = 0;
     public float movementSpeedSlowDuration = 0;
 
-    [Header("Slow attack speed:")] // TOIMII!
+    [Header("Slow attack speed:")]
     public bool slowsAttackSpeed = false;
     public float attackSpeedSlow = 0;
     public float attackSpeedSlowDuration = 0;
 
     [Header("Give attacks miss chance: (1 = 100% miss chance)")]
-    public bool givesMissChance = false; //TOIMII!
+    public bool givesMissChance = false;
     [Range(0, 1)]
     public float missChance = 0;
     public float missChanceDuration = 0;
 
     [Header("Give attacks crit chance: (1 = 100% crit chance)")]
-    public bool givesCritChance = false; //TOIMII!
+    public bool givesCritChance = false;
     [Range(0, 1)]
     public float critChance = 0;
     public float critChanceDuration = 0;
