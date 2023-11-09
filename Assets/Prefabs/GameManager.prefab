@@ -883,9 +883,9 @@ ParticleSystem:
     rotation3D: 1
     gravityModifier:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: -0.2
-      minScalar: 0
+      minMaxState: 3
+      scalar: -1
+      minScalar: -0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5104,7 +5104,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7c1a576e749f03f4a99587d3c588e975, type: 2}
+  - {fileID: 2100000, guid: 0fffe01d66e4fdf46bd86697c1c1d58b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5360,6 +5360,9 @@ MonoBehaviour:
   - savePath: units/bearCub/
     unitPrefab: {fileID: 7765936273728097012, guid: 8ea541379473ecc46bd94dc4a9843333, type: 3}
     image: {fileID: 21300000, guid: bbe5bd308aebb8f47a51b15c091239bc, type: 3}
+  - savePath: units/mooseMan/
+    unitPrefab: {fileID: 7765936273728097012, guid: 3589e450cc9989d43830f784a485836d, type: 3}
+    image: {fileID: 21300000, guid: e9d990756dd87bd4da70a38d9223d3fb, type: 3}
 --- !u!1 &6089650261518574623
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class MapController : MonoBehaviour
     public Sprite mapImage_shop;
     public Sprite mapImage_mystery;
     public Sprite mapImage_caravan;
-
+    
     public MapNode currentPosition;
     public int pathLength = 10;
     public float minDistance;
