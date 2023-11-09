@@ -295,7 +295,7 @@ public class Chessboard : MonoBehaviour
         mesh.RecalculateBounds();
 
         graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset, (y + 0.5f) * tileSize);
-        graphics.transform.localScale = new Vector3(tileSize, tileSize, 0.1f);// 0.1f);
+        graphics.transform.localScale = new Vector3(tileSize, tileSize, 0.05f);// 0.1f);
 
         return tileObject;
     }

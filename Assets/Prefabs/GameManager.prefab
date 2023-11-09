@@ -45,20 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitiesInLibrary:
-  - ability: {fileID: 11400000, guid: afc0e3f55611ecb44a0f19df02ba67c2, type: 2}
-    image: {fileID: 21300000, guid: b2f3785eb5c2b854d9f48ef45ac25456, type: 3}
-  - ability: {fileID: 11400000, guid: de34d70dea91d934ba461edcb4cc8f46, type: 2}
-    image: {fileID: 21300000, guid: d9fc588e78c740347ad9ac79917f80bb, type: 3}
-  - ability: {fileID: 11400000, guid: 5fae35e16b7ad904b8a682bcd507a093, type: 2}
-    image: {fileID: 21300000, guid: 361e7f2a999a0b147be1ea327cc68828, type: 3}
   - ability: {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
     image: {fileID: 21300000, guid: 78410c1be733a4745b24c326713052f3, type: 3}
-  - ability: {fileID: 11400000, guid: 6adc37ac9e3f80c4abbdd13c02093c65, type: 2}
-    image: {fileID: 21300000, guid: 7dc1620955bfc424994cb1dc325091b3, type: 3}
-  - ability: {fileID: 11400000, guid: 20ab983a633c3f24faa0071002036446, type: 2}
-    image: {fileID: 21300000, guid: 64cf7fd936d478f4c83ef41ca130ffc8, type: 3}
-  - ability: {fileID: 11400000, guid: c15f95f10f5bc2046b3532addf2508a0, type: 2}
-    image: {fileID: 21300000, guid: 6fae582eb225c154fbe0e884356be1f1, type: 3}
   - ability: {fileID: 11400000, guid: a759f5bc6a3fb524b81a5aecc32395c0, type: 2}
     image: {fileID: 21300000, guid: 980ca9b13c4ddef46a918cd82a49ee13, type: 3}
   - ability: {fileID: 11400000, guid: f6356f7ac70402c42aa3dad06b2abf7e, type: 2}
@@ -69,8 +57,6 @@ MonoBehaviour:
     image: {fileID: 21300000, guid: 215283ffc4073854291f1c0b303df057, type: 3}
   - ability: {fileID: 11400000, guid: e5c7247f35bdc87498c9f5ba03ac8813, type: 2}
     image: {fileID: 21300000, guid: fcd7c40d4299bd14b8f7a331647c7deb, type: 3}
-  - ability: {fileID: 11400000, guid: 933404f15f441424193538665d84f2a6, type: 2}
-    image: {fileID: 21300000, guid: 83da3b9442d8b234585ba96870c9662e, type: 3}
   - ability: {fileID: 11400000, guid: 32dbd9f9576652343917628482cb755f, type: 2}
     image: {fileID: 21300000, guid: b49cdfc832835e54e87c12b5c3950dd5, type: 3}
 --- !u!1 &551207542
@@ -134,28 +120,8 @@ MonoBehaviour:
     projectile: {fileID: 1684744735726426580, guid: c6104e1bd258f81408f4ffc9ae74b2a7, type: 3}
   - name: spit_attack_projectile
     projectile: {fileID: 1684744735726426580, guid: 1e3a5573aa1bc3c43a0e56313883820c, type: 3}
-  - name: chain_attack_projectile
-    projectile: {fileID: 1684744735726426580, guid: 0f512b4f36b917345a39865dd5118112, type: 3}
-  - name: fireAttack_rangedproject
-    projectile: {fileID: 1684744735726426580, guid: 3b16f631253e0f045af61796385c239a, type: 3}
-  - name: fireBall_bounces_projectile
-    projectile: {fileID: 1684744735726426580, guid: d78fb5d4dff775941b345ac23f3fdc23, type: 3}
-  - name: iceBombProjectile
-    projectile: {fileID: 1684744735726426580, guid: 7f00d022f6a23e04980d02210f961836, type: 3}
   - name: projectile_fireBall
     projectile: {fileID: 1684744735726426580, guid: 72f2dc199936e2542892e4818b465499, type: 3}
-  - name: spawnSkeletonProjectile
-    projectile: {fileID: 1684744735726426580, guid: 7e1e95b677614bd46a62e4e2737f74c2, type: 3}
-  - name: meleeSwing4
-    projectile: {fileID: 1684744735726426580, guid: 4e20f4d7915c0064b847c2c5f7d1b1ff, type: 3}
-  - name: ability_01_pro
-    projectile: {fileID: 1684744735726426580, guid: 9bce70759f238d747a6a8831f9660755, type: 3}
-  - name: ranger_arrow_proj
-    projectile: {fileID: 1684744735726426580, guid: 49726ea770ea26247abbc8c62925475f, type: 3}
-  - name: cluster_bomb_proj
-    projectile: {fileID: 1684744735726426580, guid: 0a548312f48dde54eb4b80858e6992e5, type: 3}
-  - name: spawnBearProjectile
-    projectile: {fileID: 1684744735726426580, guid: 91c9ff015b35d4a4daa03d716875d6ea, type: 3}
   - name: meleeSwing
     projectile: {fileID: 1684744735726426580, guid: 447cc3ee9d066124eb2acf0edd76567b, type: 3}
   - name: ability_cleave_projectile
@@ -5315,54 +5281,27 @@ MonoBehaviour:
   - savePath: units/coalem/
     unitPrefab: {fileID: 1146606507638548932, guid: 2cfdeed00b3a9354b86ebb6b4fa77bee, type: 3}
     image: {fileID: 21300000, guid: cf7388f902f0bfc469713c0e19440ecc, type: 3}
-  - savePath: units/dog/
-    unitPrefab: {fileID: 2368073843827195385, guid: 9a9d1463612060a40895c9390e8a52ef, type: 3}
-    image: {fileID: 21300000, guid: 83da3b9442d8b234585ba96870c9662e, type: 3}
-  - savePath: units/healer/
-    unitPrefab: {fileID: 4956104183781391756, guid: 256969a9013668c4981209ec3c323891, type: 3}
-    image: {fileID: 21300000, guid: 6a8c3b03cf47cc7429f2d72c735e28f3, type: 3}
   - savePath: units/llama/
     unitPrefab: {fileID: 2368073843827195385, guid: b3863b1337fdc1541ba62368a38762ce, type: 3}
     image: {fileID: 21300000, guid: 9f15299e6525cda499c97a2f4a04c906, type: 3}
-  - savePath: units/mage/
-    unitPrefab: {fileID: 3485971199592952580, guid: f5b04cc6c6e0d484e95b165d4ef6ca87, type: 3}
-    image: {fileID: 21300000, guid: 459db9e1661cf544c96fd4ecb33e037c, type: 3}
-  - savePath: units/necromang/
-    unitPrefab: {fileID: 3485971199592952580, guid: 1c0a622bb25295840966dd773886836d, type: 3}
-    image: {fileID: 21300000, guid: d1b392a021e055d4585378316cd6df79, type: 3}
-  - savePath: units/owl-ish/
-    unitPrefab: {fileID: 2368073843827195385, guid: 0c491cee8012e534daafeaad52e2bc89, type: 3}
-    image: {fileID: 21300000, guid: 444861d7b8d5d0d44bb1a476cba4da27, type: 3}
   - savePath: units/pixel_duck/
     unitPrefab: {fileID: 2368073843827195385, guid: bd5cb676bb8774d4ba0e3460909087d5, type: 3}
     image: {fileID: 21300000, guid: 36b73252d351a004d80dbca59501c3e2, type: 3}
-  - savePath: units/pixel_frogo/
-    unitPrefab: {fileID: 2368073843827195385, guid: 6c283143973d0d24d90b66ac3f0abd49, type: 3}
-    image: {fileID: 21300000, guid: 20a3f940776c9cc49b415e4b0aa250c0, type: 3}
-  - savePath: units/ranger/
-    unitPrefab: {fileID: 7393243441863934362, guid: ad50a08ad018fb248956c36796dba6c5, type: 3}
-    image: {fileID: 21300000, guid: 77be5678046248f4285930316a19c1e5, type: 3}
-  - savePath: units/skeleton/
-    unitPrefab: {fileID: 2368073843827195385, guid: 81cb4fbb9b19f74428a9e41dcba6aee0, type: 3}
-    image: {fileID: 21300000, guid: 60655298e6c30a241b35a16dfee6182d, type: 3}
-  - savePath: units/warrior/
-    unitPrefab: {fileID: 7765936273728097012, guid: c28078562dd8d0d48b3ae3825936d59d, type: 3}
-    image: {fileID: 21300000, guid: 5fe2ca3feaebaf4429e447b9d22bb91c, type: 3}
-  - savePath: units/penguin/
+  - savePath: units/player/penguin/
     unitPrefab: {fileID: 7765936273728097012, guid: 509bf89e5e4069648a9b8c840e7af691, type: 3}
     image: {fileID: 21300000, guid: 3218bafd576ce184f8ce9e1d65e42cbb, type: 3}
-  - savePath: units/skeleton_02/
+  - savePath: units/enemy/skeleton_02/
     unitPrefab: {fileID: 7765936273728097012, guid: 1e91c42a68185e643b6e49055cd26235, type: 3}
     image: {fileID: 21300000, guid: 0e5e4feb68e9efb40b5d856d0c20028e, type: 3}
-  - savePath: units/wraith/
+  - savePath: units/enemy/wraith/
     unitPrefab: {fileID: 7765936273728097012, guid: 8c68fbe5153a3fc46a4bb80b58b14728, type: 3}
     image: {fileID: 21300000, guid: 4a12ed1b6a7a8b1448320e4546974aed, type: 3}
-  - savePath: units/bearCub/
+  - savePath: units/player/bearCub/
     unitPrefab: {fileID: 7765936273728097012, guid: 8ea541379473ecc46bd94dc4a9843333, type: 3}
     image: {fileID: 21300000, guid: bbe5bd308aebb8f47a51b15c091239bc, type: 3}
-  - savePath: units/mooseMan/
-    unitPrefab: {fileID: 7765936273728097012, guid: 3589e450cc9989d43830f784a485836d, type: 3}
-    image: {fileID: 21300000, guid: e9d990756dd87bd4da70a38d9223d3fb, type: 3}
+  - savePath: units/player/squirrel/
+    unitPrefab: {fileID: 7765936273728097012, guid: 78ec70306cb477f41b5d83846dd1fd34, type: 3}
+    image: {fileID: 21300000, guid: 777445b0b85ad6d4299aee46e2c7102f, type: 3}
 --- !u!1 &6089650261518574623
 GameObject:
   m_ObjectHideFlags: 0
