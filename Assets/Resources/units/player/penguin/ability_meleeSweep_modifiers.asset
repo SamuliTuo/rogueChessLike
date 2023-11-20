@@ -22,7 +22,7 @@ MonoBehaviour:
   givesImmunity: 0
   immunityDuration: 0
   damagesOverTime: 1
-  dotTickDamage: 0.1
+  dotTickDamage: 0.78
   dotTickIntervalSeconds: 0.1
   dotIntervalCount: 9
   slowsMovementSpeed: 0

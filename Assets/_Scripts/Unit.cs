@@ -284,7 +284,7 @@ public class Unit : MonoBehaviour
         animator.Play("idle", 0, 0);
         ResetAI();
         tStun = stunDuration;
-        t = 0;
+        //t = 0;
     }
 
     void MoveUnit()

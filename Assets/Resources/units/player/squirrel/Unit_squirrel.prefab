@@ -114,7 +114,8 @@ MonoBehaviour:
   ability_2: {fileID: 0}
   ability_3: {fileID: 0}
   ability_4: {fileID: 0}
-  possibleAbilities: []
+  possibleAbilities:
+  - {fileID: 11400000, guid: 58e67251fe0be4e4eabb4589ff94b588, type: 2}
   additionalPhases: 0
 --- !u!114 &-7766099818865951958
 MonoBehaviour:

@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSearchType: 0
   validTargets: 0
-  centerOnYourself: 1
+  centerOnYourself: 0
   hitParticle: 0
   dmgInstanceType: 1
   projectileType: 1
-  projectilePath: chain_attack_projectile
+  projectilePath: projectile_fireAttack
   reach: 1
   damage: 2
   directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.3
   castDuration_secondHalf: 0.8
+  additionalDamagePhases: 0
+  additionalDamagePhaseDuration: 0
   cooldown: 9
   startCooldownMultiplier: 0.5
   flySpeed: 10
@@ -32,8 +34,8 @@ MonoBehaviour:
   spawnAreaDOT: 1
   areaDOTStatusModifier: {fileID: 11400000, guid: c739078da8db5cb4290e0d0ac8afef1d, type: 2}
   areaDOTSize: 1
-  areaDOTValidTargets: 1
-  areaDOTParticle: 7
+  areaDOTValidTargets: 0
+  areaDOTParticle: 2
   tickDamage: 0.3
   tickIntervalSeconds: 1
   intervalCount: 5

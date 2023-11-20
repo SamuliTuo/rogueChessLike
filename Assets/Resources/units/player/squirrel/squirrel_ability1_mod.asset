@@ -16,7 +16,7 @@ MonoBehaviour:
   shieldAmount: 0
   shieldDuration: 0
   stuns: 1
-  stunDuration: 1
+  stunDuration: 1.5
   silences: 0
   silenceDuration: 0
   givesImmunity: 0

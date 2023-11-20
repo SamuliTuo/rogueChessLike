@@ -18,7 +18,7 @@ MonoBehaviour:
   projectileType: 1
   statusModifiers: {fileID: 0}
   attackRange: 1
-  damage: 1
+  damage: 2.7
   attackDuration_firstHalf: 1.37
   attackDuration_secondHalf: 1
   attackFlySpeed: 10

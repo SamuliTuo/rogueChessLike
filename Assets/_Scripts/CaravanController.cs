@@ -82,11 +82,17 @@ public class CaravanController : MonoBehaviour
     UnitData GetARandomCaravanChoice()
     {
         UnitAndSavePath randomUnit = null;
+        List<UnitAndSavePath> units = new List<UnitAndSavePath>();
         foreach (var unit in GameManager.Instance.UnitSavePaths.unitsDatas)
         {
-            if (unit.unitPrefab.name == "Unit_squirrel")
-                randomUnit = unit;
+            if (unit.unitPrefab.name == "Unit_squirrel"
+                || unit.unitPrefab.name == "Unit_bearCub"
+                || unit.unitPrefab.name == "Unit_penguin")
+            {
+                units.Add(unit);
+            }
         }
+        randomUnit = units[Random.Range(0, units.Count)];
         
         //GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         //var randomUnit = GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
