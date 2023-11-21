@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6744bc04315aaba46a90c829d30b6de0, type: 3}
+  m_Name: plains03
+  m_EditorClassIdentifier: 
+  image: {fileID: 21300000, guid: cefdfe93b8e3ed94d9bf3b37b4a361e7, type: 3}
+  textPrompt: The sun is getting to you.
+  responses:
+  - response: Find shade under nearby friendly trees.
+    successPrompt: The trees say hi.
+    failPrompt: 
+    requirements:
+      money: 1
+      minimumRoll: 0
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}
