@@ -15,19 +15,19 @@ MonoBehaviour:
   targetSearchType: 0
   validTargets: 0
   centerOnYourself: 0
-  hitParticle: 0
+  hitParticle: 5
   dmgInstanceType: 0
-  projectileType: 0
-  projectilePath: 
-  reach: 4
-  damage: 11.7402
-  directHitStatusModifier: {fileID: 0}
-  castDuration_firstHalf: 1
+  projectileType: 1
+  projectilePath: projectile_fireAttack
+  reach: 1
+  damage: 4.2
+  directHitStatusModifier: {fileID: 11400000, guid: 4d27a424b68643346abc04ce06e7ab2c, type: 2}
+  castDuration_firstHalf: 0.2
   castDuration_secondHalf: 1
   additionalDamagePhases: 0
   additionalDamagePhaseDuration: 0
-  cooldown: 15
-  startCooldownMultiplier: 0.5
+  cooldown: 12
+  startCooldownMultiplier: 1
   flySpeed: 30
   minLifeTime: 0.1
   damagesAllies: 0
@@ -54,8 +54,8 @@ MonoBehaviour:
   spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
-  damage_upgradeable: 0
-  cooldown_upgradeable: 0
+  damage_upgradeable: 1
+  cooldown_upgradeable: 1
   castSpeed_upgradeable: 0
   flySpeed_upgradeable: 0
   reach_upgradeable: 0

@@ -1,0 +1,218 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6744bc04315aaba46a90c829d30b6de0, type: 3}
+  m_Name: plains04
+  m_EditorClassIdentifier: 
+  image: {fileID: 21300000, guid: a530ad364f5b8b14aa4b93f492c9db4e, type: 3}
+  textPrompt: A rift opens above the cliffs ahead. Night and day seemingly fight
+    over the skies.
+  responses:
+  - response: Investigate the rift.
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 0
+      minimumRoll: 14
+      needsUnit: 1
+      attemptingUnit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 200
+      unit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 300
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}
+  - response: Cheer for the night!
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 0
+      minimumRoll: 9
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}
+  - response: Cheer for the day!
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 0
+      minimumRoll: 9
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}
+  - response: Leg it!
+    successPrompt: 
+    failPrompt: 
+    requirements:
+      money: 0
+      minimumRoll: 9
+      needsUnit: 0
+      attemptingUnit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+    reward:
+      money: 0
+      unit:
+        team: 0
+        maxHp: 0
+        damage: 0
+        magic: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        moveInterval: 0
+        currentExperience: 0
+        nextLevelExperience: 0
+        unitName: 
+        spawnPosX: 0
+        spawnPosY: 0
+        attacks: []
+        ability1: {fileID: 0}
+        ability2: {fileID: 0}
+        ability3: {fileID: 0}
+        ability4: {fileID: 0}
+        possibleAbilities: []
+      experience: 0
+      battleOnSuccess: {fileID: 0}
+      battleOnFailureOrAnyCase: {fileID: 0}

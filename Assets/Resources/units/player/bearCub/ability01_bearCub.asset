@@ -18,15 +18,15 @@ MonoBehaviour:
   hitParticle: 8
   dmgInstanceType: 1
   projectileType: 1
-  projectilePath: chain_attack_projectile
+  projectilePath: projectile_fireAttack
   reach: 1
-  damage: 0.7
+  damage: 1.2
   directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.29
   castDuration_secondHalf: 0.5
   additionalDamagePhases: 2
   additionalDamagePhaseDuration: 0.39
-  cooldown: 1
+  cooldown: 4
   startCooldownMultiplier: 0.5
   flySpeed: 10
   minLifeTime: 0.15
