@@ -69,7 +69,7 @@ public class MapController : MonoBehaviour
 
         if (currentPosition = startNode)
         {
-            StartCoroutine(DelayStartNodeActivation(2.5f));
+            StartCoroutine(DelayStartNodeActivation(0.15f));
         }
     }
 
