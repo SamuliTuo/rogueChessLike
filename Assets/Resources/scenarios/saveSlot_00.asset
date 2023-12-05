@@ -12,84 +12,155 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_00
   m_EditorClassIdentifier: 
-  saveName: 
-  sizeX: 0
-  sizeY: 0
-  scenarioNodes: []
+  saveName: 01
+  sizeX: 4
+  sizeY: 8
+  cameraRotationX: 45
+  cameraRotationY: -45
+  cameraRotationZ: 0
+  scenarioNodes:
+  - x: 0
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 3
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 4
+    walkable: 1
+    terrainLayer: Swamp
+  - x: 0
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 7
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 1
+    walkable: 0
+    terrainLayer: Swamp
+  - x: 1
+    y: 2
+    walkable: 0
+    terrainLayer: Swamp
+  - x: 1
+    y: 3
+    walkable: 1
+    terrainLayer: Swamp
+  - x: 1
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 7
+    walkable: 1
+    terrainLayer: Tile
+  - x: 2
+    y: 0
+    walkable: 1
+    terrainLayer: Swamp
+  - x: 2
+    y: 1
+    walkable: 0
+    terrainLayer: Empty
+  - x: 2
+    y: 2
+    walkable: 0
+    terrainLayer: Empty
+  - x: 2
+    y: 3
+    walkable: 0
+    terrainLayer: Empty
+  - x: 2
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+  - x: 2
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+  - x: 2
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+  - x: 2
+    y: 7
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 1
+    walkable: 0
+    terrainLayer: Empty
+  - x: 3
+    y: 2
+    walkable: 0
+    terrainLayer: Empty
+  - x: 3
+    y: 3
+    walkable: 0
+    terrainLayer: Empty
+  - x: 3
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 7
+    walkable: 1
+    terrainLayer: Tile
   scenarioUnits:
-  - unit: Unit_melee
+  - unit: Unit_wraith
+    spawnPosX: 0
+    spawnPosY: 7
+    team: 1
+  - unit: Unit_wraith
     spawnPosX: 1
     spawnPosY: 7
     team: 1
-  - unit: UNIT_bear
-    spawnPosX: 1
-    spawnPosY: 8
-    team: 1
-  - unit: Unit_ranger
+  - unit: Unit_wraith
     spawnPosX: 2
-    spawnPosY: 0
-    team: 0
-  - unit: UNIT_bear
-    spawnPosX: 2
-    spawnPosY: 8
+    spawnPosY: 7
     team: 1
-  - unit: UNIT_coalem
+  - unit: Unit_wraith
     spawnPosX: 3
     spawnPosY: 7
-    team: 1
-  - unit: UNIT_bear
-    spawnPosX: 3
-    spawnPosY: 8
-    team: 1
-  - unit: Unit_necromancer
-    spawnPosX: 4
-    spawnPosY: 0
-    team: 0
-  - unit: Unit_melee
-    spawnPosX: 4
-    spawnPosY: 1
-    team: 0
-  - unit: UNIT_bear
-    spawnPosX: 4
-    spawnPosY: 8
-    team: 1
-  - unit: UNIT_llama
-    spawnPosX: 4
-    spawnPosY: 9
-    team: 1
-  - unit: Unit_healer
-    spawnPosX: 5
-    spawnPosY: 0
-    team: 0
-  - unit: UNIT_coalem
-    spawnPosX: 5
-    spawnPosY: 6
-    team: 1
-  - unit: UNIT_bear
-    spawnPosX: 5
-    spawnPosY: 7
-    team: 1
-  - unit: UNIT_skelestrong
-    spawnPosX: 6
-    spawnPosY: 7
-    team: 1
-  - unit: UNIT_owl-ish
-    spawnPosX: 6
-    spawnPosY: 9
-    team: 1
-  - unit: UNIT_coalem
-    spawnPosX: 7
-    spawnPosY: 6
-    team: 1
-  - unit: UNIT_skelestrong
-    spawnPosX: 7
-    spawnPosY: 7
-    team: 1
-  - unit: UNIT_llama
-    spawnPosX: 7
-    spawnPosY: 8
-    team: 1
-  - unit: UNIT_llama
-    spawnPosX: 8
-    spawnPosY: 8
     team: 1
