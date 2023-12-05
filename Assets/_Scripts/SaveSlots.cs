@@ -95,7 +95,6 @@ public class SaveSlots : MonoBehaviour
     {
         if (saveSlots.Count < saveSlotsCount)
         {
-            print("sdah");
             saveSlots = GetScenarioReferences();
         }
 
@@ -115,54 +114,3 @@ public class SaveSlots : MonoBehaviour
         return s;
     }
 }
-
-
-//public Scenario LoadSlot(ScenarioData data, int slot)
-//{
-//    Scenario r = null;
-//    if (saveSlots.Count == 0)
-//    {
-//        saveSlots = SaveGameManager.scenarios;
-//    }
-//    if (saveSlots[slot] != null)
-//    {
-//        var s = saveSlots[slot];
-//        saveSlots[slot] = Resources.Load<Scenario>("scenarios/" + data.scriptedScenarioName);
-//        saveSlots[slot].scenarioUnits = data.unitList;
-//        r = saveSlots[slot];
-//    }
-//    return r;
-//}
-//chatGPTN versioon vaihdettu
-
-
-
-
-
-
-
-
-//if (SaveGameManager.scenarios.Count > 0)
-//{
-//    print("nappasin saveSlotit saveGameManagerilta, t: SaveSlots");
-//    saveSlots = SaveGameManager.scenarios;
-//    return;
-//}
-
-//for (int i = 0; i < 10; i++)
-//{
-//    var stringi = "scenarios/saveSlot_0" + i.ToString();
-//    var blabla = Resources.Load<Scenario>(stringi);
-//    saveSlots.Add(blabla);
-//    SaveGameManager.scenarios.Add(blabla);
-//    print("SaveSlot: Luon uutta saveslottia, i = " + i + ", string = " + stringi + ",      saveGemeManager " + i + ": " + SaveGameManager.scenarios[i]);
-//    //print("stringi: " + stringi + ", blabla: " + blabla + ", saveSlots[i]: " + saveSlots[i]);
-//}
-//for (int i = 0; i < saveSlots.Count; i++)
-//{
-//    print("saveslot " + i + ", " + saveSlots[i].name);
-//}
-//for (int i = 0; i < SaveGameManager.scenarios.Count; i++)
-//{
-//    print("sageGameManager scenario " + i + ", " + SaveGameManager.scenarios[i].name);
-//}
