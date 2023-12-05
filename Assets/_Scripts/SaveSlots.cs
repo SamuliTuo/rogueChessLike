@@ -14,18 +14,7 @@ public class SaveSlots : MonoBehaviour
 
     private void Awake()
     {
-        // Load the saveSlot - Scriptable Objects
-        for (int i = 0; i < saveSlotsCount; i++)
-        {
-            string leString;
-            if (i < 10)
-                leString = "scenarios/saveSlot_0" + i.ToString();
-            else
-                leString = "scenarios/saveSlot_" + i.ToString();
-            
-            var scen = Resources.Load<Scenario>(leString);
-            saveSlots.Add(scen);
-        }
+        saveSlots = GetScenarioReferences();
     }
 
 
@@ -47,7 +36,7 @@ public class SaveSlots : MonoBehaviour
             }
         }
 
-        GameManager.Instance.SaveGameManager.LoadScenarios();
+        //GameManager.Instance.SaveGameManager.LoadScenarios();
     }
 
 
@@ -64,6 +53,25 @@ public class SaveSlots : MonoBehaviour
         {
             loadSlotsOnCanvas[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = saveSlots[i].saveName;
         }
+    }
+
+    public List<Scenario> GetScenarioReferences()
+    {
+        var r = new List<Scenario>();
+        // Load the saveSlot - Scriptable Objects
+        for (int i = 0; i < saveSlotsCount; i++)
+        {
+            string slotName;
+            if (i < 10)
+                slotName = "scenarios/saveSlot_0" + i.ToString();
+            else
+                slotName = "scenarios/saveSlot_" + i.ToString();
+
+            var scenarioScriptable = Resources.Load<Scenario>(slotName);
+            
+            r.Add(scenarioScriptable);
+        }
+        return r;
     }
 
     public void SaveToSlot(int slot, string saveName, Vector3 cameRot)
@@ -85,6 +93,12 @@ public class SaveSlots : MonoBehaviour
 
     public Scenario LoadSlot(ScenarioData data, int slot)
     {
+        if (saveSlots.Count < saveSlotsCount)
+        {
+            print("sdah");
+            saveSlots = GetScenarioReferences();
+        }
+
         Scenario s = null;
         if (saveSlots[slot] != null)
         {
