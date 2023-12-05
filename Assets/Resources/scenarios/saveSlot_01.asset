@@ -12,4 +12,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_01
   m_EditorClassIdentifier: 
-  enemies: []
+  saveName: 02
+  sizeX: 4
+  sizeY: 3
+  cameraRotationX: 45
+  cameraRotationY: -45
+  cameraRotationZ: 0
+  scenarioNodes:
+  - x: 0
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+  - x: 0
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+  - x: 1
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+  - x: 2
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+  - x: 2
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+  - x: 2
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+  - x: 3
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+  scenarioUnits:
+  - unit: Unit_wraith
+    spawnPosX: 1
+    spawnPosY: 2
+    team: 1

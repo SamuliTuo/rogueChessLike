@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using Unity.Mathematics;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -105,6 +106,8 @@ public class Scenario : ScriptableObject
                 }
             }
         }
+
+        EditorUtility.SetDirty(this);
     }
 
     public void RemoveUnit(int x, int y)
