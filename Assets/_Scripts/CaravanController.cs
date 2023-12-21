@@ -85,9 +85,7 @@ public class CaravanController : MonoBehaviour
         List<UnitAndSavePath> units = new List<UnitAndSavePath>();
         foreach (var unit in GameManager.Instance.UnitSavePaths.unitsDatas)
         {
-            if (unit.unitPrefab.name == "Unit_squirrel"
-                || unit.unitPrefab.name == "Unit_bearCub"
-                || unit.unitPrefab.name == "Unit_penguin")
+            if ( unit.unitPrefab.name == "Unit_penguin")
             {
                 units.Add(unit);
             }

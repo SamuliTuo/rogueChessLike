@@ -148,19 +148,7 @@ MonoBehaviour:
     walkable: 1
     terrainLayer: Tile
   scenarioUnits:
-  - unit: Unit_wraith
+  - unit: Unit_skeleton_02
     spawnPosX: 0
-    spawnPosY: 7
-    team: 1
-  - unit: Unit_wraith
-    spawnPosX: 1
-    spawnPosY: 7
-    team: 1
-  - unit: Unit_wraith
-    spawnPosX: 2
-    spawnPosY: 7
-    team: 1
-  - unit: Unit_wraith
-    spawnPosX: 3
-    spawnPosY: 7
+    spawnPosY: 6
     team: 1
