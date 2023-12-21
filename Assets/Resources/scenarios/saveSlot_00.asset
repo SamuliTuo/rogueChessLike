@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: saveSlot_00
   m_EditorClassIdentifier: 
   saveName: 01
-  sizeX: 4
-  sizeY: 8
+  sizeX: 7
+  sizeY: 10
   cameraRotationX: 45
   cameraRotationY: -45
   cameraRotationZ: 0
@@ -148,19 +148,7 @@ MonoBehaviour:
     walkable: 1
     terrainLayer: Tile
   scenarioUnits:
-  - unit: Unit_wraith
+  - unit: Unit_skeleton_02
     spawnPosX: 0
-    spawnPosY: 7
-    team: 1
-  - unit: Unit_wraith
-    spawnPosX: 1
-    spawnPosY: 7
-    team: 1
-  - unit: Unit_wraith
-    spawnPosX: 2
-    spawnPosY: 7
-    team: 1
-  - unit: Unit_wraith
-    spawnPosX: 3
-    spawnPosY: 7
+    spawnPosY: 6
     team: 1

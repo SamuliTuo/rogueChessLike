@@ -37,6 +37,7 @@ public class ScenarioBuilder : MonoBehaviour
     private Unit currentlyDragging;
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,6 +46,7 @@ public class ScenarioBuilder : MonoBehaviour
             Instance = this;
     }
 
+
     private void Start()
     {  
         board = Chessboard.Instance;
@@ -52,12 +54,12 @@ public class ScenarioBuilder : MonoBehaviour
         {
             currentlyChosenUnit_Index = 0;
             currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[0].unitPrefab;
-            //check if currentlychosenimage is null
             if (currentlyChosenImage != null)
                 currentlyChosenImage.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[0].image;
         }
         camSettings = GameObject.Find("Canvas").GetComponentInChildren<ScenarioBuilderCameraSettings>();
     }
+
 
     public void SetToolCurrentNodeType(int type)
     {
@@ -86,6 +88,7 @@ public class ScenarioBuilder : MonoBehaviour
         }
     }
 
+
     public void ScenarioBuilderUpdate()
     {
         if (!currentCam)
@@ -95,9 +98,7 @@ public class ScenarioBuilder : MonoBehaviour
         }
 
         if (GameManager.Instance.state != GameState.SCENARIO_BUILDER)
-        {
             return;
-        }
 
         if (IsPointerOverUIObject())
         {
@@ -110,18 +111,14 @@ public class ScenarioBuilder : MonoBehaviour
         }
 
         if (currentlyOpenPanel == ScenarioBuilderPanel.UNITS)
-        {
             UnitPlacerUpdate();
-        }
         else if (currentlyOpenPanel == ScenarioBuilderPanel.TERRAIN)
-        {
             TerrainEditorUpdate();
-        }
         else if (currentlyOpenPanel == ScenarioBuilderPanel.OBJECTS)
-        {
             ObjectPlacerUpdate();
-        }
     }
+
+
     private void TerrainEditorUpdate()
     {
         RaycastHit hit;
@@ -131,9 +128,7 @@ public class ScenarioBuilder : MonoBehaviour
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = board.LookupTileIndex(hit.transform.gameObject);
             if (hitPosition == -Vector2Int.one)
-            {
                 return;
-            }
 
             // If hovering a tile after not hovering any tile
             if (currentHover == -Vector2Int.one)
@@ -147,14 +142,11 @@ public class ScenarioBuilder : MonoBehaviour
             {
                 // Edit terrain if LeftClicking
                 if (Input.GetMouseButton(0) && currentlyDragging == null)
-                {
                     ChangeNodeType(hitPosition.x, hitPosition.y, currentNodeType);
-                }
-                // Set terrain to BASIC if RightClicking
+
+                // Edit terrain to BASIC if RightClicking
                 else if (Input.GetMouseButton(1))
-                {
                     ChangeNodeType(hitPosition.x, hitPosition.y, NodeType.NONE);
-                }
 
                 board.tiles[currentHover.x, currentHover.y].layer =
                     (board.ContainsValidMove(ref availableMoves, currentHover)) ?
@@ -176,9 +168,8 @@ public class ScenarioBuilder : MonoBehaviour
 
                 bool validMove = board.MoveTo(currentlyDragging, hitPosition.x, hitPosition.y, ref availableMoves);
                 if (!validMove)
-                {
                     currentlyDragging.SetPosition(board.GetTileCenter(previousPos.x, previousPos.y));
-                }
+
                 currentlyDragging.SetScale(Vector3.one);
                 currentlyDragging = null;
                 board.RemoveHighlightTiles();
@@ -214,6 +205,8 @@ public class ScenarioBuilder : MonoBehaviour
             }
         }
     }
+
+
     private void UnitPlacerUpdate()
     {
         RaycastHit hit;
@@ -224,9 +217,7 @@ public class ScenarioBuilder : MonoBehaviour
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = board.LookupTileIndex(hit.transform.gameObject);
             if (hitPosition == -Vector2Int.one)
-            {
                 return;
-            }
 
             // If hovering a tile after not hovering any tile
             if (currentHover == -Vector2Int.one)
@@ -291,19 +282,6 @@ public class ScenarioBuilder : MonoBehaviour
                     u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity);
                 }
             }
-            ////remove when right clicking
-            //else if (Input.GetMouseButtonDown(1))
-            //{
-            //    if (activeUnits[hitPosition.x, hitPosition.y] != null)
-            //    {
-            //        if (GameManager.Instance.state == GameState.SCENARIO_BUILDER && currentlyDragging != null)
-            //        {
-            //            var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
-            //            activeUnits[hitPosition.x, hitPosition.y] = null;
-            //            u.GetComponent<UnitHealth>().GetDamaged(Mathf.Infinity);
-            //        }
-            //    }
-            //}
 
             // If we are releasing the mouse button
             if (currentlyDragging != null && Input.GetMouseButtonUp(0))
@@ -350,6 +328,8 @@ public class ScenarioBuilder : MonoBehaviour
             }
         }
     }
+
+
     private void ObjectPlacerUpdate()
     {
         RaycastHit hit;
@@ -474,6 +454,7 @@ public class ScenarioBuilder : MonoBehaviour
         }
     }
 
+
     public void OpenPanel(ScenarioBuilderPanel panel)
     {
         switch (panel)
@@ -544,6 +525,7 @@ public class ScenarioBuilder : MonoBehaviour
         return results.Count > 0;
     }
 
+
     public void ChangeNodeType(int x, int y, NodeType type)
     {
         switch (type)
@@ -567,4 +549,7 @@ public class ScenarioBuilder : MonoBehaviour
                 break;
         }
     }
+
+
+
 }
