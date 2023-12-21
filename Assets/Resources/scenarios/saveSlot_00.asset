@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: saveSlot_00
   m_EditorClassIdentifier: 
   saveName: 01
-  sizeX: 4
-  sizeY: 8
+  sizeX: 7
+  sizeY: 10
   cameraRotationX: 45
   cameraRotationY: -45
   cameraRotationZ: 0
