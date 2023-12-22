@@ -1,11 +1,15 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using UnityEngine;
 
+[System.Serializable]
 public enum NodeType
 {
     NONE,
-    EMPTY,
+    GRASS_PURPLE,
+    HOLE,
     SWAMP
 }
 
@@ -20,15 +24,17 @@ public class Node : IHeapItem<Node>
     public Node parent;
     int heapIndex;
     public string tileTypeLayerName;
+    public int tileTypeVariation;
+    public int rotation;
 
-    public Node(bool walkable, int x, int y, string type)// string tileTypeLayerName)
+    public Node(bool walkable, int x, int y, string type, int tileTypeVariation, int rotation)// string tileTypeLayerName)
     {
         this.walkable = walkable;
         this.x = x;
         this.y = y;
         tileTypeLayerName = type;
-        //if (type == NodeType.NONE) { tileTypeLayerName = "Tile"; }
-        //else if (type == NodeType.SWAMP) { tileTypeLayerName = "Swamp"; }
+        this.tileTypeVariation = tileTypeVariation;
+        this.rotation = rotation;
     }
 
     public int fCost {

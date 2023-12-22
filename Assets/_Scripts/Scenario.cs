@@ -26,12 +26,16 @@ public class Scenario : ScriptableObject
         public int y;
         public int walkable;
         public string terrainLayer;
-        public void Init(int x, int y, int walkable, string layerName)
+        public int tileVariation;
+        public int rotation;
+        public void Init(int x, int y, int walkable, string layerName, int tileVariation, int rotation)
         {
             this.x = x;
             this.y = y;
             this.walkable = walkable;
             this.terrainLayer = layerName;
+            this.tileVariation = tileVariation;
+            this.rotation = rotation;
         }
     }
 
@@ -101,7 +105,7 @@ public class Scenario : ScriptableObject
                 if (nodes[x,y] != null && x < sizeX && y < sizeY) {
                     var clone = new ScenarioNode();
                     var walkable = nodes[x, y].walkable ? 1 : 0;
-                    clone.Init(nodes[x,y].x, nodes[x,y].y, walkable, nodes[x,y].tileTypeLayerName);
+                    clone.Init(nodes[x,y].x, nodes[x,y].y, walkable, nodes[x,y].tileTypeLayerName, nodes[x,y].tileTypeVariation, nodes[x,y].rotation);
                     scenarioNodes.Add(clone);
                 }
             }

@@ -31,7 +31,6 @@ public class ButtonScript : MonoBehaviour
             ScenarioBuilder.Instance.OpenPanel(ScenarioBuilderPanel.OBJECTS);
         }
     }
-
     public void PlayButton()
     {
         if (GameManager.Instance.state != GameState.BATTLE) 
@@ -105,9 +104,29 @@ public class ButtonScript : MonoBehaviour
         Chessboard.Instance.RefreshBoard(null, currNodes);
     }
 
-    public void ChooseGroundType(int type)
+    public void ChangeTileRotation_m1(bool add)
     {
-        ScenarioBuilder.Instance?.SetToolCurrentNodeType(type);
+        ScenarioBuilder.Instance?.ChangeTileRotation_m1(add);
+    }
+    public void ChangeTileRotation_m2(bool add)
+    {
+        ScenarioBuilder.Instance?.ChangeTileRotation_m2(add);
+    }
+    public void ChooseGroundType_m1(int type)
+    {
+        ScenarioBuilder.Instance?.SetToolCurrentNodeType_m1(type);
+    }
+    public void ChooseGroundType_m2(int type)
+    {
+        ScenarioBuilder.Instance?.SetToolCurrentNodeType_m2(type);
+    }
+    public void ChooseGroundTypeVariation_m1(bool add)
+    {
+        ScenarioBuilder.Instance?.ChangeVariation_m1(add);
+    }
+    public void ChooseGroundTypeVariation_m2(bool add)
+    {
+        ScenarioBuilder.Instance?.ChangeVariation_m2(add);
     }
 
     //Saving

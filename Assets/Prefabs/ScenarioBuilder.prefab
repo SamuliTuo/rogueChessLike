@@ -44,30 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d530d0d428936e141ba913cdb70ea9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  board: {fileID: 0}
+  camSettings: {fileID: 0}
+  treeTESTER: {fileID: 0}
   currentlyChosenImage: {fileID: 0}
-  units:
-  - unit: {fileID: 2368073843827195385, guid: 81cb4fbb9b19f74428a9e41dcba6aee0, type: 3}
-    image: {fileID: 21300000, guid: 60655298e6c30a241b35a16dfee6182d, type: 3}
-  - unit: {fileID: 7765936273728097012, guid: c28078562dd8d0d48b3ae3825936d59d, type: 3}
-    image: {fileID: 21300000, guid: 5fe2ca3feaebaf4429e447b9d22bb91c, type: 3}
-  - unit: {fileID: 7393243441863934362, guid: ad50a08ad018fb248956c36796dba6c5, type: 3}
-    image: {fileID: 21300000, guid: 77be5678046248f4285930316a19c1e5, type: 3}
-  - unit: {fileID: 3485971199592952580, guid: f5b04cc6c6e0d484e95b165d4ef6ca87, type: 3}
-    image: {fileID: 21300000, guid: 459db9e1661cf544c96fd4ecb33e037c, type: 3}
-  - unit: {fileID: 4956104183781391756, guid: 256969a9013668c4981209ec3c323891, type: 3}
-    image: {fileID: 21300000, guid: 6a8c3b03cf47cc7429f2d72c735e28f3, type: 3}
-  - unit: {fileID: 1146606507638548932, guid: 2cfdeed00b3a9354b86ebb6b4fa77bee, type: 3}
-    image: {fileID: 21300000, guid: cf7388f902f0bfc469713c0e19440ecc, type: 3}
-  - unit: {fileID: 2368073843827195385, guid: b3863b1337fdc1541ba62368a38762ce, type: 3}
-    image: {fileID: 21300000, guid: 9f15299e6525cda499c97a2f4a04c906, type: 3}
-  - unit: {fileID: 2368073843827195385, guid: ace846762e493bd409e440d72534d1d7, type: 3}
-    image: {fileID: 21300000, guid: 05f68b04ae5c6d14980b84f6200255f2, type: 3}
-  - unit: {fileID: 2368073843827195385, guid: 0c491cee8012e534daafeaad52e2bc89, type: 3}
-    image: {fileID: 21300000, guid: 444861d7b8d5d0d44bb1a476cba4da27, type: 3}
-  - unit: {fileID: 2368073843827195385, guid: 9a9d1463612060a40895c9390e8a52ef, type: 3}
-    image: {fileID: 21300000, guid: 83da3b9442d8b234585ba96870c9662e, type: 3}
-  - unit: {fileID: 2368073843827195385, guid: bd5cb676bb8774d4ba0e3460909087d5, type: 3}
-    image: {fileID: 21300000, guid: 36b73252d351a004d80dbca59501c3e2, type: 3}
   draggingScale: 0.8
   draggingOffset: 1.5
+  unitsPanel: {fileID: 0}
+  terrainPanel: {fileID: 0}
+  objectsPanel: {fileID: 0}
   yOffset: 0.2

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -13,12 +14,7 @@ public class Chessboard : MonoBehaviour
     }
 
     [Header("Art Stuff")]
-    [SerializeField] private GameObject tilePrefab_basic;
-    [SerializeField] private GameObject tilePrefab_swamp;
-    [SerializeField] private GameObject tilePrefab_hole;
     [SerializeField] private Material tileMat;
-    [SerializeField] private Material gardenMat;
-    [SerializeField] private Material queueMat;
     [SerializeField] private float tileSize = 1.0f;
     [SerializeField] private float yOffset = 0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
@@ -49,6 +45,7 @@ public class Chessboard : MonoBehaviour
     private List<Unit> deadUnits_enemy = new List<Unit>();
     private Camera currentCam;
     private Vector2Int currentHover;
+    private TileGraphics tileGraphics;
     GameObject platform_team0;
     GameObject platform_team1;
 
@@ -61,15 +58,14 @@ public class Chessboard : MonoBehaviour
         else
             Instance = this;
 
-        //GenerateGrid(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
-        GenerateGrid(GameManager.Instance.currentScenario);
+        tileGraphics = GetComponentInChildren<TileGraphics>();
         Pathfinding = GetComponent<Pathfinding>();
+        GenerateGrid(GameManager.Instance.currentScenario);
     }
     private void Start()
     {
         platform_team0 = Resources.Load<GameObject>("units/_platforms/platform_team0");
         platform_team1 = Resources.Load<GameObject>("units/_platforms/platform_team1");
-
         SpawnScenarioUnits(GameManager.Instance.currentScenario);
         SpawnPlayerParty();
         PositionAllUnits();
@@ -173,6 +169,8 @@ public class Chessboard : MonoBehaviour
             }
         }
     }
+
+
     public bool TryMoveUnit(Unit unit, Vector2Int targetPos)
     {
         Vector2Int previousPos = new Vector2Int(unit.x, unit.y);
@@ -190,16 +188,8 @@ public class Chessboard : MonoBehaviour
         //currentlyDragging = null;
         //RemoveHighlightTiles();
     }
-    private void GenerateGrid()//Basic version
-    {
-        TILE_COUNT_X = 10;
-        TILE_COUNT_Y = 10;
-        tiles = new GameObject[TILE_COUNT_X, TILE_COUNT_Y];
-        nodes = new Node[TILE_COUNT_X, TILE_COUNT_Y];
-        for (int x = 0; x < TILE_COUNT_X; x++)
-            for (int y = 0; y < TILE_COUNT_Y; y++)
-                tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
-    }
+
+
     private void GenerateGrid(Scenario scenario, Node[,] quickSaveNodes = null)
     {
         TILE_COUNT_X = scenario.sizeX;
@@ -216,11 +206,11 @@ public class Chessboard : MonoBehaviour
                 {
                     if (x < quickSaveNodes.GetLength(0) && y < quickSaveNodes.GetLength(1))
                     {
-                        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, quickSaveNodes[x, y].tileTypeLayerName, quickSaveNodes[x, y].walkable);
+                        tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, quickSaveNodes[x,y].tileTypeLayerName, quickSaveNodes[x,y].tileTypeVariation, quickSaveNodes[x,y].walkable, quickSaveNodes[x,y].rotation);
                     }
                     else
                     {
-                        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
+                        tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile", 0);
                     }
                 }
                 // ... when loading a scenario.
@@ -231,43 +221,29 @@ public class Chessboard : MonoBehaviour
                     {
                         if (item.x == x && item.y == y)
                         {
-                            tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, item.terrainLayer, item.walkable == 1 ? true : false);
+                            tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, item.terrainLayer, item.tileVariation, item.walkable == 1, item.rotation);
                             found = true;
                             break;
                         }
                     }
                     if (!found)
                     {
-                        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
+                        tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile", 0);
                     }
                 }
                 // ... when it's a fresh board.
                 else
                 {
-                    tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile");
+                    tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile", 0);
                 }
             }
         }
     }
 
-    private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer, bool walkable = true)
+    private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer, int tileVariation, bool walkable = true, int rotation = 0)
     {
         GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
-        GameObject graphics = null;
-        switch (layer)
-        {
-            case "Tile":
-                graphics = Instantiate(tilePrefab_basic);
-                break;
-            case "Swamp":
-                graphics = Instantiate(tilePrefab_swamp);
-                break;
-            case "Empty":
-                graphics = Instantiate(tilePrefab_hole);
-                break;
-            default:
-                break;
-        }
+        GameObject graphics = Instantiate(tileGraphics.GetTileObject(layer, tileVariation));
         graphics.transform.SetParent(tileObject.transform, false);
         tileObject.transform.parent = transform;
 
@@ -288,24 +264,31 @@ public class Chessboard : MonoBehaviour
         mesh.triangles = tris;
 
         tileObject.layer = LayerMask.NameToLayer(layer);
-        nodes[x, y] = new Node(walkable, x, y, layer);
+        nodes[x,y] = new Node(walkable, x, y, layer, tileVariation, rotation);
 
         tileObject.AddComponent<BoxCollider>().size = new Vector3(tileSize, 0.1f, tileSize);
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
-        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset, (y + 0.5f) * tileSize);
-        graphics.transform.localScale = new Vector3(tileSize, tileSize, 0.05f);// 0.1f);
-
+        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset - 0.1f, (y + 0.5f) * tileSize);
+        graphics.transform.localScale = new Vector3(tileSize, tileSize, tileSize);
+        switch (rotation)
+        {
+            case 1: graphics.transform.localRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up); break;
+            case 2: graphics.transform.localRotation = Quaternion.LookRotation(Vector3.right, Vector3.up); break;
+            case 3: graphics.transform.localRotation = Quaternion.LookRotation(-Vector3.forward, Vector3.up); break;
+            default: graphics.transform.localRotation = Quaternion.LookRotation(-Vector3.right, Vector3.up); break;
+        }
         return tileObject;
     }
 
-    public void ChangeTileGraphics(int x, int y, string layer, bool walkable)
+    public void ChangeTileGraphics(int x, int y, string layer, int tileVariation, bool walkable, int rotation)
     {
         if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y) return;
         if (tiles[x, y] == null) return;
-        Destroy(tiles[x, y]);
-        tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, layer, walkable);
+        var oldTile = tiles[x,y];
+        tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, layer, tileVariation, walkable, rotation);
+        Destroy(oldTile);
     }
 
     public void AddTileCount(int x, int y)
