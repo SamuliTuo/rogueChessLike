@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public SceneManagement SceneManagement { get; private set; }
     public SaveGameManager SaveGameManager { get; private set; }
     public UnitSavePaths UnitSavePaths { get; private set; }
+    public ObjectSavePaths ObjectSavePaths { get; private set; }
     public ProjectilePools ProjectilePools { get; private set; }
     public AbilityLibrary AbilityLibrary { get; private set; }
 
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
         SceneManagement = GetComponentInChildren<SceneManagement>();
         SaveGameManager = GetComponentInChildren<SaveGameManager>();
         UnitSavePaths = GetComponentInChildren<UnitSavePaths>();
+        ObjectSavePaths = GetComponentInChildren<ObjectSavePaths>();
         ProjectilePools = GetComponentInChildren<ProjectilePools>();
         AbilityLibrary = GetComponentInChildren<AbilityLibrary>();
         LoadBoardAndMap();
@@ -142,7 +144,7 @@ public class GameManager : MonoBehaviour
         switch (search)
         {
             case UnitSearchType.ENEMIES_ONLY:
-                return attacker.team != target.team;
+                return Mathf.Abs(attacker.team - 1) == target.team;
             case UnitSearchType.ALLIES_ONLY:
                 return attacker.team == target.team && attacker != target;
             case UnitSearchType.ALLIES_AND_SELF:
@@ -158,7 +160,7 @@ public class GameManager : MonoBehaviour
     public bool IsValidTarget(int attacker, Unit target, UnitSearchType search)
     {
         if (search == UnitSearchType.ENEMIES_ONLY)
-            return attacker != target.team;
+            return Mathf.Abs(attacker - 1) == target.team;
         else
             return attacker == target.team;
     }
@@ -176,7 +178,7 @@ public class GameManager : MonoBehaviour
             {
                 continue;
             }
-            if (aliveUnit.team == unit.team && aliveUnit != unit)
+            if (aliveUnit.team == unit.team && aliveUnit != unit && aliveUnit.team != 2)
             {
                 allUnitsDead = false;
                 break;

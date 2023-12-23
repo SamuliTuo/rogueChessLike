@@ -18,13 +18,11 @@ public class CameraManager : MonoBehaviour
     private float tileSize;
 
     
-    private void Start()
+    private void Awake()
     {
         cam = GetComponent<Camera>();
     }
 
-
-    
 
     public void SetupBattleCamera(Vector2Int boardSize, float tileSize)
     {
@@ -141,7 +139,7 @@ public class CameraManager : MonoBehaviour
                 }
             }
         }
-
+        
         else if (cameraWidth / cameraHeight <= x / y)
         {
             if (cameraWidth > x)

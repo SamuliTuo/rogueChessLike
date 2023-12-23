@@ -5228,6 +5228,7 @@ GameObject:
   - component: {fileID: 2023567845}
   - component: {fileID: 2023567846}
   - component: {fileID: 2023567847}
+  - component: {fileID: 623685841}
   m_Layer: 0
   m_Name: SaveGameManager
   m_TagString: Untagged
@@ -5302,6 +5303,22 @@ MonoBehaviour:
   - savePath: units/player/squirrel/
     unitPrefab: {fileID: 7765936273728097012, guid: 78ec70306cb477f41b5d83846dd1fd34, type: 3}
     image: {fileID: 21300000, guid: 777445b0b85ad6d4299aee46e2c7102f, type: 3}
+--- !u!114 &623685841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023567844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59c0a21f31704634e9e746c133897860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectDatas:
+  - savePath: objects/
+    objectPrefab: {fileID: 2934755881743774001, guid: 5b3042c001bc5e64096f03c9127c0628, type: 3}
+    image: {fileID: 21300000, guid: d9fc588e78c740347ad9ac79917f80bb, type: 3}
 --- !u!1 &6089650261518574623
 GameObject:
   m_ObjectHideFlags: 0
@@ -44578,7 +44595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpBarTeam0Color: {r: 0.25943398, g: 1, b: 0.7488512, a: 1}
   hpBarTeam1Color: {r: 0.9339623, g: 0.3039783, b: 0.3039783, a: 1}
-  startingSceneGameState: 3
+  startingSceneGameState: 4
   currentScenario: {fileID: 11400000, guid: 76cae81aea83d3e43a606070b4a5d995, type: 2}
   currentFightCumulatedExperience: 0
   maxMoveInterval: 2

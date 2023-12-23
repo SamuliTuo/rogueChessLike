@@ -86,7 +86,7 @@ public class Chessboard : MonoBehaviour
 
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Empty", "Swamp", "Hover", "Highlight")))
+        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Empty", "Swamp", "Hover", "Highlight", "Grass_purple")))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = LookupTileIndex(hit.transform.gameObject);
@@ -270,7 +270,7 @@ public class Chessboard : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
-        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset - 0.1f, (y + 0.5f) * tileSize);
+        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset - 0.01f, (y + 0.5f) * tileSize);
         graphics.transform.localScale = new Vector3(tileSize, tileSize, tileSize);
         switch (rotation)
         {
@@ -284,10 +284,14 @@ public class Chessboard : MonoBehaviour
 
     public void ChangeTileGraphics(int x, int y, string layer, int tileVariation, bool walkable, int rotation)
     {
-        if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y) return;
-        if (tiles[x, y] == null) return;
+        if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y) 
+            return;
+
+        if (tiles[x, y] == null)
+            return;
+
         var oldTile = tiles[x,y];
-        tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, layer, tileVariation, walkable, rotation);
+        tiles[x,y] = GenerateSingleTile(tileSize, x,y, tileMat, layer, tileVariation, walkable, rotation);
         Destroy(oldTile);
     }
 
@@ -407,8 +411,11 @@ public class Chessboard : MonoBehaviour
                     //print(unit.unit);
                     //print(GameManager.Instance.UnitSavePaths);
                     var path = GameManager.Instance.UnitSavePaths.GetSavePath(unit.unit);
+                    if (path == null)
+                        path = GameManager.Instance.ObjectSavePaths.GetSavePath(unit.unit);
+
                     var clone = SpawnSingleUnit(path, unit.team);
-                    clone.GetComponent<UnitAbilityManager>().StartAbilities();
+                    clone.GetComponent<UnitAbilityManager>()?.StartAbilities();
                     activeUnits[unit.spawnPosX, unit.spawnPosY] = clone;
                 }
         }
@@ -499,8 +506,8 @@ public class Chessboard : MonoBehaviour
         u.unitPath = path;
         //AddPlatform(u);
         return u;
-        
     }
+    
     private void AddPlatform(Unit unit)
     {
         if (unit.team == 0)

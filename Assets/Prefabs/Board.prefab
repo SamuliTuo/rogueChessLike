@@ -47,16 +47,17 @@ MonoBehaviour:
   tileTypes:
   - type: 1
     tilePrefabs:
-    - {fileID: 1743693149994388887, guid: a2cd076df2f1a5c4fb2cab1cb8fb797e, type: 3}
-    - {fileID: 8609806043682645, guid: f9b32cf7c60a18549aafdad4be845fa6, type: 3}
+    - {fileID: 3840972178839854315, guid: 8bd7aa59ef0b0d541aeb427d53d9c149, type: 3}
+    - {fileID: 2850298127659907919, guid: b0469a45fc5761845a44dda165291391, type: 3}
   - type: 2
     tilePrefabs:
-    - {fileID: 1743693149994388887, guid: a2cd076df2f1a5c4fb2cab1cb8fb797e, type: 3}
-    - {fileID: 8609806043682645, guid: f9b32cf7c60a18549aafdad4be845fa6, type: 3}
+    - {fileID: 8550549600768609826, guid: c9789fe48256b7c40a909655567c979d, type: 3}
   - type: 3
     tilePrefabs:
-    - {fileID: 1743693149994388887, guid: a2cd076df2f1a5c4fb2cab1cb8fb797e, type: 3}
-    - {fileID: 8609806043682645, guid: f9b32cf7c60a18549aafdad4be845fa6, type: 3}
+    - {fileID: 6543098280354797420, guid: fca83075d3428064db53a542c6580e3a, type: 3}
+  - type: 0
+    tilePrefabs:
+    - {fileID: 1382685430024636588, guid: a525e368e4d02da4daa6fb20e70fbe29, type: 3}
 --- !u!1 &1727125056354840096
 GameObject:
   m_ObjectHideFlags: 0

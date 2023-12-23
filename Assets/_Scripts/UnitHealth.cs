@@ -91,7 +91,7 @@ public class UnitHealth : MonoBehaviour
 
     public void Die()
     {
-        GetComponent<UnitStatusModifiersHandler>().StopAllCoroutines();
+        GetComponent<UnitStatusModifiersHandler>()?.StopAllCoroutines();
         if (hpScript != null)
         {
             hpScript.Deactivate();
