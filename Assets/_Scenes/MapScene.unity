@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.22643584, g: 0.69781244, b: 0.852873, a: 1}
+  m_IndirectSpecularColor: {r: 0.22643584, g: 0.6978123, b: 0.8528731, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -26218,6 +26218,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2023567847, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: unitsDatas.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2023567847, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: unitsDatas.Array.data[9].image
+      value: 
+      objectReference: {fileID: 21300000, guid: 04a594df02d15ad40be80e3291bf6b66, type: 3}
+    - target: {fileID: 2023567847, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: unitsDatas.Array.data[9].savePath
+      value: units/player/blackLion/
+      objectReference: {fileID: 0}
+    - target: {fileID: 2023567847, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: unitsDatas.Array.data[9].unitPrefab
+      value: 
+      objectReference: {fileID: 7765936273728097012, guid: 4f6b9d0ab40ae5840a666eff32c8bdac, type: 3}
     - target: {fileID: 6089650262552058419, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
       propertyPath: m_RootOrder
       value: 6
