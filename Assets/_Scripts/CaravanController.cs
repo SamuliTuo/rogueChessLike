@@ -87,7 +87,8 @@ public class CaravanController : MonoBehaviour
         {
             if (unit.unitPrefab.name == "Unit_squirrel"
                 || unit.unitPrefab.name == "Unit_bearCub"
-                || unit.unitPrefab.name == "Unit_penguin")
+                || unit.unitPrefab.name == "Unit_penguin"
+                || unit.unitPrefab.name == "Unit_blackLion")
             {
                 units.Add(unit);
             }
