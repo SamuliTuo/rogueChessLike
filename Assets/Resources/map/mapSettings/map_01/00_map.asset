@@ -23,6 +23,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
   - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
   - {fileID: 11400000, guid: 012096715f429254f93e5eb559483a7e, type: 2}
+  - {fileID: 11400000, guid: 012096715f429254f93e5eb559483a7e, type: 2}
+  - {fileID: 11400000, guid: 012096715f429254f93e5eb559483a7e, type: 2}
   startEncounter: {fileID: 11400000, guid: be2a6c8472c7ee94d9832584e953ddd2, type: 2}
   lastEncounters:
   - {fileID: 11400000, guid: 2cdc90539c6abdc4597d217d1c0d0b3e, type: 2}

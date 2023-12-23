@@ -14,18 +14,7 @@ public class SaveSlots : MonoBehaviour
 
     private void Awake()
     {
-        // Load the saveSlot - Scriptable Objects
-        for (int i = 0; i < saveSlotsCount; i++)
-        {
-            string leString;
-            if (i < 10)
-                leString = "scenarios/saveSlot_0" + i.ToString();
-            else
-                leString = "scenarios/saveSlot_" + i.ToString();
-            
-            var scen = Resources.Load<Scenario>(leString);
-            saveSlots.Add(scen);
-        }
+        saveSlots = GetScenarioReferences();
     }
 
 
@@ -47,7 +36,7 @@ public class SaveSlots : MonoBehaviour
             }
         }
 
-        GameManager.Instance.SaveGameManager.LoadScenarios();
+        //GameManager.Instance.SaveGameManager.LoadScenarios();
     }
 
 
@@ -64,6 +53,25 @@ public class SaveSlots : MonoBehaviour
         {
             loadSlotsOnCanvas[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = saveSlots[i].saveName;
         }
+    }
+
+    public List<Scenario> GetScenarioReferences()
+    {
+        var r = new List<Scenario>();
+        // Load the saveSlot - Scriptable Objects
+        for (int i = 0; i < saveSlotsCount; i++)
+        {
+            string slotName;
+            if (i < 10)
+                slotName = "scenarios/saveSlot_0" + i.ToString();
+            else
+                slotName = "scenarios/saveSlot_" + i.ToString();
+
+            var scenarioScriptable = Resources.Load<Scenario>(slotName);
+            
+            r.Add(scenarioScriptable);
+        }
+        return r;
     }
 
     public void SaveToSlot(int slot, string saveName, Vector3 cameRot)
@@ -85,6 +93,11 @@ public class SaveSlots : MonoBehaviour
 
     public Scenario LoadSlot(ScenarioData data, int slot)
     {
+        if (saveSlots.Count < saveSlotsCount)
+        {
+            saveSlots = GetScenarioReferences();
+        }
+
         Scenario s = null;
         if (saveSlots[slot] != null)
         {
@@ -101,54 +114,3 @@ public class SaveSlots : MonoBehaviour
         return s;
     }
 }
-
-
-//public Scenario LoadSlot(ScenarioData data, int slot)
-//{
-//    Scenario r = null;
-//    if (saveSlots.Count == 0)
-//    {
-//        saveSlots = SaveGameManager.scenarios;
-//    }
-//    if (saveSlots[slot] != null)
-//    {
-//        var s = saveSlots[slot];
-//        saveSlots[slot] = Resources.Load<Scenario>("scenarios/" + data.scriptedScenarioName);
-//        saveSlots[slot].scenarioUnits = data.unitList;
-//        r = saveSlots[slot];
-//    }
-//    return r;
-//}
-//chatGPTN versioon vaihdettu
-
-
-
-
-
-
-
-
-//if (SaveGameManager.scenarios.Count > 0)
-//{
-//    print("nappasin saveSlotit saveGameManagerilta, t: SaveSlots");
-//    saveSlots = SaveGameManager.scenarios;
-//    return;
-//}
-
-//for (int i = 0; i < 10; i++)
-//{
-//    var stringi = "scenarios/saveSlot_0" + i.ToString();
-//    var blabla = Resources.Load<Scenario>(stringi);
-//    saveSlots.Add(blabla);
-//    SaveGameManager.scenarios.Add(blabla);
-//    print("SaveSlot: Luon uutta saveslottia, i = " + i + ", string = " + stringi + ",      saveGemeManager " + i + ": " + SaveGameManager.scenarios[i]);
-//    //print("stringi: " + stringi + ", blabla: " + blabla + ", saveSlots[i]: " + saveSlots[i]);
-//}
-//for (int i = 0; i < saveSlots.Count; i++)
-//{
-//    print("saveslot " + i + ", " + saveSlots[i].name);
-//}
-//for (int i = 0; i < SaveGameManager.scenarios.Count; i++)
-//{
-//    print("sageGameManager scenario " + i + ", " + SaveGameManager.scenarios[i].name);
-//}
