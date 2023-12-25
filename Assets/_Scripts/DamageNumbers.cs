@@ -11,16 +11,25 @@ public class DamageNumbers : MonoBehaviour
     [SerializeField] private float maxSizeDamageCap = 5000f;
     [SerializeField] private float minSizePerc = 0.4f;
 
-    List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+    List<DamageNumberPooling> particleSystems = new List<DamageNumberPooling>();
     //List<Mesh> numbers = new List<Mesh>();
-    
 
+    public void Reset()
+    {
+        print("Trying to reset particle number pools, not necessary right now tho.");
+        /*
+        foreach (var num in particleSystems)
+        {
+            num.Reset();
+        }*/
+    }
+    
     void Start()
     {
         for (int i = 0; i < 20; i++)
         {
-            particleSystems.Add(transform.GetChild(i).GetComponent<ParticleSystem>());
-            string location = "particleSystems/numbers/number_" + i.ToString();
+            particleSystems.Add(transform.GetChild(i).GetComponent<DamageNumberPooling>());
+            //string location = "particleSystems/numbers/number_" + i.ToString();
             //numbers.Add((Resources.Load(location) as GameObject).GetComponent<MeshFilter>().sharedMesh);
         }
     }
@@ -54,11 +63,12 @@ public class DamageNumbers : MonoBehaviour
     void SpawnNumber(int num, Vector3 pos, float posOffset, float damage)
     {
         float perc = Mathf.Max(minSizePerc, Math.Min(maxSizeDamageCap, damage) / maxSizeDamageCap);
-        particleSystems[num].transform.position = pos + Vector3.left * (posOffset * perc);
-        particleSystems[num].transform.localScale = Vector3.one * perc;
+        //particleSystems[num].transform.position = pos + Vector3.left * (posOffset * perc);
+        //particleSystems[num].transform.localScale = Vector3.one * perc;
         float lifetime = UnityEngine.Random.Range(particleLifetimeMinMax.x * perc, particleLifetimeMinMax.y * perc);
-        ParticleSystem.MainModule psmain = particleSystems[num].main;
-        psmain.startLifetime = lifetime;
-        particleSystems[num].Play();
+        particleSystems[num].SpawnNumber(Vector3.one * perc, pos + Vector3.left * (posOffset * perc), lifetime);
+        //ParticleSystem.MainModule psmain = particleSystems[num].main;
+        //psmain.startLifetime = lifetime;
+        //particleSystems[num].Play();
     }
 }

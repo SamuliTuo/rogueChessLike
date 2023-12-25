@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         HPBars.Reset();
+        ParticleSpawner.Reset();
     }
     public void ResetPath()
     {

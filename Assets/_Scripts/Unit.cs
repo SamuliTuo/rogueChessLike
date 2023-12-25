@@ -65,6 +65,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Chessboard board;
     [HideInInspector] public float t = 0;
     [HideInInspector] public float tStun = 0;
+    [HideInInspector] public int spawnRotation = 0;
 
     // Pathing
     [HideInInspector] public Pathfinding pathfinding;
