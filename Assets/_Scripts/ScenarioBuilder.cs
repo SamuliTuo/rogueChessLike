@@ -32,6 +32,7 @@ public class ScenarioBuilder : MonoBehaviour
     private int currentTeam = 1;
     private int currentlyChosenUnit_index, currentlyChosenObject_index;
     private GameObject currentlyChosenUnit, currentlyChosenObject;
+    private int objectRotation = 0;
     private ScenarioBuilderPanel currentlyOpenPanel = ScenarioBuilderPanel.TERRAIN;
     private NodeType currentNodeType_m1 = NodeType.NONE;
     private NodeType currentNodeType_m2 = NodeType.NONE;
@@ -224,8 +225,11 @@ public class ScenarioBuilder : MonoBehaviour
                 // Spawn enemy if empty
                 if (Input.GetMouseButton(0) && currentlyDragging == null && activeUnits[hitPosition.x, hitPosition.y] == null)
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
                 // Remove if RighClicking an unit
                 else if (Input.GetMouseButton(1) && activeUnits[hitPosition.x, hitPosition.y] != null)
@@ -260,8 +264,11 @@ public class ScenarioBuilder : MonoBehaviour
                 }
                 else // SPAWN ENEMY UNIT WHEN CLICKED EMPTY  \\
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
             }
             else if (Input.GetMouseButtonDown(1))
@@ -345,11 +352,14 @@ public class ScenarioBuilder : MonoBehaviour
             // If already were hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
-                // Spawn enemy if empty
+                // Spawn obj if empty
                 if (Input.GetMouseButton(0) && currentlyDragging == null && activeUnits[hitPosition.x, hitPosition.y] == null)
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenObject, 2);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenObject, 2);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
                 // Remove if RighClicking an unit
                 else if (Input.GetMouseButton(1) && activeUnits[hitPosition.x, hitPosition.y] != null)
@@ -384,8 +394,11 @@ public class ScenarioBuilder : MonoBehaviour
                 }
                 else // SPAWN ENEMY UNIT WHEN CLICKED EMPTY  \\
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenObject, 2);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenObject, 2);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
             }
             else if (Input.GetMouseButtonDown(1))
@@ -541,14 +554,12 @@ public class ScenarioBuilder : MonoBehaviour
         currentlyChosenImage_object.sprite = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].image;
     }
 
-
     public void ToggleCurrentTeam()
     {
         if (currentTeam == 0) currentTeam = 1;
         else if (currentTeam == 1) currentTeam = 0;
     }
 
-    
     public static bool IsPointerOverUIObject()
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
@@ -557,7 +568,6 @@ public class ScenarioBuilder : MonoBehaviour
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
         return results.Count > 0;
     }
-
 
     public void ChangeNodeType(int x, int y, int rotation, NodeType type, int variation)
     {
@@ -579,7 +589,6 @@ public class ScenarioBuilder : MonoBehaviour
                 break;
         }
     }
-
 
     public void SetToolCurrentNodeType_m1(int type)
     {
@@ -686,5 +695,24 @@ public class ScenarioBuilder : MonoBehaviour
             }
         }
         scenarioEditorPanel.SetRotationText(2, currentTileRotation_m2);
+    }
+    public void ChangeObjectRotation(bool add)
+    {
+        if (scenarioEditorPanel == null)
+            scenarioEditorPanel = GameObject.Find("Canvas").GetComponentInChildren<ScenarioEditorPanel>();
+
+        if (add)
+        {
+            objectRotation++;
+            if (objectRotation > 3)
+                objectRotation = 0;
+        }
+        else
+        {
+            objectRotation--;
+            if (objectRotation < 0)
+                objectRotation = 3;
+        }
+        scenarioEditorPanel.SetObjectRotationText(objectRotation);
     }
 }

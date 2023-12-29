@@ -563,36 +563,25 @@ MonoBehaviour:
   - unit: Unit_skeleton_02
     spawnPosX: 0
     spawnPosY: 6
+    spawnRot: 0
     team: 1
-  - unit: tree_TESTER
-    spawnPosX: 3
-    spawnPosY: 1
-    team: 2
-  - unit: tree_TESTER
-    spawnPosX: 3
-    spawnPosY: 2
-    team: 2
-  - unit: tree_TESTER
-    spawnPosX: 3
-    spawnPosY: 3
-    team: 2
-  - unit: tree_TESTER
-    spawnPosX: 3
-    spawnPosY: 4
-    team: 2
-  - unit: tree_TESTER
-    spawnPosX: 3
+  - unit: Unit_skeleton_02
+    spawnPosX: 1
     spawnPosY: 5
-    team: 2
-  - unit: tree_TESTER
-    spawnPosX: 3
+    spawnRot: 3
+    team: 1
+  - unit: Unit_skeleton_02
+    spawnPosX: 1
     spawnPosY: 6
-    team: 2
-  - unit: tree_TESTER
-    spawnPosX: 3
-    spawnPosY: 7
-    team: 2
-  - unit: tree_TESTER
-    spawnPosX: 3
-    spawnPosY: 8
-    team: 2
+    spawnRot: 0
+    team: 1
+  - unit: Unit_skeleton_02
+    spawnPosX: 2
+    spawnPosY: 5
+    spawnRot: 2
+    team: 1
+  - unit: Unit_skeleton_02
+    spawnPosX: 2
+    spawnPosY: 6
+    spawnRot: 1
+    team: 1

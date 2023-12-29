@@ -62,8 +62,11 @@ public class ParticleSpawner : MonoBehaviour
         }
     }
 
-    
 
+    public void Reset()
+    {
+        damageNumbers.Reset();
+    }
 
     void PlayParticle(ParticleSystem s, Vector3 pos)
     {

@@ -403,6 +403,7 @@ public class Chessboard : MonoBehaviour
         if (scenario.scenarioUnits == null)
             scenario.scenarioUnits = new List<Scenario.ScenarioUnit>();
 
+        print("spawning scenariounits");
         foreach (var unit in scenario.scenarioUnits)
         {
             if (unit.spawnPosX >= 0 && unit.spawnPosX < TILE_COUNT_X)
@@ -417,6 +418,7 @@ public class Chessboard : MonoBehaviour
                     var clone = SpawnSingleUnit(path, unit.team);
                     clone.GetComponent<UnitAbilityManager>()?.StartAbilities();
                     activeUnits[unit.spawnPosX, unit.spawnPosY] = clone;
+                    RotateSingleUnit(unit.spawnPosX, unit.spawnPosY, GetCurrentUnitRotation(unit.spawnRot));
                 }
         }
         /*foreach (var unit in scenario.scenarioUnits)
@@ -527,6 +529,10 @@ public class Chessboard : MonoBehaviour
         activeUnits[x, y].x = x;
         activeUnits[x, y].y = y;
         activeUnits[x, y].SetPosition(GetTileCenter(x, y), force);
+    }
+    public void RotateSingleUnit(int x, int y, Quaternion rotation)
+    {
+        activeUnits[x,y].transform.rotation = rotation;
     }
     public Vector3 GetTileCenter(int x, int y)
     {
@@ -648,6 +654,16 @@ public class Chessboard : MonoBehaviour
                     return new Vector2Int(x,y);
 
         return -Vector2Int.one; // Invalid
+    }
+    public Quaternion GetCurrentUnitRotation(int rot)
+    {
+        switch (rot)
+        {
+            case 1: return Quaternion.LookRotation(Vector3.forward, Vector3.up);
+            case 2: return Quaternion.LookRotation(Vector3.right, Vector3.up);
+            case 3: return Quaternion.LookRotation(-Vector3.forward, Vector3.up);
+            default: return Quaternion.LookRotation(-Vector3.right, Vector3.up);
+        }
     }
     public Unit GetLowestTeammate(UnitSearchType searchType, Unit askingUnit, int range = 100000, bool canBeSelf = true, bool dontReturnFullHPTargets = true)
     {

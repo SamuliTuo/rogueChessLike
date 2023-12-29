@@ -128,6 +128,10 @@ public class ButtonScript : MonoBehaviour
     {
         ScenarioBuilder.Instance?.ChangeVariation_m2(add);
     }
+    public void ChangeObjectRotation(bool add)
+    {
+        ScenarioBuilder.Instance?.ChangeObjectRotation(add);
+    }
 
     //Saving
     string input = "";
