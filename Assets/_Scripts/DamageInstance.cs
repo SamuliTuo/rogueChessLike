@@ -45,8 +45,6 @@ public class DamageInstance : MonoBehaviour
         UnitStatusModifier statusMods, 
         ParticleType particle = ParticleType.NONE)
     {
-        print(statusMods);
-
         StartCoroutine(AreaDOT(targetNode, tickDamage, tickIntervalSeconds, intervals, shooter, targeting, scale, statusMods, particle));
     }
 

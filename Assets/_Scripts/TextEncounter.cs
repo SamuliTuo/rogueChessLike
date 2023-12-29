@@ -1,15 +1,19 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "newTextEncounter", menuName = "ScriptableObjects/newTextEncounter", order = 1)]
 public class TextEncounter : ScriptableObject
 {
+    [Header("Make the lists 10 long,  first unit goes in first slot etc.")]
+    [Space(10)]
+    [Header("Positions between (-1,-1) and (1,1) - it corresponds to scenario images bounds.")]
+    public List<Vector2> playerPositions = new List<Vector2>();
+    public List<Vector3> playerForwardVectors = new List<Vector3>();
+    public List<Vector3> playerScales = new List<Vector3>();
+    [Space(32)]
     public Sprite image;
     public string textPrompt;
-
     public List<ResponseRequirementsAndReward> responses = new List<ResponseRequirementsAndReward>();
 }
 
@@ -34,6 +38,11 @@ public class ResponseRequirements
     [Tooltip("Roll a d20, pass with rolling 'minimumRoll' or above. Leave empty if no die-roll needed")]
     [Range(0, 20)] public int minimumRoll;
     public bool needsUnit;
+    [Header("If unit is needed, what stats can give bonus to check?")]
+    public UnitTextEncounterCheckableStats statCheck_main;
+    public UnitTextEncounterCheckableStats statCheck_minor1;
+    public UnitTextEncounterCheckableStats statCheck_minor2;
+    public UnitTextEncounterCheckableStats statCheck_minor3;
     [HideInInspector] public UnitData attemptingUnit;
 }
 [System.Serializable]

@@ -26,6 +26,10 @@ public enum Action
     ABILITY_SECONDHALF,
     ITEM,
 }
+public enum UnitTextEncounterCheckableStats
+{
+    DAMAGE, MAGIC, ATTACK_SPEED, MOVE_SPEED, HEALTH
+}
 
 public class Unit : MonoBehaviour
 {

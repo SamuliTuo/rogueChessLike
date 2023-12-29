@@ -12,6 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6744bc04315aaba46a90c829d30b6de0, type: 3}
   m_Name: textEncounter_00
   m_EditorClassIdentifier: 
+  playerPositions:
+  - {x: 0.4, y: 0.5}
+  - {x: 0.42, y: 0.5}
+  - {x: 0.44, y: 0.5}
+  - {x: 0.46, y: 0.5}
+  - {x: 0.48, y: 0.5}
+  - {x: 0.5, y: 0.5}
+  - {x: 0.52, y: 0.5}
+  - {x: 0.54, y: 0.5}
+  - {x: 0.55, y: 0.5}
+  - {x: 0.58, y: 0.5}
+  playerForwardVectors:
+  - {x: 1, y: 0.2, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 1, y: -0.5, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 1, y: 1, z: 0}
+  - {x: -1, y: 0, z: 0}
+  playerScales:
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
   image: {fileID: 21300000, guid: 6b1b973629667344296bcffcf4854556, type: 3}
   textPrompt: In the enchanted forest, radiant birds painted the sky with their vivid
     plumage and melodious songs.
