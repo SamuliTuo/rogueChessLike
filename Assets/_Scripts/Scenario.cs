@@ -47,12 +47,14 @@ public class Scenario : ScriptableObject
         //public Vector2Int spawnPos;
         public int spawnPosX;
         public int spawnPosY;
+        public int spawnRot;
         public int team;
-        public void Init(string unit, int spawnPosX, int spawnPosY, int team)
+        public void Init(string unit, int spawnPosX, int spawnPosY, int spawnRot, int team)
         {
             this.unit = unit;
             this.spawnPosX = spawnPosX;
             this.spawnPosY = spawnPosY;
+            this.spawnRot = spawnRot;
             this.team = team;
         }
     }
@@ -60,23 +62,16 @@ public class Scenario : ScriptableObject
     public void SaveScenario(string saveName, Vector3 cameRot)
     {
         this.saveName = saveName;
+
         if (scenarioUnits == null)
-        {
             scenarioUnits = new List<ScenarioUnit>();
-        }
         else
-        {
             scenarioUnits.Clear();
-        }
         
         if (scenarioNodes == null)
-        {
             scenarioNodes = new List<ScenarioNode>();
-        }
         else
-        {
             scenarioNodes.Clear();
-        }
 
         // Add board and camera settings to the scenario file.
         sizeX = Chessboard.Instance.GetBoardSize().x;
@@ -92,7 +87,7 @@ public class Scenario : ScriptableObject
                 if (activeUnits[x, y] != null && x < sizeX && y < sizeY) {
                     var obj = ScenarioBuilder.Instance.GetOriginalUnitType_From_InstantiatedUnitObject(activeUnits[x, y].gameObject);
                     var clone = new ScenarioUnit();
-                    clone.Init(obj.name, x, y, activeUnits[x, y].team);
+                    clone.Init(obj.name, x, y, activeUnits[x,y].spawnRotation, activeUnits[x, y].team);
                     scenarioUnits.Add(clone);
                 }
             }

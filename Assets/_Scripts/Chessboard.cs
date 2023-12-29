@@ -86,7 +86,7 @@ public class Chessboard : MonoBehaviour
 
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Empty", "Swamp", "Hover", "Highlight")))
+        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Empty", "Swamp", "Hover", "Highlight", "Grass_purple")))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = LookupTileIndex(hit.transform.gameObject);
@@ -270,7 +270,7 @@ public class Chessboard : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
-        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset - 0.1f, (y + 0.5f) * tileSize);
+        graphics.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset - 0.01f, (y + 0.5f) * tileSize);
         graphics.transform.localScale = new Vector3(tileSize, tileSize, tileSize);
         switch (rotation)
         {
@@ -284,10 +284,14 @@ public class Chessboard : MonoBehaviour
 
     public void ChangeTileGraphics(int x, int y, string layer, int tileVariation, bool walkable, int rotation)
     {
-        if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y) return;
-        if (tiles[x, y] == null) return;
+        if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y) 
+            return;
+
+        if (tiles[x, y] == null)
+            return;
+
         var oldTile = tiles[x,y];
-        tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, layer, tileVariation, walkable, rotation);
+        tiles[x,y] = GenerateSingleTile(tileSize, x,y, tileMat, layer, tileVariation, walkable, rotation);
         Destroy(oldTile);
     }
 
@@ -399,6 +403,7 @@ public class Chessboard : MonoBehaviour
         if (scenario.scenarioUnits == null)
             scenario.scenarioUnits = new List<Scenario.ScenarioUnit>();
 
+        print("spawning scenariounits");
         foreach (var unit in scenario.scenarioUnits)
         {
             if (unit.spawnPosX >= 0 && unit.spawnPosX < TILE_COUNT_X)
@@ -407,9 +412,13 @@ public class Chessboard : MonoBehaviour
                     //print(unit.unit);
                     //print(GameManager.Instance.UnitSavePaths);
                     var path = GameManager.Instance.UnitSavePaths.GetSavePath(unit.unit);
+                    if (path == null)
+                        path = GameManager.Instance.ObjectSavePaths.GetSavePath(unit.unit);
+
                     var clone = SpawnSingleUnit(path, unit.team);
-                    clone.GetComponent<UnitAbilityManager>().StartAbilities();
+                    clone.GetComponent<UnitAbilityManager>()?.StartAbilities();
                     activeUnits[unit.spawnPosX, unit.spawnPosY] = clone;
+                    RotateSingleUnit(unit.spawnPosX, unit.spawnPosY, GetCurrentUnitRotation(unit.spawnRot));
                 }
         }
         /*foreach (var unit in scenario.scenarioUnits)
@@ -499,8 +508,8 @@ public class Chessboard : MonoBehaviour
         u.unitPath = path;
         //AddPlatform(u);
         return u;
-        
     }
+    
     private void AddPlatform(Unit unit)
     {
         if (unit.team == 0)
@@ -520,6 +529,10 @@ public class Chessboard : MonoBehaviour
         activeUnits[x, y].x = x;
         activeUnits[x, y].y = y;
         activeUnits[x, y].SetPosition(GetTileCenter(x, y), force);
+    }
+    public void RotateSingleUnit(int x, int y, Quaternion rotation)
+    {
+        activeUnits[x,y].transform.rotation = rotation;
     }
     public Vector3 GetTileCenter(int x, int y)
     {
@@ -641,6 +654,16 @@ public class Chessboard : MonoBehaviour
                     return new Vector2Int(x,y);
 
         return -Vector2Int.one; // Invalid
+    }
+    public Quaternion GetCurrentUnitRotation(int rot)
+    {
+        switch (rot)
+        {
+            case 1: return Quaternion.LookRotation(Vector3.forward, Vector3.up);
+            case 2: return Quaternion.LookRotation(Vector3.right, Vector3.up);
+            case 3: return Quaternion.LookRotation(-Vector3.forward, Vector3.up);
+            default: return Quaternion.LookRotation(-Vector3.right, Vector3.up);
+        }
     }
     public Unit GetLowestTeammate(UnitSearchType searchType, Unit askingUnit, int range = 100000, bool canBeSelf = true, bool dontReturnFullHPTargets = true)
     {

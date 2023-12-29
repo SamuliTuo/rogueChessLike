@@ -22,17 +22,17 @@ public class ScenarioBuilder : MonoBehaviour
     [HideInInspector] public Chessboard board;
     [HideInInspector] public ScenarioBuilderCameraSettings camSettings;
 
-    [SerializeField] private GameObject treeTESTER = null;
-    [SerializeField] private Image currentlyChosenImage;
+    [SerializeField] private Image currentlyChosenImage_unit;
+    [SerializeField] private Image currentlyChosenImage_object;
     [SerializeField] private float draggingScale = 0.8f;
     [SerializeField] private float draggingOffset = 1.5f;
     [SerializeField] private GameObject unitsPanel, terrainPanel, objectsPanel;
     [SerializeField] private float yOffset = 0.2f;
-    [SerializeField] private TMP_Dropdown terrainTileTypeChooserDropdown = null;
 
     private int currentTeam = 1;
-    private int currentlyChosenUnit_Index;
-    private GameObject currentlyChosenUnit;
+    private int currentlyChosenUnit_index, currentlyChosenObject_index;
+    private GameObject currentlyChosenUnit, currentlyChosenObject;
+    private int objectRotation = 0;
     private ScenarioBuilderPanel currentlyOpenPanel = ScenarioBuilderPanel.TERRAIN;
     private NodeType currentNodeType_m1 = NodeType.NONE;
     private NodeType currentNodeType_m2 = NodeType.NONE;
@@ -46,7 +46,7 @@ public class ScenarioBuilder : MonoBehaviour
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
     private TileGraphics tileGraphics;
     private ScenarioEditorPanel scenarioEditorPanel;
-
+    private LayerMask scenarioEditorLayerMask;
 
     private void Awake()
     {
@@ -58,24 +58,27 @@ public class ScenarioBuilder : MonoBehaviour
 
 
     private void Start()
-    {  
+    {
+        scenarioEditorLayerMask = LayerMask.GetMask("Tile", "Hover", "Highlight", "Empty", "Swamp", "Grass_purple");
         board = Chessboard.Instance;
         tileGraphics = board.GetComponentInChildren<TileGraphics>();
 
         if (GameManager.Instance.UnitSavePaths.unitsDatas.Count > 0)
         {
-            currentlyChosenUnit_Index = 0;
+            currentlyChosenUnit_index = 0;
             currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[0].unitPrefab;
-            if (currentlyChosenImage != null)
-                currentlyChosenImage.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[0].image;
+            if (currentlyChosenImage_unit != null)
+                currentlyChosenImage_unit.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[0].image;
         }
-        camSettings = GameObject.Find("Canvas").GetComponentInChildren<ScenarioBuilderCameraSettings>();
-    }
+        if (GameManager.Instance.UnitSavePaths)
+        {
+            currentlyChosenObject_index = 0;
+            currentlyChosenObject = GameManager.Instance.ObjectSavePaths.objectDatas[0].objectPrefab;
+            if (currentlyChosenImage_unit != null)
+                currentlyChosenImage_object.sprite = GameManager.Instance.ObjectSavePaths.objectDatas[0].image;
+        }
 
-    public void SetupTiletypeDropdownChooser()
-    {
-        //terrainTileTypeChooserDropdown.options = new List<TMP_Dropdown.OptionData>();
-        //terrainTileTypeChooserDropdown.options.Add(NodeType.NONE);
+        camSettings = GameObject.Find("Canvas").GetComponentInChildren<ScenarioBuilderCameraSettings>();
     }
 
 
@@ -113,7 +116,7 @@ public class ScenarioBuilder : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Hover", "Highlight", "Empty", "Swamp", "Grass_purple")))
+        if (Physics.Raycast(ray, out hit, 500, scenarioEditorLayerMask))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = board.LookupTileIndex(hit.transform.gameObject);
@@ -202,7 +205,7 @@ public class ScenarioBuilder : MonoBehaviour
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
         var activeUnits = board.GetUnits();
-        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Hover", "Highlight", "Swamp")))
+        if (Physics.Raycast(ray, out hit, 100, scenarioEditorLayerMask))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = board.LookupTileIndex(hit.transform.gameObject);
@@ -222,8 +225,11 @@ public class ScenarioBuilder : MonoBehaviour
                 // Spawn enemy if empty
                 if (Input.GetMouseButton(0) && currentlyDragging == null && activeUnits[hitPosition.x, hitPosition.y] == null)
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
                 // Remove if RighClicking an unit
                 else if (Input.GetMouseButton(1) && activeUnits[hitPosition.x, hitPosition.y] != null)
@@ -258,8 +264,11 @@ public class ScenarioBuilder : MonoBehaviour
                 }
                 else // SPAWN ENEMY UNIT WHEN CLICKED EMPTY  \\
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
             }
             else if (Input.GetMouseButtonDown(1))
@@ -325,14 +334,13 @@ public class ScenarioBuilder : MonoBehaviour
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
         var activeUnits = board.GetUnits();
-        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Hover", "Highlight", "Swamp")))
+        if (Physics.Raycast(ray, out hit, 100, scenarioEditorLayerMask))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = board.LookupTileIndex(hit.transform.gameObject);
             if (hitPosition == -Vector2Int.one)
-            {
                 return;
-            }
+
 
             // If hovering a tile after not hovering any tile
             if (currentHover == -Vector2Int.one)
@@ -344,11 +352,14 @@ public class ScenarioBuilder : MonoBehaviour
             // If already were hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
-                // Spawn enemy if empty
+                // Spawn obj if empty
                 if (Input.GetMouseButton(0) && currentlyDragging == null && activeUnits[hitPosition.x, hitPosition.y] == null)
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenObject, 2);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
                 // Remove if RighClicking an unit
                 else if (Input.GetMouseButton(1) && activeUnits[hitPosition.x, hitPosition.y] != null)
@@ -383,8 +394,11 @@ public class ScenarioBuilder : MonoBehaviour
                 }
                 else // SPAWN ENEMY UNIT WHEN CLICKED EMPTY  \\
                 {
-                    activeUnits[hitPosition.x, hitPosition.y] = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
+                    Unit clone = board.SpawnSingleUnit(currentlyChosenObject, 2);
+                    activeUnits[hitPosition.x, hitPosition.y] = clone;
+                    clone.spawnRotation = objectRotation;
                     board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
+                    board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
             }
             else if (Input.GetMouseButtonDown(1))
@@ -464,6 +478,19 @@ public class ScenarioBuilder : MonoBehaviour
 
     public GameObject GetOriginalUnitType_From_InstantiatedUnitObject(GameObject unit)
     {
+        // is object:
+        if (unit.GetComponent<Unit>().isObstacle)
+        {
+            foreach (var o in GameManager.Instance.ObjectSavePaths.objectDatas)
+            {
+                if (unit.name.Contains(o.objectPrefab.name))
+                {
+                    return o.objectPrefab;
+                }
+            }
+            return null;
+        }
+        // is unit:
         foreach (var u in GameManager.Instance.UnitSavePaths.unitsDatas)
         {
             if (unit.name.Contains(u.unitPrefab.name))
@@ -474,37 +501,64 @@ public class ScenarioBuilder : MonoBehaviour
         return null;
     }
 
-
     public void NextSpawableUnit()
     {
-        currentlyChosenUnit_Index++;
-        if (currentlyChosenUnit_Index >= GameManager.Instance.UnitSavePaths.unitsDatas.Count)
+        if (GameManager.Instance.UnitSavePaths.unitsDatas.Count == 1)
+            return;
+
+        currentlyChosenUnit_index++;
+        if (currentlyChosenUnit_index >= GameManager.Instance.UnitSavePaths.unitsDatas.Count)
         {
-            currentlyChosenUnit_Index = 0;
+            currentlyChosenUnit_index = 0;
         }
-        currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_Index].unitPrefab;
-        currentlyChosenImage.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_Index].image;
+        currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].unitPrefab;
+        currentlyChosenImage_unit.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].image;
     }
-
-
     public void PrevSpawableUnit()
     {
-        currentlyChosenUnit_Index--;
-        if (currentlyChosenUnit_Index < 0)
-        {
-            currentlyChosenUnit_Index = GameManager.Instance.UnitSavePaths.unitsDatas.Count - 1;
-        }
-        currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_Index].unitPrefab;
-        currentlyChosenImage.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_Index].image;
-    }
+        if (GameManager.Instance.UnitSavePaths.unitsDatas.Count == 1)
+            return;
 
+        currentlyChosenUnit_index--;
+        if (currentlyChosenUnit_index < 0)
+        {
+            currentlyChosenUnit_index = GameManager.Instance.UnitSavePaths.unitsDatas.Count - 1;
+        }
+        currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].unitPrefab;
+        currentlyChosenImage_unit.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].image;
+    }
+    public void NextSpawableObject()
+    {
+        if (GameManager.Instance.ObjectSavePaths.objectDatas.Count == 1)
+            return;
+
+        currentlyChosenObject_index++;
+        if (currentlyChosenObject_index >= GameManager.Instance.ObjectSavePaths.objectDatas.Count)
+        {
+            currentlyChosenObject_index = 0;
+        }
+        currentlyChosenObject = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].objectPrefab;
+        currentlyChosenImage_object.sprite = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].image;
+    }
+    public void PrevSpawableObject()
+    {
+        if (GameManager.Instance.ObjectSavePaths.objectDatas.Count == 1)
+            return;
+
+        currentlyChosenObject_index--;
+        if (currentlyChosenObject_index < 0)
+        {
+            currentlyChosenObject_index = GameManager.Instance.UnitSavePaths.unitsDatas.Count - 1;
+        }
+        currentlyChosenObject = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].objectPrefab;
+        currentlyChosenImage_object.sprite = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].image;
+    }
 
     public void ToggleCurrentTeam()
     {
         if (currentTeam == 0) currentTeam = 1;
         else if (currentTeam == 1) currentTeam = 0;
     }
-
 
     public static bool IsPointerOverUIObject()
     {
@@ -514,7 +568,6 @@ public class ScenarioBuilder : MonoBehaviour
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
         return results.Count > 0;
     }
-
 
     public void ChangeNodeType(int x, int y, int rotation, NodeType type, int variation)
     {
@@ -537,12 +590,11 @@ public class ScenarioBuilder : MonoBehaviour
         }
     }
 
-
     public void SetToolCurrentNodeType_m1(int type)
     {
         if (type == 0) currentNodeType_m1 = NodeType.NONE;
-        else if (type == 1) currentNodeType_m1 = NodeType.HOLE;
-        else if (type == 2) currentNodeType_m1 = NodeType.SWAMP;
+        else if (type == 1) currentNodeType_m1 = NodeType.SWAMP;
+        else if (type == 2) currentNodeType_m1 = NodeType.HOLE;
         else currentNodeType_m1 = NodeType.GRASS_PURPLE;
     }
     public void SetToolCurrentNodeType_m2(int type)
@@ -643,5 +695,24 @@ public class ScenarioBuilder : MonoBehaviour
             }
         }
         scenarioEditorPanel.SetRotationText(2, currentTileRotation_m2);
+    }
+    public void ChangeObjectRotation(bool add)
+    {
+        if (scenarioEditorPanel == null)
+            scenarioEditorPanel = GameObject.Find("Canvas").GetComponentInChildren<ScenarioEditorPanel>();
+
+        if (add)
+        {
+            objectRotation++;
+            if (objectRotation > 3)
+                objectRotation = 0;
+        }
+        else
+        {
+            objectRotation--;
+            if (objectRotation < 0)
+                objectRotation = 3;
+        }
+        scenarioEditorPanel.SetObjectRotationText(objectRotation);
     }
 }

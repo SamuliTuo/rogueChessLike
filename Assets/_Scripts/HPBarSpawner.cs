@@ -10,7 +10,7 @@ public class HPBarSpawner : MonoBehaviour
     private void Start()
     {
         hpBarPrefab = Resources.Load<GameObject>("HpBarInstance");
-        barPool = new ObjectPool<GameObject>(CreateBar, OnTakeBarFromPool, OnReturnBarToPool);
+        Reset();
     }
 
     public void Reset()

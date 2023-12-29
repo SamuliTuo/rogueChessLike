@@ -30,6 +30,7 @@ public enum Action
 public class Unit : MonoBehaviour
 {
     public string unitPath { get; set; }
+    public bool isObstacle = false;
 
     public float damage = 10;
     public float magic = 10;
@@ -54,8 +55,8 @@ public class Unit : MonoBehaviour
 
     [HideInInspector] public float savedAttackTimerAmount = 0f;
 
-    //player team = 0, enemy team = 1
-    [HideInInspector] public int team;
+    //player team = 0, enemy team = 1, obstacle = 2
+    public int team;
     [HideInInspector] public int x;
     [HideInInspector] public int y;
     //public UnitType type;
@@ -64,6 +65,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Chessboard board;
     [HideInInspector] public float t = 0;
     [HideInInspector] public float tStun = 0;
+    [HideInInspector] public int spawnRotation = 0;
 
     // Pathing
     [HideInInspector] public Pathfinding pathfinding;
@@ -107,6 +109,9 @@ public class Unit : MonoBehaviour
     private UnitAbility nextAbility;
     public void AI()
     {
+        if (isObstacle)
+            return;
+        
         // Unit activated an action and needs to wait:
         if (tStun > 0) { tStun -= Time.deltaTime; }
         else if (t > 0)  { t -= Time.deltaTime; }
@@ -281,7 +286,7 @@ public class Unit : MonoBehaviour
     public void GetStunned(float stunDuration)
     {
         print("pls lis‰‰ mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
-        animator.Play("idle", 0, 0);
+        animator?.Play("idle", 0, 0);
         ResetAI();
         tStun = stunDuration;
         //t = 0;
