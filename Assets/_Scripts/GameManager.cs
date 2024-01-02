@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         // CheckHP();
         // Respawn(); (se timeri kun pelaaja kuoli -> spawnaa takas)
         // UpdateTimers(); (statuses etc.)
-        //foreach (var unit in activeUnits) 
+        // foreach (var unit in activeUnits) 
         //    if (unit != null) 
         //        unit.Move();
         // Attack();
@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviour
         if (unit.team == 1)
             currentFightCumulatedExperience += unit.experienceWorth;
 
+        board.SetUnitToNull(unit.x, unit.y);
         bool allUnitsDead = true;
         foreach (var aliveUnit in board.GetUnits())
         {

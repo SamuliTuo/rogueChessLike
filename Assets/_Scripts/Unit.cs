@@ -113,7 +113,7 @@ public class Unit : MonoBehaviour
     private UnitAbility nextAbility;
     public void AI()
     {
-        if (isObstacle)
+        if (isObstacle || hp.dying)
             return;
         
         // Unit activated an action and needs to wait:
@@ -364,6 +364,7 @@ public class Unit : MonoBehaviour
         }
         nextAction = Action.NORMAL_ATTACK_SECONDHALF;
     }
+
     void NormalAttackSecondHalf()
     {
         Vector3 offset = transform.TransformVector(attackPositionOffset);

@@ -10,6 +10,8 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private float hpBarOffset = 1f;
     [SerializeField] private float maxHp = 100;
+    [SerializeField] private float dyingTimeBeforeSinking = 1.5f;
+    [SerializeField] private float sinkingSpeed = 1f;
     public float GetMaxHp() { return maxHp; }
     public void SetMaxHp(float value) { maxHp = value; }
     private float hpBarBiggenTime = 0.6f;
@@ -22,6 +24,7 @@ public class UnitHealth : MonoBehaviour
     private Color originalColor;
     private GameObject hpBar = null;
     private HpBarInstance hpScript;
+    private Animator anim;
     
     private Unit unit;
     private Vector3 hpBarOriginalScale;
@@ -29,6 +32,7 @@ public class UnitHealth : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<Unit>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -75,7 +79,7 @@ public class UnitHealth : MonoBehaviour
         {
             dying = true;
             GameManager.Instance.UnitHasDied(unit);
-            Die();
+            StartCoroutine(Die());
         }
         else
         {
@@ -89,7 +93,7 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
-    public void Die()
+    public IEnumerator Die()
     {
         GetComponent<UnitStatusModifiersHandler>()?.StopAllCoroutines();
         if (hpScript != null)
@@ -97,6 +101,27 @@ public class UnitHealth : MonoBehaviour
             hpScript.Deactivate();
             hpScript = null;
         }
+
+        // Dying animation
+        anim.Play("die", 0, 0);
+        float t = 0;
+        while (t < dyingTimeBeforeSinking)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        // Sink the body
+        t = 0;
+        Vector3 starPos = transform.position;
+        Vector3 endPos = transform.position + Vector3.down * 4;
+        while (t < 1)
+        {
+            transform.position = Vector3.Lerp(starPos, endPos, t);
+            t += Time.deltaTime * sinkingSpeed;
+            yield return null;
+        }
+
         Destroy(this.gameObject);
     }
 

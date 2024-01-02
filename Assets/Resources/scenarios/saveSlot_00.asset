@@ -52,20 +52,20 @@ MonoBehaviour:
   - x: 0
     y: 5
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 0
     y: 6
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 0
     y: 7
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 0
     y: 8
@@ -106,14 +106,14 @@ MonoBehaviour:
   - x: 1
     y: 5
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 1
     y: 6
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 1
     y: 7
@@ -561,27 +561,12 @@ MonoBehaviour:
     rotation: 0
   scenarioUnits:
   - unit: Unit_skeleton_02
-    spawnPosX: 0
-    spawnPosY: 6
-    spawnRot: 0
-    team: 1
-  - unit: Unit_skeleton_02
-    spawnPosX: 1
+    spawnPosX: 2
     spawnPosY: 5
-    spawnRot: 3
-    team: 1
-  - unit: Unit_skeleton_02
-    spawnPosX: 1
-    spawnPosY: 6
     spawnRot: 0
     team: 1
   - unit: Unit_skeleton_02
     spawnPosX: 2
-    spawnPosY: 5
-    spawnRot: 2
-    team: 1
-  - unit: Unit_skeleton_02
-    spawnPosX: 2
     spawnPosY: 6
-    spawnRot: 1
+    spawnRot: 0
     team: 1

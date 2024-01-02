@@ -34,6 +34,8 @@ public class Chessboard : MonoBehaviour
     private Unit[,] activeUnits;
     public Unit[,] GetUnits() { return activeUnits; }
 
+    public void SetUnitToNull(int x,int y) { activeUnits[x,y] = null; }
+
     [HideInInspector] public GameObject[,] tiles;
     [HideInInspector] public Node[,] nodes;
     private Unit currentlyDragging;
@@ -312,7 +314,7 @@ public class Chessboard : MonoBehaviour
             foreach (var unit in activeUnits)
             {
                 if (unit == null) continue;
-                unit.GetComponent<UnitHealth>().Die();
+                StartCoroutine(unit.GetComponent<UnitHealth>().Die());
             }
         }
         foreach (var tile in tiles)

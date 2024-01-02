@@ -186,6 +186,8 @@ MonoBehaviour:
   flashDuration: 0.1
   hpBarOffset: 4
   maxHp: 150
+  dyingTimeBeforeSinking: 0.3
+  sinkingSpeed: 0.1
   hp: 1000
   shield: 0
 --- !u!114 &487603890882792800
@@ -200,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isObstacle: 0
   damage: 9
   magic: 10
   attackSpeed: 0
@@ -226,6 +229,7 @@ MonoBehaviour:
   board: {fileID: 0}
   t: 0
   tStun: 0
+  spawnRotation: 0
   pathfinding: {fileID: 0}
   target: {x: 0, y: 0}
   path: []

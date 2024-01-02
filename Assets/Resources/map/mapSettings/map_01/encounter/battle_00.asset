@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: battle_00
   m_EditorClassIdentifier: 
   mapNodeType: 8
-  possibleTextScenarios:
-  - {fileID: 11400000, guid: 56c148ef739befa4c97d5b0d7cbdd2f1, type: 2}
-  possibleBattleScenarios: []
+  possibleTextScenarios: []
+  possibleBattleScenarios:
+  - {fileID: 11400000, guid: 76cae81aea83d3e43a606070b4a5d995, type: 2}
