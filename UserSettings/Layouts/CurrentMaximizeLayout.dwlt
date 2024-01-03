@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 26121
+  controlID: 26282
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 26122
+  controlID: 26283
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 26123
+  controlID: 26268
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0620fbff8c3cfbff504cfbff2660fbff3ef0ffff88f1fffff4ffffff
+      m_ExpandedIDs: bc1efbff0620fbff8c3cfbff504cfbff2660fbff3ef0ffff88f1fffff4ffffff30d00200
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -884,21 +884,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/_Scenes
+    - Assets/Resources/units/enemy/gnome
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/_Scenes
+  - Assets/Resources/units/enemy/gnome
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\_UNITY pelit\rogueChessLike
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 529e0000
-    m_LastClickedID: 40530
+    scrollPos: {x: 0, y: 420}
+    m_SelectedIDs: 34ad0000
+    m_LastClickedID: 44340
     m_ExpandedIDs: 000000003a9e00003c9e00003e9e0000429e0000449e0000469e0000489e0000809e0000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -952,9 +952,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 48980000
-    m_LastClickedInstanceID: 38984
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 1ad30200
+    m_LastClickedInstanceID: 185114
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000aa6d00000adc010016f50300649900007edc020084c9000078ca0000067000001e70000084970300347000006a820100588301004e700000e09a0000167000002270000012940000987f000062840000cc870000dc8700002875000098760000a4760000987a0000423806003ed60800163902003e3a02003c740000c4780000c6780000009e0000145d0600085d0600ea620700c2920000f67a0000f88c00006830000092a500002e840000ce640200127a000082d10500ea680000489200006e84000000000000b4bd00000a690000f0950000dad40000d6800000c8800000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1073,7 +1073,7 @@ MonoBehaviour:
     m_CachedPref: -271
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 38984
+  m_LastInspectedObjectInstanceID: 185114
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
