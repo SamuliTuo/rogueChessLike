@@ -9,6 +9,12 @@ public class CaravanController : MonoBehaviour
 {
     [SerializeField] GameObject caravanPanel;
 
+    [SerializeField] private bool use_penguin = true;
+    [SerializeField] private bool use_squirrel = true;
+    [SerializeField] private bool use_bearCub = true;
+    [SerializeField] private bool use_blackLion = true;
+
+
     private List<UnitData> caravanSlots = new List<UnitData>();
     private Image caravanSlot1Image;
     private Image caravanSlot2Image;
@@ -85,7 +91,10 @@ public class CaravanController : MonoBehaviour
         List<UnitAndSavePath> units = new List<UnitAndSavePath>();
         foreach (var unit in GameManager.Instance.UnitSavePaths.unitsDatas)
         {
-            if ( unit.unitPrefab.name == "Unit_penguin")
+            if ( unit.unitPrefab.name == "Unit_penguin"
+                || unit.unitPrefab.name == "Unit_bearCub"
+                || unit.unitPrefab.name == "Unit_squirrel"
+                || unit.unitPrefab.name == "Unit_blackLion")
             {
                 units.Add(unit);
             }

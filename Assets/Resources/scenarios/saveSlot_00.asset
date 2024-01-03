@@ -570,3 +570,68 @@ MonoBehaviour:
     spawnPosY: 6
     spawnRot: 0
     team: 1
+  - unit: Unit_wraith
+    spawnPosX: 2
+    spawnPosY: 8
+    spawnRot: 0
+    team: 1
+  - unit: Unit_mooseMan_shaman
+    spawnPosX: 4
+    spawnPosY: 6
+    spawnRot: 0
+    team: 1
+  - unit: Unit_nakk
+    spawnPosX: 4
+    spawnPosY: 8
+    spawnRot: 0
+    team: 1
+  - unit: Unit_ghostDog02
+    spawnPosX: 5
+    spawnPosY: 1
+    spawnRot: 0
+    team: 1
+  - unit: Unit_ghostDog01
+    spawnPosX: 5
+    spawnPosY: 3
+    spawnRot: 0
+    team: 1
+  - unit: Unit_mooseMan_berserk
+    spawnPosX: 5
+    spawnPosY: 6
+    spawnRot: 0
+    team: 1
+  - unit: Unit_stinkyBoi
+    spawnPosX: 5
+    spawnPosY: 7
+    spawnRot: 0
+    team: 1
+  - unit: Unit_mooseMan_spartan
+    spawnPosX: 6
+    spawnPosY: 6
+    spawnRot: 0
+    team: 1
+  - unit: Unit_tortoise
+    spawnPosX: 6
+    spawnPosY: 8
+    spawnRot: 0
+    team: 1
+  - unit: Unit_ghostDog03
+    spawnPosX: 7
+    spawnPosY: 3
+    spawnRot: 0
+    team: 1
+  - unit: Unit_gnome
+    spawnPosX: 7
+    spawnPosY: 4
+    spawnRot: 0
+    team: 1
+  - unit: Unit_lizard
+    spawnPosX: 7
+    spawnPosY: 6
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 8
+    spawnPosY: 5
+    spawnRot: 0
+    team: 1
