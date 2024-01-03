@@ -80,7 +80,7 @@ MonoBehaviour:
   lifeSteal_flat: 0
   lifeSteal_perc: 0
   experienceWorth: 10
-  visibleMoveSpeed: 1
+  visibleMoveSpeed: 1.1
   moveInterval: 1.2
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: 0, y: 0, z: 0}
