@@ -297,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3031932399331263327
 RectTransform:
   m_ObjectHideFlags: 0
@@ -341,8 +341,6 @@ MonoBehaviour:
   - {fileID: 3031932399152921793}
   - {fileID: 3031932399681627759}
   - {fileID: 3031932400896640436}
-  - {fileID: 0}
-  - {fileID: 0}
   upgradeDMG: {fileID: 21300000, guid: 0c9f4f19b402bf14db047146d128e7da, type: 3}
   upgradeMAGIC: {fileID: 21300000, guid: 01cb7c1d4e695b84f808d0dbc899ca23, type: 3}
   upgradeATTSPD: {fileID: 21300000, guid: 6fae582eb225c154fbe0e884356be1f1, type: 3}

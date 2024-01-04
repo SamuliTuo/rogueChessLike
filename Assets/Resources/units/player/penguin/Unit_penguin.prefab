@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isObstacle: 0
-  damage: 10
+  damage: 30
   magic: 10
   attackSpeed: 5
   moveSpeed: 300

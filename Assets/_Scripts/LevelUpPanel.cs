@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class LevelUpPanel : MonoBehaviour
 {
@@ -54,7 +52,7 @@ public class LevelUpPanel : MonoBehaviour
                     isAbility = UnityEngine.Random.Range(0, 100) < 50;
                 }
             }
-            
+
             if (isAbility)
             {
                 AddAbility(possibleAbils, i);
@@ -101,7 +99,7 @@ public class LevelUpPanel : MonoBehaviour
             text.gameObject.SetActive(true);
             text.GetComponentInChildren<TextMeshProUGUI>().text = upgrade.upgradeType;
         }
-        else 
+        else
         {
             abilitySlots[i].SetChoice(GetRandomStatUpgrade(UnityEngine.Random.Range(0, 5)));
         }
@@ -140,16 +138,139 @@ public class LevelUpPanel : MonoBehaviour
         return null;
     }
 
-    Tuple<string, Sprite> GetRandomStatUpgrade(int upgrade)
+    StatUpgrade GetRandomStatUpgrade(int upgrade)
     {
-        switch (upgrade)
+        StatUpgrade r;
+        var dieRoll = UnityEngine.Random.Range(0.00f, 100.00f);
+        string statName = RandomStatName();
+
+        if (dieRoll > 50)
         {
-            case 0: return new Tuple<string, Sprite>("DMG", upgradeDMG);
-            case 1: return new Tuple<string, Sprite>("MAGIC", upgradeMAGIC);
-            case 2: return new Tuple<string, Sprite>("ATTSPD", upgradeATTSPD);
-            case 3: return new Tuple<string, Sprite>("HP", upgradeHP);
-            case 4: return new Tuple<string, Sprite>("MOVESPD", upgradeMOVEMENTSPD);
+            // 1x upgrade
+            r = new StatUpgrade(AddSpriteToTheStat(statName), statName, 1);
+        }
+        else if (dieRoll > 30)
+        {
+            // 1.5x upgrade
+            r = new StatUpgrade(AddSpriteToTheStat(statName), statName, 1.5f);
+        }
+        else if (dieRoll > 12)
+        {
+            // 1x + 1x upgrades
+            var l = new List<string>();
+            l.Add(statName);
+            string secondStat = RandomStatName(l);
+            r = new StatUpgrade(AddSpriteToTheStat(statName), statName, 1, AddSpriteToTheStat(secondStat), secondStat, 1);
+        }
+        else if (dieRoll > 9)
+        {
+            // 1.5x + 1x upgrades
+            var l = new List<string>();
+            l.Add(statName);
+            string secondStat = RandomStatName(l);
+            r = new StatUpgrade(AddSpriteToTheStat(statName), statName, 1.5f, AddSpriteToTheStat(secondStat), secondStat, 1);
+        }
+        else if (dieRoll > 6)
+        {
+            // 2.25x upgrade
+            r = new StatUpgrade(AddSpriteToTheStat(statName), statName, 2.25f);
+        }
+        else
+        {
+            // skip passive upgrade for 1 extra AP
+            r = new StatUpgrade(null, null, 0, null, null, 0, true);
+        }
+        return r;
+    }
+
+    string RandomStatName(List<string> exclude = null)
+    {
+        List<string> randomList = new List<string>();
+        bool add;
+        if (exclude != null)
+        {
+            if (exclude.Count > 0)
+            {
+                add = true;
+                foreach (var stat in exclude)
+                    if (stat == "DMG")
+                        add = false;
+                if (add) randomList.Add("DMG");
+
+                add = true;
+                foreach (var stat in exclude)
+                    if (stat == "MAGIC")
+                        add = false;
+                if (add) randomList.Add("MAGIC");
+
+                add = true;
+                foreach (var stat in exclude)
+                    if (stat == "ATTSPD")
+                        add = false;
+                if (add) randomList.Add("ATTSPD");
+
+                add = true;
+                foreach (var stat in exclude)
+                    if (stat == "HP")
+                        add = false;
+                if (add) randomList.Add("HP");
+
+                add = true;
+                foreach (var stat in exclude)
+                    if (stat == "MOVESPD")
+                        add = false;
+                if (add) randomList.Add("MOVESPD");
+            }
+        }
+        else
+        {
+            randomList.Add("DMG");
+            randomList.Add("MAGIC");
+            randomList.Add("ATTSPD");
+            randomList.Add("HP");
+            randomList.Add("MOVESPD");
+        }
+        return randomList[UnityEngine.Random.Range(0, randomList.Count)];
+    }
+    Sprite AddSpriteToTheStat(string stat)
+    {
+        switch (stat)
+        {
+            case "DMG": return upgradeDMG;
+            case "MAGIC": return upgradeMAGIC;
+            case "ATTSPD": return upgradeATTSPD;
+            case "HP": return upgradeHP;
+            case "MOVESPD": return upgradeMOVEMENTSPD;
             default: return null;
+        }
+    }
+    public class StatUpgrade
+    {
+        public Sprite sprite1;
+        public string stat1Name;
+        public float stat1Amount;
+        public Sprite sprite2;
+        public string stat2Name;
+        public float stat2Amount;
+        public bool skipPassive;
+
+        public StatUpgrade(
+            Sprite _sprite1 = null,
+            string _stat1Name = null,
+            float _stat1Amount = 0,
+            Sprite _sprite2 = null,
+            string _stat2Name = null,
+            float _stat2Amount = 0,
+            bool _skipPassive = false
+            )
+        {
+            sprite1 = _sprite1;
+            stat1Name = _stat1Name;
+            stat1Amount = _stat1Amount;
+            sprite2 = _sprite2;
+            stat2Name = _stat2Name;
+            stat2Amount = _stat2Amount;
+            skipPassive = _skipPassive;
         }
     }
 
@@ -185,8 +306,14 @@ public class LevelUpPanel : MonoBehaviour
     }
 
 
+    [SerializeField] float upgradeAmount_damage = 3.3f;
+    [SerializeField] float upgradeAmount_magic = 3.1f;
+    [SerializeField] float upgradeAmount_attSpd = 15f;
+    [SerializeField] float upgradeAmount_hp = 25f;
+    [SerializeField] float upgradeAmount_moveSpd = 10f;
 
-    public bool TryToChooseOption(string option)
+
+    public bool TryToChooseOption(LevelUpPanel.StatUpgrade option)
     {
         if (passivePoints < 1)
         {
@@ -194,36 +321,77 @@ public class LevelUpPanel : MonoBehaviour
             return false;
         }
 
-        switch (option)
+        if (option.sprite1 != null)
         {
-            case ("DMG"):
-                unitThatsLevelingUp.damage += 3.3f;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitThatsLevelingUp.damage);
-                break;
+            switch (option.stat1Name)
+            {
+                case ("DMG"):
+                    unitThatsLevelingUp.damage += upgradeAmount_damage * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitThatsLevelingUp.damage);
+                    break;
 
-            case ("MAGIC"):
-                unitThatsLevelingUp.magic += 3.1f;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitThatsLevelingUp.magic);
-                break;
+                case ("MAGIC"):
+                    unitThatsLevelingUp.magic += upgradeAmount_magic * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitThatsLevelingUp.magic);
+                    break;
 
-            case ("ATTSPD"):
-                unitThatsLevelingUp.attackSpeed += 15;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitThatsLevelingUp.attackSpeed);
-                break;
+                case ("ATTSPD"):
+                    unitThatsLevelingUp.attackSpeed += upgradeAmount_attSpd * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitThatsLevelingUp.attackSpeed);
+                    break;
 
-            case ("HP"): 
-                unitThatsLevelingUp.maxHp += 25f;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitThatsLevelingUp.maxHp);
-                break;
+                case ("HP"):
+                    unitThatsLevelingUp.maxHp += upgradeAmount_hp * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitThatsLevelingUp.maxHp);
+                    break;
 
-            case ("MOVESPD"): 
-                unitThatsLevelingUp.moveSpeed += 10;
-                unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitThatsLevelingUp.moveSpeed);
-                break;
+                case ("MOVESPD"):
+                    unitThatsLevelingUp.moveSpeed += upgradeAmount_moveSpd * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitThatsLevelingUp.moveSpeed);
+                    break;
 
-            default: 
-                break;
+                default:
+                    break;
+            }
         }
+
+        if (option.sprite2 != null)
+        {
+            switch (option.stat2Name)
+            {
+                case ("DMG"):
+                    unitThatsLevelingUp.damage += upgradeAmount_damage * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitThatsLevelingUp.damage);
+                    break;
+
+                case ("MAGIC"):
+                    unitThatsLevelingUp.magic += upgradeAmount_magic * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitThatsLevelingUp.magic);
+                    break;
+
+                case ("ATTSPD"):
+                    unitThatsLevelingUp.attackSpeed += upgradeAmount_attSpd * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitThatsLevelingUp.attackSpeed);
+                    break;
+
+                case ("HP"):
+                    unitThatsLevelingUp.maxHp += upgradeAmount_hp * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitThatsLevelingUp.maxHp);
+                    break;
+
+                case ("MOVESPD"):
+                    unitThatsLevelingUp.moveSpeed += upgradeAmount_moveSpd * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitThatsLevelingUp.moveSpeed);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if (option.skipPassive)
+            abilityPoints++;
+
         passivePoints--;
         CheckIfDone();
         return true;
