@@ -12,87 +12,278 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_10
   m_EditorClassIdentifier: 
-  saveName: empty
-  sizeX: 0
-  sizeY: 0
-  cameraRotationX: 0
-  cameraRotationY: 0
+  saveName: 4a
+  sizeX: 6
+  sizeY: 7
+  cameraRotationX: 45
+  cameraRotationY: -45
   cameraRotationZ: 0
-  scenarioNodes: []
+  scenarioNodes:
+  - x: 0
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 1
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 2
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 0
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 0
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 0
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 1
+    y: 2
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 1
+    y: 4
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 1
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 2
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 2
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 3
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 4
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 5
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 3
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 3
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 3
+    y: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 3
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 4
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 4
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 4
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 4
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 4
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 5
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 5
+    y: 5
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
   scenarioUnits:
-  - unit: Unit_melee
+  - unit: Unit_crow
+    spawnPosX: 0
+    spawnPosY: 4
+    spawnRot: 2
+    team: 1
+  - unit: Unit_crow
     spawnPosX: 1
-    spawnPosY: 7
+    spawnPosY: 5
+    spawnRot: 2
     team: 1
-  - unit: UNIT_bear
-    spawnPosX: 1
-    spawnPosY: 8
-    team: 1
-  - unit: Unit_ranger
-    spawnPosX: 2
-    spawnPosY: 0
-    team: 0
-  - unit: UNIT_bear
-    spawnPosX: 2
-    spawnPosY: 8
-    team: 1
-  - unit: UNIT_coalem
-    spawnPosX: 3
-    spawnPosY: 7
-    team: 1
-  - unit: UNIT_bear
-    spawnPosX: 3
-    spawnPosY: 8
-    team: 1
-  - unit: Unit_necromancer
+  - unit: Unit_crow
     spawnPosX: 4
-    spawnPosY: 0
-    team: 0
-  - unit: Unit_melee
-    spawnPosX: 4
-    spawnPosY: 1
-    team: 0
-  - unit: UNIT_bear
-    spawnPosX: 4
-    spawnPosY: 8
-    team: 1
-  - unit: UNIT_llama
-    spawnPosX: 4
-    spawnPosY: 9
-    team: 1
-  - unit: Unit_healer
-    spawnPosX: 5
-    spawnPosY: 0
-    team: 0
-  - unit: UNIT_coalem
-    spawnPosX: 5
-    spawnPosY: 6
-    team: 1
-  - unit: UNIT_bear
-    spawnPosX: 5
-    spawnPosY: 7
-    team: 1
-  - unit: UNIT_skelestrong
-    spawnPosX: 6
-    spawnPosY: 7
-    team: 1
-  - unit: UNIT_owl-ish
-    spawnPosX: 6
-    spawnPosY: 9
-    team: 1
-  - unit: UNIT_coalem
-    spawnPosX: 7
-    spawnPosY: 6
-    team: 1
-  - unit: UNIT_skelestrong
-    spawnPosX: 7
-    spawnPosY: 7
-    team: 1
-  - unit: UNIT_llama
-    spawnPosX: 7
-    spawnPosY: 8
-    team: 1
-  - unit: UNIT_llama
-    spawnPosX: 8
-    spawnPosY: 8
+    spawnPosY: 5
+    spawnRot: 2
     team: 1

@@ -26,6 +26,7 @@ public class UnitSavePaths : MonoBehaviour
         }
         return null;
     }
+
     public string GetName(string path)
     {
         foreach (var unitPath in unitsDatas)

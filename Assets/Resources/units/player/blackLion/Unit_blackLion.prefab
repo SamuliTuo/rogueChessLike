@@ -73,14 +73,14 @@ MonoBehaviour:
   magic: 10
   attackSpeed: 5
   moveSpeed: 300
-  turnRate: 0.7
+  turnRate: 0.3
   critChance: 0
   critDamagePerc: 2
   missChance: 0
   lifeSteal_flat: 0
   lifeSteal_perc: 0
   experienceWorth: 10
-  visibleMoveSpeed: 1.1
+  visibleMoveSpeed: 6
   moveInterval: 1.2
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: 0, y: 0, z: 0}

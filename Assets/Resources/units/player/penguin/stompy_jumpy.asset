@@ -15,19 +15,30 @@ MonoBehaviour:
   targetSearchType: 0
   validTargets: 0
   centerOnYourself: 0
-  hitParticle: 4
+  hitParticle: 9
   dmgInstanceType: 0
-  projectileType: 1
+  projectileType: 0
   projectilePath: stompy_jumpy_proj
   reach: 1
-  damage: 1
+  damage: 2
+  directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.2
   castDuration_secondHalf: 0.6
-  cooldown: 8
+  additionalDamagePhases: 0
+  additionalDamagePhaseDuration: 0
+  cooldown: 9
   startCooldownMultiplier: 0.5
-  flySpeed: 0
-  minLifeTime: 0.1
+  flySpeed: 15
+  minLifeTime: 0.4
   damagesAllies: 0
+  spawnAreaDOT: 0
+  areaDOTStatusModifier: {fileID: 0}
+  areaDOTSize: 0
+  areaDOTValidTargets: 0
+  areaDOTParticle: 0
+  tickDamage: 0
+  tickIntervalSeconds: 0
+  intervalCount: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0
   bounceRange_attack: 0
