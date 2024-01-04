@@ -585,6 +585,21 @@ public class ScenarioBuilder : MonoBehaviour
             case NodeType.GRASS_PURPLE:
                 board.ChangeTileGraphics(x, y, "Grass_purple", variation, true, rotation);
                 break;
+            case NodeType.ROAD:
+                board.ChangeTileGraphics(x, y, "Road", variation, true, rotation);
+                break;
+            case NodeType.VINES:
+                board.ChangeTileGraphics(x, y, "Vines", variation, true, rotation);
+                break;
+            case NodeType.THORNS:
+                board.ChangeTileGraphics(x, y, "Thorns", variation, true, rotation);
+                break;
+            case NodeType.WALL:
+                board.ChangeTileGraphics(x, y, "Wall", variation, true, rotation);
+                break;
+            case NodeType.WATER:
+                board.ChangeTileGraphics(x, y, "Water", variation, true, rotation);
+                break;
             default:
                 break;
         }
@@ -595,6 +610,11 @@ public class ScenarioBuilder : MonoBehaviour
         if (type == 0) currentNodeType_m1 = NodeType.NONE;
         else if (type == 1) currentNodeType_m1 = NodeType.SWAMP;
         else if (type == 2) currentNodeType_m1 = NodeType.HOLE;
+        else if (type == 3) currentNodeType_m1 = NodeType.THORNS;
+        else if (type == 4) currentNodeType_m1 = NodeType.ROAD;
+        else if (type == 5) currentNodeType_m1 = NodeType.VINES;
+        else if (type == 6) currentNodeType_m1 = NodeType.WALL;
+        else if (type == 7) currentNodeType_m1 = NodeType.WATER;
         else currentNodeType_m1 = NodeType.GRASS_PURPLE;
     }
     public void SetToolCurrentNodeType_m2(int type)
@@ -602,6 +622,11 @@ public class ScenarioBuilder : MonoBehaviour
         if (type == 0) currentNodeType_m2 = NodeType.NONE;
         else if (type == 1) currentNodeType_m2 = NodeType.SWAMP;
         else if (type == 2) currentNodeType_m2 = NodeType.HOLE;
+        else if (type == 3) currentNodeType_m2 = NodeType.THORNS;
+        else if (type == 4) currentNodeType_m2 = NodeType.ROAD;
+        else if (type == 5) currentNodeType_m2 = NodeType.VINES;
+        else if (type == 6) currentNodeType_m2 = NodeType.WALL;
+        else if (type == 7) currentNodeType_m2 = NodeType.WATER;
         else currentNodeType_m2 = NodeType.GRASS_PURPLE;
     }
     public void ChangeVariation_m1(bool add)

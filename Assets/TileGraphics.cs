@@ -23,11 +23,16 @@ public class TileGraphics : MonoBehaviour
             case "Tile": return TryToFindObject(NodeType.NONE, variation);
             case "Swamp": return TryToFindObject(NodeType.SWAMP, variation);
             case "Empty": return TryToFindObject(NodeType.HOLE, variation);
+            case "Thorns": return TryToFindObject(NodeType.THORNS, variation);
+            case "Road": return TryToFindObject(NodeType.ROAD, variation);
+            case "Vines": return TryToFindObject(NodeType.VINES, variation);
+            case "Wall": return TryToFindObject(NodeType.WALL, variation);
+            case "Water": return TryToFindObject(NodeType.WATER, variation);
             case "Grass_purple": return TryToFindObject(NodeType.GRASS_PURPLE, variation);
             default: return null;
         }
     }
-
+    
     public GameObject TryToFindObject(NodeType tileType, int var)
     {
         foreach (TileType t in tileTypes)

@@ -21,41 +21,41 @@ MonoBehaviour:
   scenarioNodes:
   - x: 0
     y: 0
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 0
-    y: 1
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 0
-    y: 2
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 0
-    y: 3
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 0
-    y: 4
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 0
-    y: 5
     walkable: 1
     terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 0
+    y: 1
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 5
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 0
     y: 6
     walkable: 0
     terrainLayer: Empty
@@ -73,22 +73,16 @@ MonoBehaviour:
     terrainLayer: Empty
     tileVariation: 0
     rotation: 0
-  - x: 0
-    y: 9
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
   - x: 1
     y: 0
-    walkable: 0
-    terrainLayer: Empty
+    walkable: 1
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 1
     y: 1
-    walkable: 0
-    terrainLayer: Empty
+    walkable: 1
+    terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 1
@@ -106,7 +100,7 @@ MonoBehaviour:
   - x: 1
     y: 4
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 1
@@ -133,22 +127,16 @@ MonoBehaviour:
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 1
-    y: 9
+  - x: 2
+    y: 0
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 2
-    y: 0
-    walkable: 1
-    terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 2
     y: 1
-    walkable: 0
-    terrainLayer: Empty
+    walkable: 1
+    terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 2
@@ -193,22 +181,16 @@ MonoBehaviour:
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
-    y: 9
+  - x: 3
+    y: 0
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 3
-    y: 0
+    y: 1
     walkable: 1
     terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 3
-    y: 1
-    walkable: 0
-    terrainLayer: Empty
     tileVariation: 0
     rotation: 0
   - x: 3
@@ -249,12 +231,6 @@ MonoBehaviour:
     rotation: 0
   - x: 3
     y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 3
-    y: 9
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
@@ -262,7 +238,7 @@ MonoBehaviour:
   - x: 4
     y: 0
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 4
@@ -313,16 +289,10 @@ MonoBehaviour:
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 4
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
   - x: 5
     y: 0
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 5
@@ -340,13 +310,13 @@ MonoBehaviour:
   - x: 5
     y: 3
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 5
     y: 4
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 5
@@ -369,12 +339,6 @@ MonoBehaviour:
     rotation: 0
   - x: 5
     y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 5
-    y: 9
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
@@ -433,12 +397,6 @@ MonoBehaviour:
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 6
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
   - x: 7
     y: 0
     walkable: 1
@@ -472,13 +430,13 @@ MonoBehaviour:
   - x: 7
     y: 5
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 7
     y: 6
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 7
@@ -489,12 +447,6 @@ MonoBehaviour:
     rotation: 0
   - x: 7
     y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 9
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
@@ -532,149 +484,23 @@ MonoBehaviour:
   - x: 8
     y: 5
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 8
     y: 6
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 8
     y: 7
     walkable: 1
-    terrainLayer: Tile
+    terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
   - x: 8
     y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 0
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 1
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 2
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 6
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 7
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 0
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 1
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 2
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 6
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 7
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 9
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
@@ -683,7 +509,7 @@ MonoBehaviour:
   - unit: Unit_bear
     spawnPosX: 3
     spawnPosY: 8
-    spawnRot: 1
+    spawnRot: 3
     team: 1
   - unit: Unit_bear
     spawnPosX: 5
@@ -691,7 +517,12 @@ MonoBehaviour:
     spawnRot: 3
     team: 1
   - unit: Unit_bear
-    spawnPosX: 9
+    spawnPosX: 6
     spawnPosY: 8
-    spawnRot: 2
+    spawnRot: 3
+    team: 1
+  - unit: Unit_bear
+    spawnPosX: 8
+    spawnPosY: 7
+    spawnRot: 3
     team: 1

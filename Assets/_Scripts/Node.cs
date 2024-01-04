@@ -10,7 +10,12 @@ public enum NodeType
     NONE,
     GRASS_PURPLE,
     HOLE,
-    SWAMP
+    SWAMP,
+    ROAD,
+    THORNS,
+    VINES,
+    WALL,
+    WATER
 }
 
 public class Node : IHeapItem<Node>
