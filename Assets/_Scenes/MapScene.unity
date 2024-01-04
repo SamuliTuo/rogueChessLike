@@ -1186,6 +1186,10 @@ PrefabInstance:
       propertyPath: unitStatsPanel
       value: 
       objectReference: {fileID: 1714456015}
+    - target: {fileID: 3031932399331263326, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: passiveSlots.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3031932399331263327, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -600,8 +600,8 @@ public class ScenarioBuilder : MonoBehaviour
     public void SetToolCurrentNodeType_m2(int type)
     {
         if (type == 0) currentNodeType_m2 = NodeType.NONE;
-        else if (type == 1) currentNodeType_m2 = NodeType.HOLE;
-        else if (type == 2) currentNodeType_m2 = NodeType.SWAMP;
+        else if (type == 1) currentNodeType_m2 = NodeType.SWAMP;
+        else if (type == 2) currentNodeType_m2 = NodeType.HOLE;
         else currentNodeType_m2 = NodeType.GRASS_PURPLE;
     }
     public void ChangeVariation_m1(bool add)
