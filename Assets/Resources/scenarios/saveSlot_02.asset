@@ -12,4 +12,196 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_02
   m_EditorClassIdentifier: 
-  enemies: []
+  saveName: 1c
+  sizeX: 5
+  sizeY: 6
+  cameraRotationX: 45
+  cameraRotationY: -45
+  cameraRotationZ: 0
+  scenarioNodes:
+  - x: 0
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 0
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 0
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 0
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 0
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 0
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 1
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 1
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 1
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 1
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 2
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 4
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 4
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  scenarioUnits:
+  - unit: Unit_gnome
+    spawnPosX: 1
+    spawnPosY: 4
+    spawnRot: 0
+    team: 1

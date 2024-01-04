@@ -286,18 +286,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isObstacle: 0
-  damage: 17
+  damage: 20
   magic: 10
   attackSpeed: 1
-  moveSpeed: 70
-  turnRate: 0.01
+  moveSpeed: 200
+  turnRate: 0.1
   critChance: 0
   critDamagePerc: 2
   missChance: 0
   lifeSteal_flat: 0
   lifeSteal_perc: 0
   experienceWorth: 10
-  visibleMoveSpeed: 0.6
+  visibleMoveSpeed: 5
   moveInterval: 3.9
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: -0.863, y: 0, z: 0.025}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_00
   m_EditorClassIdentifier: 
-  saveName: 1A
+  saveName: 1a
   sizeX: 7
-  sizeY: 6
+  sizeY: 7
   cameraRotationX: 45
   cameraRotationY: -45
   cameraRotationZ: 0
@@ -55,12 +55,6 @@ MonoBehaviour:
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 0
-    y: 6
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
   - x: 1
     y: 0
     walkable: 1
@@ -93,12 +87,6 @@ MonoBehaviour:
     rotation: 0
   - x: 1
     y: 5
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 1
-    y: 6
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
@@ -136,12 +124,6 @@ MonoBehaviour:
   - x: 2
     y: 5
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
-    rotation: 0
-  - x: 2
-    y: 6
-    walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
@@ -178,14 +160,8 @@ MonoBehaviour:
   - x: 3
     y: 5
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
-    rotation: 0
-  - x: 3
-    y: 6
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 4
     y: 0
@@ -220,18 +196,17 @@ MonoBehaviour:
   - x: 4
     y: 5
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
-    rotation: 0
-  - x: 4
-    y: 6
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   scenarioUnits:
-  - unit: Unit_lizard
+  - unit: Unit_goat
     spawnPosX: 1
+    spawnPosY: 3
+    spawnRot: 2
+    team: 1
+  - unit: Unit_lizard
+    spawnPosX: 3
     spawnPosY: 4
-    spawnRot: 3
+    spawnRot: 1
     team: 1
