@@ -366,7 +366,7 @@ public class ScenarioBuilder : MonoBehaviour
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity);
+                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity, true);
                 }
 
                 board.tiles[currentHover.x, currentHover.y].layer =
@@ -408,7 +408,7 @@ public class ScenarioBuilder : MonoBehaviour
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity);
+                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity, true);
                 }
             }
 
