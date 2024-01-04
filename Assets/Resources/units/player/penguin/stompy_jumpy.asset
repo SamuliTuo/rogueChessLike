@@ -16,7 +16,7 @@ MonoBehaviour:
   validTargets: 0
   centerOnYourself: 0
   hitParticle: 9
-  dmgInstanceType: 0
+  dmgInstanceType: 1
   projectileType: 0
   projectilePath: stompy_jumpy_proj
   reach: 1
