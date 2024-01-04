@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.22643584, g: 0.69781244, b: 0.852873, a: 1}
+  m_IndirectSpecularColor: {r: 0.22643584, g: 0.6978123, b: 0.8528731, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2316,8 +2316,8 @@ MonoBehaviour:
   Squirrel: 0
   squirrelAbilities: []
   BearCub: 0
-  Penguin: 1
-  BlackLion: 0
+  Penguin: 0
+  BlackLion: 1
 --- !u!1 &531267504
 GameObject:
   m_ObjectHideFlags: 0
@@ -14617,6 +14617,11 @@ MonoBehaviour:
   upgradeATTSPD: {fileID: 21300000, guid: 6fae582eb225c154fbe0e884356be1f1, type: 3}
   upgradeHP: {fileID: 21300000, guid: 60d188def6770f34d8e3deb05bc5a1ae, type: 3}
   upgradeMOVEMENTSPD: {fileID: 21300000, guid: e39dd7c6f05a36b4d87463d6df1da7f3, type: 3}
+  upgradeAmount_damage: 3.3
+  upgradeAmount_magic: 3.1
+  upgradeAmount_attSpd: 15
+  upgradeAmount_hp: 25
+  upgradeAmount_moveSpd: 10
 --- !u!1 &5984226831802058527
 GameObject:
   m_ObjectHideFlags: 0
