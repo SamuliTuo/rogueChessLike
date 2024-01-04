@@ -20,14 +20,25 @@ MonoBehaviour:
   projectileType: 0
   projectilePath: projectile_fireAttack
   reach: 3
-  damage: 1.4
+  damage: 3
+  directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.2
   castDuration_secondHalf: 0.9
-  cooldown: 6
+  additionalDamagePhases: 0
+  additionalDamagePhaseDuration: 0
+  cooldown: 3
   startCooldownMultiplier: 0.1
-  flySpeed: 40
-  minLifeTime: 0.3
+  flySpeed: 25
+  minLifeTime: 0.33
   damagesAllies: 0
+  spawnAreaDOT: 0
+  areaDOTStatusModifier: {fileID: 0}
+  areaDOTSize: 0
+  areaDOTValidTargets: 0
+  areaDOTParticle: 0
+  tickDamage: 0
+  tickIntervalSeconds: 0
+  intervalCount: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0
   bounceRange_attack: 0

@@ -678,7 +678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isObstacle: 0
-  damage: 17
+  damage: 9
   magic: 10
   attackSpeed: 1
   moveSpeed: 400

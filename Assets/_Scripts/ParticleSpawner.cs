@@ -15,6 +15,7 @@ public enum ParticleType
     HEAL_PARTICLES,
     FIRE_EXPLOSION,
     NOTE_RING,
+    SPARKS_JUMPY
 }
 
 public class ParticleSpawner : MonoBehaviour
@@ -28,6 +29,7 @@ public class ParticleSpawner : MonoBehaviour
     [SerializeField] ParticleSystem healParticles;
     [SerializeField] ParticleSystem fireExplosion;
     [SerializeField] ParticleSystem noteRing;
+    [SerializeField] ParticleSystem sparks_jumpy;
 
     public void SpawnParticles(ParticleType type, Vector3 pos)
     {
@@ -57,10 +59,20 @@ public class ParticleSpawner : MonoBehaviour
             case ParticleType.NOTE_RING:
                 PlayParticle(noteRing, pos); break;
 
+            case ParticleType.SPARKS_JUMPY:
+                PlayParticle(sparks_jumpy, pos); break;
+
             default:
                 break;
         }
     }
+
+
+
+
+
+
+
 
 
     public void Reset()
