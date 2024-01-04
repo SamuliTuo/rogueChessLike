@@ -49,7 +49,7 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
-    public void RemoveHP(float damage)
+    public void RemoveHP(float damage, bool dieFast = false)
     {
         GameManager.Instance.ParticleSpawner.InitDamageNumbers(damage, transform.position + Vector3.up * hpBarOffset);
 
@@ -79,7 +79,7 @@ public class UnitHealth : MonoBehaviour
         {
             dying = true;
             GameManager.Instance.UnitHasDied(unit);
-            StartCoroutine(Die());
+            StartCoroutine(Die(dieFast));
         }
         else
         {
@@ -93,9 +93,16 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
-    public IEnumerator Die()
+    public IEnumerator Die(bool dieFast = false)
     {
         GetComponent<UnitStatusModifiersHandler>()?.StopAllCoroutines();
+
+        if (dieFast)
+        {
+            Destroy(this.gameObject);
+            StopAllCoroutines();
+        }
+
         if (hpScript != null)
         {
             hpScript.Deactivate();

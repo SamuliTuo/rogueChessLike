@@ -236,7 +236,7 @@ public class ScenarioBuilder : MonoBehaviour
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity);
+                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity, true);
                 }
 
                 board.tiles[currentHover.x, currentHover.y].layer = 
@@ -271,14 +271,14 @@ public class ScenarioBuilder : MonoBehaviour
                     board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
                 }
             }
+            // Right click
             else if (Input.GetMouseButtonDown(1))
             {
-                // Right click
                 if (activeUnits[hitPosition.x, hitPosition.y] != null)
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity);
+                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity, true);
                 }
             }
 
