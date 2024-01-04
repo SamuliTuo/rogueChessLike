@@ -172,7 +172,6 @@ public class Chessboard : MonoBehaviour
         }
     }
 
-
     public bool TryMoveUnit(Unit unit, Vector2Int targetPos)
     {
         Vector2Int previousPos = new Vector2Int(unit.x, unit.y);

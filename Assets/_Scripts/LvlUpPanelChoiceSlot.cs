@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class LvlUpPanelChoiceSlot : MonoBehaviour
 {
     private UnitAbility abi;
-    private string upgrade;
+    private LevelUpPanel.StatUpgrade upgrade;
     private AbilityUpgrade upgradeObj;
     private GameObject newAbilitySign;
 
@@ -38,11 +38,11 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     }
 
     // Stat upgrade
-    public void SetChoice(Tuple<string, Sprite> upgrade)
+    public void SetChoice(LevelUpPanel.StatUpgrade upgrade)
     {
         ResetSlots();
-        this.upgrade = upgrade.Item1;
-        GetComponent<Image>().sprite = upgrade.Item2;
+        this.upgrade = upgrade;
+        GetComponent<Image>().sprite = upgrade.sprite1;
     }
 
 
