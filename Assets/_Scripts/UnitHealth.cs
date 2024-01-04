@@ -103,7 +103,7 @@ public class UnitHealth : MonoBehaviour
         }
 
         // Dying animation
-        anim.Play("die", 0, 0);
+        anim?.Play("die", 0, 0);
         float t = 0;
         while (t < dyingTimeBeforeSinking)
         {
