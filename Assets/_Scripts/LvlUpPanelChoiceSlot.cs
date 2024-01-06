@@ -42,7 +42,35 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     {
         ResetSlots();
         this.upgrade = upgrade;
-        GetComponent<Image>().sprite = upgrade.sprite1;
+        if (upgrade.sprite2 != null)
+        {
+            print("setting up double upgrade");
+            transform.GetChild(3).GetComponent<Image>().sprite = upgrade.sprite2;
+            transform.GetChild(2).GetComponent<Image>().sprite = upgrade.sprite1;
+            transform.GetChild(3).gameObject.SetActive(true);
+            transform.GetChild(2).gameObject.SetActive(true);
+        }
+        else if (upgrade.stat1Amount == 1)
+        {
+            GetComponent<Image>().sprite = upgrade.sprite1;
+        }
+        else if (upgrade.stat1Amount == 1.5f)
+        {
+            print("settin up rare upgrade");
+            transform.GetChild(0).gameObject.SetActive(true);
+            GetComponent<Image>().sprite = upgrade.sprite1;
+        }
+        else if (upgrade.stat1Amount == 2.25f)
+        {
+            print("settin up abin upgrade");
+            transform.GetChild(1).gameObject.SetActive(true);
+            GetComponent<Image>().sprite = upgrade.sprite1;
+        }
+        else if (upgrade.skipPassive)
+        {
+            print("set up skip upgrade");
+            GetComponent<Image>().sprite = upgrade.skipPassiveSprite;
+        }
     }
 
 
