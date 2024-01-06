@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
@@ -246,7 +247,8 @@ public class Chessboard : MonoBehaviour
     private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer, int tileVariation, bool walkable = true, int rotation = 0)
     {
         GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
-        GameObject graphics = Instantiate(tileGraphics.GetTileObject(layer, tileVariation));
+        Tuple<GameObject,bool> _tileObj = tileGraphics.GetTileObject(layer, tileVariation);
+        GameObject graphics = Instantiate(_tileObj.Item1);
         graphics.transform.SetParent(tileObject.transform, false);
         tileObject.transform.parent = transform;
 
@@ -267,7 +269,9 @@ public class Chessboard : MonoBehaviour
         mesh.triangles = tris;
 
         tileObject.layer = LayerMask.NameToLayer(layer);
-        nodes[x,y] = new Node(walkable, x, y, layer, tileVariation, rotation);
+
+        //_tileObj.Item2 is the "walkable" bool, for now.. change to using enum instead of bool
+        nodes[x,y] = new Node(_tileObj.Item2, x, y, layer, tileVariation, rotation);
 
         tileObject.AddComponent<BoxCollider>().size = new Vector3(tileSize, 0.1f, tileSize);
         mesh.RecalculateNormals();

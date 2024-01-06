@@ -6017,6 +6017,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
+      propertyPath: tileTypes.Array.data[1].walkable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
+      propertyPath: tileTypes.Array.data[7].walkable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
+      propertyPath: tileTypes.Array.data[8].walkable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1727125056354840096, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
       propertyPath: m_Name
       value: Board

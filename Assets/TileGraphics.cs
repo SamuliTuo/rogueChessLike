@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+
+[System.Serializable]
+public enum TileGraphicsType { WALKABLE, UN_WALKABLE,}
 
 public class TileGraphics : MonoBehaviour
 {
@@ -13,10 +17,12 @@ public class TileGraphics : MonoBehaviour
     {
         public NodeType type;
         public List<GameObject> tilePrefabs = new List<GameObject>();
+        //public TileGraphicsType walkability = TileGraphicsType.WALKABLE;
+        public bool walkable = true;
     }
 
 
-    public GameObject GetTileObject(string layer, int variation)
+    public Tuple<GameObject, bool> GetTileObject(string layer, int variation)
     {
         print(layer);
         switch (layer)
@@ -34,7 +40,7 @@ public class TileGraphics : MonoBehaviour
         }
     }
     
-    public GameObject TryToFindObject(NodeType tileType, int var)
+    public Tuple<GameObject, bool> TryToFindObject(NodeType tileType, int var)
     {
         foreach (TileType t in tileTypes)
         {
@@ -42,11 +48,11 @@ public class TileGraphics : MonoBehaviour
             {
                 if (var < t.tilePrefabs.Count)
                 {
-                    return t.tilePrefabs[var];
+                    return new Tuple<GameObject,bool>(t.tilePrefabs[var], t.walkable);
                 }   
                 else
                 {
-                    return t.tilePrefabs[0];
+                    return new Tuple<GameObject, bool>(t.tilePrefabs[0], t.walkable);
                 }
             }
         }
