@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         this.state = state;
     }
 
+    public LayerMask boardLayerMask;
     public Scenario currentScenario;
     public List<MapNode> pathTaken { get; set; }
     ScenarioBuilder builder;
@@ -74,7 +75,9 @@ public class GameManager : MonoBehaviour
         AbilityLibrary = GetComponentInChildren<AbilityLibrary>();
         LoadBoardAndMap();
         pathTaken = new List<MapNode>();
+        boardLayerMask = LayerMask.GetMask("Tile", "Hover", "Highlight", "Empty", "Swamp", "Grass_purple", "Water", "Wall", "Vines", "Road", "Thorns");
     }
+
     public void LoadBoardAndMap()
     {
         var b = GameObject.Find("Board");

@@ -1262,7 +1262,7 @@ MonoBehaviour:
   upgradeATTSPD: {fileID: 21300000, guid: 6fae582eb225c154fbe0e884356be1f1, type: 3}
   upgradeHP: {fileID: 21300000, guid: 60d188def6770f34d8e3deb05bc5a1ae, type: 3}
   upgradeMOVEMENTSPD: {fileID: 21300000, guid: e39dd7c6f05a36b4d87463d6df1da7f3, type: 3}
-  upgradeExtraSP: {fileID: 0}
+  upgradeExtraSP: {fileID: 21300000, guid: 649b1006cb3a0834282a69078a8815d5, type: 3}
   upgradeAmount_damage: 3.3
   upgradeAmount_magic: 3.1
   upgradeAmount_attSpd: 15

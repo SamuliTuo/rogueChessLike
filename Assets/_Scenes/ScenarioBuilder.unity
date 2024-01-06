@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.22643584, g: 0.6978123, b: 0.8528731, a: 1}
+  m_IndirectSpecularColor: {r: 0.22643584, g: 0.69781244, b: 0.852873, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -81022,70 +81022,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[4].type
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[5].type
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[6].type
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[7].type
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[8].type
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[4].tilePrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[5].tilePrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[6].tilePrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[7].tilePrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[8].tilePrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[4].tilePrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1382685430024636588, guid: 49800da7d88d81e418193d078c5c40ba, type: 3}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[5].tilePrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1382685430024636588, guid: e3372305154ec704d88e372b886edd0d, type: 3}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[6].tilePrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1382685430024636588, guid: f5bde347771bf5346a1470ebfe41d04d, type: 3}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[7].tilePrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 8550549600768609826, guid: 8ca9e12d083f0cb45b76d73fd1be83c9, type: 3}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[8].tilePrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1382685430024636588, guid: c94f1275feae13a44be75843682b7c0d, type: 3}
     - target: {fileID: 1727125056354840096, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
       propertyPath: m_Name
       value: Board
