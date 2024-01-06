@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     private GameObject newAbilitySign;
 
     private GameObject passive_epic, passive_rare, passive_doubleL, passive_doubleR;
+    private Image bigImage;
 
     private void ToggleNewAbilitySign(bool state)
     {
@@ -54,26 +56,28 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
         }
         else if (upgrade.stat1Amount == 1)
         {
-            GetComponent<Image>().sprite = upgrade.sprite1;
+            bigImage.sprite = upgrade.sprite1;
         }
         else if (upgrade.stat1Amount == 1.5f)
         {
             passive_rare.gameObject.SetActive(true);
-            GetComponent<Image>().sprite = upgrade.sprite1;
+            bigImage.sprite = upgrade.sprite1;
         }
         else if (upgrade.stat1Amount == 2.25f)
         {
             passive_epic.gameObject.SetActive(true);
-            GetComponent<Image>().sprite = upgrade.sprite1;
+            bigImage.sprite = upgrade.sprite1;
         }
         else if (upgrade.skipPassive)
         {
-            GetComponent<Image>().sprite = upgrade.skipPassiveSprite;
+            bigImage.sprite = upgrade.skipPassiveSprite;
         }
     }
 
     void GetPassiveGameObjects()
     {
+        bigImage = GetComponent<Image>();
+        bigImage.sprite = null;
         passive_rare = transform.GetChild(0).gameObject;
         passive_epic = transform.GetChild(1).gameObject;
         passive_doubleL = transform.GetChild(2).gameObject;

@@ -59,7 +59,7 @@ public class ScenarioBuilder : MonoBehaviour
 
     private void Start()
     {
-        scenarioEditorLayerMask = LayerMask.GetMask("Tile", "Hover", "Highlight", "Empty", "Swamp", "Grass_purple", "Water", "Wall", "Vines", "Road", "Thorns");
+        scenarioEditorLayerMask = GameManager.Instance.boardLayerMask;
         board = Chessboard.Instance;
         tileGraphics = board.GetComponentInChildren<TileGraphics>();
 

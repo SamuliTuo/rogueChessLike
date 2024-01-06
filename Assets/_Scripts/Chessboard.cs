@@ -50,6 +50,7 @@ public class Chessboard : MonoBehaviour
     private TileGraphics tileGraphics;
     GameObject platform_team0;
     GameObject platform_team1;
+    private LayerMask boardLayerMask;
 
     [SerializeField] private GameObject enemy;
 
@@ -66,6 +67,7 @@ public class Chessboard : MonoBehaviour
     }
     private void Start()
     {
+        boardLayerMask = GameManager.Instance.boardLayerMask;
         platform_team0 = Resources.Load<GameObject>("units/_platforms/platform_team0");
         platform_team1 = Resources.Load<GameObject>("units/_platforms/platform_team1");
         SpawnScenarioUnits(GameManager.Instance.currentScenario);
@@ -88,7 +90,7 @@ public class Chessboard : MonoBehaviour
 
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Tile", "Empty", "Swamp", "Hover", "Highlight", "Grass_purple")))
+        if (Physics.Raycast(ray, out hit, 100, boardLayerMask))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = LookupTileIndex(hit.transform.gameObject);
