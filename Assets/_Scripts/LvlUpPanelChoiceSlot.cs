@@ -12,6 +12,8 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     private AbilityUpgrade upgradeObj;
     private GameObject newAbilitySign;
 
+    private GameObject passive_epic, passive_rare, passive_doubleL, passive_doubleR;
+
     private void ToggleNewAbilitySign(bool state)
     {
         if (newAbilitySign == null)
@@ -40,15 +42,15 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     // Stat upgrade
     public void SetChoice(LevelUpPanel.StatUpgrade upgrade)
     {
+        GetPassiveGameObjects();
         ResetSlots();
         this.upgrade = upgrade;
         if (upgrade.sprite2 != null)
         {
-            print("setting up double upgrade");
-            transform.GetChild(3).GetComponent<Image>().sprite = upgrade.sprite2;
-            transform.GetChild(2).GetComponent<Image>().sprite = upgrade.sprite1;
-            transform.GetChild(3).gameObject.SetActive(true);
-            transform.GetChild(2).gameObject.SetActive(true);
+            passive_doubleR.GetComponent<Image>().sprite = upgrade.sprite2;
+            passive_doubleL.GetComponent<Image>().sprite = upgrade.sprite1;
+            passive_doubleR.SetActive(true);
+            passive_doubleL.SetActive(true);
         }
         else if (upgrade.stat1Amount == 1)
         {
@@ -56,23 +58,31 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
         }
         else if (upgrade.stat1Amount == 1.5f)
         {
-            print("settin up rare upgrade");
-            transform.GetChild(0).gameObject.SetActive(true);
+            passive_rare.gameObject.SetActive(true);
             GetComponent<Image>().sprite = upgrade.sprite1;
         }
         else if (upgrade.stat1Amount == 2.25f)
         {
-            print("settin up abin upgrade");
-            transform.GetChild(1).gameObject.SetActive(true);
+            passive_epic.gameObject.SetActive(true);
             GetComponent<Image>().sprite = upgrade.sprite1;
         }
         else if (upgrade.skipPassive)
         {
-            print("set up skip upgrade");
             GetComponent<Image>().sprite = upgrade.skipPassiveSprite;
         }
     }
 
+    void GetPassiveGameObjects()
+    {
+        passive_rare = transform.GetChild(0).gameObject;
+        passive_epic = transform.GetChild(1).gameObject;
+        passive_doubleL = transform.GetChild(2).gameObject;
+        passive_doubleR = transform.GetChild(3).gameObject;
+        passive_rare.SetActive(false);
+        passive_epic.SetActive(false);
+        passive_doubleL.SetActive(false);
+        passive_doubleR.SetActive(false);
+    }
 
     void ResetSlots()
     {
