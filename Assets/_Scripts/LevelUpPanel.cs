@@ -14,6 +14,7 @@ public class LevelUpPanel : MonoBehaviour
     [SerializeField] private Sprite upgradeATTSPD;
     [SerializeField] private Sprite upgradeHP;
     [SerializeField] private Sprite upgradeMOVEMENTSPD;
+    [SerializeField] private Sprite upgradeExtraSP;
 
     private UnitData unitThatsLevelingUp = null;
     private int abilityPoints, passivePoints;
@@ -23,7 +24,7 @@ public class LevelUpPanel : MonoBehaviour
     {
         unitThatsLevelingUp = unit;
         abilityPoints = 1;
-        passivePoints = 2;
+        passivePoints = 1;
 
         SetupUpgradeChoices_Passives();
         unitStatsPanel.gameObject.SetActive(true);
@@ -178,7 +179,7 @@ public class LevelUpPanel : MonoBehaviour
         else
         {
             // skip passive upgrade for 1 extra AP
-            r = new StatUpgrade(null, null, 0, null, null, 0, true);
+            r = new StatUpgrade(null, null, 0, null, null, 0, true, upgradeExtraSP);
         }
         return r;
     }
@@ -253,6 +254,7 @@ public class LevelUpPanel : MonoBehaviour
         public string stat2Name;
         public float stat2Amount;
         public bool skipPassive;
+        public Sprite skipPassiveSprite;
 
         public StatUpgrade(
             Sprite _sprite1 = null,
@@ -261,7 +263,8 @@ public class LevelUpPanel : MonoBehaviour
             Sprite _sprite2 = null,
             string _stat2Name = null,
             float _stat2Amount = 0,
-            bool _skipPassive = false
+            bool _skipPassive = false,
+            Sprite _skipPassiveSprite = null
             )
         {
             sprite1 = _sprite1;
@@ -271,6 +274,7 @@ public class LevelUpPanel : MonoBehaviour
             stat2Name = _stat2Name;
             stat2Amount = _stat2Amount;
             skipPassive = _skipPassive;
+            skipPassiveSprite = _skipPassiveSprite;
         }
     }
 
