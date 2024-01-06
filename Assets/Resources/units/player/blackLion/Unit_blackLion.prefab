@@ -52,8 +52,8 @@ MonoBehaviour:
   flashDuration: 0.1
   hpBarOffset: 3
   maxHp: 100
-  dyingTimeBeforeSinking: 1.5
-  sinkingSpeed: 1
+  dyingTimeBeforeSinking: 1.6
+  sinkingSpeed: 0.2
   hp: 1000
   shield: 0
 --- !u!114 &487603890882792800
@@ -80,7 +80,7 @@ MonoBehaviour:
   lifeSteal_flat: 0
   lifeSteal_perc: 0
   experienceWorth: 10
-  visibleMoveSpeed: 6
+  visibleMoveSpeed: 5
   moveInterval: 1.2
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: 0, y: 0, z: 0}
