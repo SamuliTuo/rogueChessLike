@@ -23,157 +23,157 @@ MonoBehaviour:
     y: 0
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 0
     y: 1
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Grass_purple
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 0
     y: 2
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 2
   - x: 0
     y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
   - x: 0
     y: 4
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Thorns
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 0
     y: 5
-    walkable: 0
-    terrainLayer: Empty
+    walkable: 1
+    terrainLayer: Thorns
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 0
     y: 6
-    walkable: 1
-    terrainLayer: Swamp
+    walkable: 0
+    terrainLayer: Wall
     tileVariation: 0
     rotation: 0
   - x: 0
     y: 7
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 3
   - x: 0
     y: 8
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 1
     y: 0
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Road
     tileVariation: 0
     rotation: 0
   - x: 1
     y: 1
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Road
     tileVariation: 0
     rotation: 0
   - x: 1
     y: 2
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 1
     y: 3
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Grass_purple
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 1
     y: 4
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Grass_purple
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 1
     y: 5
-    walkable: 0
-    terrainLayer: Empty
+    walkable: 1
+    terrainLayer: Vines
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 1
     y: 6
-    walkable: 1
-    terrainLayer: Swamp
+    walkable: 0
+    terrainLayer: Wall
     tileVariation: 0
     rotation: 0
   - x: 1
     y: 7
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 3
   - x: 1
     y: 8
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 3
   - x: 2
     y: 0
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 2
   - x: 2
     y: 1
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 3
   - x: 2
     y: 2
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 3
   - x: 2
     y: 3
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 2
     y: 4
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Grass_purple
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 2
     y: 5
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Vines
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 2
     y: 6
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Vines
     tileVariation: 0
-    rotation: 0
+    rotation: 1
   - x: 2
     y: 7
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 2
     y: 8
@@ -185,5 +185,10 @@ MonoBehaviour:
   - unit: Unit_stinkyBoi
     spawnPosX: 0
     spawnPosY: 7
-    spawnRot: 2
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 1
+    spawnPosY: 5
+    spawnRot: 0
     team: 1

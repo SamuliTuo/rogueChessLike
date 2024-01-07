@@ -12,11 +12,781 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_14
   m_EditorClassIdentifier: 
-  saveName: empty
-  sizeX: 0
-  sizeY: 0
-  cameraRotationX: 0
-  cameraRotationY: 0
+  saveName: 5b
+  sizeX: 12
+  sizeY: 10
+  cameraRotationX: 45
+  cameraRotationY: -45
   cameraRotationZ: 0
-  scenarioNodes: []
-  scenarioUnits: []
+  scenarioNodes:
+  - x: 0
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 0
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 1
+  - x: 0
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 0
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 0
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 5
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 0
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 0
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 0
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 1
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 2
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 1
+    y: 5
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 1
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 1
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 2
+    y: 0
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 1
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 2
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 3
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 4
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 5
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 2
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 1
+  - x: 2
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 3
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 1
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 2
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 3
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 4
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 5
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 6
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 4
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 1
+  - x: 4
+    y: 3
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 4
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 5
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 6
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 7
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 8
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 1
+  - x: 5
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 5
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 5
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 6
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 7
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 8
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 9
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 6
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 4
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 5
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 7
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 8
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 9
+    walkable: 0
+    terrainLayer: Water
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 7
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 7
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 4
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 7
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 8
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 8
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 8
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 4
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 8
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 8
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 9
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 9
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 9
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 9
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 9
+    y: 4
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 9
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 9
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 9
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 9
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 9
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 10
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 1
+  - x: 10
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 10
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 10
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 10
+    y: 4
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 10
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 10
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 10
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 10
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 10
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 11
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 11
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 2
+  - x: 11
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 1
+  - x: 11
+    y: 3
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 11
+    y: 4
+    walkable: 1
+    terrainLayer: Road
+    tileVariation: 0
+    rotation: 0
+  - x: 11
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 11
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 1
+  - x: 11
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  - x: 11
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 3
+  - x: 11
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 1
+    rotation: 0
+  scenarioUnits:
+  - unit: tree_TESTER
+    spawnPosX: 1
+    spawnPosY: 8
+    spawnRot: 2
+    team: 2
+  - unit: tree_TESTER
+    spawnPosX: 7
+    spawnPosY: 0
+    spawnRot: 2
+    team: 2
+  - unit: Unit_gnome
+    spawnPosX: 7
+    spawnPosY: 3
+    spawnRot: 0
+    team: 1
+  - unit: UNIT_coalem
+    spawnPosX: 8
+    spawnPosY: 0
+    spawnRot: 2
+    team: 1
+  - unit: tree_TESTER
+    spawnPosX: 8
+    spawnPosY: 6
+    spawnRot: 2
+    team: 2
+  - unit: UNIT_coalem
+    spawnPosX: 8
+    spawnPosY: 7
+    spawnRot: 1
+    team: 1
+  - unit: tree_TESTER
+    spawnPosX: 9
+    spawnPosY: 8
+    spawnRot: 2
+    team: 2
+  - unit: tree_TESTER
+    spawnPosX: 10
+    spawnPosY: 1
+    spawnRot: 0
+    team: 2
+  - unit: Unit_stinkyBoi
+    spawnPosX: 10
+    spawnPosY: 2
+    spawnRot: 3
+    team: 1
+  - unit: UNIT_coalem
+    spawnPosX: 10
+    spawnPosY: 8
+    spawnRot: 3
+    team: 1

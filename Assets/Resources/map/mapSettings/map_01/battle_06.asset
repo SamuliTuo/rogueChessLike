@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abcbd9c9f695244ebf39d89c34aad57, type: 3}
   m_Name: battle_06
   m_EditorClassIdentifier: 
-  possibleTextScenarios:
-  - {fileID: 11400000, guid: 56c148ef739befa4c97d5b0d7cbdd2f1, type: 2}
-  - {fileID: 11400000, guid: f877286799829dd4da05e52c178e4b0d, type: 2}
-  - {fileID: 11400000, guid: 5957a4fe4107b89499d1f5ba276f65aa, type: 2}
+  mapNodeType: 3
+  possibleTextScenarios: []
   possibleBattleScenarios:
-  - {fileID: 11400000, guid: 838cb26bc9d99004596355695dc932b0, type: 2}
-  - {fileID: 11400000, guid: 838cb26bc9d99004596355695dc932b0, type: 2}
-  - {fileID: 11400000, guid: 838cb26bc9d99004596355695dc932b0, type: 2}
+  - {fileID: 11400000, guid: 6feaafcfe470f134abfe475c0d757336, type: 2}
+  - {fileID: 11400000, guid: f8833ad835c95b4459eabfcb98c09960, type: 2}
+  - {fileID: 11400000, guid: f6ce44aed9a4d34478432c94254a2f3e, type: 2}

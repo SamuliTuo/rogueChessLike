@@ -15,6 +15,6 @@ MonoBehaviour:
   mapNodeType: 3
   possibleTextScenarios: []
   possibleBattleScenarios:
-  - {fileID: 11400000, guid: 59096c3801298c042bb7574669048206, type: 2}
-  - {fileID: 11400000, guid: 59096c3801298c042bb7574669048206, type: 2}
-  - {fileID: 11400000, guid: 59096c3801298c042bb7574669048206, type: 2}
+  - {fileID: 11400000, guid: 48eac834594f14e4d849604671808d24, type: 2}
+  - {fileID: 11400000, guid: 1d0ced2b330fe094284fe289802fcfff, type: 2}
+  - {fileID: 11400000, guid: 989d473096da490478fcb1e65b32cd71, type: 2}

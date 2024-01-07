@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abcbd9c9f695244ebf39d89c34aad57, type: 3}
+  m_Name: battle_07
+  m_EditorClassIdentifier: 
+  mapNodeType: 3
+  possibleTextScenarios: []
+  possibleBattleScenarios:
+  - {fileID: 11400000, guid: 5232618104f877246bba859de06ab524, type: 2}
+  - {fileID: 11400000, guid: 138a3303a08bbc648adbaf045af66f26, type: 2}
+  - {fileID: 11400000, guid: 85159738299a5af418b872b00872bca3, type: 2}
+  - {fileID: 11400000, guid: d0875d530e3f72445a397c36ae8d431c, type: 2}
+  - {fileID: 11400000, guid: 0d8ea0db5e698884e88355d2d52f6462, type: 2}
+  - {fileID: 11400000, guid: c43d81c2ab12adc41a86e94837a1257e, type: 2}
