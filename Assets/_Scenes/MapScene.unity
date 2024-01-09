@@ -2317,7 +2317,7 @@ MonoBehaviour:
   squirrelAbilities: []
   BearCub: 0
   Penguin: 1
-  BlackLion: 0
+  BlackLion: 1
 --- !u!1 &531267504
 GameObject:
   m_ObjectHideFlags: 0
