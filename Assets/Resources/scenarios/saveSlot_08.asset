@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_08
   m_EditorClassIdentifier: 
-  saveName: 3b
+  saveName: 3c
   sizeX: 9
   sizeY: 7
   cameraRotationX: 45
@@ -57,8 +57,8 @@ MonoBehaviour:
     rotation: 0
   - x: 0
     y: 6
-    walkable: 1
-    terrainLayer: Grass_purple
+    walkable: 0
+    terrainLayer: Wall
     tileVariation: 0
     rotation: 0
   - x: 1
@@ -88,8 +88,8 @@ MonoBehaviour:
   - x: 1
     y: 4
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 1
     y: 5
@@ -99,8 +99,8 @@ MonoBehaviour:
     rotation: 0
   - x: 1
     y: 6
-    walkable: 1
-    terrainLayer: Grass_purple
+    walkable: 0
+    terrainLayer: Wall
     tileVariation: 0
     rotation: 0
   - x: 2
@@ -112,37 +112,37 @@ MonoBehaviour:
   - x: 2
     y: 1
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 2
     y: 2
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 2
     y: 3
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 2
     y: 4
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 2
     y: 5
-    walkable: 1
-    terrainLayer: Tile
+    walkable: 0
+    terrainLayer: Wall
     tileVariation: 0
     rotation: 0
   - x: 2
     y: 6
-    walkable: 1
-    terrainLayer: Grass_purple
+    walkable: 0
+    terrainLayer: Wall
     tileVariation: 0
     rotation: 0
   - x: 3
@@ -166,14 +166,14 @@ MonoBehaviour:
   - x: 3
     y: 3
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 3
     y: 4
     walkable: 1
     terrainLayer: Grass_purple
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 3
     y: 5
@@ -262,8 +262,8 @@ MonoBehaviour:
   - x: 5
     y: 5
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 5
     y: 6
@@ -310,14 +310,14 @@ MonoBehaviour:
   - x: 6
     y: 6
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 7
     y: 0
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 7
     y: 1
@@ -352,20 +352,20 @@ MonoBehaviour:
   - x: 7
     y: 6
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 8
     y: 0
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 8
     y: 1
     walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
+    terrainLayer: Grass_purple
+    tileVariation: 1
     rotation: 0
   - x: 8
     y: 2
@@ -398,8 +398,18 @@ MonoBehaviour:
     tileVariation: 0
     rotation: 0
   scenarioUnits:
+  - unit: Unit_skeleton_02
+    spawnPosX: 4
+    spawnPosY: 6
+    spawnRot: 2
+    team: 1
   - unit: Unit_tortoise
     spawnPosX: 5
     spawnPosY: 3
+    spawnRot: 0
+    team: 1
+  - unit: Unit_skeleton_02
+    spawnPosX: 7
+    spawnPosY: 6
     spawnRot: 3
     team: 1

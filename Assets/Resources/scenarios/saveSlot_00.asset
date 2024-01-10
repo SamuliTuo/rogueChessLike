@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveName: 1a
   sizeX: 6
-  sizeY: 9
+  sizeY: 8
   cameraRotationX: 45
   cameraRotationY: -45
   cameraRotationZ: 0
@@ -67,12 +67,6 @@ MonoBehaviour:
     terrainLayer: Grass_purple
     tileVariation: 1
     rotation: 0
-  - x: 0
-    y: 8
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
   - x: 1
     y: 0
     walkable: 1
@@ -112,17 +106,11 @@ MonoBehaviour:
   - x: 1
     y: 6
     walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    terrainLayer: Road
+    tileVariation: 1
+    rotation: 1
   - x: 1
     y: 7
-    walkable: 1
-    terrainLayer: Road
-    tileVariation: 0
-    rotation: 0
-  - x: 1
-    y: 8
     walkable: 1
     terrainLayer: Road
     tileVariation: 0
@@ -171,12 +159,6 @@ MonoBehaviour:
     rotation: 0
   - x: 2
     y: 7
-    walkable: 1
-    terrainLayer: Road
-    tileVariation: 0
-    rotation: 0
-  - x: 2
-    y: 8
     walkable: 1
     terrainLayer: Grass_purple
     tileVariation: 0
@@ -229,12 +211,6 @@ MonoBehaviour:
     terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
-  - x: 3
-    y: 8
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 1
-    rotation: 1
   - x: 4
     y: 0
     walkable: 1
@@ -282,12 +258,6 @@ MonoBehaviour:
     walkable: 1
     terrainLayer: Grass_purple
     tileVariation: 1
-    rotation: 0
-  - x: 4
-    y: 8
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
     rotation: 0
   - x: 5
     y: 0
@@ -337,20 +307,14 @@ MonoBehaviour:
     terrainLayer: Grass_purple
     tileVariation: 1
     rotation: 0
-  - x: 5
-    y: 8
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
   scenarioUnits:
   - unit: Unit_goat
     spawnPosX: 1
-    spawnPosY: 8
+    spawnPosY: 7
     spawnRot: 3
     team: 1
   - unit: Unit_lizard
     spawnPosX: 4
     spawnPosY: 5
-    spawnRot: 3
+    spawnRot: 0
     team: 1
