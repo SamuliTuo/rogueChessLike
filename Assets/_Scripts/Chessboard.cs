@@ -564,6 +564,16 @@ public class Chessboard : MonoBehaviour
         for (int i = 0; i < availableMoves.Count; i++)
             tiles[availableMoves[i].x, availableMoves[i].y].layer = LayerMask.NameToLayer("Highlight");
     }
+    public void RemoveAllHighlightTiles()
+    {
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+            {
+                tiles[x,y].layer = LayerMask.NameToLayer(nodes[x,y].tileTypeLayerName);
+            }
+        }
+    }
     public void RemoveHighlightTiles()
     {
         for (int i = 0; i < availableMoves.Count; i++)
@@ -581,9 +591,9 @@ public class Chessboard : MonoBehaviour
 
         return false;
     }
-    public bool MoveTo(Unit unit, int x, int y, ref List<Vector2Int> moves)
+    public bool MoveTo(Unit unit, int x, int y, ref List<Vector2Int> moves, bool forceMove = false)
     {
-        if (!ContainsValidMove(ref moves, new Vector2(x,y)))
+        if (!forceMove && !ContainsValidMove(ref moves, new Vector2(x,y)))
             return false;
 
         Vector2Int previousPos = new(unit.x, unit.y);

@@ -1,32 +1,97 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine;
+
+public enum NudgeDir { NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORT_WEST }
 
 public class NudgeController : MonoBehaviour
 {
     public float nudgeCooldown = 1;
     public bool canNudge = true;
+    [SerializeField] private int nudgeLayer = 0;
 
     private float t;
     private Camera currentCam;
     private LayerMask layerMask;
+    private LayerMask nudgeLayerMask;
     private Chessboard board;
     private Vector2Int currentHover;
+    private Vector3 currentDragPosition;
     private Unit currentlyDragging;
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
+    private ArrowGenerator arrowGenerator;
+    Vector3 draggingStartPos;
+    List<Vector3> compass;
+    private bool nudgeIsChip = false;
+    NudgeUIController nudgeUIController;
 
+
+
+    private void Awake()
+    {
+        arrowGenerator = GetComponentInChildren<ArrowGenerator>();
+    }
 
     private void Start()
     {
+        t = nudgeCooldown;
+        MakeCompass();
+
         board = GetComponent<Chessboard>();
         layerMask = GameManager.Instance.boardLayerMask;
+        nudgeLayerMask |= (1 << nudgeLayer);
+    }
+
+
+    public void Nudge(Vector3 dir)
+    {
+        currentlyDragging.SetScale(Vector3.one);
+        currentlyDragging.GetStunned(0.5f);        
+        Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(dir);
+        currentlyDragging.GetNudged(nudgeIsChip, _nudgeDir.Item2); //GetDirectionFromNudgeDir());
+        Vector2Int moveToNode;
+
+        if (nudgeIsChip)
+        {
+            moveToNode = CheckNodesInNudgeDirection_chip(
+                            new Vector2Int(currentlyDragging.x, currentlyDragging.y),
+                            _nudgeDir,
+                            (int)dir.magnitude);
+        }
+        else
+        {
+            moveToNode = CheckNodesInNudgeDirection(
+                            new Vector2Int(currentlyDragging.x, currentlyDragging.y),
+                            _nudgeDir,
+                            (int)dir.magnitude);
+        }
+
+        if (moveToNode != -Vector2Int.one)
+        {
+            var units = board.GetUnits();
+            var moves = currentlyDragging.GetAvailableMoves(ref units, board.GetTilecount().x, board.GetTilecount().y);
+            board.MoveTo(currentlyDragging, moveToNode.x, moveToNode.y, ref moves, true);
+        }
+
+        currentlyDragging = null;
+        board.RemoveAllHighlightTiles();
+        t = 0;
     }
 
     public void NudgerUpdate()
     {
-        if (t < 0)
+        if (nudgeUIController == null)
         {
-            t -= Time.deltaTime;
+            nudgeUIController = GameObject.Find("Canvas").GetComponentInChildren<NudgeUIController>();
+        }
+
+        if (t < nudgeCooldown)
+        {
+            t += Time.deltaTime;
+            nudgeUIController?.UpdateCooldownUI(t / nudgeCooldown);
             return;
         }
         if (!currentCam)
@@ -36,23 +101,12 @@ public class NudgeController : MonoBehaviour
         }
 
 
-        Nudge();
-    }
-
-    public void Nudge()
-    {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        var activeUnits = Chessboard.Instance.GetUnits();
-        //if (Physics.Raycast(ray, out hit, 100, ))
-    }
-
-    private void UnitPlacerUpdate()
-    {
+        // START NUDGE - PULL:
+        // See what we hover and try to start:
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
         var activeUnits = board.GetUnits();
-        if (Physics.Raycast(ray, out hit, 100, layerMask))
+        if (currentlyDragging == null && Physics.Raycast(ray, out hit, 100, layerMask))
         {
             // Get the indexes of the tiles I've hit
             Vector2Int hitPosition = board.LookupTileIndex(hit.transform.gameObject);
@@ -69,25 +123,14 @@ public class NudgeController : MonoBehaviour
             // If already were hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
-                if (Input.GetMouseButtonDown(0) && activeUnits[hitPosition.x, hitPosition.y] != null)
+                var _unit = activeUnits[hitPosition.x, hitPosition.y];
+                if (Input.GetMouseButtonDown(0) && _unit != null)
                 {
-                    // jatkuu ->
-                }
-                // Spawn enemy if empty
-                if (Input.GetMouseButton(0) && currentlyDragging == null && activeUnits[hitPosition.x, hitPosition.y] == null)
-                {
-                    //Unit clone = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
-                    //activeUnits[hitPosition.x, hitPosition.y] = clone;
-                    //clone.spawnRotation = objectRotation;
-                    //board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
-                    //board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
-                }
-                // Remove if RighClicking an unit
-                else if (Input.GetMouseButton(1) && activeUnits[hitPosition.x, hitPosition.y] != null)
-                {
-                    var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
-                    activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity, true);
+                    if (_unit.team == 0)
+                    {
+                        currentlyDragging = _unit;
+                        draggingStartPos = board.GetTileCenter(_unit.x, _unit.y);
+                    }
                 }
 
                 board.tiles[currentHover.x, currentHover.y].layer =
@@ -100,54 +143,86 @@ public class NudgeController : MonoBehaviour
             // If we press down on the mouse
             if (Input.GetMouseButtonDown(0))
             {
-                // Clicked an unit:
-                if (activeUnits[hitPosition.x, hitPosition.y] != null)
+                var _unit = activeUnits[hitPosition.x, hitPosition.y];
+                if (_unit != null)
                 {
-                    // Is it our turn?
-                    if (GameManager.Instance.state == GameState.SCENARIO_BUILDER)
+                    if (_unit.team == 0)
                     {
-                        currentlyDragging = activeUnits[hitPosition.x, hitPosition.y];
-
-                        // Get a list of where i can go, highlight the tiles
-                        availableMoves = board.GetEmptyCoordinates(); //currentlyDragging.GetAvailableMoves(ref activeUnits, TILE_COUNT_X, TILE_COUNT_Y);
-                        board.HighlightTiles();
+                        nudgeIsChip = false;
+                        currentlyDragging = _unit;
+                        draggingStartPos = board.GetTileCenter(_unit.x, _unit.y);
                     }
                 }
-                else // SPAWN ENEMY UNIT WHEN CLICKED EMPTY  \\
-                {
-                    //Unit clone = board.SpawnSingleUnit(currentlyChosenUnit, currentTeam);
-                    //activeUnits[hitPosition.x, hitPosition.y] = clone;
-                    //clone.spawnRotation = objectRotation;
-                    //board.PositionSingleUnit(hitPosition.x, hitPosition.y, true);
-                    //board.RotateSingleUnit(hitPosition.x, hitPosition.y, board.GetCurrentUnitRotation(objectRotation));
-                }
             }
-            // Right click
             else if (Input.GetMouseButtonDown(1))
             {
-                if (activeUnits[hitPosition.x, hitPosition.y] != null)
+                var _unit = activeUnits[hitPosition.x, hitPosition.y];
+                if (_unit != null)
                 {
-                    var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
-                    activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(Mathf.Infinity, true);
+                    if (_unit.team == 0)
+                    {
+                        nudgeIsChip = true;
+                        currentlyDragging = _unit;
+                        draggingStartPos = board.GetTileCenter(_unit.x, _unit.y);
+                    }
                 }
             }
+        }
+
+        // NUDGE - PULL WAS STARTED:
+        // now we drag and highlight the aim-squares:
+        // mouse 1 :
+        else if (!nudgeIsChip && currentlyDragging != null && Physics.Raycast(ray, out hit, 100, nudgeLayerMask))
+        {
+            var _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
+            Vector3 direction = new Vector3(_pos.x, hit.point.y, _pos.z) - hit.point;
+            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, direction.magnitude);
+
+
+            Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(direction);
+            Vector2Int moveToNode = CheckNodesInNudgeDirection(
+                new Vector2Int(currentlyDragging.x, currentlyDragging.y),
+                _nudgeDir,
+                (int)direction.magnitude);
+
+            board.RemoveAllHighlightTiles();
+            if (moveToNode != -Vector2Int.one)
+                board.tiles[moveToNode.x, moveToNode.y].layer = LayerMask.NameToLayer("Highlight");
 
             // If we are releasing the mouse button
             if (currentlyDragging != null && Input.GetMouseButtonUp(0))
             {
-                Vector2Int previousPos = new Vector2Int(currentlyDragging.x, currentlyDragging.y);
-
-                bool validMove = board.MoveTo(currentlyDragging, hitPosition.x, hitPosition.y, ref availableMoves);
-                if (!validMove)
-                {
-                    currentlyDragging.SetPosition(board.GetTileCenter(previousPos.x, previousPos.y));
-                }
-                currentlyDragging.SetScale(Vector3.one);
-                currentlyDragging = null;
-                board.RemoveHighlightTiles();
+                arrowGenerator.DeactivateArrow();
+                Nudge(direction);
             }
         }
+        // mouse 2 :
+        else if (nudgeIsChip && currentlyDragging != null && Physics.Raycast(ray, out hit, 100, nudgeLayerMask))
+        {
+            var _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
+            Vector3 direction = new Vector3(_pos.x, hit.point.y, _pos.z) - hit.point;
+            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, direction.magnitude);
+
+
+            Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(direction);
+            Vector2Int moveToNode = CheckNodesInNudgeDirection_chip(
+                new Vector2Int(currentlyDragging.x, currentlyDragging.y),
+                _nudgeDir,
+                (int)direction.magnitude);
+
+            board.RemoveAllHighlightTiles();
+            if (moveToNode != -Vector2Int.one)
+                board.tiles[moveToNode.x, moveToNode.y].layer = LayerMask.NameToLayer("Highlight");
+
+            // If we are releasing the mouse button
+            if (currentlyDragging != null && Input.GetMouseButtonUp(1))
+            {
+                arrowGenerator.DeactivateArrow();
+                Nudge(direction);
+            }
+        }
+
+
         else
         {
             if (currentHover != -Vector2Int.one)
@@ -165,17 +240,401 @@ public class NudgeController : MonoBehaviour
                 board.RemoveHighlightTiles();
             }
         }
+    }
 
-        // If we're dragging a piece
-        if (currentlyDragging)
+
+    void MakeCompass()
+    {
+        compass = new List<Vector3>
         {
-            //Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * yOffset);
-            //float distance;
-            //if (horizontalPlane.Raycast(ray, out distance))
-            //{
-            //    currentlyDragging.SetScale(Vector3.one * draggingScale);
-            //    currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * draggingOffset);
-            //}
+            Vector3.forward,
+            new Vector3(0.7171068f, 0, 0.7171068f),
+            Vector3.right,
+            new Vector3(0.7171068f, 0, -0.7171068f),
+            Vector3.back,
+            new Vector3(-0.7171068f, 0, -0.7171068f),
+            Vector3.left,
+            new Vector3(-0.7171068f, 0, 0.7171068f)
+        };
+    }
+
+    Tuple<NudgeDir,Vector3> DetermineNudgeDir(Vector3 dir)
+    {
+        var dirNormalized = dir.normalized;
+        float xDot = Vector3.Dot(Vector3.right, dirNormalized);
+        float yDot = Vector3.Dot(Vector3.forward, dirNormalized);
+
+        // Get the 3 directions of the quadrant the input is in
+        Dictionary<NudgeDir, Vector3> dirs = new Dictionary<NudgeDir, Vector3>();
+        if (xDot > 0)
+        {
+            if (yDot > 0) 
+            {
+                dirs.Add(NudgeDir.NORTH, Vector3.forward);
+                dirs.Add(NudgeDir.NORTH_EAST, new Vector3(0.7171068f, 0, 0.7171068f));
+                dirs.Add(NudgeDir.EAST, Vector3.right);
+            }
+            else
+            {
+                dirs.Add(NudgeDir.EAST, Vector3.right);
+                dirs.Add(NudgeDir.SOUTH_EAST, new Vector3(0.7171068f, 0, -0.7171068f));
+                dirs.Add(NudgeDir.SOUTH, Vector3.back);
+            }
         }
+        else
+        {
+            if (yDot <= 0)
+            {
+                dirs.Add(NudgeDir.SOUTH, Vector3.back);
+                dirs.Add(NudgeDir.SOUTH_WEST, new Vector3(-0.7171068f, 0, -0.7171068f));
+                dirs.Add(NudgeDir.WEST, Vector3.left);
+            }
+            else
+            {
+                dirs.Add(NudgeDir.WEST, Vector3.left);
+                dirs.Add(NudgeDir.NORT_WEST, new Vector3(-0.7171068f, 0, 0.7171068f));
+                dirs.Add(NudgeDir.NORTH, Vector3.forward);
+            }
+        }
+
+        // Check which direction in the quadrant is closest
+        KeyValuePair<NudgeDir, Vector3> finalDir = new KeyValuePair<NudgeDir, Vector3>();
+        float distance = 1000000;
+        foreach (KeyValuePair<NudgeDir,Vector3> compassDirection in dirs)
+        {
+            float dist2 = (dirNormalized - compassDirection.Value).magnitude;
+            if (dist2 < distance)
+            {
+                distance = dist2;
+                finalDir = compassDirection;
+            }
+        }
+        return new Tuple<NudgeDir, Vector3>(finalDir.Key, finalDir.Value);
+    }
+
+    Vector2Int CheckNodesInNudgeDirection(Vector2Int currPos, Tuple<NudgeDir, Vector3> _nudgeDir, int nudgeDistanceSquares)
+    {
+        if (nudgeDistanceSquares <= 0) 
+            return -Vector2Int.one;
+
+        nudgeDistanceSquares = Mathf.Clamp(nudgeDistanceSquares, 1, 4);
+        Node[,] nodes = board.nodes;
+        Unit[,] units = board.GetUnits();
+        Vector2Int r = -Vector2Int.one;
+        int maxX = board.GetBoardSize().x - 1;
+        int maxY = board.GetBoardSize().y - 1;
+
+        //print("curr pos: " + currPos + ",   distance: " + nudgeDistanceSquares + ",   nudge dir: " + _nudgeDir.Item1 + ",   nudge dir: " + _nudgeDir.Item2); ;
+        switch (_nudgeDir.Item1)
+        {
+            case NudgeDir.NORTH:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.y + i > maxY)
+                        break;
+
+                    if (nodes[currPos.x, currPos.y + i] != null)
+                    {
+                        if (units[currPos.x, currPos.y+i] == null && nodes[currPos.x, currPos.y + i].walkable == true)
+                            r = new Vector2Int(currPos.x, currPos.y + i);
+                        else
+                            break;
+                    }
+                }
+                break;
+            case NudgeDir.NORTH_EAST:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.x + i > maxX || currPos.y + i > maxY)
+                        break;
+
+                    if (nodes[currPos.x + i, currPos.y + i] != null)
+                    {
+                        if (units[currPos.x+i, currPos.y+i] == null && nodes[currPos.x + i, currPos.y + i].walkable == true)
+                            r = new Vector2Int(currPos.x + i, currPos.y + i);
+                        else
+                            break;
+                    }
+                }
+                break;
+            case NudgeDir.EAST:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.x + i > maxX)
+                        break;
+
+                    if (nodes[currPos.x + i, currPos.y] != null)
+                    {
+                        if (units[currPos.x+i, currPos.y] == null && nodes[currPos.x + i, currPos.y].walkable == true)
+                            r = new Vector2Int(currPos.x + i, currPos.y);
+                        else
+                            break;
+                    }
+                }
+                break;
+            case NudgeDir.SOUTH_EAST:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.x + i > maxX || currPos.y - i < 0)
+                        break;
+
+                    if (nodes[currPos.x + i, currPos.y - i] != null)
+                    {
+                        if (units[currPos.x+i, currPos.y-i] == null && nodes[currPos.x + i, currPos.y - i].walkable == true)
+                            r = new Vector2Int(currPos.x + i, currPos.y - i);
+                        else
+                            break;
+                    }
+                }
+                break;
+            case NudgeDir.SOUTH:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.y - i < 0)
+                        break;
+
+                    if (nodes[currPos.x, currPos.y - i] != null)
+                    {
+                        if (units[currPos.x, currPos.y-i] == null && nodes[currPos.x, currPos.y - i].walkable == true)
+                            r = new Vector2Int(currPos.x, currPos.y - i);
+                        else
+                            break;
+                    }
+                }
+                break;
+            case NudgeDir.SOUTH_WEST:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.x - i < 0 || currPos.y - i < 0)
+                        break;
+
+                    if (nodes[currPos.x - i, currPos.y - i] != null)
+                    {
+                        if (units[currPos.x-i, currPos.y-i] == null && nodes[currPos.x - i, currPos.y - i].walkable == true)
+                            r = new Vector2Int(currPos.x - i, currPos.y - i);
+                        else
+                            break;
+                    }
+                }
+                break;
+            case NudgeDir.WEST:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.x - i < 0)
+                        break;
+
+                    if (nodes[currPos.x - i, currPos.y] != null)
+                    {
+                        if (units[currPos.x-i, currPos.y] == null && nodes[currPos.x - i, currPos.y].walkable == true)
+                            r = new Vector2Int(currPos.x - i, currPos.y);
+                        else
+                            break;
+                    }
+                }
+                break;
+            case NudgeDir.NORT_WEST:
+                for (int i = 1; i < nudgeDistanceSquares; i++)
+                {
+                    if (currPos.x - i < 0 || currPos.y + i > maxY)
+                        break;
+
+                    if (nodes[currPos.x - i, currPos.y + i] != null)
+                    {
+                        if (units[currPos.x-i, currPos.y+i] == null && nodes[currPos.x - i, currPos.y + i].walkable == true)
+                            r = new Vector2Int(currPos.x - i, currPos.y + i);
+                        else
+                            break;
+                    }
+                }
+                break;
+        }
+
+        return r;
+    }
+
+    Vector2Int CheckNodesInNudgeDirection_chip(Vector2Int currPos, Tuple<NudgeDir, Vector3> _nudgeDir, int nudgeDistanceSquares)
+    {
+        if (nudgeDistanceSquares <= 0)
+            return -Vector2Int.one;
+
+        nudgeDistanceSquares = Mathf.Clamp(nudgeDistanceSquares, 1, 4);
+        Node[,] nodes = board.nodes;
+        Unit[,] units = board.GetUnits();
+        Vector2Int r = -Vector2Int.one;
+        int maxX = board.GetBoardSize().x - 1;
+        int maxY = board.GetBoardSize().y - 1;
+
+        //print("curr pos: " + currPos + ",   distance: " + nudgeDistanceSquares + ",   nudge dir: " + _nudgeDir.Item1 + ",   nudge dir: " + _nudgeDir.Item2); ;
+        switch (_nudgeDir.Item1)
+        {
+            case NudgeDir.NORTH:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.y + i > maxY)
+                        continue;
+
+                    if (nodes[currPos.x, currPos.y + i] != null)
+                    {
+                        if (units[currPos.x, currPos.y + i] == null && nodes[currPos.x, currPos.y + i].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x, currPos.y + i);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                break;
+            case NudgeDir.NORTH_EAST:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.x + i > maxX || currPos.y + i > maxY)
+                        continue;
+
+                    if (nodes[currPos.x + i, currPos.y + i] != null)
+                    {
+                        if (units[currPos.x + i, currPos.y + i] == null && nodes[currPos.x + i, currPos.y + i].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x + i, currPos.y + i);
+                            break;
+                        }   
+                        else
+                            continue;
+                    }
+                }
+                break;
+            case NudgeDir.EAST:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.x + i > maxX)
+                        continue;
+
+                    if (nodes[currPos.x + i, currPos.y] != null)
+                    {
+                        if (units[currPos.x + i, currPos.y] == null && nodes[currPos.x + i, currPos.y].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x + i, currPos.y);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                break;
+            case NudgeDir.SOUTH_EAST:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.x + i > maxX || currPos.y - i < 0)
+                        continue;
+
+                    if (nodes[currPos.x + i, currPos.y - i] != null)
+                    {
+                        if (units[currPos.x + i, currPos.y - i] == null && nodes[currPos.x + i, currPos.y - i].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x + i, currPos.y - i);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                break;
+            case NudgeDir.SOUTH:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.y - i < 0)
+                        continue;
+
+                    if (nodes[currPos.x, currPos.y - i] != null)
+                    {
+                        if (units[currPos.x, currPos.y - i] == null && nodes[currPos.x, currPos.y - i].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x, currPos.y - i);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                break;
+            case NudgeDir.SOUTH_WEST:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.x - i < 0 || currPos.y - i < 0)
+                        continue;
+
+                    if (nodes[currPos.x - i, currPos.y - i] != null)
+                    {
+                        if (units[currPos.x - i, currPos.y - i] == null && nodes[currPos.x - i, currPos.y - i].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x - i, currPos.y - i);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                break;
+            case NudgeDir.WEST:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.x - i < 0)
+                        continue;
+
+                    if (nodes[currPos.x - i, currPos.y] != null)
+                    {
+                        if (units[currPos.x - i, currPos.y] == null && nodes[currPos.x - i, currPos.y].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x - i, currPos.y);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                break;
+            case NudgeDir.NORT_WEST:
+                for (int i = nudgeDistanceSquares; i > 0; i--)
+                {
+                    if (currPos.x - i < 0 || currPos.y + i > maxY)
+                        continue;
+
+                    if (nodes[currPos.x - i, currPos.y + i] != null)
+                    {
+                        if (units[currPos.x - i, currPos.y + i] == null && nodes[currPos.x - i, currPos.y + i].walkable == true)
+                        {
+                            r = new Vector2Int(currPos.x - i, currPos.y + i);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                break;
+        }
+
+        return r;
+    }
+
+    //Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(dir);
+    //currentlyDragging.GetNudged(nudgeIsChip, 
+    Vector2Int GetDirectionFromNudgeDir(int x, int y, NudgeDir dir)
+    {
+        Vector2Int r = -Vector2Int.one;
+
+        Node[,] nodes = board.nodes;
+        Unit[,] units = board.GetUnits();
+        int maxX = board.GetBoardSize().x - 1;
+        int maxY = board.GetBoardSize().y - 1;
+
+        switch ( dir )
+        {
+            case NudgeDir.NORTH:
+                break;
+            default:
+                break;
+        }
+
+        return r;
     }
 }

@@ -403,7 +403,7 @@ public class LevelUpPanel : MonoBehaviour
 
     void CheckIfDone()
     {
-        if (abilityPoints == 1 && passivePoints < 1)
+        if (abilityPoints > 0 && passivePoints < 1)
         {
             SetupUpgradeChoices_Abilities();
         }

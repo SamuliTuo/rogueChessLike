@@ -5,6 +5,7 @@ using UnityEditor.Animations;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public enum UnitType
 {
@@ -290,10 +291,28 @@ public class Unit : MonoBehaviour
     public void GetStunned(float stunDuration)
     {
         print("pls lis‰‰ mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
-        animator?.Play("idle", 0, 0);
+        animator?.Play("stun", 0, 0);
         ResetAI();
         tStun = stunDuration;
         //t = 0;
+    }
+
+    public void GetNudged(bool isChip, Vector3 _nudgeDir)
+    {
+        Vector3 lookTarget = transform.position + new Vector3(_nudgeDir.x, 0, _nudgeDir.z);// board.GetTileCenter(lookAt.x, lookAt.y);
+        if (rotateCoroutine != null)
+        {
+            StopCoroutine(rotateCoroutine);
+        }
+        rotateCoroutine = StartCoroutine(UnitRotationCoroutine(lookTarget));
+
+        //RotateUnit(forward);
+        if (isChip)
+        {
+            animator?.Play("move1",0,0);
+        }
+        else
+        animator?.Play("attack1", 0, 0);
     }
 
     void MoveUnit()

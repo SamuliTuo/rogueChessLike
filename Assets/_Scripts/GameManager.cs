@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public ObjectSavePaths ObjectSavePaths { get; private set; }
     public ProjectilePools ProjectilePools { get; private set; }
     public AbilityLibrary AbilityLibrary { get; private set; }
+    public NudgeController NudgeController { get; private set; }
 
     public Color hpBarTeam0Color = Color.green;
     public Color hpBarTeam1Color = Color.red;
@@ -82,7 +83,10 @@ public class GameManager : MonoBehaviour
     {
         var b = GameObject.Find("Board");
         if (b != null)
+        {
             board = b.GetComponent<Chessboard>();
+            NudgeController = board.GetComponent<NudgeController>();
+        }
         var m = GameObject.Find("Map");
         if (m != null)
             MapController = m.GetComponent<MapController>();
@@ -114,6 +118,8 @@ public class GameManager : MonoBehaviour
         if (board == null)
             if (GameObject.Find("Board") != null)
                 board = GameObject.Find("Board").GetComponent<Chessboard>();
+
+        NudgeController.NudgerUpdate();
 
         // Unit AI's
         Unit[,] activeUnits = board.GetUnits();
