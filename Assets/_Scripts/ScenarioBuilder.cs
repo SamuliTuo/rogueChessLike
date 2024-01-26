@@ -153,20 +153,6 @@ public class ScenarioBuilder : MonoBehaviour
                 ChangeNodeType(hitPosition.x, hitPosition.y, currentTileRotation_m1, currentNodeType_m1, currentNodeGraphicsVariation_m1);
             else if (Input.GetMouseButtonDown(1))
                 ChangeNodeType(hitPosition.x, hitPosition.y, currentTileRotation_m2, currentNodeType_m2, currentNodeGraphicsVariation_m2);
-
-            // If we are releasing the mouse button
-            if (currentlyDragging != null && Input.GetMouseButtonUp(0))
-            {
-                Vector2Int previousPos = new Vector2Int(currentlyDragging.x, currentlyDragging.y);
-
-                bool validMove = board.MoveTo(currentlyDragging, hitPosition.x, hitPosition.y, ref availableMoves);
-                if (!validMove)
-                    currentlyDragging.SetPosition(board.GetTileCenter(previousPos.x, previousPos.y));
-
-                currentlyDragging.SetScale(Vector3.one);
-                currentlyDragging = null;
-                board.RemoveHighlightTiles();
-            }
         }
         else // If we are not hovering any tile
         {
@@ -294,7 +280,7 @@ public class ScenarioBuilder : MonoBehaviour
                 }
                 currentlyDragging.SetScale(Vector3.one);
                 currentlyDragging = null;
-                board.RemoveHighlightTiles();
+                board.RemoveAllHighlightTiles();
             }
         }
         else
@@ -311,7 +297,7 @@ public class ScenarioBuilder : MonoBehaviour
             {
                 currentlyDragging.SetPosition(board.GetTileCenter(currentlyDragging.x, currentlyDragging.y));
                 currentlyDragging = null;
-                board.RemoveHighlightTiles();
+                board.RemoveAllHighlightTiles();
             }
         }
 
@@ -325,6 +311,10 @@ public class ScenarioBuilder : MonoBehaviour
                 currentlyDragging.SetScale(Vector3.one * draggingScale);
                 currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * draggingOffset);
             }
+        }
+        else
+        {
+            board.RemoveAllHighlightTiles();
         }
     }
 
@@ -424,7 +414,7 @@ public class ScenarioBuilder : MonoBehaviour
                 }
                 currentlyDragging.SetScale(Vector3.one);
                 currentlyDragging = null;
-                board.RemoveHighlightTiles();
+                board.RemoveAllHighlightTiles();
             }
         }
         else
@@ -441,7 +431,7 @@ public class ScenarioBuilder : MonoBehaviour
             {
                 currentlyDragging.SetPosition(board.GetTileCenter(currentlyDragging.x, currentlyDragging.y));
                 currentlyDragging = null;
-                board.RemoveHighlightTiles();
+                board.RemoveAllHighlightTiles();
             }
         }
 
@@ -455,6 +445,10 @@ public class ScenarioBuilder : MonoBehaviour
                 currentlyDragging.SetScale(Vector3.one * draggingScale);
                 currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * draggingOffset);
             }
+        }
+        else
+        {
+            board.RemoveAllHighlightTiles();
         }
     }
 

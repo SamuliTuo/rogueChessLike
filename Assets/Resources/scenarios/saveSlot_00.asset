@@ -177,19 +177,19 @@ MonoBehaviour:
     rotation: 0
   - x: 3
     y: 2
-    walkable: 1
+    walkable: 0
     terrainLayer: Water
     tileVariation: 0
     rotation: 0
   - x: 3
     y: 3
-    walkable: 1
+    walkable: 0
     terrainLayer: Water
     tileVariation: 0
     rotation: 0
   - x: 3
     y: 4
-    walkable: 1
+    walkable: 0
     terrainLayer: Water
     tileVariation: 0
     rotation: 0
@@ -225,19 +225,19 @@ MonoBehaviour:
     rotation: 2
   - x: 4
     y: 2
-    walkable: 1
+    walkable: 0
     terrainLayer: Water
     tileVariation: 0
     rotation: 0
   - x: 4
     y: 3
-    walkable: 1
+    walkable: 0
     terrainLayer: Water
     tileVariation: 0
     rotation: 0
   - x: 4
     y: 4
-    walkable: 1
+    walkable: 0
     terrainLayer: Water
     tileVariation: 0
     rotation: 0
@@ -311,7 +311,7 @@ MonoBehaviour:
   - unit: Unit_goat
     spawnPosX: 1
     spawnPosY: 7
-    spawnRot: 3
+    spawnRot: 0
     team: 1
   - unit: Unit_lizard
     spawnPosX: 4

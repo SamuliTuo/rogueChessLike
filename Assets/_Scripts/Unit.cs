@@ -119,7 +119,7 @@ public class Unit : MonoBehaviour
         
         // Is stunned
         if (tStun > 0) 
-        { 
+        {
             tStun -= Time.deltaTime;
             if (tStun < 0)
                 GameManager.Instance.ParticleSpawner.StopStun(this);
