@@ -51,7 +51,7 @@ public class UnitHealth : MonoBehaviour
 
     public void RemoveHP(float damage, bool dieFast = false)
     {
-        GameManager.Instance.ParticleSpawner.InitDamageNumbers(damage, transform.position + Vector3.up * hpBarOffset);
+        if (!dieFast) GameManager.Instance.ParticleSpawner.InitDamageNumbers(damage, transform.position + Vector3.up * hpBarOffset);
 
         // If taking damage and we have an active shield:
         if (damage > 0 && shield > 0)

@@ -46,10 +46,10 @@ public class NudgeController : MonoBehaviour
     }
 
 
-    public void Nudge(Vector3 dir, Unit unit, float stunTime)
+    public void Nudge(Vector3 dir, Unit unit, float stunTime = 0.5f)
     {
         unit.SetScale(Vector3.one);
-        unit.GetStunned(0.5f);        
+        unit.GetStunned(stunTime);
         Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(dir);
         unit.GetNudged(nudgeIsChip, _nudgeDir.Item2); //GetDirectionFromNudgeDir());
         Vector2Int moveToNode;
@@ -71,6 +71,7 @@ public class NudgeController : MonoBehaviour
 
         if (moveToNode != -Vector2Int.one)
         {
+            // tänne jatkamaan unittien stunnaamista nudgechip paikassa! tai tuolla ylemmäl mis tsekataan jo nudgeischip
             var units = board.GetUnits();
             var moves = unit.GetAvailableMoves(ref units, board.GetTilecount().x, board.GetTilecount().y);
             board.MoveTo(unit, moveToNode.x, moveToNode.y, ref moves, true);

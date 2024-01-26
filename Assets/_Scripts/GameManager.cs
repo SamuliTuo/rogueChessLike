@@ -182,6 +182,7 @@ public class GameManager : MonoBehaviour
         if (unit.team == 1)
             currentFightCumulatedExperience += unit.experienceWorth;
 
+        ParticleSpawner.StopStun(unit);
         board.SetUnitToNull(unit.x, unit.y);
         bool allUnitsDead = true;
         foreach (var aliveUnit in board.GetUnits())
