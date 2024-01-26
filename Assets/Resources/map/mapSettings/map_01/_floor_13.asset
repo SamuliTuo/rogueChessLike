@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc57ca68a90ba6b4aa749523b30730c8, type: 3}
-  m_Name: _floor_02
+  m_Name: _floor_13
   m_EditorClassIdentifier: 
   possibleEncounters:
-  - {fileID: 11400000, guid: 1fb97f701bd20e44a9174820bd72a5da, type: 2}
+  - {fileID: 11400000, guid: 7d5790768ff553940a3ed19ac9c4019f, type: 2}

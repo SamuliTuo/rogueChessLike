@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: _floor_05
   m_EditorClassIdentifier: 
   possibleEncounters:
-  - {fileID: 11400000, guid: 4660bdbafea27214a9db92575f77cada, type: 2}
+  - {fileID: 11400000, guid: d55f7119f3e86cf48ab17cfcc36aaef9, type: 2}

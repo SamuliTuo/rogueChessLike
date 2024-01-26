@@ -20244,6 +20244,12 @@ MonoBehaviour:
   - savePath: objects/
     objectPrefab: {fileID: 2934755881743774001, guid: 5b3042c001bc5e64096f03c9127c0628, type: 3}
     image: {fileID: 21300000, guid: d9fc588e78c740347ad9ac79917f80bb, type: 3}
+  - savePath: objects/
+    objectPrefab: {fileID: 2934755881743774001, guid: ea2f47b7c26917440bbc8122cb87a07a, type: 3}
+    image: {fileID: 21300000, guid: 33fc7a229b934d146a7a7db44def6f4a, type: 3}
+  - savePath: objects/
+    objectPrefab: {fileID: 2934755881743774001, guid: 322b2f89ec676b64b886e771084af337, type: 3}
+    image: {fileID: 21300000, guid: 33fc7a229b934d146a7a7db44def6f4a, type: 3}
 --- !u!1 &308920399214506637
 GameObject:
   m_ObjectHideFlags: 0
