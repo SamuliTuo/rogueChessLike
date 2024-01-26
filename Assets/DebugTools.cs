@@ -5,7 +5,7 @@ using UnityEngine;
 public class DebugTools : MonoBehaviour
 {
     [Header("Caravan:")]
-    [Header("  - possible to roll into units:")]
+    [Header("  - enable units for the shop:")]
     public bool Squirrel = true;
     public List<UnitAbility> squirrelAbilities = new List<UnitAbility>();
     public bool BearCub = true;

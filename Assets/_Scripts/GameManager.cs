@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public ProjectilePools ProjectilePools { get; private set; }
     public AbilityLibrary AbilityLibrary { get; private set; }
     public NudgeController NudgeController { get; private set; }
+    public LootSpawner LootSpawner { get; private set; }
 
     public Color hpBarTeam0Color = Color.green;
     public Color hpBarTeam1Color = Color.red;
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviour
         ObjectSavePaths = GetComponentInChildren<ObjectSavePaths>();
         ProjectilePools = GetComponentInChildren<ProjectilePools>();
         AbilityLibrary = GetComponentInChildren<AbilityLibrary>();
+        LootSpawner = GetComponentInChildren<LootSpawner>();
         LoadBoardAndMap();
         pathTaken = new List<MapNode>();
         boardLayerMask = LayerMask.GetMask("Tile", "Hover", "Highlight", "Empty", "Swamp", "Grass_purple", "Water", "Wall", "Vines", "Road", "Thorns");

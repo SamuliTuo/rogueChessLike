@@ -117,9 +117,18 @@ public class Unit : MonoBehaviour
         if (isObstacle || hp.dying)
             return;
         
+        // Is stunned
+        if (tStun > 0) 
+        { 
+            tStun -= Time.deltaTime;
+            if (tStun < 0)
+                GameManager.Instance.ParticleSpawner.StopStun(this);
+        }
         // Unit activated an action and needs to wait:
-        if (tStun > 0) { tStun -= Time.deltaTime; }
-        else if (t > 0)  { t -= Time.deltaTime; }
+        else if (t > 0)  
+        { 
+            t -= Time.deltaTime; 
+        }
         // Unit chose and action to activate:
         else if (nextAction != Action.NONE) 
         {
@@ -292,6 +301,7 @@ public class Unit : MonoBehaviour
     {
         print("pls lis‰‰ mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
         animator?.Play("stun", 0, 0);
+        GameManager.Instance.ParticleSpawner.SpawnStun(this);
         ResetAI();
         tStun = stunDuration;
         //t = 0;

@@ -9,7 +9,7 @@ public enum TileGraphicsType { WALKABLE, UN_WALKABLE,}
 
 public class TileGraphics : MonoBehaviour
 {
-    [Header("Only one element type in list per type please! :)")]
+    [Header("Only one element type in list per type please!")]
     public List<TileType> tileTypes = new List<TileType>();
 
     [System.Serializable]

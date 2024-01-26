@@ -21,6 +21,8 @@ public enum ParticleType
 public class ParticleSpawner : MonoBehaviour
 {
     [SerializeField] DamageNumbers damageNumbers;
+    [SerializeField] StunnedParticles stunnedParticles;
+
     [SerializeField] ParticleSystem basicCastPuff;
     [SerializeField] ParticleSystem clericBomba;
     [SerializeField] ParticleSystem rangerStabb;
@@ -71,10 +73,6 @@ public class ParticleSpawner : MonoBehaviour
 
 
 
-
-
-
-
     public void Reset()
     {
         damageNumbers.Reset();
@@ -89,8 +87,19 @@ public class ParticleSpawner : MonoBehaviour
         source.Play();
     }
 
+    // Damage numbers
     public void InitDamageNumbers(float dmg, Vector3 pos)
     {
         damageNumbers.StartCoroutine(damageNumbers.InitNumberParticles(dmg, pos));
+    }
+
+    // Stun
+    public void SpawnStun(Unit unit)
+    {
+        stunnedParticles.SpawnStun(unit);
+    }
+    public void StopStun(Unit unit)
+    {
+        stunnedParticles.StopStun(unit);
     }
 }

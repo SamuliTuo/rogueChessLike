@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3386608009497033792}
   - component: {fileID: 1800835368789858557}
   - component: {fileID: 6066878613052302606}
-  - component: {fileID: 342147621457807144}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &342147621457807144
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348853774048820886}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &592986116195046860
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +94,6 @@ GameObject:
   - component: {fileID: 5532319388219546163}
   - component: {fileID: 6025782489660582837}
   - component: {fileID: 7834603060245070559}
-  - component: {fileID: 7395478735349213848}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -181,19 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7395478735349213848
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592986116195046860}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2363028718223775524
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +177,6 @@ GameObject:
   - component: {fileID: 6813310918161045670}
   - component: {fileID: 298907689965581858}
   - component: {fileID: 7658476593488816293}
-  - component: {fileID: 32204042308565421}
   - component: {fileID: 264198824319383853}
   m_Layer: 0
   m_Name: Cube
@@ -283,19 +254,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &32204042308565421
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2363028718223775524}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &264198824319383853
 Animator:
   serializedVersion: 5
@@ -327,7 +285,6 @@ GameObject:
   - component: {fileID: 8640229981903324581}
   - component: {fileID: 7739978593014982581}
   - component: {fileID: 1769811347272148626}
-  - component: {fileID: 377566663906494844}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -400,19 +357,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &377566663906494844
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5973757089471615340}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7682200911235689028
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +368,6 @@ GameObject:
   - component: {fileID: 1942753692299522203}
   - component: {fileID: 3191971824539698737}
   - component: {fileID: 4936948336449565689}
-  - component: {fileID: 1243757140382266768}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -497,19 +440,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1243757140382266768
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7682200911235689028}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7765936273728097012
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,8 +489,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dying: 0
-  flashDuration: 0.1
   hpBarOffset: 4
+  flashDuration: 0.1
   maxHp: 300
   dyingTimeBeforeSinking: 1.5
   sinkingSpeed: 1

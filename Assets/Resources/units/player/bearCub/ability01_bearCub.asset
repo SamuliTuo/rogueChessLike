@@ -20,7 +20,7 @@ MonoBehaviour:
   projectileType: 1
   projectilePath: projectile_fireAttack
   reach: 1
-  damage: 1.2
+  damage: 1.5
   directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.29
   castDuration_secondHalf: 0.5

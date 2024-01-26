@@ -6,9 +6,9 @@ using UnityEngine;
 public class UnitHealth : MonoBehaviour
 {
     public bool dying;
+    public float hpBarOffset = 1f;
 
     [SerializeField] private float flashDuration = 0.1f;
-    [SerializeField] private float hpBarOffset = 1f;
     [SerializeField] private float maxHp = 100;
     [SerializeField] private float dyingTimeBeforeSinking = 1.5f;
     [SerializeField] private float sinkingSpeed = 1f;
@@ -93,9 +93,11 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
+    public float lootSpawnWhenDyingTimePerc = 0.2f;
     public IEnumerator Die(bool dieFast = false)
     {
         GetComponent<UnitStatusModifiersHandler>()?.StopAllCoroutines();
+        var moneySpawnPos = transform.position;
 
         if (dieFast)
         {
@@ -112,8 +114,14 @@ public class UnitHealth : MonoBehaviour
         // Dying animation
         anim?.Play("die", 0, 0);
         float t = 0;
+        var moneySpawned = false;
         while (t < dyingTimeBeforeSinking)
         {
+            if (!moneySpawned && t / dyingTimeBeforeSinking > lootSpawnWhenDyingTimePerc * dyingTimeBeforeSinking)
+            {
+                moneySpawned = true;
+                GameManager.Instance.LootSpawner.SpawnMoney(Random.Range(1, 11), moneySpawnPos);
+            }
             t += Time.deltaTime;
             yield return null;
         }
