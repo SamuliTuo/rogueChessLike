@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveName: 1c
   sizeX: 7
-  sizeY: 5
+  sizeY: 6
   cameraRotationX: 45
   cameraRotationY: -45
   cameraRotationZ: 0
@@ -49,6 +49,12 @@ MonoBehaviour:
     terrainLayer: Swamp
     tileVariation: 0
     rotation: 0
+  - x: 0
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
   - x: 1
     y: 0
     walkable: 1
@@ -79,6 +85,12 @@ MonoBehaviour:
     terrainLayer: Grass_purple
     tileVariation: 1
     rotation: 3
+  - x: 1
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
   - x: 2
     y: 0
     walkable: 1
@@ -109,6 +121,12 @@ MonoBehaviour:
     terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
+  - x: 2
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
   - x: 3
     y: 0
     walkable: 1
@@ -135,6 +153,12 @@ MonoBehaviour:
     rotation: 3
   - x: 3
     y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 5
     walkable: 0
     terrainLayer: Wall
     tileVariation: 0
@@ -165,6 +189,12 @@ MonoBehaviour:
     rotation: 0
   - x: 4
     y: 4
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 4
+    y: 5
     walkable: 0
     terrainLayer: Wall
     tileVariation: 0
@@ -199,6 +229,12 @@ MonoBehaviour:
     terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
+  - x: 5
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
   - x: 6
     y: 0
     walkable: 1
@@ -229,14 +265,30 @@ MonoBehaviour:
     terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
+  - x: 6
+    y: 5
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
   scenarioUnits:
   - unit: Unit_lizard
     spawnPosX: 0
     spawnPosY: 4
-    spawnRot: 0
+    spawnRot: 2
     team: 1
   - unit: Unit_lizard
     spawnPosX: 1
     spawnPosY: 1
-    spawnRot: 0
+    spawnRot: 1
+    team: 1
+  - unit: Unit_lizard
+    spawnPosX: 2
+    spawnPosY: 3
+    spawnRot: 2
+    team: 1
+  - unit: Unit_lizard
+    spawnPosX: 2
+    spawnPosY: 5
+    spawnRot: 3
     team: 1

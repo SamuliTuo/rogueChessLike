@@ -133,6 +133,8 @@ public class ScenarioBuilder : MonoBehaviour
             // If already were hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
+                board.RemoveAllHighlightTiles();
+
                 // Edit terrain if LeftClicking
                 if (Input.GetMouseButton(0) && currentlyDragging == null)
                     ChangeNodeType(hitPosition.x, hitPosition.y, currentTileRotation_m1, currentNodeType_m1, currentNodeGraphicsVariation_m1);
@@ -141,9 +143,9 @@ public class ScenarioBuilder : MonoBehaviour
                 else if (Input.GetMouseButton(1))
                     ChangeNodeType(hitPosition.x, hitPosition.y, currentTileRotation_m2, currentNodeType_m2, currentNodeGraphicsVariation_m2);
 
-                board.tiles[currentHover.x, currentHover.y].layer =
-                    (board.ContainsValidMove(ref availableMoves, currentHover)) ?
-                        LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer(board.nodes[currentHover.x, currentHover.y].tileTypeLayerName);
+                board.tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer(board.nodes[currentHover.x, currentHover.y].tileTypeLayerName);
+                    //(board.ContainsValidMove(ref availableMoves, currentHover)) ?
+                    //    LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer(board.nodes[currentHover.x, currentHover.y].tileTypeLayerName);
                 currentHover = hitPosition;
                 board.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
             }
