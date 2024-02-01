@@ -2315,9 +2315,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Squirrel: 0
   squirrelAbilities: []
-  BearCub: 0
+  BearCub: 1
   Penguin: 1
-  BlackLion: 0
+  BlackLion: 1
 --- !u!1 &531267504
 GameObject:
   m_ObjectHideFlags: 0
