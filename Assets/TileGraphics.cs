@@ -24,7 +24,6 @@ public class TileGraphics : MonoBehaviour
 
     public Tuple<GameObject, bool> GetTileObject(string layer, int variation)
     {
-        print(layer);
         switch (layer)
         {
             case "Tile": return TryToFindObject(NodeType.NONE, variation);

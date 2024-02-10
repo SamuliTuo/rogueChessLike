@@ -123,7 +123,7 @@ public class DamageInstance : MonoBehaviour
                     units[node.x,node.y].GetComponent<UnitHealth>().RemoveHP(damage);
                     if (node.x != target.x && node.y != target.y)
                     {
-                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x,target.y));
+                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x,target.y), transform.forward);
                     }
                     // Lifesteal:
                     if (shooter != null)
@@ -164,7 +164,7 @@ public class DamageInstance : MonoBehaviour
 
                     if (node.x != target.x && node.y != target.y)
                     {
-                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x, target.y));
+                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x, target.y), transform.forward);
                     }
                 }
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class StunnedParticle : MonoBehaviour
+public class StatusEffectParticle : MonoBehaviour
 {
     private IObjectPool<GameObject> pool;
     private Transform unit;
@@ -12,15 +12,15 @@ public class StunnedParticle : MonoBehaviour
     public void SetPool(IObjectPool<GameObject> pool) => this.pool = pool;
     bool released = true;
 
-    public void InitStun(Unit unit)
+    public void InitStatusParticle(Unit unit)
     {
         this.unit = unit.transform;
         released = false;
         positionOffset_up = unit.GetComponent<UnitHealth>().hpBarOffset - 0.3f;
-        StartCoroutine(StunUpdate());
+        StartCoroutine(EffectUpdate());
     }
 
-    IEnumerator StunUpdate()
+    IEnumerator EffectUpdate()
     {
         while (!released)
         {

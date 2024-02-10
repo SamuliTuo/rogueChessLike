@@ -30,10 +30,10 @@ public class UnitStatusModifier : ScriptableObject
 
     [Header("(You can use negative values for healing, attSpeed, etc... where it makes sense)")]
     [Header("Damage over time:")]
-    public bool damagesOverTime = false;
-    public float dotTickDamage = 0;
-    public float dotTickIntervalSeconds = 0;
-    public int dotIntervalCount = 0;
+    public bool burns = false;
+    public float burn_tickDamage = 0;
+    public float burn_tickIntervalSeconds = 0;
+    public int burn_intervalCount = 0;
 
     [Header("Slow movement speed:")]
     public bool slowsMovementSpeed = false;

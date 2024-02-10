@@ -129,7 +129,7 @@ public class Projectile : MonoBehaviour
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
 
         // Hit target
-        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position);
+        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position, transform.forward);
         if (Hits())
         {
             float damage = shooter.GetDamage() * attack.damage;
@@ -150,7 +150,7 @@ public class Projectile : MonoBehaviour
         var lookAtPos = Chessboard.Instance.GetTileCenter(targetPos.x, targetPos.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
         targetNode = Chessboard.Instance.nodes[targetPos.x, targetPos.y];
-        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y));
+        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y), transform.forward);
 
         // Hit target
         if (Hits())

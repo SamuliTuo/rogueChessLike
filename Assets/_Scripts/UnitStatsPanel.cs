@@ -108,7 +108,7 @@ public class UnitStatsPanel : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                spellSlots.Add(transform.GetChild(1).GetChild(i).GetComponent<Image>());
+                spellSlots.Add(transform.GetChild(1).GetChild(0).GetChild(i).GetComponent<Image>());
             }
         }
     }

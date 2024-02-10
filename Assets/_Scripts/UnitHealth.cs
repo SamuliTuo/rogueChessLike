@@ -96,7 +96,7 @@ public class UnitHealth : MonoBehaviour
     public float lootSpawnWhenDyingTimePerc = 0.2f;
     public IEnumerator Die(bool dieFast = false)
     {
-        GetComponent<UnitStatusModifiersHandler>()?.StopAllCoroutines();
+        GetComponent<UnitStatusModifiersHandler>()?.StopAllStatusEffects();
         var moneySpawnPos = transform.position;
 
         if (dieFast)

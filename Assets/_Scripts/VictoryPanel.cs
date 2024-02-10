@@ -20,7 +20,8 @@ public class VictoryPanel : MonoBehaviour
         allReady = false;
         StartPanel();
         float exp = GameManager.Instance.currentFightCumulatedExperience;
-        exp = Random.Range(75, 166); /////////////
+        //exp = Random.Range(75, 166); /////////////
+        exp = 150;
         print("Giving flat " + exp + " exp for all units for testing.");
         List<UnitData> units = GameManager.Instance.PlayerParty.partyUnits;
 

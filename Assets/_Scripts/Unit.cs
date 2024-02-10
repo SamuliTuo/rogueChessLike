@@ -331,6 +331,7 @@ public class Unit : MonoBehaviour
 
         if (board.TryMoveUnit(this, path[0]))
         {
+            if (team == 0) GameManager.Instance.ParticleSpawner.SpawnParticles(ParticleType.JUMP_CLOUDS, transform.position, transform.forward);
 
             ///
             //////////////////////////WWWWWWWWWWWWWWWW
@@ -532,7 +533,7 @@ public class Unit : MonoBehaviour
         if (y - 1 >= 0)
             if (units[x, y - 1] == null || units[x, y - 1].team != team)
                 r.Add(new Vector2Int(x, y - 1));
-
+        
         return r;
     }
     public virtual void SetPosition(Vector3 pos, bool force = false)

@@ -15,13 +15,18 @@ public enum ParticleType
     HEAL_PARTICLES,
     FIRE_EXPLOSION,
     NOTE_RING,
-    SPARKS_JUMPY
+    SPARKS_JUMPY,
+    JUMP_CLOUDS,
+
+    //penguin
+    FIRE_BREATH,
 }
 
 public class ParticleSpawner : MonoBehaviour
 {
     [SerializeField] DamageNumbers damageNumbers;
     [SerializeField] StunnedParticles stunnedParticles;
+    [SerializeField] BurningParticles burnParticles;
 
     [SerializeField] ParticleSystem basicCastPuff;
     [SerializeField] ParticleSystem clericBomba;
@@ -32,43 +37,29 @@ public class ParticleSpawner : MonoBehaviour
     [SerializeField] ParticleSystem fireExplosion;
     [SerializeField] ParticleSystem noteRing;
     [SerializeField] ParticleSystem sparks_jumpy;
+    [SerializeField] ParticleSystem jump_clouds;
 
-    public void SpawnParticles(ParticleType type, Vector3 pos)
+    //penguin
+    [SerializeField] private ParticleSystem fireBreath;
+
+    public void SpawnParticles(ParticleType type, Vector3 pos, Vector3 forw)
     {
         switch (type)
         {
-            case ParticleType.BASIC_CAST_PUFF:
-                PlayParticle(basicCastPuff, pos); break;
-
-            case ParticleType.CLERIC_BOOMBA:
-                PlayParticle(clericBomba, pos); break;
-
-            case ParticleType.RANGER_STABB:
-                PlayParticle(rangerStabb, pos); break;
-
-            case ParticleType.WARRIOR_HIT:
-                PlayParticle(warriorHit, pos); break;
-
-            case ParticleType.ZZZAP:
-                PlayParticle(zzzap, pos); break;
-
-            case ParticleType.HEAL_PARTICLES:
-                PlayParticle(healParticles, pos); break;
-
-            case ParticleType.FIRE_EXPLOSION:
-                PlayParticle(fireExplosion, pos); break;
-
-            case ParticleType.NOTE_RING:
-                PlayParticle(noteRing, pos); break;
-
-            case ParticleType.SPARKS_JUMPY:
-                PlayParticle(sparks_jumpy, pos); break;
-
-            default:
-                break;
+            case ParticleType.BASIC_CAST_PUFF: PlayParticle(basicCastPuff, pos, forw); break;
+            case ParticleType.CLERIC_BOOMBA: PlayParticle(clericBomba, pos, forw); break;
+            case ParticleType.RANGER_STABB: PlayParticle(rangerStabb, pos, forw); break;
+            case ParticleType.WARRIOR_HIT: PlayParticle(warriorHit, pos, forw); break;
+            case ParticleType.ZZZAP: PlayParticle(zzzap, pos, forw); break;
+            case ParticleType.HEAL_PARTICLES: PlayParticle(healParticles, pos, forw); break;
+            case ParticleType.FIRE_EXPLOSION: PlayParticle(fireExplosion, pos, forw); break;
+            case ParticleType.NOTE_RING: PlayParticle(noteRing, pos, forw); break;
+            case ParticleType.SPARKS_JUMPY: PlayParticle(sparks_jumpy, pos, forw); break;
+            case ParticleType.FIRE_BREATH: PlayParticle(fireBreath, pos, forw); break;
+            case ParticleType.JUMP_CLOUDS: PlayParticle(jump_clouds, pos, forw); break;
+            default: break;
         }
     }
-
 
 
 
@@ -78,11 +69,17 @@ public class ParticleSpawner : MonoBehaviour
         damageNumbers.Reset();
     }
 
-    void PlayParticle(ParticleSystem s, Vector3 pos)
+
+    void PlayParticle(ParticleSystem s, Vector3 pos, Vector3 forw)
     {
         s.transform.position = pos;
+        s.transform.LookAt(pos + forw, Vector3.up);
         s.Play();
         var source = s.GetComponent<AudioSource>();
+
+        if (source == null)
+            return;
+
         source.pitch = Random.Range(0.80f, 1.20f);
         source.Play();
     }
@@ -101,5 +98,11 @@ public class ParticleSpawner : MonoBehaviour
     public void StopStun(Unit unit)
     {
         stunnedParticles.StopStun(unit);
+    }
+
+    // Burn
+    public void SetUnitsBurnCount(Unit unit, int count)
+    {
+        burnParticles.SetUnitsBurnCount(unit, count);
     }
 }

@@ -98,7 +98,7 @@ public class CaravanController : MonoBehaviour
         //GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         //var randomUnit = GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         Vector2Int spawnPos = GameManager.Instance.PlayerParty.GetFirstFreePartyPos();
-        UnitData data = new UnitData(randomUnit.unitPrefab.GetComponent<Unit>(), spawnPos.x, spawnPos.y);
+        UnitData data = new UnitData(randomUnit.unitPrefab.GetComponent<Unit>(), spawnPos.x, spawnPos.y, 1);
 
         // Clone and set the attacks for the unit:
         Unit unitScript = randomUnit.unitPrefab.GetComponent<Unit>();

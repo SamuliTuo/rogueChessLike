@@ -112,7 +112,7 @@ public class AbilityInstance : MonoBehaviour
 
         float damage = shooter.GetMagic() * ability.damage;
         GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier);
-        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
+        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
 
         SpawnAreaDOT();
         SpawnUnits();
@@ -123,6 +123,7 @@ public class AbilityInstance : MonoBehaviour
 
     IEnumerator ProjectileMelee()
     {
+       
         var lookAtPos = Chessboard.Instance.GetTileCenter(targetUnit.x, targetUnit.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
         targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
@@ -140,7 +141,7 @@ public class AbilityInstance : MonoBehaviour
         // Hit target
         float damage = shooter.GetMagic() * ability.damage;
         GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.hitParticle);
-        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
+        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
         
         // Stay visible
         while (forcedTimer > 0)

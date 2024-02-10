@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,6 +9,15 @@ public class LevelUpPanel : MonoBehaviour
     [SerializeField] private List<LvlUpPanelChoiceSlot> abilitySlots;
     [SerializeField] private List<LvlUpPanelChoiceSlot> passiveSlots;
 
+    [SerializeField] private LVLUpController_2nd LVLUpPanel_2nd = null;
+    [SerializeField] private GameObject LVLUpPanel_3rd = null;
+    [SerializeField] private GameObject LVLUpPanel_4th = null;
+    [SerializeField] private GameObject LVLUpPanel_5th = null;
+    [SerializeField] private GameObject LVLUpPanel_6th = null;
+    [SerializeField] private GameObject LVLUpPanel_7th = null;
+    //[SerializeField] private GameObject LVLUpPanel_8th = null;
+    //[SerializeField] private GameObject LVLUpPanel_9th = null;
+
     [SerializeField] private Sprite upgradeDMG;
     [SerializeField] private Sprite upgradeMAGIC;
     [SerializeField] private Sprite upgradeATTSPD;
@@ -16,36 +25,181 @@ public class LevelUpPanel : MonoBehaviour
     [SerializeField] private Sprite upgradeMOVEMENTSPD;
     [SerializeField] private Sprite upgradeExtraSP;
 
-    private UnitData unitThatsLevelingUp = null;
+    private UnitData unitLeveling = null;
     private int abilityPoints, passivePoints;
+    private int abilityClicked, optionChosen;
 
 
     public void InitLevelUpPanel(UnitData unit)
     {
-        unitThatsLevelingUp = unit;
+        unitLeveling = unit;
+
+        StartCorrectLevelUpPattern();
+        /*
         abilityPoints = 1;
         passivePoints = 1;
 
         SetupUpgradeChoices_Passives();
         unitStatsPanel.gameObject.SetActive(true);
         unitStatsPanel.OpenUnitStatsPanel(unitThatsLevelingUp);
+        */
     }
+
+
+    // Level 1 : Get a random spell and subclass.
+
+    void StartCorrectLevelUpPattern()
+    {
+        switch (unitLeveling.currentLevel)
+        {
+            // What level is the unit?
+            case 1: StartCoroutine(LVLUp_2nd()); break;
+            case 2: StartCoroutine(LVLUp_3rd()); break;
+            case 3: StartCoroutine(LVLUp_4th()); break;
+            case 4: StartCoroutine(LVLUp_5th()); break;
+            case 5: StartCoroutine(LVLUp_6th()); break;
+            case 6: StartCoroutine(LVLUp_7th()); break;
+            //case 7: StartCoroutine(LVLUp_8th()); break;
+            //case 8: StartCoroutine(LVLUp_9th()); break;
+        }
+    }
+
+    // 2-3 upgrades to unit's 'signature spell'
+    IEnumerator LVLUp_2nd()
+    {
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
+
+        LVLUpPanel_2nd.gameObject.SetActive(true);
+        LVLUpPanel_2nd.InitLevelUpPanel(unitLeveling, this);
+
+        for (int i = 0; i < 3; i++)
+        {
+            abilityClicked = -1;
+            while (abilityClicked == -1)
+            {
+                yield return null;
+            }
+
+            LVLUpPanel_2nd.GoToChoice(abilityClicked);
+
+            optionChosen = -1;
+
+            while (optionChosen == -1)
+            {
+                yield return null;
+            }
+
+            yield return null;
+        }
+    }
+
+    // Choose from 2 / 3 of the 'support spells' or roll another 'signature spell'
+    IEnumerator LVLUp_3rd()
+    {
+        // choose subclass for stat gains
+
+        yield return null;
+    }
+
+    // 2nd spell upgrade + new subclass
+
+    // 1st augment
+    IEnumerator LVLUp_4th()
+    {
+        // Upgrade to both spells
+
+        yield return null;
+    }
+
+    // Get ulti
+    IEnumerator LVLUp_5th()
+    {
+        yield return null;
+    }
+
+    // upgrade spells 1 and 2
+    IEnumerator LVLUp_6th()
+    {
+
+        yield return null;
+    }
+
+    // upgrade ulti + 2nd augment
+    IEnumerator LVLUp_7th()
+    {
+        yield return null;
+    }
+
+    // Final upgrade for all spells.
+    IEnumerator LVLUp_8th()
+    {
+        yield return null;
+    }
+
+
+
+    public void AbilityClicked(int slot)
+    {
+        abilityClicked = slot;
+    }
+
+    void EndLevelUp()
+    {
+        unitLeveling.currentLevel++;
+        unitLeveling = null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private void SetupUpgradeChoices_Abilities()
     {
-        foreach (var ab in abilitySlots) ab.gameObject.SetActive(true);
-        foreach (var passive in passiveSlots) passive.gameObject.SetActive(false);
+        foreach (var ab in abilitySlots) 
+            ab.gameObject.SetActive(true);
+
+        foreach (var passive in passiveSlots) 
+            passive.gameObject.SetActive(false);
 
         // P H A S E  1 :  ability upgrades
-        List<UnitAbility> possibleAbils = unitThatsLevelingUp.RemainingPossibleAbilities();
-        List<UnitAbility> learnedAbils = unitThatsLevelingUp.LearnedAbilities();
+        List<UnitAbility> possibleAbils = unitLeveling.RemainingPossibleAbilities();
+        List<UnitAbility> learnedAbils = unitLeveling.LearnedAbilities();
         Shuffle(possibleAbils);
 
         for (int i = 0; i < abilitySlots.Count; i++)
         {
             bool isAbility = false;
-            if (unitThatsLevelingUp.HasFreeAbilitySlots() && possibleAbils.Count > 0)
+            if (unitLeveling.HasFreeAbilitySlots() && possibleAbils.Count > 0)
             {
                 isAbility = true;
                 if (learnedAbils.Count > 0)
@@ -93,12 +247,12 @@ public class LevelUpPanel : MonoBehaviour
     private void AddUpgrade(List<UnitAbility> learnedAbils, int i)
     {
         var text = abilitySlots[i].transform.GetChild(0);
-        var upgrade = GetRandomAbilityUpgrade(learnedAbils[UnityEngine.Random.Range(0, learnedAbils.Count)]);
+        var upgrade = GetRandomAbilityUpgrades(learnedAbils[UnityEngine.Random.Range(0, learnedAbils.Count)]);
         if (upgrade != null)
         {
-            abilitySlots[i].SetChoice(upgrade);
+            //abilitySlots[i].SetChoice(upgrade);
             text.gameObject.SetActive(true);
-            text.GetComponentInChildren<TextMeshProUGUI>().text = upgrade.upgradeType;
+            //text.GetComponentInChildren<TextMeshProUGUI>().text = upgrade.upgradeType;
         }
         else
         {
@@ -119,24 +273,41 @@ public class LevelUpPanel : MonoBehaviour
         }
     }
 
-    AbilityUpgrade GetRandomAbilityUpgrade(UnitAbility abi)
+    public List<AbilityUpgrade> GetRandomAbilityUpgrades(UnitAbility abi, int count = 1)
     {
         List<AbilityUpgrade> possibleUpgrades = new List<AbilityUpgrade>();
-        if (abi.damage_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "damage", 0.1f));
-        if (abi.cooldown_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "cooldown", 0.75f));
-        if (abi.castSpeed_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "castSpeed", 0.5f));
-        if (abi.flySpeed_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "flySpeed", 6));
-        if (abi.reach_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "reach", 1));
-        if (abi.bounceCount_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "bounceCount", 1));
-        if (abi.bounceRange_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "bounceRange", 1));
-        if (abi.bounceDamageAmp_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "bounceDamageAmp", 0.2f));
-        if (abi.projectilesPerBounce_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "projectilesPerBounce", 1));
-        if (abi.spawnUnitCount_upgradeable) possibleUpgrades.Add(new AbilityUpgrade(abi, "spawnUnitCount", 1));
 
-        if (possibleUpgrades.Count > 0)
-            return possibleUpgrades[UnityEngine.Random.Range(0, possibleUpgrades.Count)];
+        if (abi.damage_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.DAMAGE, 0.1f));
+        if (abi.cooldown_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.COOLDOWN, 0.75f));
+        if (abi.castSpeed_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.CAST_SPEED, 0.5f));
+        if (abi.flySpeed_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.FLY_SPEED, 6));
+        if (abi.reach_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.REACH, 1));
+        if (abi.bounceCount_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.BOUNCE_COUNT, 1));
+        if (abi.bounceRange_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.BOUNCE_RANGE, 1));
+        if (abi.bounceDamageAmp_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.BOUNCE_DMG_AMP, 0.2f));
+        if (abi.projectilesPerBounce_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.PROJECTILES_PER_BOUNCE, 1));
+        if (abi.spawnUnitCount_upgradeable) 
+            possibleUpgrades.Add(new AbilityUpgrade(abi, AbilityUpgradeType.SPAWN_UNIT_COUNT, 1));
 
-        return null;
+        if (possibleUpgrades.Count <= 0)
+            return null;
+        var r = new List<AbilityUpgrade>();
+        for (int i = 0; i < count; i++)
+        {
+            int rand = Random.Range(0, possibleUpgrades.Count);
+            r.Add(possibleUpgrades[rand]);
+            possibleUpgrades.Remove(possibleUpgrades[rand]);
+        }
+        return r;
     }
 
     StatUpgrade GetRandomStatUpgrade(int upgrade)
@@ -289,7 +460,7 @@ public class LevelUpPanel : MonoBehaviour
             Debug.Log("No more upgrade points");
             return false;
         }
-        unitThatsLevelingUp.GiveNewAbility(abi);
+        unitLeveling.GiveNewAbility(abi);
         unitStatsPanel.SetSpellslots();
         abilityPoints--;
         CheckIfDone();
@@ -303,7 +474,7 @@ public class LevelUpPanel : MonoBehaviour
             Debug.Log("No more upgrade points");
             return false;
         }
-        unitThatsLevelingUp.UpgradeAbility(upgradeObj);
+        unitLeveling.UpgradeAbility(upgradeObj);
         abilityPoints--;
         CheckIfDone();
         return true;
@@ -330,28 +501,28 @@ public class LevelUpPanel : MonoBehaviour
             switch (option.stat1Name)
             {
                 case ("DMG"):
-                    unitThatsLevelingUp.damage += upgradeAmount_damage * option.stat1Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitThatsLevelingUp.damage);
+                    unitLeveling.damage += upgradeAmount_damage * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitLeveling.damage);
                     break;
 
                 case ("MAGIC"):
-                    unitThatsLevelingUp.magic += upgradeAmount_magic * option.stat1Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitThatsLevelingUp.magic);
+                    unitLeveling.magic += upgradeAmount_magic * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitLeveling.magic);
                     break;
 
                 case ("ATTSPD"):
-                    unitThatsLevelingUp.attackSpeed += upgradeAmount_attSpd * option.stat1Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitThatsLevelingUp.attackSpeed);
+                    unitLeveling.attackSpeed += upgradeAmount_attSpd * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitLeveling.attackSpeed);
                     break;
 
                 case ("HP"):
-                    unitThatsLevelingUp.maxHp += upgradeAmount_hp * option.stat1Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitThatsLevelingUp.maxHp);
+                    unitLeveling.maxHp += upgradeAmount_hp * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitLeveling.maxHp);
                     break;
 
                 case ("MOVESPD"):
-                    unitThatsLevelingUp.moveSpeed += upgradeAmount_moveSpd * option.stat1Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitThatsLevelingUp.moveSpeed);
+                    unitLeveling.moveSpeed += upgradeAmount_moveSpd * option.stat1Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitLeveling.moveSpeed);
                     break;
 
                 default:
@@ -364,28 +535,28 @@ public class LevelUpPanel : MonoBehaviour
             switch (option.stat2Name)
             {
                 case ("DMG"):
-                    unitThatsLevelingUp.damage += upgradeAmount_damage * option.stat2Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitThatsLevelingUp.damage);
+                    unitLeveling.damage += upgradeAmount_damage * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.DMG, unitLeveling.damage);
                     break;
 
                 case ("MAGIC"):
-                    unitThatsLevelingUp.magic += upgradeAmount_magic * option.stat2Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitThatsLevelingUp.magic);
+                    unitLeveling.magic += upgradeAmount_magic * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MAGIC, unitLeveling.magic);
                     break;
 
                 case ("ATTSPD"):
-                    unitThatsLevelingUp.attackSpeed += upgradeAmount_attSpd * option.stat2Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitThatsLevelingUp.attackSpeed);
+                    unitLeveling.attackSpeed += upgradeAmount_attSpd * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.ATTSPD, unitLeveling.attackSpeed);
                     break;
 
                 case ("HP"):
-                    unitThatsLevelingUp.maxHp += upgradeAmount_hp * option.stat2Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitThatsLevelingUp.maxHp);
+                    unitLeveling.maxHp += upgradeAmount_hp * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.HP, unitLeveling.maxHp);
                     break;
 
                 case ("MOVESPD"):
-                    unitThatsLevelingUp.moveSpeed += upgradeAmount_moveSpd * option.stat2Amount;
-                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitThatsLevelingUp.moveSpeed);
+                    unitLeveling.moveSpeed += upgradeAmount_moveSpd * option.stat2Amount;
+                    unitStatsPanel.SetSlider(UnitStatSliderTypes.MOVESPD, unitLeveling.moveSpeed);
                     break;
 
                 default:
@@ -412,7 +583,7 @@ public class LevelUpPanel : MonoBehaviour
             unitStatsPanel.gameObject.SetActive(false);
             if (GameManager.Instance.state == GameState.BATTLE)
             {
-                GetComponentInParent<VictoryPanel>().LevelUpDone(unitThatsLevelingUp);
+                GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
             }
             else if (GameManager.Instance.state == GameState.MAP) 
             {

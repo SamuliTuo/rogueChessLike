@@ -10,57 +10,57 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9fd62196a696d649964c4ba0489af3c, type: 3}
-  m_Name: stompy_jumpy
+  m_Name: ability_penguin_support_fireShield
   m_EditorClassIdentifier: 
-  targetSearchType: 0
-  validTargets: 0
-  centerOnYourself: 0
-  hitParticle: 9
-  dmgInstanceType: 1
-  projectileType: 0
-  projectilePath: stompy_jumpy_proj
+  targetSearchType: 4
+  validTargets: 4
+  centerOnYourself: 1
+  hitParticle: 0
+  dmgInstanceType: 0
+  projectileType: 1
+  projectilePath: projectile_fireShield
   reach: 1
-  damage: 2
-  directHitStatusModifier: {fileID: 0}
-  castDuration_firstHalf: 0.2
-  castDuration_secondHalf: 0.6
+  damage: 0
+  directHitStatusModifier: {fileID: 11400000, guid: bc773a205e3703f458eec7bcbeaa2d97, type: 2}
+  castDuration_firstHalf: 0.3
+  castDuration_secondHalf: 1
   additionalDamagePhases: 0
   additionalDamagePhaseDuration: 0
-  cooldown: 9
+  cooldown: 10
   startCooldownMultiplier: 0.5
-  flySpeed: 15
-  minLifeTime: 0.4
+  flySpeed: 10
+  minLifeTime: 5
   damagesAllies: 0
   spawnAreaDOT: 0
   areaDOTStatusModifier: {fileID: 0}
-  areaDOTSize: 0
+  areaDOTSize: 1
   areaDOTValidTargets: 0
-  areaDOTParticle: 0
-  tickDamage: 0
-  tickIntervalSeconds: 0
-  intervalCount: 0
+  areaDOTParticle: 7
+  tickDamage: 1
+  tickIntervalSeconds: 1
+  intervalCount: 5
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0
-  bounceRange_attack: 0
+  bounceRange_attack: 1
   bounceCount_atk: 0
   bounceSpawnCount_atk: 0
-  bounceAbility: {fileID: 11400000}
+  bounceAbility: {fileID: 0}
   bounceAbility_targeting: 0
-  bounceRange_ability: 22
-  bounceCount_ability: 4
-  bounceSpawnCount_ability: 1
-  bounceDamagePercChangePerJump: 0.9
-  onlyOneBouncePerUnit: 0
+  bounceRange_ability: 1
+  bounceCount_ability: 0
+  bounceSpawnCount_ability: 0
+  bounceDamagePercChangePerJump: 1
+  onlyOneBouncePerUnit: 1
   spawnUnit: 
   spawnCount: 1
   spawnDuration: 0
-  damage_upgradeable: 1
+  damage_upgradeable: 0
   cooldown_upgradeable: 0
   castSpeed_upgradeable: 0
   flySpeed_upgradeable: 0
   reach_upgradeable: 0
-  bounceCount_upgradeable: 1
-  bounceRange_upgradeable: 1
-  bounceDamageAmp_upgradeable: 1
+  bounceCount_upgradeable: 0
+  bounceRange_upgradeable: 0
+  bounceDamageAmp_upgradeable: 0
   projectilesPerBounce_upgradeable: 0
   spawnUnitCount_upgradeable: 0

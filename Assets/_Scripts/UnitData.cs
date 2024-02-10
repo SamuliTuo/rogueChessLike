@@ -14,6 +14,7 @@ public class UnitData
     public float moveSpeed;
     public float moveInterval;
 
+    public int currentLevel = 1;
     public float currentExperience;
     public float nextLevelExperience;
     public string unitName;
@@ -26,10 +27,11 @@ public class UnitData
     public UnitAbility ability4;
     public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
 
-    public UnitData(Unit unit, int posX, int posY)
+    public UnitData(Unit unit, int posX, int posY, int level = 1)
     {
         nextLevelExperience = 100;
         unitName = unit.name;
+        this.currentLevel = level;
         this.damage = unit.GetDamage();
         this.magic = unit.GetMagic();
         this.attackSpeed = unit.attackSpeed;
@@ -114,10 +116,10 @@ public class UnitData
     {
         switch (upgrade.upgradeType)
         {
-            case "damage": 
+            case AbilityUpgradeType.DAMAGE:
                 a.damage = Mathf.Sign(a.damage) * (Mathf.Abs(a.damage) + upgrade.upgradeAmount); break;
 
-            case "cooldown":
+            case AbilityUpgradeType.COOLDOWN:
                 a.cooldown *= upgrade.upgradeAmount;
                 if (a.cooldown < 0.5f)
                 {
@@ -126,7 +128,7 @@ public class UnitData
                 }
                 break;
 
-            case "castSpeed":
+            case AbilityUpgradeType.CAST_SPEED:
                 a.castDuration_firstHalf *= upgrade.upgradeAmount;
                 if (a.castDuration_firstHalf < 0.1f)
                 {
@@ -135,22 +137,21 @@ public class UnitData
                 }
                 break;
 
-            case "flySpeed": a.flySpeed += upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.FLY_SPEED: a.flySpeed += upgrade.upgradeAmount; break;
 
-            case "reach": a.reach += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.REACH: a.reach += (int)upgrade.upgradeAmount; break;
 
-            case "bounceCount": a.bounceCount_ability += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.BOUNCE_COUNT: a.bounceCount_ability += (int)upgrade.upgradeAmount; break;
 
-            case "bounceRange": a.bounceRange_ability += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.BOUNCE_RANGE: a.bounceRange_ability += (int)upgrade.upgradeAmount; break;
 
-            case "bounceDamageAmp": a.bounceDamagePercChangePerJump += upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.BOUNCE_DMG_AMP: a.bounceDamagePercChangePerJump += upgrade.upgradeAmount; break;
 
-            case "projectilesPerBounce": a.bounceSpawnCount_ability += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.PROJECTILES_PER_BOUNCE: a.bounceSpawnCount_ability += (int)upgrade.upgradeAmount; break;
 
-            case "spawnUnitCount": a.spawnCount += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.SPAWN_UNIT_COUNT: a.spawnCount += (int)upgrade.upgradeAmount; break;
 
-            default:
-                break;
+            default: break;
         }
     }
 }   
