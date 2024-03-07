@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bdced4eb7b6ab74e8f5f86156ce5809, type: 3}
-  m_Name: attack_melee01
+  m_Name: lizard_basicAttack
   m_EditorClassIdentifier: 
   targeting: 0
   hitParticle: 4
-  dmgInstanceType: 0
+  dmgInstanceType: 1
   projectileType: 1
-  statusModifiers: {fileID: 0}
+  statusModifiers: {fileID: 11400000, guid: 7939ac9222069f547a42e007cc1e5e1c, type: 2}
   attackRange: 1
-  damage: 2.25
-  attackDuration_firstHalf: 0.225
-  attackDuration_secondHalf: 0.9
+  damage: 2
+  usesMagic: 0
+  attackDuration_firstHalf: 0.45
+  attackDuration_secondHalf: 0.5
   attackFlySpeed: 6
-  minLifeTime: 0.05
-  projectilePath: penguin_attackSlash_01
+  minLifeTime: 0.066
+  projectilePath: meleeSwing0
   damagesAllies: 0
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0

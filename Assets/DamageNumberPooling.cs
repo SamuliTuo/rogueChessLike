@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+[Serializable]
 public class DamageNumberPooling : MonoBehaviour
 {
     private DamageNumberInstance numberObject;
@@ -25,10 +27,10 @@ public class DamageNumberPooling : MonoBehaviour
         //numberPool = new ObjectPool<DamageNumberInstance>(CreateNumber, OnTakeNumberFromPool, OnReturnNumberToPool);
     }
 
-    public DamageNumberInstance SpawnNumber(Vector3 originalScale, Vector3 position, float lifeTime)
+    public DamageNumberInstance SpawnNumber(Vector3 originalScale, Vector3 position, Vector2 shootingDirectionOffset, float lifeTime)
     {
         var r = numberPool.Get();
-        r.Init(originalScale, position, lifeTime);
+        r.Init(originalScale, position, shootingDirectionOffset, lifeTime);
         return r;
     }
 

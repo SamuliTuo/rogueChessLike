@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PartyPanelUnitSlot : MonoBehaviour
 {
     public UnitData slottedUnit { get; private set; }
-
+    
     private Image img;
     private Image expBar;
 
@@ -23,7 +23,8 @@ public class PartyPanelUnitSlot : MonoBehaviour
             return;
         }
 
-        img.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
+        //img.sprite = UnitSavePaths.GetImg(unit.unitName);
+        print("tänne jäi purkkaa!");
         expBar.transform.parent.gameObject.SetActive(true);
         expBar.fillAmount = unit.currentExperience / unit.nextLevelExperience;
     }

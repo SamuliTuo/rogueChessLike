@@ -75,23 +75,28 @@ public class LevelUpPanel : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
+            // Wait until players clicks one of the upgrade-slots
             abilityClicked = -1;
             while (abilityClicked == -1)
             {
                 yield return null;
             }
 
-            LVLUpPanel_2nd.GoToChoice(abilityClicked);
-
+            // Open the choices and wait until player chooses one
+            LVLUpPanel_2nd.InitUpgradeChoices(abilityClicked);
             optionChosen = -1;
-
             while (optionChosen == -1)
             {
                 yield return null;
             }
+            LVLUpPanel_2nd.ChooseOption(optionChosen);
 
             yield return null;
         }
+
+        unitStatsPanel.gameObject.SetActive(false);
+        LVLUpPanel_2nd.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     // Choose from 2 / 3 of the 'support spells' or roll another 'signature spell'
@@ -138,7 +143,6 @@ public class LevelUpPanel : MonoBehaviour
     }
 
 
-
     public void AbilityClicked(int slot)
     {
         abilityClicked = slot;
@@ -148,6 +152,20 @@ public class LevelUpPanel : MonoBehaviour
     {
         unitLeveling.currentLevel++;
         unitLeveling = null;
+    }
+
+    public void TryToChooseOption(AbilityUpgrade upgradeObj, int slot)
+    {
+        optionChosen = slot;
+        /*
+        if (abilityPoints < 1)
+        {
+            return false;
+        }*/
+        unitLeveling.UpgradeAbility(upgradeObj);
+        //abilityPoints--;
+        //CheckIfDone();
+        //return true;
     }
 
 
@@ -228,7 +246,7 @@ public class LevelUpPanel : MonoBehaviour
         //foreach (var su in statUpgrades) print(su.ToString());
         for (int i = 0; i < passiveSlots.Count; i++)
         {
-            passiveSlots[i].SetChoice(GetRandomStatUpgrade(statUpgrades[i]));
+            passiveSlots[i].SetChoice(GetRandomStatUpgrade(statUpgrades[i]), this);
             passiveSlots[i].gameObject.SetActive(true);
         }
     }
@@ -239,7 +257,7 @@ public class LevelUpPanel : MonoBehaviour
         string spellName = possibleAbils[0].name;
         var clone = Instantiate(possibleAbils[0]);
         clone.name = spellName;
-        abilitySlots[i].SetChoice(clone);
+        abilitySlots[i].SetChoice(clone, this);
         abilitySlots[i].gameObject.SetActive(true);
         possibleAbils.RemoveAt(0);
     }
@@ -256,7 +274,7 @@ public class LevelUpPanel : MonoBehaviour
         }
         else
         {
-            abilitySlots[i].SetChoice(GetRandomStatUpgrade(UnityEngine.Random.Range(0, 5)));
+            abilitySlots[i].SetChoice(GetRandomStatUpgrade(UnityEngine.Random.Range(0, 5)), this);
         }
         abilitySlots[i].gameObject.SetActive(true);
     }
@@ -304,6 +322,7 @@ public class LevelUpPanel : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int rand = Random.Range(0, possibleUpgrades.Count);
+            print(rand);
             r.Add(possibleUpgrades[rand]);
             possibleUpgrades.Remove(possibleUpgrades[rand]);
         }
@@ -457,24 +476,10 @@ public class LevelUpPanel : MonoBehaviour
     {
         if (abilityPoints < 1)
         {
-            Debug.Log("No more upgrade points");
             return false;
         }
         unitLeveling.GiveNewAbility(abi);
         unitStatsPanel.SetSpellslots();
-        abilityPoints--;
-        CheckIfDone();
-        return true;
-    }
-
-    public bool TryToChooseOption(AbilityUpgrade upgradeObj)
-    {
-        if (abilityPoints < 1)
-        {
-            Debug.Log("No more upgrade points");
-            return false;
-        }
-        unitLeveling.UpgradeAbility(upgradeObj);
         abilityPoints--;
         CheckIfDone();
         return true;
@@ -490,6 +495,7 @@ public class LevelUpPanel : MonoBehaviour
 
     public bool TryToChooseOption(LevelUpPanel.StatUpgrade option)
     {
+        print("trying to choose stat upgrade");
         if (passivePoints < 1)
         {
             Debug.Log("No more upgrade points");

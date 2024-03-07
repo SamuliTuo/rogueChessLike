@@ -16,7 +16,7 @@ public class StatusEffectParticle : MonoBehaviour
     {
         this.unit = unit.transform;
         released = false;
-        positionOffset_up = unit.GetComponent<UnitHealth>().hpBarOffset - 0.3f;
+        positionOffset_up = unit.GetComponent<UnitHealth>().hpBarOffset - 0.08f;
         StartCoroutine(EffectUpdate());
     }
 
@@ -24,6 +24,11 @@ public class StatusEffectParticle : MonoBehaviour
     {
         while (!released)
         {
+            if (transform == null || unit == null)
+            {
+                Deactivate();
+                yield break;
+            }
             transform.position = unit.transform.position + Vector3.up * positionOffset_up;
             yield return null;
         }

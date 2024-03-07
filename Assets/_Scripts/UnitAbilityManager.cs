@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime;
@@ -6,37 +7,44 @@ using UnityEngine;
 
 public class UnitAbilityManager : MonoBehaviour
 {
-    public UnitAbility ability_1 = null;
-    public UnitAbility ability_2 = null;
-    public UnitAbility ability_3 = null;
-    public UnitAbility ability_4 = null;
+    public List<UnitAbility> abilities = new List<UnitAbility>();
+    public List<GameObject> projectiles = new List<GameObject>();
 
     public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
 
-    private Dictionary<UnitAbility, bool> abilitiesWithCooldown = new Dictionary<UnitAbility, bool>();
-    private Unit thisUnit;
+    private Dictionary<Tuple<UnitAbility, int>, bool> abilitiesWithCooldown = new Dictionary<Tuple<UnitAbility, int>, bool>();
+    private Unit unit;
+    private UnitHealth hp;
     private Animator animator;
 
     public void StartAbilities()
     {
-        thisUnit = GetComponent<Unit>();
+        unit = GetComponent<Unit>();
+        hp = GetComponent<UnitHealth>();
         abilitiesWithCooldown.Clear();
-        if (ability_1 != null) AbilityCooldownAtGameStart(ability_1);
-        if (ability_2 != null) AbilityCooldownAtGameStart(ability_2);
-        if (ability_3 != null) AbilityCooldownAtGameStart(ability_3);
-        if (ability_4 != null) AbilityCooldownAtGameStart(ability_4);
+        for (int i = 0; i < 3; i++) 
+        {
+            if (abilities.Count == 0 || i >= abilities.Count || abilities[i] == null)
+            {
+                hp.StartCoroutine(hp.SetSkillSymbol(null, i));
+                continue;
+            }
+            StartAbility(i, abilities[i]);
+            hp.StartCoroutine(hp.SetSkillSymbol(abilities[i], i));
+        }
         animator = GetComponentInChildren<Animator>();
     }
 
-    void AbilityCooldownAtGameStart(UnitAbility _ability)
+    void StartAbility(int i, UnitAbility _ability)
     {
-        abilitiesWithCooldown.Add(_ability, true);
-        StartCoroutine(AbilityCooldown(_ability, _ability.cooldown * _ability.startCooldownMultiplier));
+        abilitiesWithCooldown.Add(new Tuple<UnitAbility, int>(_ability, i), true);
+        GameManager.Instance.ProjectilePools.CreatePool(projectiles[i]);
+        hp.StartCoroutine(AbilityCooldown(new Tuple<UnitAbility, int>(_ability, i), _ability.cooldown * _ability.startCooldownMultiplier));
     }
 
-    public UnitAbility ConsiderUsingAnAbility()
+    public Tuple<UnitAbility, int> ConsiderUsingAnAbility()
     {
-        foreach (KeyValuePair<UnitAbility, bool> item in abilitiesWithCooldown)
+        foreach (KeyValuePair<Tuple<UnitAbility, int>, bool> item in abilitiesWithCooldown)
         {
             if (item.Value == false)
             {
@@ -46,32 +54,31 @@ public class UnitAbilityManager : MonoBehaviour
         return null;
     }
 
-    public int GetFreeSlot()
-    {
-        if (ability_1 == null) return 0;
-        if (ability_2 == null) return 1;
-        if (ability_3 == null) return 2;
-        if (ability_4 == null) return 3;
-        return -1;
-    }
+    //public int GetFreeSlot()
+    //{
+    //    if (ability_1 == null) return 0;
+    //    if (ability_2 == null) return 1;
+    //    if (ability_3 == null) return 2;
+    //    return -1;
+    //}
 
     public int additionalPhases = 0;
-    public void ActivateAbility(UnitAbility _ability, Unit _attackTarget, Vector2Int[] _path)
+    public void ActivateAbility(Tuple<UnitAbility, int> _ability, Unit _attackTarget, Vector2Int[] _path)
     {
-        thisUnit.t = _ability.castDuration_firstHalf;
+        unit.t = _ability.Item1.castDuration_firstHalf;
 
         if (_attackTarget == null)
         {
-            thisUnit.savedAttackTimerAmount = _ability.castDuration_firstHalf * thisUnit.percentOfAttackTimerSave;
-            thisUnit.ResetAI();
+            unit.savedAttackTimerAmount = _ability.Item1.castDuration_firstHalf * unit.percentOfAttackTimerSave;
+            unit.ResetAI();
             return;
         }
-        thisUnit.nextAction = Action.ABILITY_SECONDHALF;
-        thisUnit.savedAttackTimerAmount = 0;
+        unit.nextAction = Action.ABILITY_SECONDHALF;
+        unit.savedAttackTimerAmount = 0;
 
-        if (_ability.additionalDamagePhases > 0)
+        if (_ability.Item1.additionalDamagePhases > 0)
         {
-            additionalPhases = _ability.additionalDamagePhases;
+            additionalPhases = _ability.Item1.additionalDamagePhases;
         }
         else
         {
@@ -89,46 +96,49 @@ public class UnitAbilityManager : MonoBehaviour
             var targetPos = _path[_path.Length - 1];
             //thisUnit.RotateUnit(targetPos);
         }*/
-        thisUnit.RotateUnit(new Vector2Int(_attackTarget.x, _attackTarget.y));
+        unit.RotateUnit(new Vector2Int(_attackTarget.x, _attackTarget.y));
     }
 
-    public void ActivateAbilitySecondHalf(UnitAbility _ability, Unit _attackTarget, Vector2Int[] _path)
+    public void ActivateAbilitySecondHalf(Tuple<UnitAbility, int> _ability, Unit _attackTarget, Vector2Int[] _path)
     {
-        Vector3 offset = transform.TransformVector(thisUnit.attackPositionOffset);
+        Vector3 offset = transform.TransformVector(unit.attackPositionOffset);
         Vector3 startPos = transform.position + offset;
 
         var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
-            _ability.projectilePath, startPos, Quaternion.identity);
+            projectiles[_ability.Item2], startPos, Quaternion.identity);
+
         projectile?.GetComponent<AbilityInstance>().Init(
-            _ability, startPos, _path, _ability.bounceCount_atk,
-            _ability.bounceCount_ability, thisUnit, _attackTarget);
+            _ability.Item1, startPos, _path, _ability.Item1.bounceCount_atk,
+            _ability.Item1.bounceCount_ability, unit.GetAbilityDmg(_ability.Item1), unit.critChance, unit.critDamagePerc, unit.missChance, unit, _attackTarget);
 
         if (additionalPhases > 0)
         {
-            thisUnit.t = _ability.additionalDamagePhaseDuration;
+            unit.t = _ability.Item1.additionalDamagePhaseDuration;
             additionalPhases--;
         }
         else
         {
-            thisUnit.t = _ability.castDuration_secondHalf;
-            if (_ability.cooldown > 0)
+            unit.t = _ability.Item1.castDuration_secondHalf;
+            if (_ability.Item1.cooldown > 0)
             {
                 abilitiesWithCooldown[_ability] = true;
-                StartCoroutine(AbilityCooldown(_ability, _ability.cooldown));
+                StartCoroutine(AbilityCooldown(_ability, _ability.Item1.cooldown));
             }
             else
             {
                 abilitiesWithCooldown[_ability] = false;
             }
-            thisUnit.ResetAI();
+            unit.ResetAI();
         }
     }
 
-    IEnumerator AbilityCooldown(UnitAbility _ability, float _cooldown)
+    IEnumerator AbilityCooldown(Tuple<UnitAbility, int> _ability, float _cooldown)
     {
-        var t = Time.time;
-        while (Time.time < t + _cooldown)
+        float t = 0;
+        while (t < _cooldown)
         {
+            hp?.RefreshSkillCooldownUISlot(_ability.Item2, t / _cooldown);
+            t += Time.deltaTime;
             yield return null;
         }
         abilitiesWithCooldown[_ability] = false;

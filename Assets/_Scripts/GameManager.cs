@@ -15,8 +15,11 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    //public 
+
     public static GameManager Instance { get; private set; }
 
+    public UnitLibrary UnitLibrary { get; private set; }
     public HPBarSpawner HPBars { get; private set; }
     public ParticleSpawner ParticleSpawner { get; private set; }
     public PlayerParty PlayerParty { get; private set; }
@@ -33,24 +36,29 @@ public class GameManager : MonoBehaviour
     public NudgeController NudgeController { get; private set; }
     public LootSpawner LootSpawner { get; private set; }
 
+
     public Color hpBarTeam0Color = Color.green;
     public Color hpBarTeam1Color = Color.red;
     public Vector3 mapCameraLastPos { get; set; }
 
     [SerializeField] private GameState startingSceneGameState = GameState.MAP;
+
+
     public GameState state { get; private set; }
     public void ChangeGamestate(GameState state)
     {
         this.state = state;
     }
-
     public LayerMask boardLayerMask;
     public Scenario currentScenario;
     public List<MapNode> pathTaken { get; set; }
     ScenarioBuilder builder;
+
+
     private Chessboard board;
     private GameObject victoryScreen;
     private GameObject lostScreen;
+
 
     void Awake()
     {
@@ -64,6 +72,7 @@ public class GameManager : MonoBehaviour
 
         state = startingSceneGameState;
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
+        UnitLibrary = GetComponentInChildren<UnitLibrary>();
         PlayerParty = GetComponentInChildren<PlayerParty>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
         HPBars = GetComponentInChildren<HPBarSpawner>();

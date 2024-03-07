@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using UnityEditor.Animations;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEditor;
-using System.Linq;
+using System;
+using static UnityEditor.Progress;
 
 public enum UnitType
 {
@@ -34,6 +31,7 @@ public enum UnitTextEncounterCheckableStats
 
 public class Unit : MonoBehaviour
 {
+    [HideInInspector] public UnitInLibrary libraryData = null;
     public string unitPath { get; set; }
     public bool isObstacle = false;
 
@@ -54,7 +52,7 @@ public class Unit : MonoBehaviour
     public float percentOfAttackTimerSave = 0.8f;
     public Vector3 attackPositionOffset = Vector3.zero;
 
-    public List<Unit_NormalAttack> normalAttacks = new List<Unit_NormalAttack>();
+    public List<Tuple<Unit_NormalAttack, GameObject>> normalAttacks = new List<Tuple<Unit_NormalAttack, GameObject>>();
     public bool randomizeAttackOrder = false;
     bool canBeSameAttackTwiceInRow = true;
 
@@ -88,20 +86,22 @@ public class Unit : MonoBehaviour
     private UnitHealth hp;
     private bool pathPending = false;
     private Unit attackTarget = null;
-    private int currentAttack = 0;
+    private int currentAttackIndex = 0;
 
     //public virtual void SetTargetMoveTile(Vector2Int tile) { targetMoveTile = tile; }
 
 
     private void Start()
     {
-        t = moveInterval + Random.Range(0, 0.5f);
+        t = moveSpeed + UnityEngine.Random.Range(0, 1f);
         hp = GetComponent<UnitHealth>();
         board = GameObject.Find("Board").GetComponent<Chessboard>();
         pathfinding = board.GetComponent<Pathfinding>();
         ResetPath();
         abilities = GetComponent<UnitAbilityManager>();
         animator = GetComponentInChildren<Animator>();
+        damage = team == 0 ? damage * DebugTools.Instance.playerDamagePercentage : damage;
+        magic = team == 0 ? magic * DebugTools.Instance.playerDamagePercentage : magic;
     }
     
     private void Update()
@@ -111,7 +111,7 @@ public class Unit : MonoBehaviour
     }
 
     private Animator animator;
-    private UnitAbility nextAbility;
+    private Tuple<UnitAbility, int> nextAbility;
     public void AI()
     {
         if (isObstacle || hp.dying)
@@ -126,7 +126,7 @@ public class Unit : MonoBehaviour
         }
         // Unit activated an action and needs to wait:
         else if (t > 0)  
-        { 
+        {
             t -= Time.deltaTime; 
         }
         // Unit chose and action to activate:
@@ -146,24 +146,29 @@ public class Unit : MonoBehaviour
             // Auto-attack / move to attack range:
             if (nextAbility == null)
             {
-                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttack].targeting, normalAttacks[currentAttack].attackRange, OnPathFound);
+                if (normalAttacks.Count == 0)
+                {
+                    Debug.Log("!!!!!!!! Unit " + this.name + " has no attacks !!!!!!");
+                    return;
+                }   
+                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
             }
 
             // Use an ability
             //  - on ally:
-            else if (nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_ABS || nextAbility.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
+            else if (nextAbility.Item1.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_ABS || nextAbility.Item1.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
             {
-                var targetUnit = board.GetLowestTeammate(nextAbility.targetSearchType, this);
+                var targetUnit = board.GetLowestTeammate(nextAbility.Item1.targetSearchType, this);
                 if (targetUnit != null)
                 {
-                    PathRequestManager.RequestFindUnit(new Vector2Int(x, y), this, targetUnit, nextAbility.targetSearchType, nextAbility.reach, OnPathFound);
+                    PathRequestManager.RequestFindUnit(new Vector2Int(x, y), this, targetUnit, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
                     return;
                 }
                 nextAbility = null;
-                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttack].targeting, normalAttacks[currentAttack].attackRange, OnPathFound);
+                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
             }
             //  - on self:
-            else if (nextAbility.targetSearchType == UnitSearchType.ONLY_SELF)
+            else if (nextAbility.Item1.targetSearchType == UnitSearchType.ONLY_SELF)
             {
                 nextAction = Action.ABILITY;
                 path = new Vector2Int[1];
@@ -173,7 +178,7 @@ public class Unit : MonoBehaviour
             //  - on enemy:
             else
             {
-                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.targetSearchType, nextAbility.reach, OnPathFound);
+                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
             }
         }
     }
@@ -189,22 +194,28 @@ public class Unit : MonoBehaviour
         moveSpeed = data.moveSpeed;
         moveInterval = data.moveInterval;
         //moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(data.moveSpeed);
-
+        
         var pos = new Vector2Int(data.spawnPosX, data.spawnPosY);
         if (board.GetUnits()[data.spawnPosX, data.spawnPosY] != null)
         {
             pos = board.GetFirstFreePos();
         }
         SetPosition(board.GetTileCenter(pos.x, pos.y), true);
-        normalAttacks = data.attacks;
-        abilities.ability_1 = data.ability1;
-        abilities.ability_2 = data.ability2;
-        abilities.ability_3 = data.ability3;
-        abilities.ability_4 = data.ability4;
+
+        normalAttacks.Clear();
+        for (int i = 0; i < data.attacks.Count; i++)
+        {
+            normalAttacks.Add(new (data.attacks[i], libraryData.attacks[i].projectile));
+            print(data.attacks[i]+",         "+ libraryData.attacks[i].projectile);
+        }
+
+        abilities.abilities.Clear();
+        abilities.abilities[0] = data.ability1;
+        abilities.abilities[1] = data.ability2;
+        abilities.abilities[2] = data.ability3;
         ResetPath();
         ResetAI();
     }
-
 
     
     void ActivateAction()
@@ -299,7 +310,7 @@ public class Unit : MonoBehaviour
 
     public void GetStunned(float stunDuration)
     {
-        print("pls lisää mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
+        //print("pls lisää mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
         animator?.Play("stun", 0, 0);
         GameManager.Instance.ParticleSpawner.SpawnStun(this);
         ResetAI();
@@ -339,7 +350,7 @@ public class Unit : MonoBehaviour
             if (animator != null)
             {
                 animator.speed = 1;
-                var rand = Random.Range(0, 100);
+                var rand = UnityEngine.Random.Range(0, 100);
                 if (rand > 95)
                     animator.Play("move5", 0, 0);
                 else if (rand > 87)
@@ -361,9 +372,9 @@ public class Unit : MonoBehaviour
                 return;
             }
         }
-        t = 450 / moveSpeed;
+        t = moveSpeed;
         t += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]);
-        t += Random.Range(0.0f, 0.2f);
+        t += UnityEngine.Random.Range(0.0f, 0.2f);
         //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
         ResetAI();
     }
@@ -375,11 +386,11 @@ public class Unit : MonoBehaviour
 
     void NormalAttack()
     {
-        t = normalAttacks[currentAttack].attackDuration_firstHalf * (1.0f - AttackSpeedMultiplier());
+        t = normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf * (1.0f - AttackSpeedMultiplier());
         if (attackTarget == null)
         {
-            savedAttackTimerAmount = normalAttacks[currentAttack].attackDuration_firstHalf * percentOfAttackTimerSave;
-            currentAttack = 0;
+            savedAttackTimerAmount = normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf * percentOfAttackTimerSave;
+            currentAttackIndex = 0;
             ResetAI();
             return;
         }
@@ -399,13 +410,15 @@ public class Unit : MonoBehaviour
     {
         Vector3 offset = transform.TransformVector(attackPositionOffset);
         Vector3 startPos = transform.position + offset;
-        var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
-            normalAttacks[currentAttack].projectilePath, startPos, Quaternion.identity);
-        projectile?.GetComponent<Projectile>().Init(
-            normalAttacks[currentAttack], startPos, path, normalAttacks[currentAttack].bounceCount_atk,
-            normalAttacks[currentAttack].bounceCount_ability, critChance, critDamagePerc, missChance, this, attackTarget);
+        float _damage = GetAttackDmg();
 
-        t = normalAttacks[currentAttack].attackDuration_secondHalf * (1.0f - AttackSpeedMultiplier());
+        var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
+            normalAttacks[currentAttackIndex].Item2, startPos, Quaternion.identity);
+        projectile?.GetComponent<Projectile>().Init(
+            normalAttacks[currentAttackIndex].Item1, startPos, path, normalAttacks[currentAttackIndex].Item1.bounceCount_atk,
+            normalAttacks[currentAttackIndex].Item1.bounceCount_ability, _damage, critChance, critDamagePerc, missChance, this, attackTarget);
+
+        t = normalAttacks[currentAttackIndex].Item1.attackDuration_secondHalf * (1.0f - AttackSpeedMultiplier());
         ResetAI();
 
         // Choosing the next attack
@@ -413,17 +426,17 @@ public class Unit : MonoBehaviour
         {
             if (canBeSameAttackTwiceInRow)
             {
-                currentAttack = Random.Range(0, normalAttacks.Count);
+                currentAttackIndex = UnityEngine.Random.Range(0, normalAttacks.Count);
             }
             else
             {
-                int lastAtt = currentAttack;
+                int lastAtt = currentAttackIndex;
                 for (int i = 0; i < 10; i++)
                 {
-                    var r = Random.Range(0, normalAttacks.Count);
+                    var r = UnityEngine.Random.Range(0, normalAttacks.Count);
                     if (r != lastAtt)
                     {
-                        currentAttack = r;
+                        currentAttackIndex = r;
                         break;
                     }
                 }
@@ -431,12 +444,27 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            currentAttack++;
-            if (currentAttack >= normalAttacks.Count)
-                currentAttack = 0;
+            currentAttackIndex++;
+            if (currentAttackIndex >= normalAttacks.Count)
+                currentAttackIndex = 0;
         }
     }
 
+    float GetAttackDmg()
+    {
+        if (!normalAttacks[currentAttackIndex].Item1.usesMagic)
+            return GetDamage() * normalAttacks[currentAttackIndex].Item1.damage;
+        else
+            return GetMagic() * normalAttacks[currentAttackIndex].Item1.damage;
+        
+    }
+    public float GetAbilityDmg(UnitAbility _ability)
+    {
+        if (_ability.usesMagic)
+            return GetMagic() * _ability.damage;
+        else
+            return GetDamage() * _ability.damage;
+    }
     public void ResetAI()
     {
         ResetPath();
@@ -472,7 +500,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public virtual List<Vector2Int> GetAvailableMoves(ref Unit[,] units, int tileCountX, int tileCountY)
+    public virtual List<Vector2Int> GetAvailableMoves(ref Unit[,] _units, int _tileCountX, int _tileCountY)
     {
         List<Vector2Int> r = new List<Vector2Int>();
 
@@ -480,66 +508,66 @@ public class Unit : MonoBehaviour
         r.Add(new Vector2Int(x, y));
 
         // Right
-        if (x + 1 < tileCountX)
+        if (x + 1 < _tileCountX)
         {
             // Right
-            if (units[x + 1, y] == null)
+            if (_units[x + 1, y] == null)
                 r.Add(new Vector2Int(x + 1, y));
-            else if (units[x + 1, y].team != team)
+            else if (_units[x + 1, y].team != team)
                 r.Add(new Vector2Int(x + 1, y));
 
             // Top right
-            if (y + 1 < tileCountY)
-                if (units[x + 1, y + 1] == null)
+            if (y + 1 < _tileCountY)
+                if (_units[x + 1, y + 1] == null)
                     r.Add(new Vector2Int(x + 1, y + 1));
-                else if (units[x + 1, y + 1].team != team)
+                else if (_units[x + 1, y + 1].team != team)
                     r.Add(new Vector2Int(x + 1, y + 1));
 
             // Bottom right
             if (y - 1 >= 0)
-                if (units[x + 1, y - 1] == null)
+                if (_units[x + 1, y - 1] == null)
                     r.Add(new Vector2Int(x + 1, y - 1));
-                else if (units[x + 1, y - 1].team != team)
+                else if (_units[x + 1, y - 1].team != team)
                     r.Add(new Vector2Int(x + 1, y - 1));
         }
         // Left
         if (x - 1 >= 0)
         {
             // Left
-            if (units[x - 1, y] == null)
+            if (_units[x - 1, y] == null)
                 r.Add(new Vector2Int(x - 1, y));
-            else if (units[x - 1, y].team != team)
+            else if (_units[x - 1, y].team != team)
                 r.Add(new Vector2Int(x - 1, y));
 
             // Top left
-            if (y + 1 < tileCountY)
-                if (units[x - 1, y + 1] == null)
+            if (y + 1 < _tileCountY)
+                if (_units[x - 1, y + 1] == null)
                     r.Add(new Vector2Int(x - 1, y + 1));
-                else if (units[x - 1, y + 1].team != team)
+                else if (_units[x - 1, y + 1].team != team)
                     r.Add(new Vector2Int(x - 1, y + 1));
 
             // Bottom left
             if (y - 1 >= 0)
-                if (units[x - 1, y - 1] == null)
+                if (_units[x - 1, y - 1] == null)
                     r.Add(new Vector2Int(x - 1, y - 1));
-                else if (units[x - 1, y - 1].team != team)
+                else if (_units[x - 1, y - 1].team != team)
                     r.Add(new Vector2Int(x - 1, y - 1));
         }
         // Up
-        if (y + 1 < tileCountY)
-            if (units[x, y + 1] == null || units[x, y + 1].team != team)
+        if (y + 1 < _tileCountY)
+            if (_units[x, y + 1] == null || _units[x, y + 1].team != team)
                 r.Add(new Vector2Int(x, y + 1));
         // Down
         if (y - 1 >= 0)
-            if (units[x, y - 1] == null || units[x, y - 1].team != team)
+            if (_units[x, y - 1] == null || _units[x, y - 1].team != team)
                 r.Add(new Vector2Int(x, y - 1));
         
         return r;
     }
-    public virtual void SetPosition(Vector3 pos, bool force = false)
+    public virtual void SetPosition(Vector3 _pos, bool _force = false)
     {
-        desiredPosition = pos;
-        if (force)
+        desiredPosition = _pos;
+        if (_force)
             transform.position = desiredPosition;
     }
     public virtual void SetScale(Vector3 scale, bool force = false)

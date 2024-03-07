@@ -9,13 +9,15 @@ public class DamageNumberInstance : MonoBehaviour
     public void SetPool(IObjectPool<DamageNumberInstance> pool) => this.pool = pool;
     private bool released = true;
 
-    public void Init(Vector3 scale, Vector3 position, float lifeTime)
+    public void Init(Vector3 scale, Vector3 position, Vector2 shootingDirectionOffset, float lifeTime)
     {
         released = false;
         transform.localScale = scale;
         transform.position = position;
         ParticleSystem.MainModule system = GetComponent<ParticleSystem>().main;
         system.startLifetime = lifeTime;
+        ParticleSystem.ShapeModule shape = GetComponent<ParticleSystem>().shape;
+        shape.rotation.Set(shootingDirectionOffset.x, shootingDirectionOffset.y, 0);
         GetComponent<ParticleSystem>().Play();
         StartCoroutine(InstanceRecycler(lifeTime));
     }

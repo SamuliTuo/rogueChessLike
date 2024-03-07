@@ -18,16 +18,13 @@ public enum ParticleType
     SPARKS_JUMPY,
     JUMP_CLOUDS,
 
+    ATTACK_MISS,
     //penguin
     FIRE_BREATH,
 }
 
 public class ParticleSpawner : MonoBehaviour
 {
-    [SerializeField] DamageNumbers damageNumbers;
-    [SerializeField] StunnedParticles stunnedParticles;
-    [SerializeField] BurningParticles burnParticles;
-
     [SerializeField] ParticleSystem basicCastPuff;
     [SerializeField] ParticleSystem clericBomba;
     [SerializeField] ParticleSystem rangerStabb;
@@ -39,7 +36,13 @@ public class ParticleSpawner : MonoBehaviour
     [SerializeField] ParticleSystem sparks_jumpy;
     [SerializeField] ParticleSystem jump_clouds;
 
-    //penguin
+    [Header("General:")]
+    [SerializeField] DamageNumbers damageNumbers;
+    [SerializeField] ParticleSystem attackMissed;
+    [SerializeField] StunnedParticles stunnedParticles;
+    [SerializeField] BurningParticles burnParticles;
+
+    [Header("Penguin:")]
     [SerializeField] private ParticleSystem fireBreath;
 
     public void SpawnParticles(ParticleType type, Vector3 pos, Vector3 forw)
@@ -57,6 +60,7 @@ public class ParticleSpawner : MonoBehaviour
             case ParticleType.SPARKS_JUMPY: PlayParticle(sparks_jumpy, pos, forw); break;
             case ParticleType.FIRE_BREATH: PlayParticle(fireBreath, pos, forw); break;
             case ParticleType.JUMP_CLOUDS: PlayParticle(jump_clouds, pos, forw); break;
+            case ParticleType.ATTACK_MISS: PlayParticle(attackMissed, pos, forw); break;
             default: break;
         }
     }
@@ -85,9 +89,9 @@ public class ParticleSpawner : MonoBehaviour
     }
 
     // Damage numbers
-    public void InitDamageNumbers(float dmg, Vector3 pos)
+    public void InitDamageNumbers(float dmg, bool crit, Vector3 pos, bool missed)
     {
-        damageNumbers.StartCoroutine(damageNumbers.InitNumberParticles(dmg, pos));
+        damageNumbers.StartCoroutine(damageNumbers.InitNumberParticles(dmg, crit, pos, missed));
     }
 
     // Stun

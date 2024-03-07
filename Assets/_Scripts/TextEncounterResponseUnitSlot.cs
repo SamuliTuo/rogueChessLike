@@ -16,7 +16,8 @@ public class TextEncounterResponseUnitSlot : MonoBehaviour
         {
             image = GetComponent<Image>();
         }
-        image.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
+        print("tänne jäi purkkaa!");
+        //image.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
     }
 
     public void ClearSlot()

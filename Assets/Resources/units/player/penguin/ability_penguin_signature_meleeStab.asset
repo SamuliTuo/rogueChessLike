@@ -20,7 +20,8 @@ MonoBehaviour:
   projectileType: 1
   projectilePath: projectile_meleeStab
   reach: 1
-  damage: 10
+  damage: 1
+  usesMagic: 1
   directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.15
   castDuration_secondHalf: 1

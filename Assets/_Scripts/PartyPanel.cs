@@ -44,7 +44,7 @@ public class PartyPanel : MonoBehaviour
         {
             if (units != null && units.Count > i && units[i] != null)
             {
-                unitSlots[i].SlotUnitHere(emptySlotImage, units[0]);
+                unitSlots[i].SlotUnitHere(emptySlotImage, units[0].Item1);
             }
             else
             {

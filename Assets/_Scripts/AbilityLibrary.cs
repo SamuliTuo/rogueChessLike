@@ -23,7 +23,7 @@ public class AbilityLibrary : MonoBehaviour
     
     public Sprite GetUpgradeSymbol(AbilityUpgradeType type)
     {
-        foreach (var item in upgradeSymbols) 
+        foreach (var item in upgradeSymbols)
         { 
             if (item.type == type)
             {
@@ -32,15 +32,15 @@ public class AbilityLibrary : MonoBehaviour
         }
         return null;
     }
-    public Sprite GetImg(UnitAbility ability)
-    {
-        foreach (var item in abilitiesInLibrary)
-        {
-            if (item.ability.name == ability.name)
-            {
-                return item.image;
-            }
-        }
-        return null;
-    }
+    //public Sprite GetImg(UnitAbility ability)
+    //{
+    //    foreach (var item in abilitiesInLibrary)
+    //    {
+    //        if (item.ability.name == ability.name)
+    //        {
+    //            return item.image;
+    //        }
+    //    }
+    //    return null;
+    //}
 }

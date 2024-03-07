@@ -14,11 +14,13 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] private float sinkingSpeed = 1f;
     public float GetMaxHp() { return maxHp; }
     public void SetMaxHp(float value) { maxHp = value; }
-    private float hpBarBiggenTime = 0.6f;
-    private float hpBarMaxBiggenPerc = 2.3f;    
+    private float hpBarBiggenTime = 1;
+    private float hpBarMaxBiggenPerc = 1.6f;
 
     [HideInInspector] public float hp;
     [HideInInspector] public float shield;
+    [HideInInspector] public float armor;
+    [HideInInspector] public float magicRes;
 
     //private Material mat;
     private Color originalColor;
@@ -44,14 +46,30 @@ public class UnitHealth : MonoBehaviour
         {
             hpBar = GameManager.Instance.HPBars.SpawnBar();
             hpScript = hpBar.GetComponent<HpBarInstance>();
-            hpScript.Init(this.transform, hpBarOffset, unit.team);
+            hpScript.Init(this.transform, hpBarOffset, unit.team, hp);
             hpBarOriginalScale = hpBar.transform.localScale;
         }
     }
 
-    public void RemoveHP(float damage, bool dieFast = false)
+    public void RemoveHP(float damage, bool dieFast = false, float critChance = 0, float critDamage = 1, float missChance = 0)
     {
-        if (!dieFast) GameManager.Instance.ParticleSpawner.InitDamageNumbers(damage, transform.position + Vector3.up * hpBarOffset);
+        if (DebugTools.Instance.godMode == true)
+        {
+            if (unit.team == 0)
+                return;
+        }
+        
+        bool hit = Random.Range(0.000f, 0.999f) < 1 - missChance;
+        if (!hit)
+        {
+            if (!dieFast) GameManager.Instance.ParticleSpawner.InitDamageNumbers(0, false, hpBar.GetComponent<HpBarInstance>().GetBarHpPos(), false); //transform.position + Vector3.up * hpBarOffset, true);// (ParticleType.ATTACK_MISS, transform.position, Camera.main.transform.forward);
+        }
+
+        bool isCrit = Random.Range(0.000f, 0.999f) < critChance;
+        if (isCrit)
+            damage *= critDamage;
+
+        if (!dieFast) GameManager.Instance.ParticleSpawner.InitDamageNumbers(damage, isCrit, hpBar.GetComponent<HpBarInstance>().GetBarHpPos(), false); // transform.position + Vector3.up * hpBarOffset, false) ;
 
         // If taking damage and we have an active shield:
         if (damage > 0 && shield > 0)
@@ -87,6 +105,7 @@ public class UnitHealth : MonoBehaviour
             //StartCoroutine("DamageFlash");
             if (timer > 0.6f)
             {
+                print("Hp bar biggenings: t‰‰l on j‰nn‰‰ timer j‰nkkii jonka vois fiksaa");
                 //StopCoroutine("DamageFlash");
                 StartCoroutine("BiggenHPBar", Mathf.Min(Mathf.Abs(damage / maxHp), 1));
             }
@@ -166,6 +185,7 @@ public class UnitHealth : MonoBehaviour
     float timer = 1;
     IEnumerator BiggenHPBar(float damagePerc)
     {
+        hpBarOriginalScale = Vector3.one;
         timer = 0;
         while (timer <= hpBarBiggenTime)
         {
@@ -189,18 +209,36 @@ public class UnitHealth : MonoBehaviour
             //perc = 1 - (1 - perc) * (1 - perc);
             timer += Time.deltaTime;
 
-            hpBar.transform.localScale = Vector3.Lerp(hpBarOriginalScale + hpBarOriginalScale * (damagePerc * hpBarMaxBiggenPerc), hpBarOriginalScale, perc);
+            hpScript?.ScaleHpBar(Vector3.Lerp(hpBarOriginalScale + hpBarOriginalScale * (damagePerc * hpBarMaxBiggenPerc), hpBarOriginalScale, perc));
             yield return null;
         }
-        hpBar.transform.localScale = hpBarOriginalScale;
+        hpScript?.ScaleHpBar(hpBarOriginalScale);
+        //hpBar.transform.localScale = hpBarOriginalScale;
     }
 
     private void OnDisable()
     {
+        StopAllCoroutines();
         if (hpScript != null)
         {
             hpScript.Deactivate();
             hpScript = null;
         }
+    }
+
+    public void RefreshSkillCooldownUISlot(int slot, float perc)
+    {
+        hpScript?.skillSymbols.UpdateAbilityCooldown(perc, slot);
+    }
+
+    public IEnumerator SetSkillSymbol(UnitAbility ability, int slot)
+    {
+        float t = 0;
+        while (hpScript == null && t < 5)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+        hpScript?.skillSymbols.SetSkillSlot(ability, slot);
     }
 }

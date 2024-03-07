@@ -15,19 +15,20 @@ MonoBehaviour:
   targetSearchType: 0
   validTargets: 0
   centerOnYourself: 1
-  hitParticle: 11
+  hitParticle: 12
   dmgInstanceType: 1
   projectileType: 1
   projectilePath: projectile_fireBreath
   reach: 1
-  damage: 5
+  damage: 5.3
+  usesMagic: 1
   directHitStatusModifier: {fileID: 11400000, guid: 0f712c34649f2494ba55ddf7db1dab6d, type: 2}
   castDuration_firstHalf: 0.1
   castDuration_secondHalf: 1
   additionalDamagePhases: 0
   additionalDamagePhaseDuration: 0
-  cooldown: 0.5
-  startCooldownMultiplier: 0.5
+  cooldown: 0.1
+  startCooldownMultiplier: 1
   flySpeed: 10
   minLifeTime: 0.3
   damagesAllies: 0

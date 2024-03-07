@@ -1,3 +1,5 @@
+using Mono.Cecil.Cil;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ public class CaravanController : MonoBehaviour
 {
     [SerializeField] GameObject caravanPanel;
 
-    private List<UnitData> caravanSlots = new List<UnitData>();
+    private List<Tuple<UnitData, UnitInLibrary>> caravanSlots = new List<Tuple<UnitData, UnitInLibrary>>();
     private Image caravanSlot1Image;
     private Image caravanSlot2Image;
     private Image caravanSlot3Image;
@@ -34,38 +36,42 @@ public class CaravanController : MonoBehaviour
     public void OpenCaravan()
     {
         caravanSlots.Clear();
-        List<UnitData> choices = GetUnitChoices();
+        List<Tuple<UnitData, UnitInLibrary>> choices = GetUnitChoices();
         foreach (var choice in choices)
         {
             caravanSlots.Add(choice);
         }
-        caravanSlot1Image.sprite = GameManager.Instance.UnitSavePaths.GetImg(caravanSlots[0].unitName);
-        caravanSlot2Image.sprite = GameManager.Instance.UnitSavePaths.GetImg(caravanSlots[1].unitName);
-        caravanSlot3Image.sprite = GameManager.Instance.UnitSavePaths.GetImg(caravanSlots[2].unitName);
+        caravanSlot1Image.sprite = caravanSlots[0].Item2.image;
+        caravanSlot2Image.sprite = caravanSlots[1].Item2.image;
+        caravanSlot3Image.sprite = caravanSlots[2].Item2.image;
         SetSpellImages(caravanSlots[0], slot1_spells);
         SetSpellImages(caravanSlots[1], slot2_spells);
         SetSpellImages(caravanSlots[2], slot3_spells);
         caravanPanel.SetActive(true);
     }
 
-    void SetSpellImages(UnitData slot, Image[] accordingImageSlots)
+    void SetSpellImages(Tuple<UnitData, UnitInLibrary> slot, Image[] skillSlots)
     {
-        accordingImageSlots[0].sprite = slot.ability1 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability1);
-        accordingImageSlots[1].sprite = slot.ability2 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability2);
-        accordingImageSlots[2].sprite = slot.ability3 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability3);
-        accordingImageSlots[3].sprite = slot.ability4 == null ? emptyImage : GameManager.Instance.AbilityLibrary.GetImg(slot.ability4);
+        skillSlots[0].sprite = slot.Item1.ability1 == null ? emptyImage : slot.Item2.GetSpellImage(slot.Item1.ability1);
+        skillSlots[1].sprite = slot.Item1.ability2 == null ? emptyImage : slot.Item2.GetSpellImage(slot.Item1.ability2);
+        skillSlots[2].sprite = slot.Item1.ability3 == null ? emptyImage : slot.Item2.GetSpellImage(slot.Item1.ability3);
+
     }
 
     public void ChooseUnit(int chosenSlot)
     {
-        GameManager.Instance.PlayerParty.AddUnit(caravanSlots[chosenSlot]);
+        GameManager.Instance.PlayerParty.AddUnit(caravanSlots[chosenSlot].Item1, caravanSlots[chosenSlot].Item2);
         CloseCaravan();
     }
-
-
-    List<UnitData> GetUnitChoices()
+    void CloseCaravan()
     {
-        var r = new List<UnitData>();
+        caravanPanel.SetActive(false);
+        GameManager.Instance.MapController.SetCanMove(true);
+    }
+
+    List<Tuple<UnitData, UnitInLibrary>> GetUnitChoices()
+    {
+        var r = new List<Tuple<UnitData, UnitInLibrary>>();
         for (int i = 0; i < 3; i++)
         {
             r.Add(GetARandomCaravanChoice());
@@ -73,40 +79,34 @@ public class CaravanController : MonoBehaviour
         return r;
     }
 
-    void CloseCaravan()
+    Tuple<UnitData, UnitInLibrary> GetARandomCaravanChoice()
     {
-        caravanPanel.SetActive(false);
-        GameManager.Instance.MapController.SetCanMove(true);
-    }
-
-    UnitData GetARandomCaravanChoice()
-    {
-        UnitAndSavePath randomUnit = null;
-        List<UnitAndSavePath> units = new List<UnitAndSavePath>();
-        foreach (var unit in GameManager.Instance.UnitSavePaths.unitsDatas)
+        UnitInLibrary randomUnit;
+        List<UnitInLibrary> units = new List<UnitInLibrary>();
+        foreach (var unit in GameManager.Instance.UnitLibrary.playerUnits)
         {
-            if ((DebugTools.Instance.Penguin && unit.unitPrefab.name == "Unit_penguin")
-                || (DebugTools.Instance.BearCub && unit.unitPrefab.name == "Unit_bearCub")
-                || (DebugTools.Instance.Squirrel && unit.unitPrefab.name == "Unit_squirrel")
-                || (DebugTools.Instance.BlackLion && unit.unitPrefab.name == "Unit_blackLion"))
+            if ((DebugTools.Instance.Penguin && unit.nameInList == "Penguin")
+                || (DebugTools.Instance.BearCub && unit.nameInList == "Bearbub")
+                || (DebugTools.Instance.Squirrel && unit.nameInList == "Squirrel")
+                || (DebugTools.Instance.BlackLion && unit.nameInList == "Black Lion"))
             {
                 units.Add(unit);
             }
         }
-        randomUnit = units[Random.Range(0, units.Count)];
+        randomUnit = units[UnityEngine.Random.Range(0, units.Count)];
         
         //GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         //var randomUnit = GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         Vector2Int spawnPos = GameManager.Instance.PlayerParty.GetFirstFreePartyPos();
-        UnitData data = new UnitData(randomUnit.unitPrefab.GetComponent<Unit>(), spawnPos.x, spawnPos.y, 1);
+        UnitData data = new UnitData(randomUnit.prefab.GetComponent<Unit>(), randomUnit.nameInList, spawnPos.x, spawnPos.y, 1);
 
         // Clone and set the attacks for the unit:
-        Unit unitScript = randomUnit.unitPrefab.GetComponent<Unit>();
+        Unit unitScript = randomUnit.prefab.GetComponent<Unit>();
         List<Unit_NormalAttack> clonedAttacks = new List<Unit_NormalAttack>();
-        for (int i = 0; i < unitScript.normalAttacks.Count; i++)
+        for (int i = 0; i < randomUnit.attacks.Count; i++)
         {
-            string attackName = unitScript.normalAttacks[i].name;
-            var clone = Instantiate(unitScript.normalAttacks[i]);
+            string attackName = randomUnit.attacks[i].name;
+            var clone = Instantiate(randomUnit.attacks[i].attack);
             clone.name = attackName;
             clonedAttacks.Add(clone);
         }
@@ -114,10 +114,31 @@ public class CaravanController : MonoBehaviour
         {
             data.attacks.Add(attack);
         }
+        data.randomizeAttacks = randomUnit.randomizeAttackingOrder;
         
         // Clone and set the abilities for the unit:
-        var unitAbilityManager = randomUnit.unitPrefab.GetComponent<UnitAbilityManager>();
-        List<UnitAbility> abilities = new List<UnitAbility>();
+        var unitAbilityManager = randomUnit.prefab.GetComponent<UnitAbilityManager>();
+
+        // Get a random "signature spell"
+        int rand = UnityEngine.Random.Range(0, 3);
+        string spellName = unitAbilityManager.possibleAbilities[rand].name;
+        UnitAbility c = Instantiate(unitAbilityManager.possibleAbilities[rand]);
+        c.name = spellName;
+        data.ability1 = c;
+
+        // Set the stats of the unit
+        data.maxHp =        randomUnit.stats.hp != -1 ?                 randomUnit.stats.hp : GameManager.Instance.UnitLibrary.hp;
+        data.damage =       randomUnit.stats.damage != -1 ?             randomUnit.stats.damage : GameManager.Instance.UnitLibrary.damage;
+        data.magic =        randomUnit.stats.magicDamage != -1 ?        randomUnit.stats.magicDamage : GameManager.Instance.UnitLibrary.magicDamage;
+        data.attackSpeed =  randomUnit.stats.attackSpeed != -1 ?        randomUnit.stats.attackSpeed : GameManager.Instance.UnitLibrary.attackSpeed;
+        data.moveSpeed =    randomUnit.stats.moveSpeed != -1 ?          randomUnit.stats.moveSpeed : GameManager.Instance.UnitLibrary.moveSpeed;
+        data.moveInterval = randomUnit.stats.visibleMoveSpeed != -1 ?   randomUnit.stats.visibleMoveSpeed : GameManager.Instance.UnitLibrary.visibleMoveSpeed;
+        data.armor =        randomUnit.stats.armor != -1 ?              randomUnit.stats.armor : GameManager.Instance.UnitLibrary.armor;
+        data.magicRes =     randomUnit.stats.magicRes != -1 ?           randomUnit.stats.magicRes : GameManager.Instance.UnitLibrary.magicRes;
+
+        return new Tuple<UnitData, UnitInLibrary>(data, randomUnit);
+        /*
+
         int[] abilChoices = GameManager.Instance.GenerateRandomUniqueIntegers(new Vector2Int(1, 2), new Vector2Int(0, unitAbilityManager.possibleAbilities.Count));
         if (abilChoices != null)
         {
@@ -134,5 +155,6 @@ public class CaravanController : MonoBehaviour
             data.ability4 = abilities.Count >= 4 ? abilities[3] : null;
         }
         return data;
+        */
     }
 }
