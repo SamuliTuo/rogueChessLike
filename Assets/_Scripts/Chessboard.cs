@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Chessboard : MonoBehaviour
 {
@@ -53,6 +49,7 @@ public class Chessboard : MonoBehaviour
     GameObject platform_team0;
     GameObject platform_team1;
     private LayerMask boardLayerMask;
+    private NudgeArms arms;
 
     [SerializeField] private GameObject enemy;
 
@@ -65,6 +62,7 @@ public class Chessboard : MonoBehaviour
 
         tileGraphics = GetComponentInChildren<TileGraphics>();
         Pathfinding = GetComponent<Pathfinding>();
+        arms = GetComponentInChildren<NudgeArms>();
         GenerateGrid(GameManager.Instance.currentScenario);
     }
 
@@ -124,6 +122,7 @@ public class Chessboard : MonoBehaviour
                     // Is it our turn?
                     if (GameManager.Instance.state == GameState.PRE_BATTLE)
                     {
+                        arms.StartPlacer(GetTileCenter(hitPosition.x, hitPosition.y));
                         currentlyDragging = activeUnits[hitPosition.x, hitPosition.y];
 
                         // Get a list of where i can go, highlight the tiles
@@ -137,7 +136,7 @@ public class Chessboard : MonoBehaviour
             if (currentlyDragging != null && Input.GetMouseButtonUp(0))
             {
                 Vector2Int previousPos = new Vector2Int(currentlyDragging.x, currentlyDragging.y);
-
+                arms.EndPlacer();
                 bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y, ref availableMoves);
                 if (!validMove)
                 {
@@ -173,8 +172,10 @@ public class Chessboard : MonoBehaviour
             float distance;
             if (horizontalPlane.Raycast(ray, out distance))
             {
+                //arms.UpdatePlacerPosition(ray.GetPoint(distance));
                 currentlyDragging.SetScale(Vector3.one * draggingScale);
                 currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * draggingOffset);
+                arms.UpdatePlacerPosition(currentlyDragging.transform.position);
             }
         }
     }

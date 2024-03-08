@@ -148,6 +148,14 @@ public class Projectile : MonoBehaviour
 
     IEnumerator ProjectileMelee()
     {
+        if (targetUnit == null)
+        {
+            if (path == null || path.Length <= 0)
+            {
+                yield break;
+            }
+        }
+
         Vector2Int targetPos = targetUnit != null ? new(targetUnit.x, targetUnit.y) : path.Length > 0 ? new(path[0].x, path[0].y) : new(-1, -1);
         var lookAtPos = Chessboard.Instance.GetTileCenter(targetPos.x, targetPos.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));

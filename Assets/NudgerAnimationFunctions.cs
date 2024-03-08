@@ -20,4 +20,9 @@ public class NudgerAnimationFunctions : MonoBehaviour
     {
         controller.StopChipper();
     }
+
+    public void StopPlacer()
+    {
+        controller.StopPlacer();
+    }
 }
