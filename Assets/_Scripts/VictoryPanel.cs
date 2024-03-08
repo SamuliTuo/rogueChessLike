@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,18 +21,19 @@ public class VictoryPanel : MonoBehaviour
         allReady = false;
         StartPanel();
         float exp = GameManager.Instance.currentFightCumulatedExperience;
-        exp = Random.Range(75, 166); /////////////
+        //exp = Random.Range(75, 166); /////////////
+        exp = 150;
         print("Giving flat " + exp + " exp for all units for testing.");
-        List<UnitData> units = GameManager.Instance.PlayerParty.partyUnits;
+        List<Tuple<UnitData, UnitInLibrary>> units = GameManager.Instance.PlayerParty.partyUnits;
 
         slotsInUse.Clear();
-        foreach (UnitData unitData in units)
+        foreach (Tuple<UnitData, UnitInLibrary> unit in units)
         {
             var slot = FirstFreeSlot();
             if (slot == null)
                 continue;
 
-            slot.SlotAnUnit(unitData);
+            slot.SlotAnUnit(unit.Item1);
             slot.InitExpBar();
             slotsInUse.Add(slot);
         }

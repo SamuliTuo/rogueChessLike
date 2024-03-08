@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using System;
 
 public class PlayerParty : MonoBehaviour
 {
-    public List<UnitData> partyUnits { get; set; }
+    public List<Tuple<UnitData, UnitInLibrary>> partyUnits { get; set; }
     //public GameObject partyPanel;
     public int partyMoney = 1000;
     public int maxPartySize = 10;
@@ -18,11 +19,11 @@ public class PlayerParty : MonoBehaviour
         if (Chessboard.Instance != null && partyUnits != null)
         {
             var oldParty = partyUnits;
-            partyUnits = new List<UnitData>();
+            partyUnits = new List<Tuple<UnitData, UnitInLibrary>>();
 
             for (int i = 0; i < oldParty.Count; i++)
             {
-                AddUnit(oldParty[i]);
+                AddUnit(oldParty[i].Item1, oldParty[i].Item2);
             }
         }
     }
@@ -30,7 +31,7 @@ public class PlayerParty : MonoBehaviour
     public Vector2Int GetFirstFreePartyPos()
     {
         if (partyUnits == null)
-            partyUnits = new List<UnitData>();
+            partyUnits = new List<Tuple<UnitData, UnitInLibrary>>();
 
         for (int y = 0; y < 20; y++)
         {
@@ -39,7 +40,7 @@ public class PlayerParty : MonoBehaviour
                 bool isFree = true;
                 for (int i = 0; i < partyUnits.Count; i++)
                 {
-                    if (partyUnits[i].spawnPosX == x && partyUnits[i].spawnPosY == y)
+                    if (partyUnits[i].Item1.spawnPosX == x && partyUnits[i].Item1.spawnPosY == y)
                     {
                         isFree = false;
                         break;
@@ -52,15 +53,15 @@ public class PlayerParty : MonoBehaviour
         return new Vector2Int(-1, -1);
     }
 
-    public void AddUnit(UnitData unit)
+    public void AddUnit(UnitData unit, UnitInLibrary libraryEntry)
     {
         if (partyUnits == null)
-            partyUnits = new List<UnitData>();
+            partyUnits = new List<Tuple<UnitData, UnitInLibrary>>();
 
         var spawnPos = GetFirstFreePartyPos();
         unit.spawnPosX = spawnPos.x;
         unit.spawnPosY = spawnPos.y;
-        partyUnits.Add(unit);
+        partyUnits.Add(new (unit, libraryEntry));
     }
 
     // tätä ei oo testattu vvv

@@ -13,6 +13,7 @@ public class Unit_NormalAttack : ScriptableObject
     public UnitStatusModifier statusModifiers;
     public int attackRange = 1;
     public float damage = 10f;
+    public bool usesMagic = false;
     public float attackDuration_firstHalf = 1f;
     public float attackDuration_secondHalf = 1f;
     public float attackFlySpeed = 10f;

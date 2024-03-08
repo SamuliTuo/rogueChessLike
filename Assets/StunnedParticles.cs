@@ -22,7 +22,7 @@ public class StunnedParticles : MonoBehaviour
             return;
 
         var r = stunPool.Get();
-        r.GetComponent<StunnedParticle>().InitStun(unit);
+        r.GetComponent<StatusEffectParticle>().InitStatusParticle(unit);
         stunnedUnits.Add(unit, r);
     }
     public void StopStun(Unit unit)
@@ -32,7 +32,7 @@ public class StunnedParticles : MonoBehaviour
         {
             if (pair.Key == unit)
             {
-                pair.Value.GetComponent<StunnedParticle>().Deactivate();
+                pair.Value.GetComponent<StatusEffectParticle>().Deactivate();
                 remove = pair.Key;
                 break;
             }
@@ -46,7 +46,7 @@ public class StunnedParticles : MonoBehaviour
     GameObject CreateNumber()
     {
         var instance = Instantiate(stunObj, transform);
-        instance.GetComponent<StunnedParticle>().SetPool(stunPool);
+        instance.GetComponent<StatusEffectParticle>().SetPool(stunPool);
         return instance;
     }
     void OnTakeNumberFromPool(GameObject number)

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class LvlUpPanelChoiceSlot : MonoBehaviour
 {
+    private LevelUpPanel lvlUpControl;
+
     private UnitAbility abi;
     private LevelUpPanel.StatUpgrade upgrade;
     private AbilityUpgrade upgradeObj;
@@ -24,26 +26,31 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
         newAbilitySign?.SetActive(state);
     }
     // New ability
-    public void SetChoice(UnitAbility abi)
+    public void SetChoice(UnitAbility abi, LevelUpPanel lvlUpper)
     {
+        lvlUpControl = lvlUpper;
         ResetSlots();
         this.abi = abi;
         ToggleNewAbilitySign(true);
-        GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(abi);
+        GetComponent<Image>().sprite = GameManager.Instance.UnitLibrary.GetSpellSymbol(abi);
     }
 
+    int currentSlot = -1;
     // Upgrade existing ability
-    public void SetChoice(AbilityUpgrade upgrade)
+    public void SetChoice(AbilityUpgrade upgrade, LevelUpPanel lvlUpper, int slot)
     {
+        currentSlot = slot;
+        lvlUpControl = lvlUpper;
         ResetSlots();
         ToggleNewAbilitySign(false);
         upgradeObj = upgrade;
-        GetComponent<Image>().sprite = GameManager.Instance.AbilityLibrary.GetImg(upgrade.ability);
+        GetComponent<Image>().sprite = GameManager.Instance.UnitLibrary.GetSpellSymbol(upgrade.ability);
     }
 
     // Stat upgrade
-    public void SetChoice(LevelUpPanel.StatUpgrade upgrade)
+    public void SetChoice(LevelUpPanel.StatUpgrade upgrade, LevelUpPanel lvlUpper)
     {
+        lvlUpControl = lvlUpper;
         GetPassiveGameObjects();
         ResetSlots();
         this.upgrade = upgrade;
@@ -98,26 +105,20 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     
     public void ChooseThis()
     {
+        if (lvlUpControl == null)
+            return;
+
         if (this.abi != null)
         {
-            if (GetComponentInParent<LevelUpPanel>().TryToChooseOption(abi))
-            {
-                gameObject.SetActive(false);
-            }
+            lvlUpControl.TryToChooseOption(abi);
         }
         else if (this.upgrade != null)
         {
-            if (GetComponentInParent<LevelUpPanel>().TryToChooseOption(upgrade))
-            {
-                gameObject.SetActive(false);
-            }
+            lvlUpControl.TryToChooseOption(upgrade);
         }
         else if (this.upgradeObj != null)
         {
-            if (GetComponentInParent<LevelUpPanel>().TryToChooseOption(upgradeObj))
-            {
-                gameObject.SetActive(false);
-            }
+            lvlUpControl.TryToChooseOption(upgradeObj, currentSlot);
         }
     }
 }

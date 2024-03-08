@@ -15,6 +15,10 @@ public class AbilityInstance : MonoBehaviour
     float t;
     float dist;
     float forcedTimer;
+    float damage;
+    float critChance;
+    float critDamage;
+    float missChance;
     Unit targetUnit;
     Unit shooter;
     bool followUnit = false;
@@ -32,15 +36,25 @@ public class AbilityInstance : MonoBehaviour
         Vector2Int[] _path,
         int _attackBounces,
         int _abilityBounces,
+        float _damage,
+        float _critChange,
+        float _critDamage,
+        float _missChance,
         Unit _shooter,
         Unit _targetUnit = null,
-        List<Unit> _bouncedOn = null)
+        List<Unit> _bouncedOn = null
+        )
     {
         path = _path;
         ability = _ability;
         startPos = _startPos;
         targetUnit = _targetUnit;
+        damage = _damage;
+        critChance = _critChange;
+        critDamage = _critDamage;
+        missChance = _missChance;
         shooter = _shooter;
+        targetNode = Chessboard.Instance.nodes[shooter.x, shooter.y];
         forcedTimer = ability.minLifeTime;
         bouncesRemainingAttack = _attackBounces;
         bouncesRemainingAbility = _abilityBounces;
@@ -54,12 +68,20 @@ public class AbilityInstance : MonoBehaviour
             followUnit = true;
             dist = (startPos - targetUnit.transform.position).magnitude;
         }
-        else if (path != null)
+        else if (_path != null)
         {
-            endPos = Chessboard.Instance.GetTileCenter(_path[_path.Length-1].x, _path[_path.Length-1].y) + Vector3.up * 1.5f;
-            targetNode = Chessboard.Instance.nodes[_path[_path.Length - 1].x, _path[_path.Length - 1].y];
-            followUnit = false;
-            dist = (startPos - endPos).magnitude;
+            if (_path.Length > 0)
+            {
+                endPos = Chessboard.Instance.GetTileCenter(_path[_path.Length - 1].x, _path[_path.Length - 1].y) + Vector3.up * 1.5f;
+                targetNode = Chessboard.Instance.nodes[_path[_path.Length - 1].x, _path[_path.Length - 1].y];
+                followUnit = false;
+                dist = (startPos - endPos).magnitude;
+            }
+            else
+            {
+                Deactivate();
+                return;
+            } 
         }
         else
         {
@@ -94,6 +116,7 @@ public class AbilityInstance : MonoBehaviour
         {
             forcedTimer -= Time.deltaTime;
             t += Time.deltaTime * ability.flySpeed;
+
             if (followUnit && targetUnit != null)
                 endPos = targetUnit.transform.position + Vector3.up * 1.5f;
 
@@ -105,14 +128,22 @@ public class AbilityInstance : MonoBehaviour
 
         // Hit target
         if (ability.centerOnYourself)
-            targetNode = Chessboard.Instance.nodes[shooter.x, shooter.y];
-
+        {
+            if (shooter != null)
+            {
+                targetNode = Chessboard.Instance.nodes[shooter.x, shooter.y];
+            }
+        }
         else if (followUnit)
-            targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
+        {
+            if (targetUnit != null)
+            {
+                targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
+            }
+        }                
 
-        float damage = shooter.GetMagic() * ability.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier);
-        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier);
+        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
 
         SpawnAreaDOT();
         SpawnUnits();
@@ -123,6 +154,7 @@ public class AbilityInstance : MonoBehaviour
 
     IEnumerator ProjectileMelee()
     {
+       
         var lookAtPos = Chessboard.Instance.GetTileCenter(targetUnit.x, targetUnit.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
         targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
@@ -138,9 +170,8 @@ public class AbilityInstance : MonoBehaviour
         }
         
         // Hit target
-        float damage = shooter.GetMagic() * ability.damage;
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.hitParticle);
-        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.hitParticle);
+        GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
         
         // Stay visible
         while (forcedTimer > 0)
@@ -182,20 +213,22 @@ public class AbilityInstance : MonoBehaviour
                 continue;
 
             i++;
-            var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
-                ability.bounceAttack.projectilePath, transform.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init(
-                ability.bounceAttack, 
-                transform.position, 
-                null, 
-                bouncesRemainingAttack - 1, 
-                bouncesRemainingAbility - 1,
-                0,
-                0,
-                0,
-                shooter, 
-                target.unit,
-                bouncedOn);
+            print("otin bounceattackit pois käytöstä, for now");
+            //var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
+            //    ability.bounceAttack.projectilePath, transform.position, Quaternion.identity);
+            //projectile.GetComponent<Projectile>().Init(
+            //    ability.bounceAttack, 
+            //    transform.position, 
+            //    null, 
+            //    bouncesRemainingAttack - 1, 
+            //    bouncesRemainingAbility - 1,
+            //    damage,
+            //    critChance,
+            //    critDamage,
+            //    missChance,
+            //    shooter, 
+            //    target.unit,
+            //    bouncedOn);
         }
 
 
@@ -216,16 +249,21 @@ public class AbilityInstance : MonoBehaviour
                 continue;
 
             i++;
-            var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(ability.bounceAbility.projectilePath, transform.position, Quaternion.identity);
-            projectile.GetComponent<AbilityInstance>().Init(
-                ability.bounceAbility,
-                transform.position,
-                null,
-                bouncesRemainingAttack - 1,
-                bouncesRemainingAbility - 1,
-                shooter,
-                target.unit,
-                bouncedOn);
+            print("otin myös bounce abilityt pois käytöstä for now for real for real");
+            //var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(ability.bounceAbility.projectilePath, transform.position, Quaternion.identity);
+            //projectile.GetComponent<AbilityInstance>().Init(
+            //    ability.bounceAbility,
+            //    transform.position,
+            //    null,
+            //    bouncesRemainingAttack - 1,
+            //    bouncesRemainingAbility - 1,
+            //    damage,
+            //    critChance,
+            //    critDamage,
+            //    missChance,
+            //    shooter,
+            //    target.unit,
+            //    bouncedOn);
         }
 
         bouncesRemainingAttack--;
@@ -246,7 +284,7 @@ public class AbilityInstance : MonoBehaviour
             return;
 
         float tickDamage = shooter.GetMagic() * ability.tickDamage;
-        GameManager.Instance.DamageInstance.ActivateAreaDOT(targetNode, tickDamage, ability.tickIntervalSeconds, ability.intervalCount, shooter, ability.areaDOTValidTargets, ability.dmgInstanceType, ability.areaDOTStatusModifier, ability.hitParticle);
+        GameManager.Instance.DamageInstance.ActivateAreaDOT(targetNode, tickDamage, ability.tickIntervalSeconds, critChance, critDamage, missChance, ability.intervalCount, shooter, ability.areaDOTValidTargets, ability.dmgInstanceType, ability.areaDOTStatusModifier, ability.hitParticle);
     }
     
     void SpawnUnits()

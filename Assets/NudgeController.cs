@@ -12,6 +12,9 @@ public class NudgeController : MonoBehaviour
     public float nudgeCooldown = 1;
     public bool canNudge = true;
     [SerializeField] private int nudgeLayer = 0;
+    [SerializeField] private NudgeArms arms = null;
+
+    [SerializeField] private float maxNudgeMagnitude = 5;
 
     private float t;
     private Camera currentCam;
@@ -27,7 +30,6 @@ public class NudgeController : MonoBehaviour
     List<Vector3> compass;
     private bool nudgeIsChip = false;
     NudgeUIController nudgeUIController;
-
 
 
     private void Awake()
@@ -51,6 +53,7 @@ public class NudgeController : MonoBehaviour
         unit.SetScale(Vector3.one);
         unit.GetStunned(stunTime);
         Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(dir);
+        
         unit.GetNudged(nudgeIsChip, _nudgeDir.Item2); //GetDirectionFromNudgeDir());
         Vector2Int moveToNode;
 
@@ -150,6 +153,7 @@ public class NudgeController : MonoBehaviour
                         nudgeIsChip = false;
                         currentlyDragging = _unit;
                         draggingStartPos = board.GetTileCenter(_unit.x, _unit.y);
+                        arms.StartNudger(draggingStartPos);
                     }
                 }
             }
@@ -163,27 +167,34 @@ public class NudgeController : MonoBehaviour
                         nudgeIsChip = true;
                         currentlyDragging = _unit;
                         draggingStartPos = board.GetTileCenter(_unit.x, _unit.y);
+                        arms.StartChipper(draggingStartPos);
                     }
                 }
             }
         }
 
-        // NUDGE - PULL WAS STARTED:
+
+
+
+        // WHILE PULLING:
         // now we drag and highlight the aim-squares:
+
         // mouse 1 :
         else if (!nudgeIsChip && currentlyDragging != null && Physics.Raycast(ray, out hit, 100, nudgeLayerMask))
         {
-            var _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
+            Vector3 _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
             Vector3 direction = new Vector3(_pos.x, hit.point.y, _pos.z) - hit.point;
-            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, direction.magnitude);
+            float mag = direction.magnitude;
+            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, mag);
 
 
             Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(direction);
             Vector2Int moveToNode = CheckNodesInNudgeDirection(
                 new Vector2Int(currentlyDragging.x, currentlyDragging.y),
                 _nudgeDir,
-                (int)direction.magnitude);
+                (int)mag);
 
+            arms.UpdateNudgerAimPosition(Math.Clamp(mag, 0, maxNudgeMagnitude) / maxNudgeMagnitude, _pos, direction);
             board.RemoveAllHighlightTiles();
             if (moveToNode != -Vector2Int.one)
                 board.tiles[moveToNode.x, moveToNode.y].layer = LayerMask.NameToLayer("Highlight");
@@ -191,25 +202,29 @@ public class NudgeController : MonoBehaviour
             // If we are releasing the mouse button
             if (currentlyDragging != null && Input.GetMouseButtonUp(0))
             {
+                arms.NudgerNudge();
                 arrowGenerator.DeactivateArrow();
                 Nudge(direction, currentlyDragging, 0.5f);
                 currentlyDragging = null;
             }
         }
+
         // mouse 2 :
         else if (nudgeIsChip && currentlyDragging != null && Physics.Raycast(ray, out hit, 100, nudgeLayerMask))
         {
-            var _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
+            Vector3 _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
             Vector3 direction = new Vector3(_pos.x, hit.point.y, _pos.z) - hit.point;
-            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, direction.magnitude);
+            float mag = direction.magnitude;
+            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, mag);
 
 
             Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(direction);
             Vector2Int moveToNode = CheckNodesInNudgeDirection_chip(
                 new Vector2Int(currentlyDragging.x, currentlyDragging.y),
                 _nudgeDir,
-                (int)direction.magnitude);
+                (int)mag);
 
+            arms.UpdateChipperAimPosition(Mathf.Clamp(mag, 0, maxNudgeMagnitude) / maxNudgeMagnitude, _pos, direction);
             board.RemoveAllHighlightTiles();
             if (moveToNode != -Vector2Int.one)
                 board.tiles[moveToNode.x, moveToNode.y].layer = LayerMask.NameToLayer("Highlight");
@@ -217,6 +232,7 @@ public class NudgeController : MonoBehaviour
             // If we are releasing the mouse button
             if (currentlyDragging != null && Input.GetMouseButtonUp(1))
             {
+                arms.ChipperChip();
                 arrowGenerator.DeactivateArrow();
                 Nudge(direction, currentlyDragging, 0.5f);
                 currentlyDragging = null;

@@ -15,7 +15,10 @@ public class DamageInstance : MonoBehaviour
 {
     public void Activate(
         Node target,
-        float damage, 
+        float damage,
+        float critChance,
+        float critDamage,
+        float missChance,
         Unit shooter, 
         UnitSearchType targeting, 
         DamageInstanceType type, 
@@ -26,18 +29,19 @@ public class DamageInstance : MonoBehaviour
         var targetUnit = units[target.x, target.y];
         if (type == DamageInstanceType.SINGLE_TARGET)
         {
-            ActivateSingleTarget(targetUnit, shooter, targeting, damage, statusMods);
+            ActivateSingleTarget(targetUnit, shooter, targeting, damage, critChance, critDamage, missChance, statusMods);
         }
         else if (type == DamageInstanceType.SQUARE)
         {
-            ActivateSquare(target, shooter, units, targeting, damage, statusMods, particle);
+            ActivateSquare(target, shooter, units, targeting, damage, critChance, critDamage, missChance, statusMods, particle);
         }
     }
 
     public void ActivateAreaDOT(
         Node targetNode, 
-        float tickDamage, 
-        float tickIntervalSeconds, 
+        float tickDamage,
+        float tickIntervalSeconds,
+        float critChance, float critDamage, float missChance,
         int intervals, 
         Unit shooter, 
         UnitSearchType targeting, 
@@ -45,7 +49,7 @@ public class DamageInstance : MonoBehaviour
         UnitStatusModifier statusMods, 
         ParticleType particle = ParticleType.NONE)
     {
-        StartCoroutine(AreaDOT(targetNode, tickDamage, tickIntervalSeconds, intervals, shooter, targeting, scale, statusMods, particle));
+        StartCoroutine(AreaDOT(targetNode, tickDamage, tickIntervalSeconds, critChance, critDamage, missChance, intervals, shooter, targeting, scale, statusMods, particle));
     }
 
 
@@ -55,27 +59,35 @@ public class DamageInstance : MonoBehaviour
         Unit shooter, 
         UnitSearchType targeting, 
         float damage,
+        float critChance,
+        float critDamage,
+        float missChance,
         UnitStatusModifier statusMods)
     {
+        //print("target unit: "+ targetUnit);
         if (targetUnit != null)
         {
+            //print("valid target: " + GameManager.Instance.IsValidTarget(shooter, targetUnit, targeting));
+            //print("============ shooter: " + shooter + ", targetUnit: " + targetUnit + ", targeting: " + targeting);
             if (GameManager.Instance.IsValidTarget(shooter, targetUnit, targeting))
             {
+                //print("stat mods: " + statusMods);
                 if (statusMods != null)
                 {
                     targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                 }
-                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage);
+                //print("damage: "+damage+"target unit hp: "+targetUnit.GetComponent<UnitHealth>());
+                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance);
                 // Lifesteal:
                 if (shooter != null)
                 {
                     if (shooter.lifeSteal_perc > 0)
                     {
-                        shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc);
+                        shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance);
                     }
                     if (shooter.lifeSteal_flat > 0)
                     {
-                        shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat);
+                        shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance);
                     }
                 }
             }
@@ -86,6 +98,7 @@ public class DamageInstance : MonoBehaviour
         int shooterTeam, 
         UnitSearchType targeting, 
         float damage,
+        float critChance, float critDamage, float missChance,
         UnitStatusModifier statusMods)
     {
         if (targetUnit != null)
@@ -96,7 +109,7 @@ public class DamageInstance : MonoBehaviour
                 {
                     targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                 }
-                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage);
+                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance);
             }
         }
     }
@@ -107,6 +120,7 @@ public class DamageInstance : MonoBehaviour
         Unit[,] units, 
         UnitSearchType targeting, 
         float damage,
+        float critChance, float critDamage, float missChance,
         UnitStatusModifier statusMods,
         ParticleType particle)
     {
@@ -120,21 +134,24 @@ public class DamageInstance : MonoBehaviour
                     {
                         units[node.x, node.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                     }
-                    units[node.x,node.y].GetComponent<UnitHealth>().RemoveHP(damage);
+                    var hp = units[node.x, node.y].GetComponent<UnitHealth>();
+                    if (hp != null)
+                        hp.RemoveHP(damage, false, critChance, critDamage, missChance);
+
                     if (node.x != target.x && node.y != target.y)
                     {
-                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x,target.y));
+                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x,target.y), transform.forward);
                     }
                     // Lifesteal:
                     if (shooter != null)
                     {
                         if (shooter.lifeSteal_perc > 0)
                         {
-                            shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc);
+                            shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance);
                         }
                         if (shooter.lifeSteal_flat > 0)
                         {
-                            shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat);
+                            shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance);
                         }
                     }
                 }
@@ -147,6 +164,7 @@ public class DamageInstance : MonoBehaviour
         Unit[,] units, 
         UnitSearchType targeting, 
         float damage, 
+        float critChance, float critDamage, float missChance,
         UnitStatusModifier statusMods,
         ParticleType particle)
     {
@@ -160,11 +178,11 @@ public class DamageInstance : MonoBehaviour
                     {
                         units[node.x, node.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                     }
-                    units[node.x, node.y].GetComponent<UnitHealth>().RemoveHP(damage);
+                    units[node.x, node.y].GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance);
 
                     if (node.x != target.x && node.y != target.y)
                     {
-                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x, target.y));
+                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x, target.y), transform.forward);
                     }
                 }
             }
@@ -175,6 +193,7 @@ public class DamageInstance : MonoBehaviour
         Node target, 
         float tickDamage, 
         float tickIntervalSeconds, 
+        float critChance, float critDamage, float missChance,
         int intervals, 
         Unit shooter, 
         UnitSearchType targeting, 
@@ -191,11 +210,11 @@ public class DamageInstance : MonoBehaviour
             if (scale == DamageInstanceType.SINGLE_TARGET)
             {
                 var targetUnit = units[target.x, target.y];
-                ActivateSingleTarget(targetUnit, shooterTeam, targeting, tickDamage, statusMods);
+                ActivateSingleTarget(targetUnit, shooterTeam, targeting, tickDamage, critChance, critDamage, missChance, statusMods);
             }
             else if (scale == DamageInstanceType.SQUARE)
             {
-                ActivateSquare(target, shooterTeam, units, targeting, tickDamage, statusMods, particle);
+                ActivateSquare(target, shooterTeam, units, targeting, tickDamage, critChance, critDamage, missChance, statusMods, particle);
             }
 
             // Wait for the next interval:

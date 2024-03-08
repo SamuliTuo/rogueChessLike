@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DebugTools : MonoBehaviour
 {
+    [Header("Cheats")]
+    public bool godMode = false;
+    public float playerDamagePercentage = 1;
     [Header("Caravan:")]
     [Header("  - enable units for the shop:")]
     public bool Squirrel = true;

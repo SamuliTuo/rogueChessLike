@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine;
 using static UnityEditor.Progress;
@@ -66,6 +67,8 @@ public class Chessboard : MonoBehaviour
         Pathfinding = GetComponent<Pathfinding>();
         GenerateGrid(GameManager.Instance.currentScenario);
     }
+
+    public bool Initialized = false;
     private void Start()
     {
         boardLayerMask = GameManager.Instance.boardLayerMask;
@@ -75,6 +78,7 @@ public class Chessboard : MonoBehaviour
         SpawnPlayerParty();
         PositionAllUnits();
         Camera.main.GetComponent<CameraManager>()?.SetupBattleCamera(GetBoardSize(), tileSize);
+        Initialized = true;
     }
 
     public void UnitPlacerUpdate()
@@ -410,30 +414,64 @@ public class Chessboard : MonoBehaviour
         if (scenario.scenarioUnits == null)
             scenario.scenarioUnits = new List<Scenario.ScenarioUnit>();
 
-        print("spawning scenariounits");
         foreach (var unit in scenario.scenarioUnits)
         {
             if (unit.spawnPosX >= 0 && unit.spawnPosX < TILE_COUNT_X)
                 if (unit.spawnPosY >= 0 && unit.spawnPosY < TILE_COUNT_Y)
                 {
-                    //print(unit.unit);
-                    //print(GameManager.Instance.UnitSavePaths);
-                    var path = GameManager.Instance.UnitSavePaths.GetSavePath(unit.unit);
-                    if (path == null)
-                        path = GameManager.Instance.ObjectSavePaths.GetSavePath(unit.unit);
+                    UnitInLibrary libraryEntry = GameManager.Instance.UnitLibrary.GetUnit(unit.unit);
+                    var clone = SpawnSingleUnit(libraryEntry.GetSavePath(), unit.team);
+                    clone = SetUnitStats(clone, libraryEntry);
 
-                    var clone = SpawnSingleUnit(path, unit.team);
+                    clone.normalAttacks.Clear();
+                    foreach (var attack in libraryEntry.attacks)
+                    {
+                        clone.normalAttacks.Add(new(attack.attack, attack.projectile));
+                        GameManager.Instance.ProjectilePools.CreatePool(attack.projectile);
+                    }
+                    var cloneAbils = clone.GetComponent<UnitAbilityManager>();
+                    //cloneAbils.abilities.Clear();
+                    //cloneAbils.projectiles.Clear();
+                    //if (partyUnits[i].Item1.ability1 != null)
+                    //    cloneAbils.abilities.Add(partyUnits[i].Item1.ability1);
+                    //if (partyUnits[i].Item1.ability1 != null)
+                    //    cloneAbils.abilities.Add(partyUnits[i].Item1.ability2);
+                    //if (partyUnits[i].Item1.ability1 != null)
+                    //    cloneAbils.abilities.Add(partyUnits[i].Item1.ability3);
+                    //cloneAbils.projectiles.Add(partyUnits[i].Item2.GetAbilityProjectile(partyUnits[i].Item1.ability1));
+                    //cloneAbils.projectiles.Add(partyUnits[i].Item2.GetAbilityProjectile(partyUnits[i].Item1.ability2));
+                    //cloneAbils.projectiles.Add(partyUnits[i].Item2.GetAbilityProjectile(partyUnits[i].Item1.ability3));
+                    //cloneAbils.StartAbilities();
+
+                    //activeUnits[partyUnits[i].Item1.spawnPosX, partyUnits[i].Item1.spawnPosY] = clone;
+
+
+
                     clone.GetComponent<UnitAbilityManager>()?.StartAbilities();
                     activeUnits[unit.spawnPosX, unit.spawnPosY] = clone;
                     RotateSingleUnit(unit.spawnPosX, unit.spawnPosY, GetCurrentUnitRotation(unit.spawnRot));
                 }
         }
-        /*foreach (var unit in scenario.scenarioUnits)
-            if (unit.spawnPos.x >= 0 && unit.spawnPos.x < TILE_COUNT_X)
-                if (unit.spawnPos.y >= 0 && unit.spawnPos.y < TILE_COUNT_Y)
-                    activeUnits[unit.spawnPos.x, unit.spawnPos.y] = SpawnSingleUnit(unit.unit, unit.team);
-        */
     }
+
+    Unit SetUnitStats(Unit unit, UnitInLibrary libraryEntry)
+    {
+        print("setting unit stats");
+        var unitHP = unit.GetComponent<UnitHealth>();
+        unitHP.SetMaxHp(libraryEntry.stats.hp);
+        unit.damage = libraryEntry.stats.damage;
+        unit.magic = libraryEntry.stats.magicDamage;
+        unit.critChance = libraryEntry.stats.critChance;
+        unit.critDamagePerc = libraryEntry.stats.critDamage;
+        unit.missChance = libraryEntry.stats.missChance;
+        unit.attackSpeed = libraryEntry.stats.attackSpeed;
+        unit.moveSpeed = libraryEntry.stats.moveSpeed;
+        unit.moveInterval = libraryEntry.stats.visibleMoveSpeed;
+        unitHP.armor = libraryEntry.stats.armor;
+        unitHP.magicRes = libraryEntry.stats.magicRes;
+        return unit;
+    }
+
     private void SpawnAllUnits(Unit[,] _units)
     {
         activeUnits = new Unit[TILE_COUNT_X, TILE_COUNT_Y];
@@ -443,37 +481,41 @@ public class Chessboard : MonoBehaviour
                     activeUnits[x,y] = SpawnSingleUnit(ScenarioBuilder.Instance.GetOriginalUnitType_From_InstantiatedUnitObject(_units[x, y].gameObject), _units[x, y].team);
     }
 
+
     Vector2Int errorVector = new Vector2Int(-1, -1);
     private void SpawnPlayerParty()
     {
-        List<UnitData> partyUnits = GameManager.Instance.PlayerParty.partyUnits;
+        List<Tuple<UnitData, UnitInLibrary>> partyUnits = GameManager.Instance.PlayerParty.partyUnits;
         if (partyUnits == null)
             return;
 
         for (int i = 0; i < partyUnits.Count; i++)
         {
-            var path = GameManager.Instance.UnitSavePaths.GetSavePath(partyUnits[i].unitName);
+            var path = partyUnits[i].Item2.GetSavePath();
             var clone = SpawnSingleUnit(path, 0);
-            clone.team = partyUnits[i].team;
-            clone.damage = partyUnits[i].damage;
-            clone.magic = partyUnits[i].magic;
-            clone.attackSpeed = partyUnits[i].attackSpeed;
-            clone.moveSpeed = partyUnits[i].moveSpeed;
-            clone.moveInterval = CalculateMoveInterval(partyUnits[i].moveInterval, partyUnits[i].moveSpeed);
-            clone.GetComponent<UnitHealth>().SetMaxHp(partyUnits[i].maxHp);
+            clone = SetUnitStats(clone, partyUnits[i].Item2);
             clone.normalAttacks.Clear();
-            foreach (var attack in partyUnits[i].attacks)
+            foreach (var attack in partyUnits[i].Item2.attacks)
             {
-                clone.normalAttacks.Add(attack);
+                clone.normalAttacks.Add(new(attack.attack, attack.projectile));
+                GameManager.Instance.ProjectilePools.CreatePool(attack.projectile);
             }
+
             var cloneAbils = clone.GetComponent<UnitAbilityManager>();
-            cloneAbils.ability_1 = partyUnits[i].ability1;
-            cloneAbils.ability_2 = partyUnits[i].ability2;
-            cloneAbils.ability_3 = partyUnits[i].ability3;
-            cloneAbils.ability_4 = partyUnits[i].ability4;
+            cloneAbils.abilities.Clear();
+            cloneAbils.projectiles.Clear();
+            if (partyUnits[i].Item1.ability1 != null)
+                cloneAbils.abilities.Add(partyUnits[i].Item1.ability1);
+            if (partyUnits[i].Item1.ability1 != null)
+                cloneAbils.abilities.Add(partyUnits[i].Item1.ability2);
+            if (partyUnits[i].Item1.ability1 != null)
+                cloneAbils.abilities.Add(partyUnits[i].Item1.ability3);
+            cloneAbils.projectiles.Add(partyUnits[i].Item2.GetAbilityProjectile(partyUnits[i].Item1.ability1));
+            cloneAbils.projectiles.Add(partyUnits[i].Item2.GetAbilityProjectile(partyUnits[i].Item1.ability2));
+            cloneAbils.projectiles.Add(partyUnits[i].Item2.GetAbilityProjectile(partyUnits[i].Item1.ability3));
             cloneAbils.StartAbilities();
 
-            activeUnits[partyUnits[i].spawnPosX, partyUnits[i].spawnPosY] = clone;
+            activeUnits[partyUnits[i].Item1.spawnPosX, partyUnits[i].Item1.spawnPosY] = clone;
         }
     }
     public float CalculateMoveInterval(float interval, float moveSpeed)
@@ -509,7 +551,8 @@ public class Chessboard : MonoBehaviour
     }
     public Unit SpawnSingleUnit(UnitData data)
     {
-        string path = GameManager.Instance.UnitSavePaths.GetSavePath(data.unitName);
+        string path = "asd";// GameManager.Instance.UnitSavePaths.GetSavePath(data.unitName);
+        print("tänne jäi purkkaa!");
         Unit u = Instantiate(Resources.Load<GameObject>(path), transform).GetComponent<Unit>();
         u.team = data.team;
         u.unitPath = path;

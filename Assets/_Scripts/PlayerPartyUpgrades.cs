@@ -17,16 +17,13 @@ public class PlayerPartyUpgrades : MonoBehaviour
         switch (spellSlot)
         {
             case 0:
-                unitAbilities.ability_1 = ability;
+                unitAbilities.abilities[spellSlot] = ability;
                 break;
             case 1:
-                unitAbilities.ability_2 = ability;
+                unitAbilities.abilities[spellSlot] = ability;
                 break;
             case 2:
-                unitAbilities.ability_3 = ability;
-                break;
-            default:
-                unitAbilities.ability_4 = ability;
+                unitAbilities.abilities[spellSlot] = ability;
                 break;
         }
     }

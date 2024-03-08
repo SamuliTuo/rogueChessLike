@@ -73,16 +73,17 @@ public class TextEncounterManager : MonoBehaviour
 
     void PositionPlayersOnImage()
     {
-        var party = GameManager.Instance.PlayerParty.partyUnits;
-        for (int i = 0; i < party.Count; i++)
-        {
-            encounterImage.rectTransform.GetChild(i).localPosition = currentEncounter.playerPositions[i];
-            encounterImage.rectTransform.GetChild(i).localPosition += new Vector3(0, 0, -10);
-            GameObject clone = Instantiate(Resources.Load(GameManager.Instance.UnitSavePaths.GetSavePath(party[0].unitName)), encounterImage.transform.GetChild(0)) as GameObject;
-            clone.GetComponent<Unit>().enabled = false;
-            clone.transform.rotation = Quaternion.LookRotation(currentEncounter.playerForwardVectors[i]);
-            clone.transform.localScale = currentEncounter.playerScales[i];
-        }
+        print("position on image pls");
+        //var party = GameManager.Instance.PlayerParty.partyUnits;
+        //for (int i = 0; i < party.Count; i++)
+        //{
+        //    encounterImage.rectTransform.GetChild(i).localPosition = currentEncounter.playerPositions[i];
+        //    encounterImage.rectTransform.GetChild(i).localPosition += new Vector3(0, 0, -10);
+        //    GameObject clone = Instantiate(Resources.Load(GameManager.Instance.UnitLibrary.GetUnit(party[0].name).savePath), encounterImage.transform.GetChild(0)) as GameObject;
+        //    clone.GetComponent<Unit>().enabled = false;
+        //    clone.transform.rotation = Quaternion.LookRotation(currentEncounter.playerForwardVectors[i]);
+        //    clone.transform.localScale = currentEncounter.playerScales[i];
+        //}
     }
 
 
@@ -202,9 +203,10 @@ public class TextEncounterManager : MonoBehaviour
             }
         }
         // New unit
-        if (currentEncounter.responses[button].reward.unit.unitName != "" && GameManager.Instance.PlayerParty.IsPartyFull() == false)
-        {
-            GameManager.Instance.PlayerParty.AddUnit(currentEncounter.responses[button].reward.unit);
-        }
+        print("Could also give a new unit here?");
+        //if (currentEncounter.responses[button].reward.unit.unitName != "" && GameManager.Instance.PlayerParty.IsPartyFull() == false)
+        //{
+        //    GameManager.Instance.PlayerParty.AddUnit(currentEncounter.responses[button].reward.unit);
+        //}
     }
 }

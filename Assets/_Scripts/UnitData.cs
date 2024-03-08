@@ -10,28 +10,38 @@ public class UnitData
     public float maxHp;
     public float damage;
     public float magic;
+    public float critChance;
+    public float critDamage;
+    public float missChance;
     public float attackSpeed;
     public float moveSpeed;
     public float moveInterval;
+    public float armor;
+    public float magicRes;
 
+    public int currentLevel = 1;
     public float currentExperience;
     public float nextLevelExperience;
-    public string unitName;
+    public string name;
     public int spawnPosX;
     public int spawnPosY;
     public List<Unit_NormalAttack> attacks = new List<Unit_NormalAttack>();
+    public bool randomizeAttacks = false;
     public UnitAbility ability1;
     public UnitAbility ability2;
     public UnitAbility ability3;
-    public UnitAbility ability4;
     public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
 
-    public UnitData(Unit unit, int posX, int posY)
+    public UnitData(Unit unit, string name, int posX, int posY, int level = 1)
     {
         nextLevelExperience = 100;
-        unitName = unit.name;
+        this.name = name;
+        this.currentLevel = level;
         this.damage = unit.GetDamage();
         this.magic = unit.GetMagic();
+        this.critChance = unit.critChance;
+        this.critDamage = unit.critDamagePerc;
+        this.missChance = unit.missChance;
         this.attackSpeed = unit.attackSpeed;
         //this.moveSpeed = unit.moveSpeed;
         moveSpeed = unit.moveSpeed;
@@ -53,17 +63,16 @@ public class UnitData
         if      (ability1 == null) ability1 = abi;
         else if (ability2 == null) ability2 = abi;
         else if (ability3 == null) ability3 = abi;
-        else if (ability4 == null) ability4 = abi;
     }
 
     public bool HasFreeAbilitySlots()
     {
-        return (ability1 == null || ability2 == null || ability3 == null || ability4 == null);
+        return (ability1 == null || ability2 == null || ability3 == null);
     }
 
     public bool HasLearnedAbility(UnitAbility a)
     {
-        return ((ability1!=null && ability1.name==a.name) || (ability2!=null && ability2.name==a.name) || (ability3!=null && ability3.name==a.name) || (ability4!=null && ability4.name==a.name));
+        return ((ability1!=null && ability1.name==a.name) || (ability2!=null && ability2.name==a.name) || (ability3!=null && ability3.name==a.name));
     }
 
     public List<UnitAbility> LearnedAbilities()
@@ -72,7 +81,6 @@ public class UnitData
         if (ability1 != null) r.Add(ability1);
         if (ability2 != null) r.Add(ability2);
         if (ability3 != null) r.Add(ability3);
-        if (ability4 != null) r.Add(ability4);
         return r;
     }
 
@@ -91,10 +99,9 @@ public class UnitData
     
     public int AbilityIsInSlot(UnitAbility abi)
     {
-        if      (ability1 = abi) return 1;
+        if (ability1 = abi) return 1;
         else if (ability2 = abi) return 2;
         else if (ability3 = abi) return 3;
-        else if (ability4 = abi) return 4;
         else return -1;
     }
 
@@ -106,18 +113,17 @@ public class UnitData
             GiveAbilityUpgrade(ability2, upgrade);
         else if (ability3 == upgrade.ability)
             GiveAbilityUpgrade(ability3, upgrade);
-        else if (ability4 == upgrade.ability)
-            GiveAbilityUpgrade(ability4, upgrade);
     }
 
     void GiveAbilityUpgrade(UnitAbility a, AbilityUpgrade upgrade)
     {
         switch (upgrade.upgradeType)
         {
-            case "damage": 
-                a.damage = Mathf.Sign(a.damage) * (Mathf.Abs(a.damage) + upgrade.upgradeAmount); break;
+            case AbilityUpgradeType.DAMAGE:
+                a.damage = Mathf.Sign(a.damage) * (Mathf.Abs(a.damage) + upgrade.upgradeAmount); 
+                break;
 
-            case "cooldown":
+            case AbilityUpgradeType.COOLDOWN:
                 a.cooldown *= upgrade.upgradeAmount;
                 if (a.cooldown < 0.5f)
                 {
@@ -126,7 +132,7 @@ public class UnitData
                 }
                 break;
 
-            case "castSpeed":
+            case AbilityUpgradeType.CAST_SPEED:
                 a.castDuration_firstHalf *= upgrade.upgradeAmount;
                 if (a.castDuration_firstHalf < 0.1f)
                 {
@@ -135,21 +141,34 @@ public class UnitData
                 }
                 break;
 
-            case "flySpeed": a.flySpeed += upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.FLY_SPEED: 
+                a.flySpeed += upgrade.upgradeAmount; 
+                break;
 
-            case "reach": a.reach += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.REACH: 
+                a.reach += (int)upgrade.upgradeAmount; 
+                break;
 
-            case "bounceCount": a.bounceCount_ability += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.BOUNCE_COUNT: 
+                a.bounceCount_ability += (int)upgrade.upgradeAmount; 
+                break;
 
-            case "bounceRange": a.bounceRange_ability += (int)upgrade.upgradeAmount; break;
+            case  AbilityUpgradeType.BOUNCE_RANGE: 
+                a.bounceRange_ability += (int)upgrade.upgradeAmount; 
+                break;
 
-            case "bounceDamageAmp": a.bounceDamagePercChangePerJump += upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.BOUNCE_DMG_AMP: 
+                a.bounceDamagePercChangePerJump += upgrade.upgradeAmount; 
+                break;
 
-            case "projectilesPerBounce": a.bounceSpawnCount_ability += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.PROJECTILES_PER_BOUNCE: 
+                a.bounceSpawnCount_ability += (int)upgrade.upgradeAmount; break;
 
-            case "spawnUnitCount": a.spawnCount += (int)upgrade.upgradeAmount; break;
+            case AbilityUpgradeType.SPAWN_UNIT_COUNT: 
+                a.spawnCount += (int)upgrade.upgradeAmount; 
+                break;
 
-            default:
+            default: 
                 break;
         }
     }

@@ -22,6 +22,7 @@ public class UnitAbility : ScriptableObject
 
     [Space(10)]
     public float damage = 10f;
+    public bool usesMagic = true;
     public UnitStatusModifier directHitStatusModifier;
     public float castDuration_firstHalf = 1;
     [Tooltip("secondHalf is after additional damage phases")]

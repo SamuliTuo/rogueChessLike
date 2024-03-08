@@ -84,7 +84,7 @@ public class UnitStatsPanel : MonoBehaviour
         {
             if (i < unit.LearnedAbilities().Count)
             {
-                spellSlots[i].sprite = GameManager.Instance.AbilityLibrary.GetImg(spells[i]);
+                spellSlots[i].sprite = GameManager.Instance.UnitLibrary.GetSpellSymbol(spells[i]);
             }
             else
             {
@@ -108,7 +108,7 @@ public class UnitStatsPanel : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                spellSlots.Add(transform.GetChild(1).GetChild(i).GetComponent<Image>());
+                spellSlots.Add(transform.GetChild(1).GetChild(0).GetChild(i).GetComponent<Image>());
             }
         }
     }

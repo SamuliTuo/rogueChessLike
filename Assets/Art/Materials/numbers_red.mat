@@ -27,9 +27,9 @@ Material:
   - N_F_O_ON
   - N_F_RDC_ON
   - N_F_RELGI_ON
-  - N_F_SS_ON
   - N_F_TRANSAFFSHA_ON
   m_InvalidKeywords:
+  - N_F_DCS_ON
   - N_F_TRANSAFFSHA
   - _CUSTOMLIGHTDIRECTIONFOLLOWOBJECTROTATION_OFF
   - _EMISSION
@@ -63,6 +63,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - DepthOnly
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -239,7 +240,7 @@ Material:
     - _N_F_CLD: 0
     - _N_F_CO: 0
     - _N_F_COEDGL: 0
-    - _N_F_DCS: 0
+    - _N_F_DCS: 1
     - _N_F_DDMD: 0
     - _N_F_EAL: 1
     - _N_F_ESSAO: 0
@@ -262,7 +263,7 @@ Material:
     - _N_F_SCT: 0
     - _N_F_SL: 0
     - _N_F_SON: 0
-    - _N_F_SS: 1
+    - _N_F_SS: 0
     - _N_F_ST: 0
     - _N_F_STIAL: 0
     - _N_F_STIS: 0
@@ -347,7 +348,7 @@ Material:
     - _MainColor: {r: 1, g: 0.047002554, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineOffset: {r: 0, g: -7, b: 0, a: 1}
-    - _OverallShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OverallShadowColor: {r: 0.0014705883, g: 0.0014705883, b: 0.0014705883, a: 1}
     - _PTCol: {r: 0, g: 0, b: 0, a: 1}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _SSAOColor: {r: 0, g: 0, b: 0, a: 0}

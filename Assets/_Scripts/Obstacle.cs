@@ -81,7 +81,7 @@ public class Obstacle : MonoBehaviour
     }
 
     private Animator animator;
-    private UnitAbility nextAbility;
+    //private UnitAbility nextAbility;
 
     //Load unit from PlayerParty:
     public void LoadUnit(UnitData data)
@@ -95,10 +95,11 @@ public class Obstacle : MonoBehaviour
         }
         SetPosition(board.GetTileCenter(pos.x, pos.y), true);
         normalAttacks = data.attacks;
-        abilities.ability_1 = data.ability1;
-        abilities.ability_2 = data.ability2;
-        abilities.ability_3 = data.ability3;
-        abilities.ability_4 = data.ability4;
+        abilities.abilities.Clear();
+        abilities.projectiles.Clear();
+        abilities.abilities.Add(data.ability1);
+        abilities.abilities.Add(data.ability2);
+        abilities.abilities.Add(data.ability3);
         ResetPath();
         ResetAI();
     }
@@ -115,9 +116,9 @@ public class Obstacle : MonoBehaviour
                 if (animator != null) animator.Play("attack", 0, 0);
                 NormalAttack(); 
                 break;
-            case ObstacleAction.ABILITY:
-                if (animator != null) animator.Play("attack", 0, 0);
-                abilities.ActivateAbility(nextAbility, attackTarget, path); 
+            //case ObstacleAction.ABILITY:
+            //    if (animator != null) animator.Play("attack", 0, 0);
+            //    abilities.ActivateAbility(nextAbility, attackTarget, path); 
                 break;
             default: break;
         }
@@ -142,19 +143,19 @@ public class Obstacle : MonoBehaviour
         path = newPath;
         if (_inRangeToAttack)
         {
-            if (t <= 0)
-            {
-                if (nextAbility != null)
-                {
-                    t = nextAbility.castDuration_firstHalf;
-                    nextAction = ObstacleAction.ABILITY;
-                }
-                else
-                {
-                    t = normalAttacks[currentAttack].attackDuration_firstHalf;
-                    nextAction = ObstacleAction.NORMAL_ATTACK;
-                }
-            }
+            //if (t <= 0)
+            //{
+            //    if (nextAbility != null)
+            //    {
+            //        t = nextAbility.castDuration_firstHalf;
+            //        nextAction = ObstacleAction.ABILITY;
+            //    }
+            //    else
+            //    {
+            //        t = normalAttacks[currentAttack].attackDuration_firstHalf;
+            //        nextAction = ObstacleAction.NORMAL_ATTACK;
+            //    }
+            //}
         }
         else
         {
@@ -195,17 +196,15 @@ public class Obstacle : MonoBehaviour
         Vector3 offset = transform.TransformVector(attackPositionOffset);
         Vector3 startPos = transform.position + offset;
 
-        var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
-            atk.projectilePath, startPos, Quaternion.identity);
-        //var clone = Instantiate(projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        if (projectile != null)
-        {
-            /*
-            projectile.GetComponent<Projectile>().Init(
-                atk, startPos, path, atk.bounceCount_atk, 
-                atk.bounceCount_ability, this, attackTarget);
-            */
-        }
+        //var projectile = GameManager.Instance.ProjectilePools.SpawnProjectile(
+        //    atk.projectilePath, startPos, Quaternion.identity);
+        ////var clone = Instantiate(projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+        //if (projectile != null)
+        //{
+        //    projectile.GetComponent<Projectile>().Init(
+        //        atk, startPos, path, atk.bounceCount_atk, 
+        //        atk.bounceCount_ability, this, attackTarget);
+        //}
 
         if (randomizeAttackOrder && normalAttacks.Count > 1)
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,33 +14,58 @@ public class ProjectilePools : MonoBehaviour
     }
 
     [Header("name is used when spawning projectiles")]
-    public List<Projectiles> projectiles = new List<Projectiles>();
+    //public List<Projectiles> projectiles = new List<Projectiles>();
 
-    private Dictionary<string, ProjectilePool> projectilePools = new Dictionary<string, ProjectilePool>();
-    private GameObject clone;
+    //private Dictionary<string, ProjectilePool> projectilePools = new Dictionary<string, ProjectilePool>();
+    //private GameObject clone;
 
-    void Awake()
-    {
-        FillPools();
-    }
+    public List<ProjectilePool> pools = new List<ProjectilePool>();
+
+    //void Awake()
+    //{
+    //    FillPools();
+    //}
 
     //function to create pools for each Projectiles in projectiles
-    public void FillPools()
+    //public void FillPools()
+    //{
+    //    foreach (var item in projectiles)
+    //    {
+    //        if (!projectilePools.ContainsKey(item.name))
+    //        {
+    //            projectilePools.Add(item.name, new ProjectilePool(item.projectile, this));
+    //        }
+    //    }
+    //}
+
+    public void CreatePool(GameObject projectile)
     {
-        foreach (var item in projectiles)
+        if (projectile == null)
         {
-            if (!projectilePools.ContainsKey(item.name))
+            print("yritettiin tehd‰ pool null -projektiilille!");
+            return;
+        }
+
+        foreach (var item in pools)
+        {
+            if (item.projectile == projectile)
             {
-                projectilePools.Add(item.name, new ProjectilePool(item.projectile, this));
+                print("pooli oli jo olemassa projektiilille "+projectile.name);
+                return;
             }
         }
+        print("poolia ei ollut olemassa. Tehd‰‰n uusi pooli projektiilille " + projectile.name);
+        pools.Add(new ProjectilePool(projectile, this));
     }
 
-    public GameObject SpawnProjectile(string name, Vector3 position, Quaternion rotation)
+    public GameObject SpawnProjectile(GameObject projectile, Vector3 position, Quaternion rotation)
     {
-        var pool = GetPool(name);
+        var pool = GetPool(projectile);
         if (pool == null)
+        {
             return null;
+        }
+            
 
         var clone = pool.projectilePool.Get();
         clone.transform.position = position;
@@ -48,13 +74,13 @@ public class ProjectilePools : MonoBehaviour
         return clone;
     }
 
-    public ProjectilePool GetPool(string name)
+    public ProjectilePool GetPool(GameObject projectile)
     {
-        foreach (var pool in projectilePools)
+        foreach (var pool in pools)
         {
-            if (pool.Key == name)
+            if (pool.projectile == projectile)
             {
-                return pool.Value;
+                return pool;
             }
         }
         return null;
@@ -84,19 +110,20 @@ public class ProjectilePools : MonoBehaviour
 
     public void RefreshPools() 
     { 
-        foreach (var item in projectilePools)
+        foreach (var item in pools)
         {
-            item.Value.projectilePool.Clear();
+            item.projectilePool.Clear();
         }
     }
 }
 
 
+[Serializable]
 public class ProjectilePool
 {
     public ProjectilePools pools;
     public ObjectPool<GameObject> projectilePool;
-    private GameObject projectile;
+    public GameObject projectile;
 
     public ProjectilePool(GameObject projectile, ProjectilePools pools)
     {

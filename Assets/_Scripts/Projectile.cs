@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
     float t;
     float dist;
     float forcedTimer;
+    float damage;
     float critChance;
     float critDamage;
     float missChance;
@@ -43,6 +44,7 @@ public class Projectile : MonoBehaviour
         Vector2Int[] _path,
         int _attackBounces,
         int _abilityBounces,
+        float _damage,
         float _critChance,
         float _critDamage,
         float _missChance,
@@ -57,6 +59,7 @@ public class Projectile : MonoBehaviour
         targetUnit = _targetUnit;
         shooter = _shooter;
         forcedTimer = attack.minLifeTime;
+        damage = _damage;
         critChance = _critChance;
         critDamage = _critDamage;
         missChance = _missChance;
@@ -129,15 +132,14 @@ public class Projectile : MonoBehaviour
             targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
 
         // Hit target
-        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position);
+        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, transform.position, transform.forward);
         if (Hits())
         {
-            float damage = shooter.GetDamage() * attack.damage;
             if (Crits())
             {
-                damage *= 2;
+                damage *= critDamage;
             }
-            GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers);
+            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers);
         }
         Bounces();
         Deactivate();
@@ -150,17 +152,16 @@ public class Projectile : MonoBehaviour
         var lookAtPos = Chessboard.Instance.GetTileCenter(targetPos.x, targetPos.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
         targetNode = Chessboard.Instance.nodes[targetPos.x, targetPos.y];
-        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y));
+        GameManager.Instance.ParticleSpawner.SpawnParticles(attack.hitParticle, Chessboard.Instance.GetTileCenter(targetNode.x, targetNode.y), transform.forward);
 
         // Hit target
         if (Hits())
         {
-            float damage = shooter.GetDamage() * attack.damage;
             if (Crits())
             {
-                damage *= 2;
+                damage *= critDamage;
             }
-            GameManager.Instance.DamageInstance.Activate(targetNode, damage, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.hitParticle);
+            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.hitParticle);
         }
 
         // Stay visible
@@ -214,10 +215,12 @@ public class Projectile : MonoBehaviour
 
         int i = 0;
         List<BOUNCETARGET> targets = FindTargetsForBounces(attack.bounceSpawnCount_atk, attack.bounceAttack_targeting);
+        float bounceDamage = damage * attack.bounceDamagePercChangePerJump;
         foreach (BOUNCETARGET target in targets)
         {
             if (i > attack.bounceSpawnCount_atk)
                 break;
+                
 
             if (target.distance >= attack.bounceRange_atk)
                 continue;
@@ -231,9 +234,10 @@ public class Projectile : MonoBehaviour
                 null, 
                 bouncesRemainingAttack - 1, 
                 bouncesRemainingAbility - 1,
+                bounceDamage,
                 critChance,
                 critDamage,
-                0,
+                missChance,
                 shooter,
                 target.unit,
                 bouncedOn);
@@ -249,6 +253,7 @@ public class Projectile : MonoBehaviour
 
         int i = 0;
         List<BOUNCETARGET> targets = FindTargetsForBounces(attack.bounceSpawnCount_ability, attack.bounceAbility_targeting);
+        float bounceDamage = damage * attack.bounceDamagePercChangePerJump;
         foreach (BOUNCETARGET target in targets)
         {
             if (i > attack.bounceSpawnCount_ability)
@@ -266,6 +271,10 @@ public class Projectile : MonoBehaviour
                 null, 
                 bouncesRemainingAttack - 1, 
                 bouncesRemainingAbility - 1, 
+                bounceDamage,
+                critChance,
+                critDamage,
+                missChance,
                 shooter, 
                 target.unit,
                 bouncedOn);
