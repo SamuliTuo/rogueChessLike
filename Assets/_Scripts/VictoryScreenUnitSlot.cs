@@ -34,8 +34,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
     {
         slottedUnit = unit;
         lvlUpPending = false;
-        print("tänne jäi purkkaa!");
-        //img.sprite = GameManager.Instance.UnitSavePaths.GetImg(unit.unitName);
+        img.sprite = GameManager.Instance.UnitLibrary.GetUnitFromListedName(unit.name).image;
     }
 
 

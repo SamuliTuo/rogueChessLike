@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,8 +28,6 @@ public class GameManager : MonoBehaviour
     public MapController MapController { get; private set; }
     public SceneManagement SceneManagement { get; private set; }
     public SaveGameManager SaveGameManager { get; private set; }
-    public UnitSavePaths UnitSavePaths { get; private set; }
-    public ObjectSavePaths ObjectSavePaths { get; private set; }
     public ProjectilePools ProjectilePools { get; private set; }
     public AbilityLibrary AbilityLibrary { get; private set; }
     public NudgeController NudgeController { get; private set; }
@@ -80,8 +77,6 @@ public class GameManager : MonoBehaviour
         CurrentMap = GetComponentInChildren<CurrentMap>();
         SceneManagement = GetComponentInChildren<SceneManagement>();
         SaveGameManager = GetComponentInChildren<SaveGameManager>();
-        UnitSavePaths = GetComponentInChildren<UnitSavePaths>();
-        ObjectSavePaths = GetComponentInChildren<ObjectSavePaths>();
         ProjectilePools = GetComponentInChildren<ProjectilePools>();
         AbilityLibrary = GetComponentInChildren<AbilityLibrary>();
         LootSpawner = GetComponentInChildren<LootSpawner>();

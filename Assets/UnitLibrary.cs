@@ -1,11 +1,7 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class UnitLibrary : MonoBehaviour
@@ -63,16 +59,31 @@ public class UnitLibrary : MonoBehaviour
     {
         UnitInLibrary unit = null;
         unit = CheckUnitList(playerUnits, prefabName);
-
         if (unit == null)
+        {
             unit = CheckUnitList(enemyUnits, prefabName);
-
+        }
         if (unit == null)
+        {
             unit = CheckUnitList(boardObjects, prefabName);
+        }
         return unit;
     }
-
-    public UnitInLibrary CheckUnitList(List<UnitInLibrary> list, string name)
+    public UnitInLibrary GetUnitFromListedName(string nameInList)
+    {
+        UnitInLibrary unit = null;
+        unit = CheckUnitListWithListedName(playerUnits, nameInList);
+        if (unit == null)
+        {
+            unit = CheckUnitListWithListedName(enemyUnits, nameInList);
+        }
+        if (unit == null)
+        {
+            unit = CheckUnitListWithListedName(boardObjects, nameInList);
+        }
+        return unit;
+    }
+    private UnitInLibrary CheckUnitList(List<UnitInLibrary> list, string name)
     {
         foreach (UnitInLibrary unit in list)
         {
@@ -84,8 +95,17 @@ public class UnitLibrary : MonoBehaviour
         }
         return null;
     }
-
-
+    private UnitInLibrary CheckUnitListWithListedName(List<UnitInLibrary> list, string name)
+    {
+        foreach (UnitInLibrary unit in list)
+        {
+            if (unit.nameInList == name)
+            {
+                return unit;
+            }
+        }
+        return null;
+    }
     public Sprite GetSpellSymbol(UnitAbility ability)
     {
         Sprite img = CheckListForSpell(playerUnits, ability);
@@ -138,6 +158,7 @@ public class UnitLibrary : MonoBehaviour
 public class UnitInLibrary
 {
     public string nameInList;
+    public int id;
     public GameObject prefab;
     public Sprite image;
     public StartingStats stats;
@@ -147,10 +168,11 @@ public class UnitInLibrary
     public List<LibraryAbility> signatureSpells;
     public List<LibraryAbility> supportSpells;
     public List<LibraryAbility> ultimateSpells;
-    public UnitInLibrary(string nameInList, GameObject prefab, Sprite item, List<LibraryAttack> attacks, bool randomizeAttackingOrder,
-    List<LibraryAbility> signatureSpells, List<LibraryAbility> supportSpells, List<LibraryAbility> ultimateSpells)
+
+    public UnitInLibrary(string nameInList, int id, GameObject prefab, Sprite item, List<LibraryAttack> attacks, bool randomizeAttackingOrder, List<LibraryAbility> signatureSpells, List<LibraryAbility> supportSpells, List<LibraryAbility> ultimateSpells)
     {
         this.nameInList = nameInList;
+        this.id = id;
         this.prefab = prefab;
         this.image = item;
         this.attacks = attacks;
@@ -159,6 +181,18 @@ public class UnitInLibrary
         this.supportSpells = supportSpells;
         this.ultimateSpells = ultimateSpells;
     }
+    public UnitInLibrary(UnitInLibrary u)
+    {
+        nameInList = u.nameInList;
+        prefab = u.prefab;
+        image = u.image;
+        attacks = u.attacks;
+        randomizeAttackingOrder = u.randomizeAttackingOrder;
+        signatureSpells = u.signatureSpells;
+        supportSpells = u.supportSpells;
+        ultimateSpells = u.ultimateSpells;
+    }
+
     public string GetSavePath()
     {
         var prefabPath = AssetDatabase.GetAssetPath(prefab);
@@ -268,8 +302,20 @@ public class StartingStats
     public float attackSpeed = -1;
     public float armor = -1;
     public float magicRes = -1;
-    public StartingStats(bool useAverageStats, float hp, float dmg, float mgDmg, float critChance, float critDamage, float missChance, float moveSpd, float attSpd, float armor, float mRes) 
-        { this.hp = hp; damage = dmg; magicDamage = mgDmg; this.critChance = critChance; this.critDamage = critDamage; this.missChance = missChance; moveSpeed = moveSpd; attackSpeed = attSpd; this.armor = armor; this.magicRes = mRes; }
+    public StartingStats(bool useAverageStats, float hp, float dmg, float mgDmg, float critChance, float critDamage, float missChance, float moveSpd, float visibleMoveSpeed, float attSpd, float armor, float mRes) 
+    { 
+        this.hp = hp; 
+        damage = dmg; 
+        magicDamage = mgDmg; 
+        this.critChance = critChance; 
+        this.critDamage = critDamage; 
+        this.missChance = missChance; 
+        moveSpeed = moveSpd; 
+        this.visibleMoveSpeed = visibleMoveSpeed;
+        attackSpeed = attSpd; 
+        this.armor = armor; 
+        this.magicRes = mRes; 
+    }
 }
 
 

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 00_map
   m_EditorClassIdentifier: 
   encountersByRow:
+  - {fileID: 11400000, guid: 7b6de168a6e8e5c46bbc4f17f26fd7e2, type: 2}
   - {fileID: 11400000, guid: d8f28b3a6bf4ee849a0c93517fae0e36, type: 2}
   - {fileID: 11400000, guid: b27eaab6a6da68c4597a5434b936b08f, type: 2}
   - {fileID: 11400000, guid: 80c275d2de0545746ad8bc8d53b03f90, type: 2}

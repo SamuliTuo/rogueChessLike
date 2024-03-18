@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,8 +18,10 @@ public class ScenarioBuilder : MonoBehaviour
     [HideInInspector] public Chessboard board;
     [HideInInspector] public ScenarioBuilderCameraSettings camSettings;
 
-    [SerializeField] private Image currentlyChosenImage_unit;
-    [SerializeField] private Image currentlyChosenImage_object;
+    [SerializeField] private Image currentlyChosenUnit_image;
+    [SerializeField] private TextMeshProUGUI currentlyChosenUnit_name;
+    [SerializeField] private Image currentlyChosenObject_image;
+    [SerializeField] private TextMeshProUGUI currentlyChosenObject_name;
     [SerializeField] private float draggingScale = 0.8f;
     [SerializeField] private float draggingOffset = 1.5f;
     [SerializeField] private GameObject unitsPanel, terrainPanel, objectsPanel;
@@ -62,22 +60,26 @@ public class ScenarioBuilder : MonoBehaviour
         scenarioEditorLayerMask = GameManager.Instance.boardLayerMask;
         board = Chessboard.Instance;
         tileGraphics = board.GetComponentInChildren<TileGraphics>();
-
-        if (GameManager.Instance.UnitSavePaths.unitsDatas.Count > 0)
+        if (GameManager.Instance.UnitLibrary.enemyUnits.Count > 0)
         {
             currentlyChosenUnit_index = 0;
-            currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[0].unitPrefab;
-            if (currentlyChosenImage_unit != null)
-                currentlyChosenImage_unit.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[0].image;
+            currentlyChosenUnit = GameManager.Instance.UnitLibrary.enemyUnits[0].prefab;
+            if (currentlyChosenUnit_image != null)
+            {
+                currentlyChosenUnit_image.sprite = GameManager.Instance.UnitLibrary.enemyUnits[0].image;
+                currentlyChosenUnit_name.text = GameManager.Instance.UnitLibrary.enemyUnits[0].nameInList;
+            }   
         }
-        if (GameManager.Instance.UnitSavePaths)
+        if (GameManager.Instance.UnitLibrary.boardObjects.Count > 0)
         {
             currentlyChosenObject_index = 0;
-            currentlyChosenObject = GameManager.Instance.ObjectSavePaths.objectDatas[0].objectPrefab;
-            if (currentlyChosenImage_unit != null)
-                currentlyChosenImage_object.sprite = GameManager.Instance.ObjectSavePaths.objectDatas[0].image;
+            currentlyChosenObject = GameManager.Instance.UnitLibrary.boardObjects[0].prefab;
+            if (currentlyChosenObject_image != null)
+            {
+                currentlyChosenObject_image.sprite = GameManager.Instance.UnitLibrary.boardObjects[0].image;
+                currentlyChosenObject_name.text = GameManager.Instance.UnitLibrary.boardObjects[0].nameInList;
+            }
         }
-
         camSettings = GameObject.Find("Canvas").GetComponentInChildren<ScenarioBuilderCameraSettings>();
     }
 
@@ -477,21 +479,21 @@ public class ScenarioBuilder : MonoBehaviour
         // is object:
         if (unit.GetComponent<Unit>().isObstacle)
         {
-            foreach (var o in GameManager.Instance.ObjectSavePaths.objectDatas)
+            foreach (var o in GameManager.Instance.UnitLibrary.boardObjects)
             {
-                if (unit.name.Contains(o.objectPrefab.name))
+                if (unit.name.Contains(o.prefab.name))
                 {
-                    return o.objectPrefab;
+                    return o.prefab;
                 }
             }
             return null;
         }
         // is unit:
-        foreach (var u in GameManager.Instance.UnitSavePaths.unitsDatas)
+        foreach (var u in GameManager.Instance.UnitLibrary.enemyUnits)
         {
-            if (unit.name.Contains(u.unitPrefab.name))
+            if (unit.name.Contains(u.prefab.name))
             {
-                return u.unitPrefab;
+                return u.prefab;
             }
         }
         return null;
@@ -499,55 +501,61 @@ public class ScenarioBuilder : MonoBehaviour
 
     public void NextSpawableUnit()
     {
-        if (GameManager.Instance.UnitSavePaths.unitsDatas.Count == 1)
+        if (GameManager.Instance.UnitLibrary.enemyUnits.Count == 1)
             return;
 
         currentlyChosenUnit_index++;
-        if (currentlyChosenUnit_index >= GameManager.Instance.UnitSavePaths.unitsDatas.Count)
+        if (currentlyChosenUnit_index >= GameManager.Instance.UnitLibrary.enemyUnits.Count)
         {
             currentlyChosenUnit_index = 0;
         }
-        currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].unitPrefab;
-        currentlyChosenImage_unit.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].image;
+        currentlyChosenUnit = GameManager.Instance.UnitLibrary.enemyUnits[currentlyChosenUnit_index].prefab;
+        currentlyChosenUnit_image.sprite = GameManager.Instance.UnitLibrary.enemyUnits[currentlyChosenUnit_index].image;
+        currentlyChosenUnit_name.text = GameManager.Instance.UnitLibrary.enemyUnits[currentlyChosenUnit_index].nameInList;
     }
     public void PrevSpawableUnit()
     {
-        if (GameManager.Instance.UnitSavePaths.unitsDatas.Count == 1)
+        if (GameManager.Instance.UnitLibrary.enemyUnits.Count == 1)
             return;
 
         currentlyChosenUnit_index--;
         if (currentlyChosenUnit_index < 0)
         {
-            currentlyChosenUnit_index = GameManager.Instance.UnitSavePaths.unitsDatas.Count - 1;
+            currentlyChosenUnit_index = GameManager.Instance.UnitLibrary.enemyUnits.Count - 1;
         }
-        currentlyChosenUnit = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].unitPrefab;
-        currentlyChosenImage_unit.sprite = GameManager.Instance.UnitSavePaths.unitsDatas[currentlyChosenUnit_index].image;
+        currentlyChosenUnit = GameManager.Instance.UnitLibrary.enemyUnits[currentlyChosenUnit_index].prefab;
+        currentlyChosenUnit_image.sprite = GameManager.Instance.UnitLibrary.enemyUnits[currentlyChosenUnit_index].image;
+        currentlyChosenUnit_name.text = GameManager.Instance.UnitLibrary.enemyUnits[currentlyChosenUnit_index].nameInList;
     }
+
+
     public void NextSpawableObject()
     {
-        if (GameManager.Instance.ObjectSavePaths.objectDatas.Count == 1)
+        if (GameManager.Instance.UnitLibrary.boardObjects.Count == 1)
             return;
 
         currentlyChosenObject_index++;
-        if (currentlyChosenObject_index >= GameManager.Instance.ObjectSavePaths.objectDatas.Count)
+        if (currentlyChosenObject_index >= GameManager.Instance.UnitLibrary.boardObjects.Count)
         {
             currentlyChosenObject_index = 0;
         }
-        currentlyChosenObject = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].objectPrefab;
-        currentlyChosenImage_object.sprite = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].image;
+        currentlyChosenObject = GameManager.Instance.UnitLibrary.boardObjects[currentlyChosenObject_index].prefab;
+        currentlyChosenObject_image.sprite = GameManager.Instance.UnitLibrary.boardObjects[currentlyChosenObject_index].image;
+        currentlyChosenObject_name.text = GameManager.Instance.UnitLibrary.boardObjects[currentlyChosenObject_index].nameInList;
     }
     public void PrevSpawableObject()
     {
-        if (GameManager.Instance.ObjectSavePaths.objectDatas.Count == 1)
+        if (GameManager.Instance.UnitLibrary.boardObjects.Count == 1)
             return;
 
         currentlyChosenObject_index--;
         if (currentlyChosenObject_index < 0)
         {
-            currentlyChosenObject_index = GameManager.Instance.UnitSavePaths.unitsDatas.Count - 1;
+            currentlyChosenObject_index = GameManager.Instance.UnitLibrary.boardObjects.Count - 1;
         }
-        currentlyChosenObject = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].objectPrefab;
-        currentlyChosenImage_object.sprite = GameManager.Instance.ObjectSavePaths.objectDatas[currentlyChosenObject_index].image;
+        currentlyChosenObject = GameManager.Instance.UnitLibrary.boardObjects[currentlyChosenObject_index].prefab;
+        currentlyChosenObject_image.sprite = GameManager.Instance.UnitLibrary.boardObjects[currentlyChosenObject_index].image;
+        currentlyChosenObject_name.text = GameManager.Instance.UnitLibrary.boardObjects[currentlyChosenObject_index].nameInList;
     }
 
     public void ToggleCurrentTeam()

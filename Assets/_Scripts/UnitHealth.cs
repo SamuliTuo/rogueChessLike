@@ -53,7 +53,7 @@ public class UnitHealth : MonoBehaviour
 
     public void RemoveHP(float damage, bool dieFast = false, float critChance = 0, float critDamage = 1, float missChance = 0)
     {
-        if (DebugTools.Instance.godMode == true)
+        if (DebugTools.Instance?.godMode == true)
         {
             if (unit.team == 0)
                 return;
