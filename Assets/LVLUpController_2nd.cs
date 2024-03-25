@@ -102,16 +102,16 @@ public class LVLUpController_2nd : MonoBehaviour
         choiceSlots.gameObject.SetActive(true);
 
         upgradeChoice1.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[0], lvlUpPanel, slot);
-        //upgradeChoice2.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[1], lvlUpPanel, slot);
-        //upgradeChoice3.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[2], lvlUpPanel, slot);
+        upgradeChoice2.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[1], lvlUpPanel, slot);
+        upgradeChoice3.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[2], lvlUpPanel, slot);
 
         abilityUpgradeText_1.text = upgradeChoices[0].upgradeType.ToString();
-        //abilityUpgradeText_2.text = upgradeChoices[1].upgradeType.ToString();
-        //abilityUpgradeText_3.text = upgradeChoices[2].upgradeType.ToString();
+        abilityUpgradeText_2.text = upgradeChoices[1].upgradeType.ToString();
+        abilityUpgradeText_3.text = upgradeChoices[2].upgradeType.ToString();
 
         upgradeChoice1.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[0].upgradeType);
-        //upgradeChoice2.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[1].upgradeType);
-        //upgradeChoice3.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[2].upgradeType);
+        upgradeChoice2.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[1].upgradeType);
+        upgradeChoice3.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[2].upgradeType);
     }
 
     public void ChooseOption(int choice)

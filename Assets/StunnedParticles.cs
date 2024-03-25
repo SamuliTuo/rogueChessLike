@@ -22,6 +22,7 @@ public class StunnedParticles : MonoBehaviour
             return;
 
         var r = stunPool.Get();
+        r.GetComponent<ParticleSystem>().Play();
         r.GetComponent<StatusEffectParticle>().InitStatusParticle(unit);
         stunnedUnits.Add(unit, r);
     }

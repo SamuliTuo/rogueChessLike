@@ -403,7 +403,7 @@ Animator:
   m_GameObject: {fileID: 6418836061799318360}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 75083ab2c657d3f40b8a9b51d7b214c1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2070ab96ec2f4884286853f742e0a309, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -462,13 +462,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dying: 0
-  flashDuration: 0.1
   hpBarOffset: 4
+  flashDuration: 0.1
   maxHp: 300
   dyingTimeBeforeSinking: 1.5
   sinkingSpeed: 1
   hp: 1000
   shield: 0
+  armor: 0
+  magicRes: 0
+  lootSpawnWhenDyingTimePerc: 0.2
 --- !u!114 &487603890882792800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,6 +484,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  libraryData:
+    nameInList: 
+    id: 0
+    prefab: {fileID: 0}
+    image: {fileID: 0}
+    stats:
+      hp: 0
+      damage: 0
+      magicDamage: 0
+      critChance: 0
+      critDamage: 0
+      missChance: 0
+      moveSpeed: 0
+      visibleMoveSpeed: 0
+      attackSpeed: 0
+      armor: 0
+      magicRes: 0
+    attacks: []
+    randomizeAttackingOrder: 0
+    signatureSpells: []
+    supportSpells: []
+    ultimateSpells: []
   isObstacle: 0
   damage: 17
   magic: 10
@@ -497,8 +522,6 @@ MonoBehaviour:
   moveInterval: 3.9
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: -0.863, y: 0, z: 0.025}
-  normalAttacks:
-  - {fileID: 11400000, guid: fbb85e0dc0113a145946b7c648966d6a, type: 2}
   randomizeAttackOrder: 0
   savedAttackTimerAmount: 0
   team: 0
@@ -527,10 +550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955052b73f631944fa6b675cbbcd6b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ability_1: {fileID: 0}
-  ability_2: {fileID: 0}
-  ability_3: {fileID: 0}
-  ability_4: {fileID: 0}
+  abilities: []
+  projectiles: []
   possibleAbilities: []
   additionalPhases: 0
 --- !u!114 &-5952366919569640602

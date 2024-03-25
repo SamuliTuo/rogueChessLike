@@ -29,7 +29,6 @@ public class LevelUpPanel : MonoBehaviour
     private int abilityPoints, passivePoints;
     private int abilityClicked, optionChosen;
 
-
     public void InitLevelUpPanel(UnitData unit)
     {
         unitLeveling = unit;
@@ -64,7 +63,7 @@ public class LevelUpPanel : MonoBehaviour
         }
     }
 
-    // 2-3 upgrades to unit's 'signature spell'
+    // upgrades to unit's 'signature spell'
     IEnumerator LVLUp_2nd()
     {
         unitStatsPanel.gameObject.SetActive(true);
@@ -73,7 +72,7 @@ public class LevelUpPanel : MonoBehaviour
         LVLUpPanel_2nd.gameObject.SetActive(true);
         LVLUpPanel_2nd.InitLevelUpPanel(unitLeveling, this);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 1; i++)
         {
             // Wait until players clicks one of the upgrade-slots
             abilityClicked = -1;
@@ -96,6 +95,7 @@ public class LevelUpPanel : MonoBehaviour
 
         unitStatsPanel.gameObject.SetActive(false);
         LVLUpPanel_2nd.gameObject.SetActive(false);
+        GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
         gameObject.SetActive(false);
     }
 
@@ -580,6 +580,7 @@ public class LevelUpPanel : MonoBehaviour
 
     void CheckIfDone()
     {
+        print("checking if levle up done");
         if (abilityPoints > 0 && passivePoints < 1)
         {
             SetupUpgradeChoices_Abilities();

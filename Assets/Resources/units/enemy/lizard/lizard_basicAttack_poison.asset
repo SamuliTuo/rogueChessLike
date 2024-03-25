@@ -22,8 +22,8 @@ MonoBehaviour:
   givesImmunity: 0
   immunityDuration: 0
   burns: 1
-  burn_tickDamage: 2
-  burn_tickIntervalSeconds: 1
+  burn_tickDamage: 0.5
+  burn_tickIntervalSeconds: 2
   burn_intervalCount: 3
   slowsMovementSpeed: 0
   movementSpeedSlow: 0

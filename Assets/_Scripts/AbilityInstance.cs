@@ -142,7 +142,7 @@ public class AbilityInstance : MonoBehaviour
             }
         }                
 
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
 
         SpawnAreaDOT();
@@ -168,9 +168,9 @@ public class AbilityInstance : MonoBehaviour
             transform.position = endPos;
             targetNode = Chessboard.Instance.nodes[shooter.x,shooter.y];
         }
-        
+
         // Hit target
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.hitParticle);
+        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic, ability.hitParticle);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
         
         // Stay visible
@@ -283,8 +283,16 @@ public class AbilityInstance : MonoBehaviour
         if (ability.spawnAreaDOT == false)
             return;
 
-        float tickDamage = shooter.GetMagic() * ability.tickDamage;
-        GameManager.Instance.DamageInstance.ActivateAreaDOT(targetNode, tickDamage, ability.tickIntervalSeconds, critChance, critDamage, missChance, ability.intervalCount, shooter, ability.areaDOTValidTargets, ability.dmgInstanceType, ability.areaDOTStatusModifier, ability.hitParticle);
+        float tickDamage = 0;
+        if (ability.usesMagic)
+        {
+            tickDamage = shooter.GetMagic() * ability.tickDamage;
+        }
+        else
+        {
+            tickDamage = shooter.GetDamage() * ability.tickDamage;
+        }
+        GameManager.Instance.DamageInstance.ActivateAreaDOT(targetNode, tickDamage, ability.tickIntervalSeconds, critChance, critDamage, missChance, ability.intervalCount, shooter, ability.areaDOTValidTargets, ability.dmgInstanceType, ability.areaDOTStatusModifier, ability.usesMagic, ability.hitParticle);
     }
     
     void SpawnUnits()

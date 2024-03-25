@@ -77,7 +77,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public int targetIndex;
     [HideInInspector] public List<Vector2Int> availableMoves = new List<Vector2Int>();
     [HideInInspector] public UnitAbilityManager abilities;
-
+    
     //private Unit targetUnit;
     private Vector3 desiredPosition;
     private Vector3 desiredScale = Vector3.one;
@@ -89,7 +89,6 @@ public class Unit : MonoBehaviour
     private int currentAttackIndex = 0;
 
     //public virtual void SetTargetMoveTile(Vector2Int tile) { targetMoveTile = tile; }
-
 
     private void Start()
     {

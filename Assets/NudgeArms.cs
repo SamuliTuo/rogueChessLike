@@ -37,8 +37,6 @@ public class NudgeArms : MonoBehaviour
     }
     public void StartPlacer(Vector3 position)
     {
-        print("starting placer " + Time.time);
-        print("placer animator: " + placerAnimator);
         placing = true;
         placer.gameObject.SetActive(true);
         placer.position = position;
@@ -94,7 +92,6 @@ public class NudgeArms : MonoBehaviour
     {
         if (!placing)
         {
-            print("turning placer off "+Time.time);
             placer.gameObject.SetActive(false);
         }
     }

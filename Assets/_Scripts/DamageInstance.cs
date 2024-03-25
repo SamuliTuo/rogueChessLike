@@ -22,18 +22,19 @@ public class DamageInstance : MonoBehaviour
         Unit shooter, 
         UnitSearchType targeting, 
         DamageInstanceType type, 
-        UnitStatusModifier statusMods, 
+        UnitStatusModifier statusMods,
+        bool isMagicDmg,
         ParticleType particle = ParticleType.NONE)
     {   
         Unit[,] units = Chessboard.Instance.GetUnits();
         var targetUnit = units[target.x, target.y];
         if (type == DamageInstanceType.SINGLE_TARGET)
         {
-            ActivateSingleTarget(targetUnit, shooter, targeting, damage, critChance, critDamage, missChance, statusMods);
+            ActivateSingleTarget(targetUnit, shooter, targeting, damage, critChance, critDamage, missChance, isMagicDmg, statusMods);
         }
         else if (type == DamageInstanceType.SQUARE)
         {
-            ActivateSquare(target, shooter, units, targeting, damage, critChance, critDamage, missChance, statusMods, particle);
+            ActivateSquare(target, shooter, units, targeting, damage, critChance, critDamage, missChance, isMagicDmg, statusMods, particle);
         }
     }
 
@@ -47,9 +48,10 @@ public class DamageInstance : MonoBehaviour
         UnitSearchType targeting, 
         DamageInstanceType scale, 
         UnitStatusModifier statusMods, 
+        bool isMagicDmg,
         ParticleType particle = ParticleType.NONE)
     {
-        StartCoroutine(AreaDOT(targetNode, tickDamage, tickIntervalSeconds, critChance, critDamage, missChance, intervals, shooter, targeting, scale, statusMods, particle));
+        StartCoroutine(AreaDOT(targetNode, tickDamage, tickIntervalSeconds, critChance, critDamage, missChance, intervals, shooter, targeting, scale, statusMods, isMagicDmg, particle));
     }
 
 
@@ -62,6 +64,7 @@ public class DamageInstance : MonoBehaviour
         float critChance,
         float critDamage,
         float missChance,
+        bool isMagicDmg,
         UnitStatusModifier statusMods)
     {
         //print("target unit: "+ targetUnit);
@@ -77,17 +80,17 @@ public class DamageInstance : MonoBehaviour
                     targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                 }
                 //print("damage: "+damage+"target unit hp: "+targetUnit.GetComponent<UnitHealth>());
-                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance);
+                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
                 // Lifesteal:
                 if (shooter != null)
                 {
                     if (shooter.lifeSteal_perc > 0)
                     {
-                        shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance);
+                        shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance, isMagicDmg);
                     }
                     if (shooter.lifeSteal_flat > 0)
                     {
-                        shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance);
+                        shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance, isMagicDmg);
                     }
                 }
             }
@@ -99,6 +102,7 @@ public class DamageInstance : MonoBehaviour
         UnitSearchType targeting, 
         float damage,
         float critChance, float critDamage, float missChance,
+        bool isMagicDmg,
         UnitStatusModifier statusMods)
     {
         if (targetUnit != null)
@@ -109,7 +113,7 @@ public class DamageInstance : MonoBehaviour
                 {
                     targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                 }
-                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance);
+                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
             }
         }
     }
@@ -121,6 +125,7 @@ public class DamageInstance : MonoBehaviour
         UnitSearchType targeting, 
         float damage,
         float critChance, float critDamage, float missChance,
+        bool isMagicDmg,
         UnitStatusModifier statusMods,
         ParticleType particle)
     {
@@ -136,7 +141,7 @@ public class DamageInstance : MonoBehaviour
                     }
                     var hp = units[node.x, node.y].GetComponent<UnitHealth>();
                     if (hp != null)
-                        hp.RemoveHP(damage, false, critChance, critDamage, missChance);
+                        hp.RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
 
                     if (node.x != target.x && node.y != target.y)
                     {
@@ -147,11 +152,11 @@ public class DamageInstance : MonoBehaviour
                     {
                         if (shooter.lifeSteal_perc > 0)
                         {
-                            shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance);
+                            shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance, isMagicDmg);
                         }
                         if (shooter.lifeSteal_flat > 0)
                         {
-                            shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance);
+                            shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance, isMagicDmg);
                         }
                     }
                 }
@@ -165,6 +170,7 @@ public class DamageInstance : MonoBehaviour
         UnitSearchType targeting, 
         float damage, 
         float critChance, float critDamage, float missChance,
+        bool isMagicDmg,
         UnitStatusModifier statusMods,
         ParticleType particle)
     {
@@ -178,7 +184,7 @@ public class DamageInstance : MonoBehaviour
                     {
                         units[node.x, node.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
                     }
-                    units[node.x, node.y].GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance);
+                    units[node.x, node.y].GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
 
                     if (node.x != target.x && node.y != target.y)
                     {
@@ -199,6 +205,7 @@ public class DamageInstance : MonoBehaviour
         UnitSearchType targeting, 
         DamageInstanceType scale,
         UnitStatusModifier statusMods,
+        bool isMagicDmg,
         ParticleType particle = ParticleType.NONE)
     {
         int shooterTeam = shooter.team;
@@ -210,11 +217,11 @@ public class DamageInstance : MonoBehaviour
             if (scale == DamageInstanceType.SINGLE_TARGET)
             {
                 var targetUnit = units[target.x, target.y];
-                ActivateSingleTarget(targetUnit, shooterTeam, targeting, tickDamage, critChance, critDamage, missChance, statusMods);
+                ActivateSingleTarget(targetUnit, shooterTeam, targeting, tickDamage, critChance, critDamage, missChance, isMagicDmg, statusMods);
             }
             else if (scale == DamageInstanceType.SQUARE)
             {
-                ActivateSquare(target, shooterTeam, units, targeting, tickDamage, critChance, critDamage, missChance, statusMods, particle);
+                ActivateSquare(target, shooterTeam, units, targeting, tickDamage, critChance, critDamage, missChance, isMagicDmg, statusMods, particle);
             }
 
             // Wait for the next interval:

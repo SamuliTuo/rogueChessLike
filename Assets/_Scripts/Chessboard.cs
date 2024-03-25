@@ -351,6 +351,7 @@ public class Chessboard : MonoBehaviour
         Camera.main.GetComponent<CameraManager>()?.RefreshCamera(new(TILE_COUNT_X, TILE_COUNT_Y), tileSize);
         PositionAllUnits();  
     }
+
     public List<Node> GetNeighbourNodes(Node node)
     {
         List<Node> neighbours = new List<Node>();
@@ -374,6 +375,7 @@ public class Chessboard : MonoBehaviour
         }
         return neighbours;
     }
+
     private bool IsOfType(int x, int y, string type)
     {
         if (x < TILE_COUNT_X && x >= 0 && y < TILE_COUNT_Y && y >= 0) {
@@ -381,10 +383,12 @@ public class Chessboard : MonoBehaviour
         }
         return false;
     }
+
     public bool IsNeighbourOfType(int x, int y, string type)
     {
         return (IsOfType(x-1, y, type) || IsOfType(x+1, y, type) || IsOfType(x, y-1, type) || IsOfType(x, y+1, type));
     }
+
     public void SpawnUnit(GameObject unit, int team, Vector2Int pos)
     {
         if (activeUnits[pos.x, pos.y] != null)
@@ -397,6 +401,7 @@ public class Chessboard : MonoBehaviour
         }
         activeUnits[pos.x, pos.y] = SpawnSingleUnit(unit, team);
     }
+
     public void SpawnUnit(string unit, int team, Vector2Int pos)
     {
         if (activeUnits[pos.x, pos.y] != null)
@@ -409,6 +414,8 @@ public class Chessboard : MonoBehaviour
         }
         activeUnits[pos.x, pos.y] = SpawnSingleUnit(unit, team);
     }
+
+
     private void SpawnScenarioUnits(Scenario scenario)
     {
         activeUnits = new Unit[TILE_COUNT_X, TILE_COUNT_Y];
@@ -467,7 +474,7 @@ public class Chessboard : MonoBehaviour
         unit.missChance = libraryEntry.stats.missChance;
         unit.attackSpeed = libraryEntry.stats.attackSpeed;
         unit.moveSpeed = libraryEntry.stats.moveSpeed;
-        unit.moveInterval = libraryEntry.stats.visibleMoveSpeed;
+        unit.visibleMoveSpeed = libraryEntry.stats.visibleMoveSpeed;
         unitHP.armor = libraryEntry.stats.armor;
         unitHP.magicRes = libraryEntry.stats.magicRes;
         return unit;

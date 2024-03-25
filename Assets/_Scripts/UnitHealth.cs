@@ -51,48 +51,69 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
-    public void RemoveHP(float damage, bool dieFast = false, float critChance = 0, float critDamage = 1, float missChance = 0)
+    public void RemoveHP(float damage, bool dieFast = false, float critChance = 0, float critDamage = 1, float missChance = 0, bool isMagic = false)
     {
-        if (DebugTools.Instance?.godMode == true)
+        if (DebugTools.Instance?.godMode == true && unit.team == 0)
         {
-            if (unit.team == 0)
-                return;
+            return;
         }
         
+        // hit or miss?
         bool hit = Random.Range(0.000f, 0.999f) < 1 - missChance;
         if (!hit)
         {
             if (!dieFast) GameManager.Instance.ParticleSpawner.InitDamageNumbers(0, false, hpBar.GetComponent<HpBarInstance>().GetBarHpPos(), false); //transform.position + Vector3.up * hpBarOffset, true);// (ParticleType.ATTACK_MISS, transform.position, Camera.main.transform.forward);
         }
 
+        // crits?
         bool isCrit = Random.Range(0.000f, 0.999f) < critChance;
         if (isCrit)
-            damage *= critDamage;
-
-        if (!dieFast) GameManager.Instance.ParticleSpawner.InitDamageNumbers(damage, isCrit, hpBar.GetComponent<HpBarInstance>().GetBarHpPos(), false); // transform.position + Vector3.up * hpBarOffset, false) ;
-
-        // If taking damage and we have an active shield:
-        if (damage > 0 && shield > 0)
         {
-            shield -= damage;
+            damage *= critDamage;
+        }
+        
+        // Modify damage with armor / m.res value:
+        float damageTaken;
+        if (isMagic)
+        {
+            damageTaken = damage - magicRes;  // <- change
+        }
+        else
+        {
+            damageTaken = damage - armor; // <- change
+        }
+
+        // Damage numbers:
+        if (!dieFast)
+        {
+            GameManager.Instance.ParticleSpawner.InitDamageNumbers(damageTaken, isCrit, hpBar.GetComponent<HpBarInstance>().GetBarHpPos(), false); // transform.position + Vector3.up * hpBarOffset, false) ;
+        }
+
+        // Has an active shield:
+        if (damageTaken > 0 && shield > 0)
+        {
+            shield -= damageTaken;
             if (shield >= 0)
             {
                 return;
             }
             else
             {
-                damage = Mathf.Abs(shield);
+                damageTaken = Mathf.Abs(shield);
                 shield = 0;
             }
         }
 
-        hp -= damage;
+        // Do the honors:
+        hp -= damageTaken;
         if (hp >= maxHp)
+        {
             hp = maxHp;
-
+        }
         if (hpScript != null)
+        {
             hpScript.SetBarValue(hp / maxHp);
-        
+        }
         if (hp <= 0 && dying == false)
         {
             dying = true;
@@ -105,9 +126,9 @@ public class UnitHealth : MonoBehaviour
             //StartCoroutine("DamageFlash");
             if (timer > 0.6f)
             {
-                print("Hp bar biggenings: t‰‰l on j‰nn‰‰ timer j‰nkkii jonka vois fiksaa");
+                print("Hp bar biggenings: t‰‰l on timer j‰nkkii joka pit‰is fiksaa jossai v‰lii");
                 //StopCoroutine("DamageFlash");
-                StartCoroutine("BiggenHPBar", Mathf.Min(Mathf.Abs(damage / maxHp), 1));
+                StartCoroutine("BiggenHPBar", Mathf.Min(Mathf.Abs(damageTaken / maxHp), 1));
             }
         }
     }

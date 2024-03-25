@@ -184,6 +184,7 @@ public class VictoryPanel : MonoBehaviour
     }
     public void LevelUpDone(UnitData unit)
     {
+        print("level up done with " + unit.name+"!");
         lvlUpPanel.gameObject.SetActive(false);
 
         var slot = slotsInUse.Find(x => x.slottedUnit == unit);

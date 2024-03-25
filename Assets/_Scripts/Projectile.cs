@@ -139,7 +139,7 @@ public class Projectile : MonoBehaviour
             {
                 damage *= critDamage;
             }
-            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers);
+            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.usesMagic);
         }
         Bounces();
         Deactivate();
@@ -169,7 +169,7 @@ public class Projectile : MonoBehaviour
             {
                 damage *= critDamage;
             }
-            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.hitParticle);
+            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.usesMagic, attack.hitParticle);
         }
 
         // Stay visible
@@ -274,8 +274,8 @@ public class Projectile : MonoBehaviour
             var projectile = Resources.Load<GameObject>(ability.bounceAbility.projectilePath);
             var clone = Instantiate(projectile, transform.position + Vector3.up * 0.5f, Quaternion.identity);
             clone.GetComponent<AbilityInstance>().Init(
-                attack.bounceAbility, 
-                transform.position, 
+                attack.bounceAbility,
+                transform.position,
                 null, 
                 bouncesRemainingAttack - 1, 
                 bouncesRemainingAbility - 1, 

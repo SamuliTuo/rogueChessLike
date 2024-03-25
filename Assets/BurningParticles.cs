@@ -74,6 +74,7 @@ public class BurningParticles : MonoBehaviour
                 if (burns.Count < burnCount)
                 {
                     var r = pool.Get();
+                    r.GetComponent<ParticleSystem>().Play();
                     r.GetComponent<StatusEffectParticle>().InitStatusParticle(unit);
                     burns.Add(r);
                 }

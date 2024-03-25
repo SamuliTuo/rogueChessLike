@@ -102,8 +102,12 @@ public class UnitStatsPanel : MonoBehaviour
             }
         }
     }
+
     void GetSpellSlots()
     {
+        if (transform.childCount == 0 || transform.childCount == 1)
+            return;
+
         if (spellSlots.Count == 0)
         {
             for (int i = 0; i < 4; i++)
