@@ -66,8 +66,8 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        SetStartState();
 
-        state = startingSceneGameState;
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         UnitLibrary = GetComponentInChildren<UnitLibrary>();
         PlayerParty = GetComponentInChildren<PlayerParty>();
@@ -116,6 +116,18 @@ public class GameManager : MonoBehaviour
                 builder = ScenarioBuilder.Instance;
             }
             builder.ScenarioBuilderUpdate();
+        }
+    }
+
+    void SetStartState()
+    {
+        if (GameObject.Find("ScenarioBuilder"))
+        {
+            state = GameState.SCENARIO_BUILDER;
+        }
+        else
+        {
+            state = startingSceneGameState;
         }
     }
 

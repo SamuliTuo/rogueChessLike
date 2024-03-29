@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static Scenario;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Chessboard : MonoBehaviour
 {
@@ -13,7 +16,7 @@ public class Chessboard : MonoBehaviour
 
     [Header("Art Stuff")]
     [SerializeField] private Material tileMat;
-    [SerializeField] private float tileSize = 1.0f;
+    public float tileSize = 1.0f;
     [SerializeField] private float yOffset = 0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
     [SerializeField] private float deathSize = 0.3f;
@@ -197,7 +200,7 @@ public class Chessboard : MonoBehaviour
         //currentlyDragging = null;
         //RemoveHighlightTiles();
     }
-
+    
 
     private void GenerateGrid(Scenario scenario, Node[,] quickSaveNodes = null)
     {
@@ -205,12 +208,14 @@ public class Chessboard : MonoBehaviour
         TILE_COUNT_Y = scenario.sizeY;
         tiles = new GameObject[TILE_COUNT_X, TILE_COUNT_Y];
         nodes = new Node[TILE_COUNT_X, TILE_COUNT_Y];
+        tileGraphics.ResetHoles();
 
         for (int x = 0; x < TILE_COUNT_X; x++)
         {
             for (int y = 0; y < TILE_COUNT_Y; y++)
             {
-                // Using this ... when changing the map on the fly.
+                // Use this...
+                // ... when changing the map on the fly.
                 if (quickSaveNodes != null)
                 {
                     if (x < quickSaveNodes.GetLength(0) && y < quickSaveNodes.GetLength(1))
@@ -222,6 +227,7 @@ public class Chessboard : MonoBehaviour
                         tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile", 0);
                     }
                 }
+
                 // ... when loading a scenario.
                 else if (scenario.scenarioNodes != null)
                 {
@@ -230,7 +236,7 @@ public class Chessboard : MonoBehaviour
                     {
                         if (item.x == x && item.y == y)
                         {
-                            tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, item.terrainLayer, item.tileVariation, item.walkable == 1, item.rotation);
+                            tiles[x, y] = GenerateSingleTile(tileSize, x, y, tileMat, item.terrainLayer, item.tileVariation, item.walkable == 1, item.rotation);
                             found = true;
                             break;
                         }
@@ -240,6 +246,7 @@ public class Chessboard : MonoBehaviour
                         tiles[x,y] = GenerateSingleTile(tileSize, x, y, tileMat, "Tile", 0);
                     }
                 }
+
                 // ... when it's a fresh board.
                 else
                 {
@@ -251,17 +258,29 @@ public class Chessboard : MonoBehaviour
 
     private GameObject GenerateSingleTile(float tileSize, int x, int y, Material material, string layer, int tileVariation, bool walkable = true, int rotation = 0)
     {
+        if (layer == "Empty")
+        {
+            return GenerateHole(x,y, tileVariation, rotation);
+        }
+
         GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
-        Tuple<GameObject,bool> _tileObj = tileGraphics.GetTileObject(layer, tileVariation);
-        GameObject graphics = Instantiate(_tileObj.Item1);
+
+        // Get the appropriate tile-graphics:
+        Tuple<GameObject, bool> _tileObj;
+        GameObject graphics;
+        
+        _tileObj = tileGraphics.GetTileObject(layer, tileVariation);
+        graphics = Instantiate(_tileObj.Item1);
+        
         graphics.transform.SetParent(tileObject.transform, false);
         tileObject.transform.parent = transform;
 
         Mesh mesh = new Mesh();
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
         tileObject.AddComponent<MeshRenderer>().material = material;
+        tileObject.layer = LayerMask.NameToLayer(layer);
 
-
+        // Make the tile-mesh that checks mouse-hovering:
         Vector3[] vertices = new Vector3[4];
         vertices[0] = new Vector3(x * tileSize, yOffset, y * tileSize);
         vertices[1] = new Vector3(x * tileSize, yOffset, (y+1) * tileSize);
@@ -272,8 +291,6 @@ public class Chessboard : MonoBehaviour
 
         mesh.vertices = vertices;
         mesh.triangles = tris;
-
-        tileObject.layer = LayerMask.NameToLayer(layer);
 
         //_tileObj.Item2 is the "walkable" bool, for now.. change to using enum instead of bool
         nodes[x,y] = new Node(_tileObj.Item2, x, y, layer, tileVariation, rotation);
@@ -305,6 +322,55 @@ public class Chessboard : MonoBehaviour
         var oldTile = tiles[x,y];
         tiles[x,y] = GenerateSingleTile(tileSize, x,y, tileMat, layer, tileVariation, walkable, rotation);
         Destroy(oldTile);
+    }
+    public void ChangeTileToHole(int x, int y, int variation, int rotation)
+    {
+        if (x < 0 || x >= TILE_COUNT_X || y < 0 || y >= TILE_COUNT_Y)
+            return;
+
+        if (tiles[x, y] == null)
+            return;
+
+        var oldtile = tiles[x, y];
+        tiles[x, y] = GenerateHole(x, y, variation, rotation);
+        Destroy(oldtile);
+    }
+
+    public GameObject GenerateHole(int x, int y, int variation, int rotation)
+    {
+        GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
+        var obj = tileGraphics.GetHoleObject(variation, rotation);
+        obj.transform.SetParent(tileObject.transform, false);
+        tileObject.transform.parent = transform;
+
+        Mesh mesh = new Mesh();
+        tileObject.AddComponent<MeshFilter>().mesh = mesh;
+        tileObject.AddComponent<MeshRenderer>().material = tileMat;
+        tileObject.layer = LayerMask.NameToLayer("Empty");
+
+        // Make the tile-mesh that checks mouse-hovering:
+        Vector3[] vertices = new Vector3[4];
+        vertices[0] = new Vector3(x * tileSize, yOffset, y * tileSize);
+        vertices[1] = new Vector3(x * tileSize, yOffset, (y + 1) * tileSize);
+        vertices[2] = new Vector3((x + 1) * tileSize, yOffset, y * tileSize);
+        vertices[3] = new Vector3((x + 1) * tileSize, yOffset, (y + 1) * tileSize);
+
+        int[] tris = new int[] { 0, 1, 2, 1, 3, 2 };
+
+        mesh.vertices = vertices;
+        mesh.triangles = tris;
+
+        //_tileObj.Item2 is the "walkable" bool, for now.. change to using enum instead of bool
+        nodes[x, y] = new Node(false, x, y, "Empty", variation, rotation);
+
+        tileObject.AddComponent<BoxCollider>().size = new Vector3(tileSize, 0.1f, tileSize);
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
+
+        obj.transform.localPosition = new Vector3((x + 0.5f) * tileSize, yOffset - 0.01f, (y + 0.5f) * tileSize);
+        obj.transform.localScale = new Vector3(tileSize, tileSize, tileSize);
+
+        return tileObject;
     }
 
     public void AddTileCount(int x, int y)

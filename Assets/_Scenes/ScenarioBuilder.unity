@@ -4064,8 +4064,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Swamp
       m_Image: {fileID: 0}
-    - m_Text: Hole
-      m_Image: {fileID: 0}
     - m_Text: Thorns
       m_Image: {fileID: 0}
     - m_Text: Road
@@ -4077,6 +4075,8 @@ MonoBehaviour:
     - m_Text: Water
       m_Image: {fileID: 0}
     - m_Text: Grass_purple
+      m_Image: {fileID: 0}
+    - m_Text: Hole
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -50434,8 +50434,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Swamp
       m_Image: {fileID: 0}
-    - m_Text: Hole
-      m_Image: {fileID: 0}
     - m_Text: Thorns
       m_Image: {fileID: 0}
     - m_Text: Road
@@ -50447,6 +50445,8 @@ MonoBehaviour:
     - m_Text: Water
       m_Image: {fileID: 0}
     - m_Text: Grass_purple
+      m_Image: {fileID: 0}
+    - m_Text: Hole
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -80902,7 +80902,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: -1.3614235e+29}
+  m_BoundingSphereOverride: {x: 7.47e-43, y: 0, z: 0, w: 23.987595}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -81294,34 +81294,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[9].type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[1].walkable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[7].walkable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[8].walkable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[9].tilePrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798309409, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
-      propertyPath: tileTypes.Array.data[9].tilePrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1382685430024636588, guid: c94f1275feae13a44be75843682b7c0d, type: 3}
     - target: {fileID: 1727125056354840096, guid: 53ee2fba33293064aa63197bc6b77547, type: 3}
       propertyPath: m_Name
       value: Board
@@ -81702,6 +81674,10 @@ PrefabInstance:
     - target: {fileID: 6089650262552058419, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650262552058428, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: startingSceneGameState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6089650262552058429, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
       propertyPath: m_Name
