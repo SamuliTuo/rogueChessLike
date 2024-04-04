@@ -173,13 +173,13 @@ MonoBehaviour:
     y: 1
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 180
   - x: 3
     y: 2
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 5
     rotation: 0
   - x: 3
     y: 3
@@ -197,8 +197,8 @@ MonoBehaviour:
     y: 5
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 270
   - x: 3
     y: 6
     walkable: 1
@@ -227,13 +227,13 @@ MonoBehaviour:
     y: 2
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 5
+    rotation: 180
   - x: 4
     y: 3
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 1
     rotation: 0
   - x: 4
     y: 4
@@ -245,8 +245,8 @@ MonoBehaviour:
     y: 5
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 90
   - x: 4
     y: 6
     walkable: 1
@@ -329,13 +329,13 @@ MonoBehaviour:
     y: 3
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 270
   - x: 6
     y: 4
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 2
     rotation: 0
   - x: 6
     y: 5
@@ -377,14 +377,14 @@ MonoBehaviour:
     y: 3
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 7
+    rotation: 270
   - x: 7
     y: 4
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 90
   - x: 7
     y: 5
     walkable: 1
@@ -425,8 +425,8 @@ MonoBehaviour:
     y: 3
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 6
+    rotation: 90
   - x: 8
     y: 4
     walkable: 1
@@ -455,12 +455,12 @@ MonoBehaviour:
   - unit: tree_violet
     spawnPosX: 0
     spawnPosY: 5
-    spawnRot: 3
+    spawnRot: 0
     team: 2
   - unit: Unit_stinkyBoi
     spawnPosX: 1
     spawnPosY: 1
-    spawnRot: 2
+    spawnRot: 0
     team: 1
   - unit: tree_violet
     spawnPosX: 1
@@ -470,7 +470,7 @@ MonoBehaviour:
   - unit: Unit_skeleton_02
     spawnPosX: 1
     spawnPosY: 5
-    spawnRot: 2
+    spawnRot: 0
     team: 1
   - unit: Unit_gnome
     spawnPosX: 2
@@ -480,5 +480,5 @@ MonoBehaviour:
   - unit: Unit_skeleton_02
     spawnPosX: 3
     spawnPosY: 7
-    spawnRot: 3
+    spawnRot: 0
     team: 1

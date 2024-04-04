@@ -59,20 +59,20 @@ MonoBehaviour:
     y: 6
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 3
+    rotation: 270
   - x: 0
     y: 7
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 4
+    rotation: 180
   - x: 0
     y: 8
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 90
   - x: 0
     y: 9
     walkable: 1
@@ -113,20 +113,20 @@ MonoBehaviour:
     y: 5
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 270
   - x: 1
     y: 6
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 10
     rotation: 0
   - x: 1
     y: 7
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 90
   - x: 1
     y: 8
     walkable: 1
@@ -161,26 +161,26 @@ MonoBehaviour:
     y: 3
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 270
   - x: 2
     y: 4
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 3
     rotation: 0
   - x: 2
     y: 5
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 10
     rotation: 0
   - x: 2
     y: 6
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 90
   - x: 2
     y: 7
     walkable: 1
@@ -213,28 +213,28 @@ MonoBehaviour:
     rotation: 0
   - x: 3
     y: 2
-    walkable: 0
-    terrainLayer: Empty
+    walkable: 1
+    terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
   - x: 3
     y: 3
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 7
+    rotation: 270
   - x: 3
     y: 4
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 3
+    rotation: 180
   - x: 3
     y: 5
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 90
   - x: 3
     y: 6
     walkable: 1
@@ -268,21 +268,21 @@ MonoBehaviour:
   - x: 4
     y: 1
     walkable: 1
-    terrainLayer: Vines
+    terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
   - x: 4
     y: 2
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 1
+    rotation: 180
   - x: 4
     y: 3
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 5
+    rotation: 90
   - x: 4
     y: 4
     walkable: 1
@@ -328,13 +328,13 @@ MonoBehaviour:
   - x: 5
     y: 1
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
   - x: 5
     y: 2
     walkable: 1
-    terrainLayer: Swamp
+    terrainLayer: Grass_purple
     tileVariation: 0
     rotation: 0
   - x: 5
@@ -387,214 +387,214 @@ MonoBehaviour:
     rotation: 0
   - x: 6
     y: 1
-    walkable: 1
-    terrainLayer: Vines
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 2
-    walkable: 1
-    terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 5
-    walkable: 1
-    terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 6
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 7
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 8
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 9
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 0
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 1
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 2
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 5
-    walkable: 1
-    terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 6
-    walkable: 1
-    terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 7
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 8
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 9
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 0
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 1
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 2
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 6
-    walkable: 1
-    terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 7
-    walkable: 1
-    terrainLayer: Swamp
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 8
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 8
-    y: 9
-    walkable: 1
-    terrainLayer: Grass_purple
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 0
     walkable: 1
     terrainLayer: Vines
     tileVariation: 0
     rotation: 0
+  - x: 6
+    y: 2
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 3
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 2
+    rotation: 270
+  - x: 6
+    y: 4
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 2
+    rotation: 0
+  - x: 6
+    y: 5
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 6
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 2
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 3
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 3
+    rotation: 270
+  - x: 7
+    y: 4
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 3
+    rotation: 90
+  - x: 7
+    y: 5
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 6
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 7
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 0
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 1
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 2
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 2
+    rotation: 270
+  - x: 8
+    y: 3
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 4
+    rotation: 0
+  - x: 8
+    y: 4
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 4
+    rotation: 90
+  - x: 8
+    y: 5
+    walkable: 0
+    terrainLayer: Empty
+    tileVariation: 2
+    rotation: 0
+  - x: 8
+    y: 6
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 7
+    walkable: 1
+    terrainLayer: Swamp
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 8
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 8
+    y: 9
+    walkable: 1
+    terrainLayer: Grass_purple
+    tileVariation: 0
+    rotation: 0
+  - x: 9
+    y: 0
+    walkable: 1
+    terrainLayer: Vines
+    tileVariation: 0
+    rotation: 0
   - x: 9
     y: 1
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 2
+    rotation: 270
   - x: 9
     y: 2
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 4
     rotation: 0
   - x: 9
     y: 3
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 13
     rotation: 0
   - x: 9
     y: 4
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
+    tileVariation: 13
     rotation: 0
   - x: 9
     y: 5
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 0
-    rotation: 0
+    tileVariation: 3
+    rotation: 90
   - x: 9
     y: 6
     walkable: 1
@@ -623,25 +623,25 @@ MonoBehaviour:
   - unit: Unit_bear
     spawnPosX: 2
     spawnPosY: 8
-    spawnRot: 2
+    spawnRot: 0
     team: 1
   - unit: Unit_bear
     spawnPosX: 3
     spawnPosY: 9
-    spawnRot: 3
+    spawnRot: 0
     team: 1
   - unit: Unit_bear
     spawnPosX: 5
     spawnPosY: 6
-    spawnRot: 3
+    spawnRot: 0
     team: 1
   - unit: tree_violet
     spawnPosX: 6
     spawnPosY: 9
-    spawnRot: 2
+    spawnRot: 0
     team: 2
   - unit: Unit_goat
     spawnPosX: 8
     spawnPosY: 6
-    spawnRot: 3
+    spawnRot: 0
     team: 1

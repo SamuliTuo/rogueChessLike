@@ -11,10 +11,10 @@ public class NudgeController : MonoBehaviour
 {
     public float nudgeCooldown = 1;
     public bool canNudge = true;
-    [SerializeField] private int nudgeLayer = 0;
+    [SerializeField] private int nudgeLayer = 11;
     [SerializeField] private NudgeArms arms = null;
 
-    [SerializeField] private float maxNudgeMagnitude = 5;
+    private float maxNudgeMagnitude = 5f;
 
     private float t;
     private Camera currentCam;
@@ -35,6 +35,8 @@ public class NudgeController : MonoBehaviour
     private void Awake()
     {
         arrowGenerator = GetComponentInChildren<ArrowGenerator>();
+        nudgeUIController = GameObject.Find("Canvas").GetComponentInChildren<NudgeUIController>();
+        currentCam = Camera.main;
     }
 
     private void Start()
@@ -58,14 +60,14 @@ public class NudgeController : MonoBehaviour
         Vector2Int moveToNode;
 
         if (nudgeIsChip)
-        {
+        { // chip  (throw unit over other units, objects and chasms)
             moveToNode = CheckNodesInNudgeDirection_chip(
                             new Vector2Int(unit.x, unit.y),
                             _nudgeDir,
                             (int)dir.magnitude);
         }
         else
-        {
+        { // nudge  (push unit in a line)
             moveToNode = CheckNodesInNudgeDirectionWhenNudging(
                             new Vector2Int(unit.x, unit.y),
                             _nudgeDir,
@@ -85,23 +87,12 @@ public class NudgeController : MonoBehaviour
 
     public void NudgerUpdate()
     {
-        if (nudgeUIController == null)
-        {
-            nudgeUIController = GameObject.Find("Canvas").GetComponentInChildren<NudgeUIController>();
-        }
-
         if (t < nudgeCooldown)
         {
             t += Time.deltaTime;
             nudgeUIController?.UpdateCooldownUI(t / nudgeCooldown);
             return;
         }
-        if (!currentCam)
-        {
-            currentCam = Camera.main;
-            return;
-        }
-
 
         // START NUDGE - PULL:
         // See what we hover and try to start:
@@ -174,31 +165,27 @@ public class NudgeController : MonoBehaviour
         }
 
 
-
-
         // WHILE PULLING:
-        // now we drag and highlight the aim-squares:
+            // drag and highlight the aim-squares:
 
-        // mouse 1 :
+        // mouse 1 (nudge) :
         else if (!nudgeIsChip && currentlyDragging != null && Physics.Raycast(ray, out hit, 100, nudgeLayerMask))
         {
             Vector3 _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
             Vector3 direction = new Vector3(_pos.x, hit.point.y, _pos.z) - hit.point;
             float mag = direction.magnitude;
-            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, mag);
-
+            arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, Mathf.Clamp(mag * 1.3f, 0.5f, 8f));
 
             Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(direction);
-            Vector2Int moveToNode = CheckNodesInNudgeDirection(
-                new Vector2Int(currentlyDragging.x, currentlyDragging.y),
-                _nudgeDir,
-                (int)mag);
-
+            Vector2Int moveToNode = CheckNodesInNudgeDirection(new Vector2Int(currentlyDragging.x, currentlyDragging.y), _nudgeDir, (int)mag);
             arms.UpdateNudgerAimPosition(Math.Clamp(mag, 0, maxNudgeMagnitude) / maxNudgeMagnitude, _pos, direction);
             board.RemoveAllHighlightTiles();
-            if (moveToNode != -Vector2Int.one)
-                board.tiles[moveToNode.x, moveToNode.y].layer = LayerMask.NameToLayer("Highlight");
 
+            if (moveToNode != -Vector2Int.one)
+            {
+                board.tiles[moveToNode.x, moveToNode.y].layer = LayerMask.NameToLayer("Highlight");
+            }
+            
             // If we are releasing the mouse button
             if (currentlyDragging != null && Input.GetMouseButtonUp(0))
             {
@@ -209,7 +196,7 @@ public class NudgeController : MonoBehaviour
             }
         }
 
-        // mouse 2 :
+        // mouse 2 (chip) :
         else if (nudgeIsChip && currentlyDragging != null && Physics.Raycast(ray, out hit, 100, nudgeLayerMask))
         {
             Vector3 _pos = board.GetTileCenter(currentlyDragging.x, currentlyDragging.y);
@@ -217,17 +204,15 @@ public class NudgeController : MonoBehaviour
             float mag = direction.magnitude;
             arrowGenerator.UpdateArrow(new Vector3(_pos.x, transform.position.y, _pos.z), direction, mag);
 
-
             Tuple<NudgeDir, Vector3> _nudgeDir = DetermineNudgeDir(direction);
-            Vector2Int moveToNode = CheckNodesInNudgeDirection_chip(
-                new Vector2Int(currentlyDragging.x, currentlyDragging.y),
-                _nudgeDir,
-                (int)mag);
+            Vector2Int moveToNode = CheckNodesInNudgeDirection_chip(new Vector2Int(currentlyDragging.x, currentlyDragging.y), _nudgeDir, (int)mag);
 
             arms.UpdateChipperAimPosition(Mathf.Clamp(mag, 0, maxNudgeMagnitude) / maxNudgeMagnitude, _pos, direction);
             board.RemoveAllHighlightTiles();
             if (moveToNode != -Vector2Int.one)
+            {
                 board.tiles[moveToNode.x, moveToNode.y].layer = LayerMask.NameToLayer("Highlight");
+            }
 
             // If we are releasing the mouse button
             if (currentlyDragging != null && Input.GetMouseButtonUp(1))
@@ -239,7 +224,7 @@ public class NudgeController : MonoBehaviour
             }
         }
 
-
+        // Mouse has been released :
         else
         {
             if (currentHover != -Vector2Int.one)
@@ -334,7 +319,7 @@ public class NudgeController : MonoBehaviour
         if (nudgeDistanceSquares <= 0) 
             return -Vector2Int.one;
 
-        nudgeDistanceSquares = Mathf.Clamp(nudgeDistanceSquares, 1, 4);
+        nudgeDistanceSquares = Mathf.Clamp(nudgeDistanceSquares, 1, 5);
         Node[,] nodes = board.nodes;
         Unit[,] units = board.GetUnits();
         Vector2Int r = -Vector2Int.one;
@@ -360,15 +345,16 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.NORTH_EAST:
-                for (int i = 1; i < nudgeDistanceSquares; i++)
+                for (float i = 1; i < nudgeDistanceSquares * 0.7072f; i += 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x + i > maxX || currPos.y + i > maxY)
                         break;
 
-                    if (nodes[currPos.x + i, currPos.y + i] != null)
+                    if (nodes[currPos.x + (int)i, currPos.y + (int)i] != null)
                     {
-                        if (units[currPos.x + i, currPos.y + i] == null && nodes[currPos.x + i, currPos.y + i].walkable == true)
-                            r = new Vector2Int(currPos.x + i, currPos.y + i);
+                        if (units[currPos.x + (int)i, currPos.y + (int)i] == null && nodes[currPos.x + (int)i, currPos.y + (int)i].walkable == true)
+                            r = new Vector2Int(currPos.x + (int)i, currPos.y + (int)i);
                         else
                             break;
                     }
@@ -390,15 +376,16 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.SOUTH_EAST:
-                for (int i = 1; i < nudgeDistanceSquares; i++)
+                for (float i = 1; i < nudgeDistanceSquares * 0.7072f; i += 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x + i > maxX || currPos.y - i < 0)
                         break;
 
-                    if (nodes[currPos.x + i, currPos.y - i] != null)
+                    if (nodes[currPos.x + (int)i, currPos.y - (int)i] != null)
                     {
-                        if (units[currPos.x + i, currPos.y - i] == null && nodes[currPos.x + i, currPos.y - i].walkable == true)
-                            r = new Vector2Int(currPos.x + i, currPos.y - i);
+                        if (units[currPos.x + (int)i, currPos.y - (int)i] == null && nodes[currPos.x + (int)i, currPos.y - (int)i].walkable == true)
+                            r = new Vector2Int(currPos.x + (int)i, currPos.y - (int)i);
                         else
                             break;
                     }
@@ -420,15 +407,16 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.SOUTH_WEST:
-                for (int i = 1; i < nudgeDistanceSquares; i++)
+                for (float i = 1; i < nudgeDistanceSquares * 0.7072f; i += 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x - i < 0 || currPos.y - i < 0)
                         break;
 
-                    if (nodes[currPos.x - i, currPos.y - i] != null)
+                    if (nodes[currPos.x - (int)i, currPos.y - (int)i] != null)
                     {
-                        if (units[currPos.x - i, currPos.y - i] == null && nodes[currPos.x - i, currPos.y - i].walkable == true)
-                            r = new Vector2Int(currPos.x - i, currPos.y - i);
+                        if (units[currPos.x - (int)i, currPos.y - (int)i] == null && nodes[currPos.x - (int)i, currPos.y - (int)i].walkable == true)
+                            r = new Vector2Int(currPos.x - (int)i, currPos.y - (int)i);
                         else
                             break;
                     }
@@ -450,15 +438,16 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.NORT_WEST:
-                for (int i = 1; i < nudgeDistanceSquares; i++)
+                for (float i = 1; i < nudgeDistanceSquares * 0.7072f; i += 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x - i < 0 || currPos.y + i > maxY)
                         break;
 
-                    if (nodes[currPos.x - i, currPos.y + i] != null)
+                    if (nodes[currPos.x - (int)i, currPos.y + (int)i] != null)
                     {
-                        if (units[currPos.x-i, currPos.y+i] == null && nodes[currPos.x - i, currPos.y + i].walkable == true)
-                            r = new Vector2Int(currPos.x - i, currPos.y + i);
+                        if (units[currPos.x - (int)i, currPos.y + (int)i] == null && nodes[currPos.x - (int)i, currPos.y + (int)i].walkable == true)
+                            r = new Vector2Int(currPos.x - (int)i, currPos.y + (int)i);
                         else
                             break;
                     }
@@ -469,6 +458,7 @@ public class NudgeController : MonoBehaviour
         return r;
     }
 
+    // beautiful copy pasta for ages!
     Vector2Int CheckNodesInNudgeDirectionWhenNudging(Vector2Int currPos, Tuple<NudgeDir, Vector3> _nudgeDir, int nudgeDistanceSquares)
     {
         if (nudgeDistanceSquares <= 0)
@@ -481,7 +471,6 @@ public class NudgeController : MonoBehaviour
         int maxX = board.GetBoardSize().x - 1;
         int maxY = board.GetBoardSize().y - 1;
 
-        //print("curr pos: " + currPos + ",   distance: " + nudgeDistanceSquares + ",   nudge dir: " + _nudgeDir.Item1 + ",   nudge dir: " + _nudgeDir.Item2); ;
         switch (_nudgeDir.Item1)
         {
             case NudgeDir.NORTH:
@@ -652,16 +641,17 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.NORTH_EAST:
-                for (int i = nudgeDistanceSquares; i > 0; i--)
+                for (float i = nudgeDistanceSquares * 0.7072f; i > 0; i -= 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x + i > maxX || currPos.y + i > maxY)
                         continue;
 
-                    if (nodes[currPos.x + i, currPos.y + i] != null)
+                    if (nodes[currPos.x + (int)i, currPos.y + (int)i] != null)
                     {
-                        if (units[currPos.x + i, currPos.y + i] == null && nodes[currPos.x + i, currPos.y + i].walkable == true)
+                        if (units[currPos.x + (int)i, currPos.y + (int)i] == null && nodes[currPos.x + (int)i, currPos.y + (int)i].walkable == true)
                         {
-                            r = new Vector2Int(currPos.x + i, currPos.y + i);
+                            r = new Vector2Int(currPos.x + (int)i, currPos.y + (int)i);
                             break;
                         }   
                         else
@@ -688,16 +678,17 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.SOUTH_EAST:
-                for (int i = nudgeDistanceSquares; i > 0; i--)
+                for (float i = nudgeDistanceSquares * 0.7072f; i > 0; i -= 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x + i > maxX || currPos.y - i < 0)
                         continue;
 
-                    if (nodes[currPos.x + i, currPos.y - i] != null)
+                    if (nodes[currPos.x + (int)i, currPos.y - (int)i] != null)
                     {
-                        if (units[currPos.x + i, currPos.y - i] == null && nodes[currPos.x + i, currPos.y - i].walkable == true)
+                        if (units[currPos.x + (int)i, currPos.y - (int)i] == null && nodes[currPos.x + (int)i, currPos.y - (int)i].walkable == true)
                         {
-                            r = new Vector2Int(currPos.x + i, currPos.y - i);
+                            r = new Vector2Int(currPos.x + (int)i, currPos.y - (int)i);
                             break;
                         }
                         else
@@ -724,16 +715,17 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.SOUTH_WEST:
-                for (int i = nudgeDistanceSquares; i > 0; i--)
+                for (float i = nudgeDistanceSquares * 0.7072f; i > 0; i -= 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x - i < 0 || currPos.y - i < 0)
                         continue;
 
-                    if (nodes[currPos.x - i, currPos.y - i] != null)
+                    if (nodes[currPos.x - (int)i, currPos.y - (int)i] != null)
                     {
-                        if (units[currPos.x - i, currPos.y - i] == null && nodes[currPos.x - i, currPos.y - i].walkable == true)
+                        if (units[currPos.x - (int)i, currPos.y - (int)i] == null && nodes[currPos.x - (int)i, currPos.y - (int)i].walkable == true)
                         {
-                            r = new Vector2Int(currPos.x - i, currPos.y - i);
+                            r = new Vector2Int(currPos.x - (int)i, currPos.y - (int)i);
                             break;
                         }
                         else
@@ -760,16 +752,17 @@ public class NudgeController : MonoBehaviour
                 }
                 break;
             case NudgeDir.NORT_WEST:
-                for (int i = nudgeDistanceSquares; i > 0; i--)
+                for (float i = nudgeDistanceSquares * 0.7072f; i > 0; i -= 0.7072f)
                 {
+                    i = Mathf.RoundToInt(i);
                     if (currPos.x - i < 0 || currPos.y + i > maxY)
                         continue;
 
-                    if (nodes[currPos.x - i, currPos.y + i] != null)
+                    if (nodes[currPos.x - (int)i, currPos.y + (int)i] != null)
                     {
-                        if (units[currPos.x - i, currPos.y + i] == null && nodes[currPos.x - i, currPos.y + i].walkable == true)
+                        if (units[currPos.x - (int)i, currPos.y + (int)i] == null && nodes[currPos.x - (int)i, currPos.y + (int)i].walkable == true)
                         {
-                            r = new Vector2Int(currPos.x - i, currPos.y + i);
+                            r = new Vector2Int(currPos.x - (int)i, currPos.y + (int)i);
                             break;
                         }
                         else

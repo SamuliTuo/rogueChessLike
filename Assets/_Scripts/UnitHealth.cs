@@ -82,6 +82,7 @@ public class UnitHealth : MonoBehaviour
         {
             damageTaken = damage - armor; // <- change
         }
+        damageTaken = damage; //placeholdr
 
         // Damage numbers:
         if (!dieFast)

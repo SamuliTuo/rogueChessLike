@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -93,7 +94,9 @@ public class ScenarioBuilder : MonoBehaviour
         }
 
         if (GameManager.Instance.state != GameState.SCENARIO_BUILDER)
+        {
             return;
+        }
 
         if (IsPointerOverUIObject())
         {
@@ -584,7 +587,7 @@ public class ScenarioBuilder : MonoBehaviour
                 board.ChangeTileGraphics(x, y, "Swamp", variation, true, rotation);
                 break;
             case NodeType.HOLE:
-                board.ChangeTileGraphics(x, y, "Empty", variation, false, rotation);
+                ChangeNodeToHole(x,y);
                 break;
             case NodeType.GRASS_PURPLE:
                 board.ChangeTileGraphics(x, y, "Grass_purple", variation, true, rotation);
@@ -609,29 +612,58 @@ public class ScenarioBuilder : MonoBehaviour
         }
     }
 
+    void ChangeNodeToHole(int x, int y)
+    {
+        tileGraphics.MakeHoleList(x, y, board.GetTilecount().x, board.GetTilecount().y, board.nodes);
+        Neighbors neighbors = tileGraphics.CheckNeighbours(x, y);
+        HoleObjectStats h = tileGraphics.GetCorrectHoleObjectStats(x, y);
+        board.ChangeTileToHole(x, y, h.variation, h.rotation);
+
+        // Check if any neighboring tile needs to be changed as well:
+        foreach (var neighbor in neighbors.neighbors)
+        {
+            // is the neighbor non-hole?
+            if (neighbor.Item2 == true)
+            {
+                continue;
+            }
+            // is the neighbour out of bounds?
+            Vector2Int neighborCoordinates = new(x + neighbor.Item1.x, y + neighbor.Item1.y);
+            if (neighborCoordinates.x < 0 || neighborCoordinates.x >= board.GetTilecount().x || neighborCoordinates.y < 0 || neighborCoordinates.y >= board.GetTilecount().y)
+            {
+                continue;
+            }
+            tileGraphics.CheckNeighbours(neighborCoordinates.x, neighborCoordinates.y);
+            HoleObjectStats h2 = tileGraphics.GetCorrectHoleObjectStats(neighborCoordinates.x, neighborCoordinates.y);
+            board.ChangeTileToHole(neighborCoordinates.x, neighborCoordinates.y, h2.variation, h2.rotation);
+        }
+    }
+
     public void SetToolCurrentNodeType_m1(int type)
     {
         if (type == 0) currentNodeType_m1 = NodeType.NONE;
         else if (type == 1) currentNodeType_m1 = NodeType.SWAMP;
-        else if (type == 2) currentNodeType_m1 = NodeType.HOLE;
-        else if (type == 3) currentNodeType_m1 = NodeType.THORNS;
-        else if (type == 4) currentNodeType_m1 = NodeType.ROAD;
-        else if (type == 5) currentNodeType_m1 = NodeType.VINES;
-        else if (type == 6) currentNodeType_m1 = NodeType.WALL;
-        else if (type == 7) currentNodeType_m1 = NodeType.WATER;
-        else currentNodeType_m1 = NodeType.GRASS_PURPLE;
+        else if (type == 2) currentNodeType_m1 = NodeType.THORNS;
+        else if (type == 3) currentNodeType_m1 = NodeType.ROAD;
+        else if (type == 4) currentNodeType_m1 = NodeType.VINES;
+        else if (type == 5) currentNodeType_m1 = NodeType.WALL;
+        else if (type == 6) currentNodeType_m1 = NodeType.WATER;
+        else if (type == 7) currentNodeType_m1 = NodeType.GRASS_PURPLE;
+        else if (type == 8) currentNodeType_m1 = NodeType.HOLE;
+        
     }
     public void SetToolCurrentNodeType_m2(int type)
     {
         if (type == 0) currentNodeType_m2 = NodeType.NONE;
         else if (type == 1) currentNodeType_m2 = NodeType.SWAMP;
-        else if (type == 2) currentNodeType_m2 = NodeType.HOLE;
-        else if (type == 3) currentNodeType_m2 = NodeType.THORNS;
-        else if (type == 4) currentNodeType_m2 = NodeType.ROAD;
-        else if (type == 5) currentNodeType_m2 = NodeType.VINES;
-        else if (type == 6) currentNodeType_m2 = NodeType.WALL;
-        else if (type == 7) currentNodeType_m2 = NodeType.WATER;
-        else currentNodeType_m2 = NodeType.GRASS_PURPLE;
+        else if (type == 2) currentNodeType_m2 = NodeType.THORNS;
+        else if (type == 3) currentNodeType_m2 = NodeType.ROAD;
+        else if (type == 4) currentNodeType_m2 = NodeType.VINES;
+        else if (type == 5) currentNodeType_m2 = NodeType.WALL;
+        else if (type == 6) currentNodeType_m2 = NodeType.WATER;
+        else if (type == 7) currentNodeType_m2 = NodeType.GRASS_PURPLE;
+        else if (type == 8) currentNodeType_m2 = NodeType.HOLE;
+        
     }
     public void ChangeVariation_m1(bool add)
     {
