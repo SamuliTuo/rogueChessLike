@@ -98,7 +98,7 @@ public class UnitAbilityManager : MonoBehaviour
         }*/
         unit.RotateUnit(new Vector2Int(_attackTarget.x, _attackTarget.y));
     }
-
+    
     public void ActivateAbilitySecondHalf(Tuple<UnitAbility, int> _ability, Unit _attackTarget, Vector2Int[] _path)
     {
         Vector3 offset = transform.TransformVector(unit.attackPositionOffset);

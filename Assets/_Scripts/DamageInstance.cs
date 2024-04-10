@@ -123,6 +123,7 @@ public class DamageInstance : MonoBehaviour
         }
     }
 
+    public GameObject debugger; //
     private void ActivateSquare(
         Node target, 
         Unit shooter,
@@ -142,6 +143,7 @@ public class DamageInstance : MonoBehaviour
 
         foreach (var node in squares)
         {
+            Instantiate(Resources.Load<GameObject>("DebuggerSphere"), Chessboard.Instance.GetTileCenter(node.Item1.x,node.Item1.y), Quaternion.identity);
             if (units[node.Item1.x,node.Item1.y] != null)
             {
                 if (GameManager.Instance.IsValidTarget(shooter, units[node.Item1.x,node.Item1.y], targeting))

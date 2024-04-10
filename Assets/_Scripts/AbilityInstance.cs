@@ -21,6 +21,8 @@ public class AbilityInstance : MonoBehaviour
     float missChance;
     Unit targetUnit;
     Unit shooter;
+    Vector3 meleeProjectileOrientation;
+    Vector3 spellEffectOrientation;
     bool followUnit = false;
     UnitAbility ability;
     Vector2Int[] path;
@@ -108,12 +110,13 @@ public class AbilityInstance : MonoBehaviour
         }
     }
 
-
     IEnumerator ProjectileMotion()
     {
+        spellEffectOrientation = Vector3.zero;
         // Fly
         while (t < dist || forcedTimer > 0)
         {
+            spellEffectOrientation += transform.forward * 0.1f;
             forcedTimer -= Time.deltaTime;
             t += Time.deltaTime * ability.flySpeed;
 
@@ -142,7 +145,7 @@ public class AbilityInstance : MonoBehaviour
             }
         }                
 
-        GameManager.Instance.DamageInstance.Activate(targetNode, transform.forward, ability.aoeShape, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic);
+        GameManager.Instance.DamageInstance.Activate(targetNode, spellEffectOrientation, ability.aoeShape, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
 
         SpawnAreaDOT();
@@ -157,6 +160,7 @@ public class AbilityInstance : MonoBehaviour
        
         var lookAtPos = Chessboard.Instance.GetTileCenter(targetUnit.x, targetUnit.y);
         transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
+        meleeProjectileOrientation = lookAtPos - transform.position;
         targetNode = Chessboard.Instance.nodes[targetUnit.x, targetUnit.y];
         if (!ability.centerOnYourself)
         {
@@ -170,7 +174,7 @@ public class AbilityInstance : MonoBehaviour
         }
 
         // Hit target
-        GameManager.Instance.DamageInstance.Activate(targetNode, transform.forward, ability.aoeShape, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic, ability.hitParticle);
+        GameManager.Instance.DamageInstance.Activate(targetNode, meleeProjectileOrientation, ability.aoeShape, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic, ability.hitParticle);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
         
         // Stay visible

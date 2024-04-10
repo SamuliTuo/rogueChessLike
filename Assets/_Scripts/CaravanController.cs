@@ -133,14 +133,13 @@ public class CaravanController : MonoBehaviour
         data.randomizeAttacks = randomUnit.randomizeAttackingOrder;
         
         // Clone and set the abilities for the unit:
-        var unitAbilityManager = randomUnit.prefab.GetComponent<UnitAbilityManager>();
-
         // Get a random "signature spell"
-        int rand = UnityEngine.Random.Range(0, 3);
-        string spellName = unitAbilityManager.possibleAbilities[rand].name;
-        UnitAbility c = Instantiate(unitAbilityManager.possibleAbilities[rand]);
-        c.name = spellName;
+        var ability = randomUnit.signatureSpells[UnityEngine.Random.Range(0, randomUnit.signatureSpells.Count)];
+        UnitAbility c = Instantiate(ability.spell);
+        c.name = ability.spell.name;
         data.ability1 = c;
+
+        print(data.ability1);
 
         // Set class
         data.unitClass = GameManager.Instance.ClassLibrary.GetRandomClass();

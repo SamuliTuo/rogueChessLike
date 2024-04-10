@@ -20,26 +20,26 @@ MonoBehaviour:
   aoeShape: 2
   projectileType: 0
   projectilePath: projectile_fireBall
-  reach: 2
-  damage: 1
+  reach: 3
+  damage: 3.5
   usesMagic: 1
   directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.2
   castDuration_secondHalf: 1
   additionalDamagePhases: 0
   additionalDamagePhaseDuration: 0
-  cooldown: 6
+  cooldown: 7
   startCooldownMultiplier: 0.1
   flySpeed: 18
   minLifeTime: 0
   damagesAllies: 0
   spawnAreaDOT: 1
   areaDOTStatusModifier: {fileID: 0}
-  areaDOTType: 0
+  areaDOTType: 1
   areaDotShape: 2
   areaDOTValidTargets: 0
   areaDOTParticle: 1
-  tickDamage: 20
+  tickDamage: 2
   tickIntervalSeconds: 0.8
   intervalCount: 4
   bounceAttack: {fileID: 0}

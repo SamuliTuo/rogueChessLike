@@ -14,38 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shapeName: 1
   rings_north_0:
-  - x: 0
-    y: 2
+  - x: -2
+    y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: ne
-  - x: 0
-    y: -2
+    pushDirection: s
+  - x: 2
+    y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: nw
+    pushDirection: e
   rings_north_1:
-  - x: 0
-    y: 1
+  - x: -1
+    y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: n
-  - x: 0
-    y: -1
+    pushDirection: se
+  - x: 1
+    y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: n
+    pushDirection: se
   rings_north_2:
   - x: 0
     y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: n
+    pushDirection: se
   rings_north_3: []
   rings_north_4: []
   rings_north_5: []
@@ -90,38 +90,38 @@ MonoBehaviour:
   rings_northEast_6: []
   rings_northEast_7: []
   rings_east_0:
-  - x: 2
-    y: 0
+  - x: 0
+    y: 2
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
-  - x: -2
-    y: 0
+    pushDirection: ne
+  - x: 0
+    y: -2
+    push: 1
+    nudge: 0
+    extraPushAmount: 0
+    pushDirection: nw
+  rings_east_1:
+  - x: 0
+    y: 1
     push: 1
     nudge: 0
     extraPushAmount: 0
     pushDirection: n
-  rings_east_1:
-  - x: 1
-    y: 0
+  - x: 0
+    y: -1
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: ne
-  - x: -1
-    y: 0
-    push: 1
-    nudge: 0
-    extraPushAmount: 0
-    pushDirection: ne
+    pushDirection: n
   rings_east_2:
   - x: 0
     y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: ne
+    pushDirection: n
   rings_east_3: []
   rings_east_4: []
   rings_east_5: []
@@ -166,38 +166,38 @@ MonoBehaviour:
   rings_southEast_6: []
   rings_southEast_7: []
   rings_south_0:
-  - x: 0
-    y: -2
+  - x: 2
+    y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: se
-  - x: 0
-    y: 2
+    pushDirection: e
+  - x: -2
+    y: 0
+    push: 1
+    nudge: 0
+    extraPushAmount: 0
+    pushDirection: n
+  rings_south_1:
+  - x: 1
+    y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
     pushDirection: ne
-  rings_south_1:
-  - x: 0
-    y: -1
+  - x: -1
+    y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
-  - x: 0
-    y: 1
-    push: 1
-    nudge: 0
-    extraPushAmount: 0
-    pushDirection: e
+    pushDirection: ne
   rings_south_2:
   - x: 0
     y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
+    pushDirection: ne
   rings_south_3: []
   rings_south_4: []
   rings_south_5: []
@@ -205,113 +205,113 @@ MonoBehaviour:
   rings_south_7: []
   rings_southWest_0:
   - x: -2
-    y: -2
-    push: 1
-    nudge: 0
-    extraPushAmount: 0
-    pushDirection: ne
-  - x: 2
     y: 2
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: se
-  rings_southWest_1:
-  - x: -1
-    y: -1
+    pushDirection: e
+  - x: 2
+    y: -2
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
-  - x: 1
+    pushDirection: s
+  rings_southWest_1:
+  - x: -1
     y: 1
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
+    pushDirection: se
+  - x: 1
+    y: -1
+    push: 1
+    nudge: 0
+    extraPushAmount: 0
+    pushDirection: se
   rings_southWest_2:
   - x: 0
     y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
+    pushDirection: se
   rings_southWest_3: []
   rings_southWest_4: []
   rings_southWest_5: []
   rings_southWest_6: []
   rings_southWest_7: []
   rings_west_0:
-  - x: -2
-    y: 0
+  - x: 0
+    y: -2
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: s
-  - x: 2
-    y: 0
+    pushDirection: se
+  - x: 0
+    y: 2
+    push: 1
+    nudge: 0
+    extraPushAmount: 0
+    pushDirection: ne
+  rings_west_1:
+  - x: 0
+    y: -1
     push: 1
     nudge: 0
     extraPushAmount: 0
     pushDirection: e
-  rings_west_1:
-  - x: -1
-    y: 0
+  - x: 0
+    y: 1
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: se
-  - x: 1
-    y: 0
-    push: 1
-    nudge: 0
-    extraPushAmount: 0
-    pushDirection: se
+    pushDirection: e
   rings_west_2:
   - x: 0
     y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: se
+    pushDirection: e
   rings_west_3: []
   rings_west_4: []
   rings_west_5: []
   rings_west_6: []
   rings_west_7: []
   rings_northWest_0:
-  - x: -2
-    y: -2
-    push: 1
-    nudge: 0
-    extraPushAmount: 0
-    pushDirection: ne
   - x: 2
     y: 2
     push: 1
     nudge: 0
     extraPushAmount: 0
     pushDirection: se
-  rings_northWest_1:
-  - x: -1
-    y: -1
+  - x: -2
+    y: -2
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
+    pushDirection: sw
+  rings_northWest_1:
   - x: 1
     y: 1
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
+    pushDirection: s
+  - x: -1
+    y: -1
+    push: 1
+    nudge: 0
+    extraPushAmount: 0
+    pushDirection: s
   rings_northWest_2:
   - x: 0
     y: 0
     push: 1
     nudge: 0
     extraPushAmount: 0
-    pushDirection: e
+    pushDirection: s
   rings_northWest_3: []
   rings_northWest_4: []
   rings_northWest_5: []

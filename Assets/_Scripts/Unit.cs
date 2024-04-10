@@ -443,7 +443,7 @@ public class Unit : MonoBehaviour
             timer += Time.deltaTime * fallSpeed;
             yield return null;
         }
-        hp.RemoveHP(Mathf.Infinity, true);
+        hp.RemoveHP(9999999, true);
     }
 
     void MoveUnit()
