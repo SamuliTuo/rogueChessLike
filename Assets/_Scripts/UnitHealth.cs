@@ -76,14 +76,13 @@ public class UnitHealth : MonoBehaviour
         float damageTaken;
         if (isMagic)
         {
-            damageTaken = damage - magicRes;  // <- change
+            damageTaken = damage - (damage * (magicRes / (100 + magicRes)));
         }
         else
         {
-            damageTaken = damage - armor; // <- change
+            damageTaken = damage - (damage * (armor / (100 + armor)));
         }
-        damageTaken = damage; //placeholdr
-
+        print("damage taken: " + damageTaken);
         // Damage numbers:
         if (!dieFast)
         {

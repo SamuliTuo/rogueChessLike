@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSearchType: 0
   validTargets: 0
-  centerOnYourself: 1
+  centerOnYourself: 0
   hitParticle: 12
   dmgInstanceType: 1
+  aoeShape: 3
   projectileType: 1
   projectilePath: projectile_fireBreath
   reach: 1
@@ -27,14 +28,15 @@ MonoBehaviour:
   castDuration_secondHalf: 1
   additionalDamagePhases: 0
   additionalDamagePhaseDuration: 0
-  cooldown: 0.1
+  cooldown: 2
   startCooldownMultiplier: 1
   flySpeed: 10
   minLifeTime: 0.3
   damagesAllies: 0
   spawnAreaDOT: 0
   areaDOTStatusModifier: {fileID: 0}
-  areaDOTSize: 0
+  areaDOTType: 0
+  areaDotShape: 0
   areaDOTValidTargets: 0
   areaDOTParticle: 0
   tickDamage: 0

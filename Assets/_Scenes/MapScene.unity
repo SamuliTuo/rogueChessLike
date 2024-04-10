@@ -13575,7 +13575,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -6}
+  m_AnchoredPosition: {x: 0, y: -6.0000916}
   m_SizeDelta: {x: -332.65906, y: -181.07397}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1168859905
@@ -22636,7 +22636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -6}
+  m_AnchoredPosition: {x: 0, y: -6.0000916}
   m_SizeDelta: {x: -332.65906, y: -181.07397}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1931294924
@@ -39670,10 +39670,6 @@ PrefabInstance:
     - target: {fileID: 6089650262552058429, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
       propertyPath: m_Name
       value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8816529761699951919, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
-      propertyPath: AOELibraryEntries.Array.size
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}

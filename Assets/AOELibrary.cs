@@ -14,7 +14,7 @@ using static UnityEngine.GraphicsBuffer;
 [Serializable]
 public enum AOEShapes
 {
-    ROW_1X3, ROW_1X5, BOX_3X3   
+    ROW_1X3, ROW_1X5, BOX_3X3, CONE_1_3_3
 }
 
 [Serializable]
@@ -206,44 +206,44 @@ public class AOELibrary : MonoBehaviour
 
         newGrid.shapeName = grid.shapeName;
 
-        if (rings.Count >= 1) newGrid.rings_north_0 = rings[0];
-        if (rings.Count >= 2) newGrid.rings_north_1 = rings[1];
-        if (rings.Count >= 3) newGrid.rings_north_2 = rings[2];
-        if (rings.Count >= 4) newGrid.rings_north_3 = rings[3];
-        if (rings.Count >= 5) newGrid.rings_north_4 = rings[4];
-        if (rings.Count >= 6) newGrid.rings_north_5 = rings[5];
-        if (rings.Count >= 7) newGrid.rings_north_6 = rings[6];
-        if (rings.Count >= 8) newGrid.rings_north_7 = rings[7];
+        if (rings.Count >= 1) newGrid.rings_east_0 = rings[0];
+        if (rings.Count >= 2) newGrid.rings_east_1 = rings[1];
+        if (rings.Count >= 3) newGrid.rings_east_2 = rings[2];
+        if (rings.Count >= 4) newGrid.rings_east_3 = rings[3];
+        if (rings.Count >= 5) newGrid.rings_east_4 = rings[4];
+        if (rings.Count >= 6) newGrid.rings_east_5 = rings[5];
+        if (rings.Count >= 7) newGrid.rings_east_6 = rings[6];
+        if (rings.Count >= 8) newGrid.rings_east_7 = rings[7];
 
         var ringsEast = RotateRings(rings, 1);
-        if (ringsEast.Count >= 1) newGrid.rings_east_0 = ringsEast[0];
-        if (ringsEast.Count >= 2) newGrid.rings_east_1 = ringsEast[1];
-        if (ringsEast.Count >= 3) newGrid.rings_east_2 = ringsEast[2];
-        if (ringsEast.Count >= 4) newGrid.rings_east_3 = ringsEast[3];
-        if (ringsEast.Count >= 5) newGrid.rings_east_4 = ringsEast[4];
-        if (ringsEast.Count >= 6) newGrid.rings_east_5 = ringsEast[5];
-        if (ringsEast.Count >= 7) newGrid.rings_east_6 = ringsEast[6];
-        if (ringsEast.Count >= 8) newGrid.rings_east_7 = ringsEast[7];
+        if (ringsEast.Count >= 1) newGrid.rings_south_0 = ringsEast[0];
+        if (ringsEast.Count >= 2) newGrid.rings_south_1 = ringsEast[1];
+        if (ringsEast.Count >= 3) newGrid.rings_south_2 = ringsEast[2];
+        if (ringsEast.Count >= 4) newGrid.rings_south_3 = ringsEast[3];
+        if (ringsEast.Count >= 5) newGrid.rings_south_4 = ringsEast[4];
+        if (ringsEast.Count >= 6) newGrid.rings_south_5 = ringsEast[5];
+        if (ringsEast.Count >= 7) newGrid.rings_south_6 = ringsEast[6];
+        if (ringsEast.Count >= 8) newGrid.rings_south_7 = ringsEast[7];
 
         var ringsSouth = RotateRings(rings, 2);
-        if (ringsSouth.Count >= 1) newGrid.rings_south_0 = ringsSouth[0];
-        if (ringsSouth.Count >= 2) newGrid.rings_south_1 = ringsSouth[1];
-        if (ringsSouth.Count >= 3) newGrid.rings_south_2 = ringsSouth[2];
-        if (ringsSouth.Count >= 4) newGrid.rings_south_3 = ringsSouth[3];
-        if (ringsSouth.Count >= 5) newGrid.rings_south_4 = ringsSouth[4];
-        if (ringsSouth.Count >= 6) newGrid.rings_south_5 = ringsSouth[5];
-        if (ringsSouth.Count >= 7) newGrid.rings_south_6 = ringsSouth[6];
-        if (ringsSouth.Count >= 8) newGrid.rings_south_7 = ringsSouth[7];
+        if (ringsSouth.Count >= 1) newGrid.rings_west_0 = ringsSouth[0];
+        if (ringsSouth.Count >= 2) newGrid.rings_west_1 = ringsSouth[1];
+        if (ringsSouth.Count >= 3) newGrid.rings_west_2 = ringsSouth[2];
+        if (ringsSouth.Count >= 4) newGrid.rings_west_3 = ringsSouth[3];
+        if (ringsSouth.Count >= 5) newGrid.rings_west_4 = ringsSouth[4];
+        if (ringsSouth.Count >= 6) newGrid.rings_west_5 = ringsSouth[5];
+        if (ringsSouth.Count >= 7) newGrid.rings_west_6 = ringsSouth[6];
+        if (ringsSouth.Count >= 8) newGrid.rings_west_7 = ringsSouth[7];
 
         var ringsWest = RotateRings(rings, 3);
-        if (ringsWest.Count >= 1) newGrid.rings_west_0 = ringsWest[0];
-        if (ringsWest.Count >= 2) newGrid.rings_west_1 = ringsWest[1];
-        if (ringsWest.Count >= 3) newGrid.rings_west_2 = ringsWest[2];
-        if (ringsWest.Count >= 4) newGrid.rings_west_3 = ringsWest[3];
-        if (ringsWest.Count >= 5) newGrid.rings_west_4 = ringsWest[4];
-        if (ringsWest.Count >= 6) newGrid.rings_west_5 = ringsWest[5];
-        if (ringsWest.Count >= 7) newGrid.rings_west_6 = ringsWest[6];
-        if (ringsWest.Count >= 8) newGrid.rings_west_7 = ringsWest[7];
+        if (ringsWest.Count >= 1) newGrid.rings_north_0 = ringsWest[0];
+        if (ringsWest.Count >= 2) newGrid.rings_north_1 = ringsWest[1];
+        if (ringsWest.Count >= 3) newGrid.rings_north_2 = ringsWest[2];
+        if (ringsWest.Count >= 4) newGrid.rings_north_3 = ringsWest[3];
+        if (ringsWest.Count >= 5) newGrid.rings_north_4 = ringsWest[4];
+        if (ringsWest.Count >= 6) newGrid.rings_north_5 = ringsWest[5];
+        if (ringsWest.Count >= 7) newGrid.rings_north_6 = ringsWest[6];
+        if (ringsWest.Count >= 8) newGrid.rings_north_7 = ringsWest[7];
 
         if (rings2.Count >= 1) newGrid.rings_northEast_0 = rings2[0];
         if (rings2.Count >= 2) newGrid.rings_northEast_1 = rings2[1];
@@ -264,7 +264,7 @@ public class AOELibrary : MonoBehaviour
         if (ringsSouthEast.Count >= 7) newGrid.rings_southEast_6 = ringsSouthEast[6];
         if (ringsSouthEast.Count >= 8) newGrid.rings_southEast_7 = ringsSouthEast[7];
 
-        var ringsSouthWest = RotateRings(rings2, 1);
+        var ringsSouthWest = RotateRings(rings2, 2);
         if (ringsSouthWest.Count >= 1) newGrid.rings_southWest_0 = ringsSouthWest[0];
         if (ringsSouthWest.Count >= 2) newGrid.rings_southWest_1 = ringsSouthWest[1];
         if (ringsSouthWest.Count >= 3) newGrid.rings_southWest_2 = ringsSouthWest[2];
@@ -274,7 +274,7 @@ public class AOELibrary : MonoBehaviour
         if (ringsSouthWest.Count >= 7) newGrid.rings_southWest_6 = ringsSouthWest[6];
         if (ringsSouthWest.Count >= 8) newGrid.rings_southWest_7 = ringsSouthWest[7];
 
-        var ringsNorthWest = RotateRings(rings2, 1);
+        var ringsNorthWest = RotateRings(rings2, 3);
         if (ringsNorthWest.Count >= 1) newGrid.rings_northWest_0 = ringsNorthWest[0];
         if (ringsNorthWest.Count >= 2) newGrid.rings_northWest_1 = ringsNorthWest[1];
         if (ringsNorthWest.Count >= 3) newGrid.rings_northWest_2 = ringsNorthWest[2];
