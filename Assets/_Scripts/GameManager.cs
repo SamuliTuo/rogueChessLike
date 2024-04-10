@@ -19,10 +19,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public UnitLibrary UnitLibrary { get; private set; }
+    public ClassLibrary ClassLibrary { get; private set; }
     public HPBarSpawner HPBars { get; private set; }
     public ParticleSpawner ParticleSpawner { get; private set; }
     public PlayerParty PlayerParty { get; private set; }
     public DamageInstance DamageInstance { get; private set; }
+    public AOELibrary AOELibrary { get; private set; }
     public SaveSlots SaveSlots { get; private set; }
     public CurrentMap CurrentMap { get; private set; }
     public MapController MapController { get; private set; }
@@ -70,8 +72,10 @@ public class GameManager : MonoBehaviour
 
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         UnitLibrary = GetComponentInChildren<UnitLibrary>();
+        ClassLibrary = GetComponentInChildren<ClassLibrary>();
         PlayerParty = GetComponentInChildren<PlayerParty>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
+        AOELibrary = GetComponentInChildren<AOELibrary>();
         HPBars = GetComponentInChildren<HPBarSpawner>();
         SaveSlots = GetComponentInChildren<SaveSlots>();
         CurrentMap = GetComponentInChildren<CurrentMap>();

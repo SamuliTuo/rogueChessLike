@@ -14,12 +14,12 @@ public class FireLerping : MonoBehaviour
     [SerializeField] private float maxLerpSpeed = 3f;
 
     //intensity20 140    range6 12
-    private Light light;
+    private Light _light;
     private bool goingUp;
 
     private void Start()
     {
-        light = GetComponent<Light>();
+        _light = GetComponent<Light>();
         goingUp = false;
         StartCoroutine(FireCoroutine());
     }
@@ -34,13 +34,13 @@ public class FireLerping : MonoBehaviour
             t += Time.deltaTime * speed;
             if (goingUp)
             {
-                light.intensity = Mathf.Lerp(minIntensity, maxIntensity, t);
-                light.range = Mathf.Lerp(minRange, maxRange, t);
+                _light.intensity = Mathf.Lerp(minIntensity, maxIntensity, t);
+                _light.range = Mathf.Lerp(minRange, maxRange, t);
             }
             else
             {
-                light.intensity = Mathf.Lerp(maxIntensity, minIntensity, t);
-                light.range = Mathf.Lerp(maxRange, minRange, t);
+                _light.intensity = Mathf.Lerp(maxIntensity, minIntensity, t);
+                _light.range = Mathf.Lerp(maxRange, minRange, t);
             }
             yield return null;
         }

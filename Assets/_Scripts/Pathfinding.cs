@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
 
 [Serializable]
 public enum UnitSearchType
@@ -340,5 +339,17 @@ public class Pathfinding : MonoBehaviour
             }
         }
         return r;
+    }
+    public bool IsSpecificUnitInRangeFromNode(Unit target, int x, int y, int reach)
+    {
+        if (target.GetComponent<UnitHealth>().dying == true)
+        {
+            return false;
+        }
+        if (GetDistance(board.nodes[x,y], board.nodes[target.x, target.y]) <= Extensions.ReachToRange(reach))
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -29,7 +29,7 @@ public static class Extensions
 
     public static int ReachToRange(int reach)
     {
-        //So melee attacks with reach of 1 - node reach also diagonally
+        //This is here so melee attacks (reach of 1) can also reach diagonally
         if (reach == 1)
         {
             return 14;

@@ -119,8 +119,9 @@ public class Obstacle : MonoBehaviour
             //case ObstacleAction.ABILITY:
             //    if (animator != null) animator.Play("attack", 0, 0);
             //    abilities.ActivateAbility(nextAbility, attackTarget, path); 
+                //break;
+            default: 
                 break;
-            default: break;
         }
     }
 

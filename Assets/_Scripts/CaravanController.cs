@@ -1,10 +1,9 @@
-using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class CaravanController : MonoBehaviour
@@ -12,23 +11,16 @@ public class CaravanController : MonoBehaviour
     [SerializeField] GameObject caravanPanel;
 
     private List<Tuple<UnitData, UnitInLibrary>> caravanSlots = new List<Tuple<UnitData, UnitInLibrary>>();
-    private Image caravanSlot1Image;
-    private Image caravanSlot2Image;
-    private Image caravanSlot3Image;
-    private Image[] slot1_spells;
-    private Image[] slot2_spells;
-    private Image[] slot3_spells;
+    private Image[] caravanSlotUnitImages;
+    private List<Image[]> caravanSlotSpellImages;
+    private UnitStatsPanel[] caravanSlotUnitStats;
+    private GameObject[] rerollButtons;
+    private bool canReroll;
     
 
     private void Start()
     {
-        caravanSlot1Image = caravanPanel.transform.Find("Image1").GetComponent<Image>();
-        caravanSlot2Image = caravanPanel.transform.Find("Image2").GetComponent<Image>();
-        caravanSlot3Image = caravanPanel.transform.Find("Image3").GetComponent<Image>();
-        
-        slot1_spells = caravanSlot1Image.transform.GetChild(0).GetChild(0).GetComponentsInChildren<Image>();
-        slot2_spells = caravanSlot2Image.transform.GetChild(0).GetChild(0).GetComponentsInChildren<Image>();
-        slot3_spells = caravanSlot3Image.transform.GetChild(0).GetChild(0).GetComponentsInChildren<Image>();
+        GetReferences();
     }
 
     public Sprite emptyImage;
@@ -36,27 +28,52 @@ public class CaravanController : MonoBehaviour
     public void OpenCaravan()
     {
         caravanSlots.Clear();
-        List<Tuple<UnitData, UnitInLibrary>> choices = GetUnitChoices();
-        foreach (var choice in choices)
-        {
-            caravanSlots.Add(choice);
-        }
-        caravanSlot1Image.sprite = caravanSlots[0].Item2.image;
-        caravanSlot2Image.sprite = caravanSlots[1].Item2.image;
-        caravanSlot3Image.sprite = caravanSlots[2].Item2.image;
-        SetSpellImages(caravanSlots[0], slot1_spells);
-        SetSpellImages(caravanSlots[1], slot2_spells);
-        SetSpellImages(caravanSlots[2], slot3_spells);
+        SetupUnitChoices();
         caravanPanel.SetActive(true);
+
+        print("check if this is first caravan and only then allow reroll (or if player has been given ability to reroll units later in game)");
+        canReroll = true;
+        ToggleRerollButtons(true);
     }
 
-    void SetSpellImages(Tuple<UnitData, UnitInLibrary> slot, Image[] skillSlots)
+
+
+    public void FullReroll(int slot)
     {
-        skillSlots[0].sprite = slot.Item1.ability1 == null ? emptyImage : slot.Item2.GetSpellImage(slot.Item1.ability1);
-        skillSlots[1].sprite = slot.Item1.ability2 == null ? emptyImage : slot.Item2.GetSpellImage(slot.Item1.ability2);
-        skillSlots[2].sprite = slot.Item1.ability3 == null ? emptyImage : slot.Item2.GetSpellImage(slot.Item1.ability3);
+        if (!canReroll)
+            return;
 
+        canReroll = false;
+        ToggleRerollButtons(false);
+
+        caravanSlots[slot] = GetARandomCaravanChoice(slot);
+        caravanSlotUnitImages[slot].sprite = caravanSlots[slot].Item2.image;
+        caravanSlotSpellImages[slot][0].sprite = caravanSlots[slot].Item1.ability1 == null ? emptyImage : caravanSlots[slot].Item2.GetSpellImage(caravanSlots[slot].Item1.ability1);
+        caravanSlotSpellImages[slot][1].sprite = caravanSlots[slot].Item1.ability2 == null ? emptyImage : caravanSlots[slot].Item2.GetSpellImage(caravanSlots[slot].Item1.ability2);
+        caravanSlotSpellImages[slot][2].sprite = caravanSlots[slot].Item1.ability3 == null ? emptyImage : caravanSlots[slot].Item2.GetSpellImage(caravanSlots[slot].Item1.ability3);
     }
+    public void RerollStats(int slot)
+    {
+        if (!canReroll)
+            return;
+
+        canReroll = false;
+        ToggleRerollButtons(false);
+
+        SetStats(caravanSlots[slot].Item1, caravanSlots[slot].Item2, slot);
+    }
+    public void RerollClass(int slot)
+    {
+        if (!canReroll)
+            return;
+
+        canReroll = false;
+        ToggleRerollButtons(false);
+
+        caravanSlots[slot].Item1.unitClass = GameManager.Instance.ClassLibrary.GetRandomClass(caravanSlots[slot].Item1.unitClass);
+        caravanSlotUnitStats[slot].SetClass();
+    }
+
 
     public void ChooseUnit(int chosenSlot)
     {
@@ -69,17 +86,17 @@ public class CaravanController : MonoBehaviour
         GameManager.Instance.MapController.SetCanMove(true);
     }
 
-    List<Tuple<UnitData, UnitInLibrary>> GetUnitChoices()
+    void SetupUnitChoices()
     {
-        var r = new List<Tuple<UnitData, UnitInLibrary>>();
+        caravanSlots.Clear();
         for (int i = 0; i < 3; i++)
         {
-            r.Add(GetARandomCaravanChoice());
+            caravanSlots.Add(GetARandomCaravanChoice(i));
         }
-        return r;
     }
 
-    Tuple<UnitData, UnitInLibrary> GetARandomCaravanChoice()
+    int randomFactorHP, randomFactorArmor, randomFactorMres, randomFactorDmg, randomFactorMagic, randomFactorAS, randomFactorMS;
+    Tuple<UnitData, UnitInLibrary> GetARandomCaravanChoice(int index)
     {
         UnitInLibrary randomUnit;
         List<UnitInLibrary> units = new List<UnitInLibrary>();
@@ -94,14 +111,13 @@ public class CaravanController : MonoBehaviour
             }
         }
         randomUnit = units[UnityEngine.Random.Range(0, units.Count)];
-        
+
         //GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         //var randomUnit = GameManager.Instance.UnitSavePaths.unitsDatas[Random.Range(0, GameManager.Instance.UnitSavePaths.unitsDatas.Count)];
         Vector2Int spawnPos = GameManager.Instance.PlayerParty.GetFirstFreePartyPos();
         UnitData data = new UnitData(randomUnit.prefab.GetComponent<Unit>(), randomUnit.nameInList, spawnPos.x, spawnPos.y, 1);
 
         // Clone and set the attacks for the unit:
-        Unit unitScript = randomUnit.prefab.GetComponent<Unit>();
         List<Unit_NormalAttack> clonedAttacks = new List<Unit_NormalAttack>();
         for (int i = 0; i < randomUnit.attacks.Count; i++)
         {
@@ -126,35 +142,90 @@ public class CaravanController : MonoBehaviour
         c.name = spellName;
         data.ability1 = c;
 
-        // Set the stats of the unit
-        data.maxHp =        randomUnit.stats.hp != -1 ?                 randomUnit.stats.hp : GameManager.Instance.UnitLibrary.hp;
-        data.damage =       randomUnit.stats.damage != -1 ?             randomUnit.stats.damage : GameManager.Instance.UnitLibrary.damage;
-        data.magic =        randomUnit.stats.magicDamage != -1 ?        randomUnit.stats.magicDamage : GameManager.Instance.UnitLibrary.magicDamage;
-        data.attackSpeed =  randomUnit.stats.attackSpeed != -1 ?        randomUnit.stats.attackSpeed : GameManager.Instance.UnitLibrary.attackSpeed;
-        data.moveSpeed =    randomUnit.stats.moveSpeed != -1 ?          randomUnit.stats.moveSpeed : GameManager.Instance.UnitLibrary.moveSpeed;
-        data.moveInterval = randomUnit.stats.visibleMoveSpeed != -1 ?   randomUnit.stats.visibleMoveSpeed : GameManager.Instance.UnitLibrary.visibleMoveSpeed;
-        data.armor =        randomUnit.stats.armor != -1 ?              randomUnit.stats.armor : GameManager.Instance.UnitLibrary.armor;
-        data.magicRes =     randomUnit.stats.magicRes != -1 ?           randomUnit.stats.magicRes : GameManager.Instance.UnitLibrary.magicRes;
+        // Set class
+        data.unitClass = GameManager.Instance.ClassLibrary.GetRandomClass();
+
+        caravanSlotUnitImages[index].sprite = randomUnit.image;
+        caravanSlotSpellImages[index][0].sprite = data.ability1 == null ? emptyImage : randomUnit.GetSpellImage(data.ability1);
+        caravanSlotSpellImages[index][1].sprite = data.ability2 == null ? emptyImage : randomUnit.GetSpellImage(data.ability2);
+        caravanSlotSpellImages[index][2].sprite = data.ability3 == null ? emptyImage : randomUnit.GetSpellImage(data.ability3);
+
+        SetStats(data, randomUnit, index);
 
         return new Tuple<UnitData, UnitInLibrary>(data, randomUnit);
-        /*
+    }
 
-        int[] abilChoices = GameManager.Instance.GenerateRandomUniqueIntegers(new Vector2Int(1, 2), new Vector2Int(0, unitAbilityManager.possibleAbilities.Count));
-        if (abilChoices != null)
+
+    void SetStats(UnitData data, UnitInLibrary randomUnit, int index)
+    {
+        randomFactorHP = UnityEngine.Random.Range(-1, 2);
+        randomFactorArmor = UnityEngine.Random.Range(-1, 2);
+        randomFactorMres = UnityEngine.Random.Range(-1, 2);
+        randomFactorDmg = UnityEngine.Random.Range(-1, 2);
+        randomFactorMagic = UnityEngine.Random.Range(-1, 2);
+        randomFactorAS = UnityEngine.Random.Range(-1, 2);
+        randomFactorMS = UnityEngine.Random.Range(-1, 2);
+
+        data.maxHp = Mathf.Max(0, randomUnit.stats.hp + (randomFactorHP * GameManager.Instance.ClassLibrary.hpPerPoint));
+        data.armor = Mathf.Max(0, randomUnit.stats.armor + (randomFactorArmor * GameManager.Instance.ClassLibrary.armorPerPoint));
+        data.magicRes = Mathf.Max(0, randomUnit.stats.magicRes + (randomFactorMres * GameManager.Instance.ClassLibrary.mgArmorPerPoint));
+        data.damage = Mathf.Max(0, randomUnit.stats.damage + (randomFactorDmg * GameManager.Instance.ClassLibrary.dmgPerPoint));
+        data.magic = Mathf.Max(0, randomUnit.stats.magicDamage + (randomFactorMagic * GameManager.Instance.ClassLibrary.magicPerPoint));
+        data.attackSpeed = Mathf.Max(0, randomUnit.stats.attackSpeed + (randomFactorAS * GameManager.Instance.ClassLibrary.attSpdPerPoint));
+        data.moveSpeed = Mathf.Max(0, randomUnit.stats.moveSpeed + (randomFactorMS * GameManager.Instance.ClassLibrary.moveSpdPerPoint));
+        data.moveInterval = Mathf.Max(0, randomUnit.stats.visibleMoveSpeed);
+
+        caravanSlotUnitStats[index].OpenUnitStatsPanel(data, false);
+        caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.HP, data.maxHp, (randomFactorHP == 0 ? "" : (randomFactorHP == 1 ? "+" : "-") + "\n") + data.maxHp.ToString());
+        caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.ARMOR, data.armor, (randomFactorArmor == 0 ? "" : (randomFactorArmor == 1 ? "+" : "-") + "\n") + data.armor.ToString());
+        caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.MRES, data.magicRes, (randomFactorMres == 0 ? "" : (randomFactorMres == 1 ? "+" : "-") + "\n") + data.magicRes.ToString());
+        caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.DMG, data.damage, (randomFactorDmg == 0 ? "" : (randomFactorDmg == 1 ? "+" : "-") + "\n") + data.damage.ToString());
+        caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.MAGIC, data.magic, (randomFactorMagic == 0 ? "" : (randomFactorMagic == 1 ? "+" : "-") + "\n") + data.magic.ToString());
+        caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.ATTSPD, data.attackSpeed, (randomFactorAS == 0 ? "" : (randomFactorAS == 1 ? "+" : "-") + "\n") + data.attackSpeed.ToString());
+        caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.MOVESPD, data.moveSpeed, (randomFactorMS == 0 ? "" : (randomFactorMS == 1 ? "+" : "-") + "\n") + data.moveSpeed.ToString());
+    }
+
+
+    void GetReferences()
+    {
+        caravanSlotUnitImages = new Image[] {
+            caravanPanel.transform.Find("SLOT1").GetComponent<Image>(),
+            caravanPanel.transform.Find("SLOT2").GetComponent<Image>(),
+            caravanPanel.transform.Find("SLOT3").GetComponent<Image>()
+        };
+
+        caravanSlotSpellImages = new List<Image[]>()
         {
-            foreach (int randomInt in abilChoices)
-            {
-                string spellName = unitAbilityManager.possibleAbilities[randomInt].name;
-                var clone = Instantiate(unitAbilityManager.possibleAbilities[randomInt]);
-                clone.name = spellName;
-                abilities.Add(clone);
-            }
-            data.ability1 = abilities.Count >= 1 ? abilities[0] : null;
-            data.ability2 = abilities.Count >= 2 ? abilities[1] : null;
-            data.ability3 = abilities.Count >= 3 ? abilities[2] : null;
-            data.ability4 = abilities.Count >= 4 ? abilities[3] : null;
+            caravanSlotUnitImages[0].transform.GetChild(0).GetChild(0).GetComponentsInChildren<Image>(),
+            caravanSlotUnitImages[1].transform.GetChild(0).GetChild(0).GetComponentsInChildren<Image>(),
+            caravanSlotUnitImages[2].transform.GetChild(0).GetChild(0).GetComponentsInChildren<Image>()
+        };
+
+        caravanSlotUnitStats = new UnitStatsPanel[]
+        {
+            caravanSlotUnitImages[0].transform.GetChild(1).GetComponent<UnitStatsPanel>(),
+            caravanSlotUnitImages[1].transform.GetChild(1).GetComponent<UnitStatsPanel>(),
+            caravanSlotUnitImages[2].transform.GetChild(1).GetComponent<UnitStatsPanel>()
+        };
+
+        rerollButtons = new GameObject[]
+        {
+            caravanSlotUnitImages[0].transform.GetChild(2).gameObject,
+            caravanSlotUnitImages[1].transform.GetChild(2).gameObject,
+            caravanSlotUnitImages[2].transform.GetChild(2).gameObject
+        };
+        // Set active only if this is the 1st caravan:
+        for (int i = 0; i < rerollButtons.Length; i++)
+        {
+            rerollButtons[i].SetActive(true);
         }
-        return data;
-        */
+    }
+
+    void ToggleRerollButtons(bool state)
+    {
+        for (int i = 0; i < rerollButtons.Length; i++)
+        {
+            rerollButtons[i].SetActive(state);
+        }
     }
 }

@@ -13,6 +13,7 @@ public class UnitAbility : ScriptableObject
     public bool centerOnYourself;
     public ParticleType hitParticle;
     public DamageInstanceType dmgInstanceType;
+    public AOEShapes aoeShape;
     public ProjectileType projectileType;
 
     [Header("Full path of projectile in Resources folder, ie: units/ranger/projectile1")]
@@ -40,7 +41,8 @@ public class UnitAbility : ScriptableObject
     [Header("Damage leaves an area of effect:")]
     public bool spawnAreaDOT = false;
     public UnitStatusModifier areaDOTStatusModifier;
-    public DamageInstanceType areaDOTSize;
+    public DamageInstanceType areaDOTType;
+    public AOEShapes areaDotShape;
     public UnitSearchType areaDOTValidTargets;
     public ParticleType areaDOTParticle;
     public float tickDamage = 0;

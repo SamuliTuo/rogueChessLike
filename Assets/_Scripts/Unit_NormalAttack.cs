@@ -9,6 +9,7 @@ public class Unit_NormalAttack : ScriptableObject
     public UnitSearchType targeting;
     public ParticleType hitParticle;
     public DamageInstanceType dmgInstanceType;
+    public AOEShapes aoeShape;
     public ProjectileType projectileType;
     public UnitStatusModifier statusModifiers;
     public int attackRange = 1;

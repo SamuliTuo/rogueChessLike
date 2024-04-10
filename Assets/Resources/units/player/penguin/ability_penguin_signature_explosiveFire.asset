@@ -16,7 +16,8 @@ MonoBehaviour:
   validTargets: 0
   centerOnYourself: 0
   hitParticle: 7
-  dmgInstanceType: 0
+  dmgInstanceType: 1
+  aoeShape: 2
   projectileType: 0
   projectilePath: projectile_fireBall
   reach: 2
@@ -34,11 +35,12 @@ MonoBehaviour:
   damagesAllies: 0
   spawnAreaDOT: 1
   areaDOTStatusModifier: {fileID: 0}
-  areaDOTSize: 1
+  areaDOTType: 0
+  areaDotShape: 2
   areaDOTValidTargets: 0
   areaDOTParticle: 1
-  tickDamage: 0.3
-  tickIntervalSeconds: 0.6
+  tickDamage: 20
+  tickIntervalSeconds: 0.8
   intervalCount: 4
   bounceAttack: {fileID: 0}
   bounceAttack_targeting: 0

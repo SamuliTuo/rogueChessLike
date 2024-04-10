@@ -32,7 +32,7 @@ public class LevelUpPanel : MonoBehaviour
     public void InitLevelUpPanel(UnitData unit)
     {
         unitLeveling = unit;
-
+        RaiseStats();
         StartCorrectLevelUpPattern();
         /*
         abilityPoints = 1;
@@ -44,6 +44,20 @@ public class LevelUpPanel : MonoBehaviour
         */
     }
 
+    void RaiseStats()
+    {
+        if (unitLeveling == null)
+            return;
+
+        print("Stats got increased, add a visual element telling how much of each stat");
+        unitLeveling.maxHp += unitLeveling.unitClass.hp;
+        unitLeveling.damage += unitLeveling.unitClass.dmg;
+        unitLeveling.magic += unitLeveling.unitClass.mgDmg;
+        unitLeveling.moveSpeed += unitLeveling.unitClass.moveSpd;
+        unitLeveling.attackSpeed += unitLeveling.unitClass.attSpd;
+        unitLeveling.armor += unitLeveling.unitClass.armor;
+        unitLeveling.magicRes += unitLeveling.unitClass.mgArmor;
+    }
 
     // Level 1 : Get a random spell and subclass.
 
@@ -322,7 +336,6 @@ public class LevelUpPanel : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int rand = Random.Range(0, possibleUpgrades.Count);
-            print(rand);
             r.Add(possibleUpgrades[rand]);
             possibleUpgrades.Remove(possibleUpgrades[rand]);
         }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,6 +16,13 @@ public class UnitDataLoader : EditorWindow
         {
             var obj = GameObject.Find("Units");
             obj.GetComponent<LoadExcel>().LoadUnitData(obj.GetComponent<UnitLibrary>());
+        }
+
+        GUILayout.Label("Import AOE grids", EditorStyles.boldLabel);
+        if (GUILayout.Button("Make AOE grid objects"))
+        {
+            var obj = GameObject.Find("GameManager/AOEs");
+            obj.GetComponent<AOELibrary>().RefreshAOELibrary();
         }
     }
 }

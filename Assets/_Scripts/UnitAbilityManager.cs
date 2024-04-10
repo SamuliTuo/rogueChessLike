@@ -39,7 +39,7 @@ public class UnitAbilityManager : MonoBehaviour
     {
         abilitiesWithCooldown.Add(new Tuple<UnitAbility, int>(_ability, i), true);
         GameManager.Instance.ProjectilePools.CreatePool(projectiles[i]);
-        hp.StartCoroutine(AbilityCooldown(new Tuple<UnitAbility, int>(_ability, i), _ability.cooldown * _ability.startCooldownMultiplier));
+        hp.StartCoroutine(AbilityCooldown(new Tuple<UnitAbility, int>(_ability, i), _ability.cooldown, _ability.startCooldownMultiplier));
     }
 
     public Tuple<UnitAbility, int> ConsiderUsingAnAbility()
@@ -132,13 +132,16 @@ public class UnitAbilityManager : MonoBehaviour
         }
     }
 
-    IEnumerator AbilityCooldown(Tuple<UnitAbility, int> _ability, float _cooldown)
+    IEnumerator AbilityCooldown(Tuple<UnitAbility, int> _ability, float _cooldown, float _startMultiplier = 0)
     {
-        float t = 0;
+        float t = _cooldown * _startMultiplier;
         while (t < _cooldown)
         {
             hp?.RefreshSkillCooldownUISlot(_ability.Item2, t / _cooldown);
-            t += Time.deltaTime;
+            if (GameManager.Instance.state == GameState.BATTLE)
+            {
+                t += Time.deltaTime;
+            }
             yield return null;
         }
         abilitiesWithCooldown[_ability] = false;

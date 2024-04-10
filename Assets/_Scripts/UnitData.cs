@@ -19,6 +19,7 @@ public class UnitData
     public float armor;
     public float magicRes;
 
+    public Class unitClass;
     public int currentLevel = 1;
     public float currentExperience;
     public float nextLevelExperience;

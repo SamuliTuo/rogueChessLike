@@ -17,7 +17,7 @@ public class LoadExcel : MonoBehaviour
         this.library = library;
 
         // Read CSV files
-        List<Dictionary<string, object>> data = CSVReader.Read("CharacterSheets");
+        List<Dictionary<string, object>> data = CSVReader.ReadFromFile("CharacterSheets");
         for (var i = 0; i < data.Count; i++)
         {
             int id = int.Parse(data[i]["id"].ToString(), System.Globalization.NumberStyles.Integer);

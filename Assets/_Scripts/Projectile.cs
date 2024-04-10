@@ -32,6 +32,7 @@ public class Projectile : MonoBehaviour
     bool followUnit = false;
     Unit_NormalAttack attack;
     UnitAbility ability;
+    AOEShapes shape;
     Vector2Int[] path;
     List<Unit> bouncedOn;
 
@@ -65,6 +66,7 @@ public class Projectile : MonoBehaviour
         missChance = _missChance;
         bouncesRemainingAttack = _attackBounces;
         bouncesRemainingAbility = _abilityBounces;
+        shape = attack.aoeShape;
 
         bouncedOn = _bouncedOn;
         if (attack.onlyOneBouncePerUnit == false)
@@ -139,7 +141,7 @@ public class Projectile : MonoBehaviour
             {
                 damage *= critDamage;
             }
-            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.usesMagic);
+            GameManager.Instance.DamageInstance.Activate(targetNode, transform.forward, shape, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.usesMagic);
         }
         Bounces();
         Deactivate();
@@ -169,7 +171,7 @@ public class Projectile : MonoBehaviour
             {
                 damage *= critDamage;
             }
-            GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.usesMagic, attack.hitParticle);
+            GameManager.Instance.DamageInstance.Activate(targetNode, transform.forward, shape, damage, critChance, critDamage, missChance, shooter, attack.targeting, attack.dmgInstanceType, attack.statusModifiers, attack.usesMagic, attack.hitParticle);
         }
 
         // Stay visible

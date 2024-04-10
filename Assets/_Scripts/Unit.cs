@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static UnityEditor.Progress;
 
 public enum UnitType
 {
@@ -105,6 +104,10 @@ public class Unit : MonoBehaviour
     
     private void Update()
     {
+        if (isPushed)
+        {
+            return;
+        }
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * visibleMoveSpeed);
         transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * visibleMoveSpeed);
     }
@@ -142,18 +145,33 @@ public class Unit : MonoBehaviour
             pathPending = true;
             ResetPath();
 
-            // Auto-attack / move to attack range:
-            if (nextAbility == null)
+            //  A T T A C K  / move to attack range:
+            if (nextAbility == null && normalAttacks.Count > 0)
             {
                 if (normalAttacks.Count == 0)
                 {
                     Debug.Log("!!!!!!!! Unit " + this.name + " has no attacks !!!!!!");
                     return;
-                }   
-                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
+                }
+                // Check if still in range of target:
+                if (attackTarget != null)
+                {
+                    if (attackTarget.team != team && pathfinding.IsSpecificUnitInRangeFromNode(attackTarget, x, y, normalAttacks[currentAttackIndex].Item1.attackRange))
+                    {
+                        nextAction = Action.NORMAL_ATTACK;
+                    }
+                    else
+                    {
+                        PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
+                    }
+                }
+                else
+                {
+                    PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
+                }
             }
 
-            // Use an ability
+            //  A B I L I T Y :
             //  - on ally:
             else if (nextAbility.Item1.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_ABS || nextAbility.Item1.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
             {
@@ -177,11 +195,27 @@ public class Unit : MonoBehaviour
             //  - on enemy:
             else
             {
-                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
+                if (attackTarget != null)
+                {
+                    if (attackTarget.team != team && pathfinding.IsSpecificUnitInRangeFromNode(attackTarget, x, y, nextAbility.Item1.reach))
+                    {
+                        nextAction = Action.ABILITY;
+                    }
+                    else
+                    {
+                        PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
+                    }
+                }
+                else
+                {
+                    PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
+                }
             }
         }
     }
         
+
+
     //Load unit from PlayerParty:
     public void LoadUnit(UnitData data)
     {
@@ -221,12 +255,11 @@ public class Unit : MonoBehaviour
     {
         switch (nextAction)
         {
-            // Moving
             case Action.MOVE:
                 MoveUnit(); 
                 break;
 
-            //Attacking
+            // Attacking
             case Action.NORMAL_ATTACK:
                 if (attackTarget == null)
                 {
@@ -244,7 +277,7 @@ public class Unit : MonoBehaviour
                 NormalAttackSecondHalf();
                 break;
 
-            //Abilities
+            // Abilities
             case Action.ABILITY:
                 if (attackTarget == null)
                 {
@@ -307,32 +340,110 @@ public class Unit : MonoBehaviour
         savedAttackTimerAmount = 0;
     }
 
-    public void GetStunned(float stunDuration)
+    public void GetStunned(float stunDuration, bool animation = true)
     {
         //print("pls lis‰‰ mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
-        animator?.Play("stun", 0, 0);
+        if (animation)
+        {
+            animator?.Play("stun", 0, 0);
+        }
         GameManager.Instance.ParticleSpawner.SpawnStun(this);
         ResetAI();
         tStun = stunDuration;
         //t = 0;
     }
+    public void EndStun()
+    {
+        tStun = 0;
+    }
 
     public void GetNudged(bool isChip, Vector3 _nudgeDir)
     {
-        Vector3 lookTarget = transform.position + new Vector3(_nudgeDir.x, 0, _nudgeDir.z);// board.GetTileCenter(lookAt.x, lookAt.y);
-        if (rotateCoroutine != null)
-        {
-            StopCoroutine(rotateCoroutine);
-        }
-        rotateCoroutine = StartCoroutine(UnitRotationCoroutine(lookTarget));
+        //Vector3 lookTarget = transform.position + new Vector3(_nudgeDir.x, 0, _nudgeDir.z);// board.GetTileCenter(lookAt.x, lookAt.y);
+        //if (rotateCoroutine != null)
+        //{
+        //    StopCoroutine(rotateCoroutine);
+        //}
+        //rotateCoroutine = StartCoroutine(UnitRotationCoroutine(lookTarget));
 
         //RotateUnit(forward);
         if (isChip)
         {
-            animator?.Play("move1",0,0);
+            animator?.Play("move0",0,0);
         }
         else
-        animator?.Play("attack1", 0, 0);
+        {
+            animator?.Play("stun", 0, 0);
+        }
+    }
+
+    [SerializeField] private float pushMaxSpeed = 10;
+    private bool isPushed = false;
+    public void GetPushed(int targetX, int targetY, float magnitude, bool chip, bool dying)
+    {
+        isPushed = true;
+        StartCoroutine(PushedCoroutine(targetX, targetY, magnitude, chip, dying));
+    }
+
+    private float nudgeSpeed = 13;
+    private float chipSpeed = 9;
+    private float fallSpeed = 3;
+    private float bezierHandleHeight = 2;
+    IEnumerator PushedCoroutine(int targetX, int targetY, float magnitude, bool chip, bool dying)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 endPos = board.GetTileCenter(targetX, targetY);
+        float timer = 0;
+        if (chip)
+        {   // chip
+            Vector3 p2 = Vector3.Lerp(startPos + Vector3.up * bezierHandleHeight, endPos + Vector3.up * bezierHandleHeight, 0.2f);
+            Vector3 p3 = Vector3.Lerp(startPos + Vector3.up * bezierHandleHeight, endPos + Vector3.up * bezierHandleHeight, 0.8f);
+
+            while (timer < magnitude)
+            {
+                float perc = timer / magnitude;
+                perc = Mathf.Sin(perc * Mathf.PI * 0.5f);
+                transform.position = HelperUtilities.CalculateCubicBezierPoint(perc, startPos, p2, p3, endPos);
+                timer += Time.deltaTime * chipSpeed;
+                yield return null;
+            }
+        }
+        else
+        {   // nudge
+            while (timer < magnitude)
+            {
+                float perc = timer / magnitude;
+                perc = Mathf.Sin(perc * Mathf.PI * 0.5f);
+                transform.position = Vector3.Lerp(startPos, endPos, perc);
+                timer += Time.deltaTime * nudgeSpeed;
+                yield return null;
+            }
+        }
+        
+        if (dying)
+        {
+            StartCoroutine(FallCoroutine());
+        }
+        else
+        {
+            isPushed = false;
+        }
+    }
+
+    IEnumerator FallCoroutine()
+    {
+        var startpos = transform.position;
+        var endpos = transform.position + Vector3.down * 3;
+        float timer = 0;
+        while (timer < 1)
+        {
+            float perc = 1f - Mathf.Cos(timer * Mathf.PI * 0.5f);
+            transform.position = Vector3.Lerp(startpos, endpos, perc);
+            transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 0.1f, perc);
+            timer += Time.deltaTime * fallSpeed;
+            yield return null;
+        }
+        hp.RemoveHP(Mathf.Infinity, true);
     }
 
     void MoveUnit()
@@ -346,6 +457,7 @@ public class Unit : MonoBehaviour
             ///
             //////////////////////////WWWWWWWWWWWWWWWW
             //Randomize animation (placeholder)
+            //print("fix move animations here!");
             if (animator != null)
             {
                 animator.speed = 1;

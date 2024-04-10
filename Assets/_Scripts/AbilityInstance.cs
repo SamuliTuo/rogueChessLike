@@ -142,7 +142,7 @@ public class AbilityInstance : MonoBehaviour
             }
         }                
 
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic);
+        GameManager.Instance.DamageInstance.Activate(targetNode, transform.forward, ability.aoeShape, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
 
         SpawnAreaDOT();
@@ -170,7 +170,7 @@ public class AbilityInstance : MonoBehaviour
         }
 
         // Hit target
-        GameManager.Instance.DamageInstance.Activate(targetNode, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic, ability.hitParticle);
+        GameManager.Instance.DamageInstance.Activate(targetNode, transform.forward, ability.aoeShape, damage, critChance, critDamage, missChance, shooter, ability.validTargets, ability.dmgInstanceType, ability.directHitStatusModifier, ability.usesMagic, ability.hitParticle);
         GameManager.Instance.ParticleSpawner.SpawnParticles(ability.hitParticle, transform.position, transform.forward);
         
         // Stay visible
@@ -292,7 +292,7 @@ public class AbilityInstance : MonoBehaviour
         {
             tickDamage = shooter.GetDamage() * ability.tickDamage;
         }
-        GameManager.Instance.DamageInstance.ActivateAreaDOT(targetNode, tickDamage, ability.tickIntervalSeconds, critChance, critDamage, missChance, ability.intervalCount, shooter, ability.areaDOTValidTargets, ability.dmgInstanceType, ability.areaDOTStatusModifier, ability.usesMagic, ability.hitParticle);
+        GameManager.Instance.DamageInstance.ActivateAreaDOT(targetNode, transform.forward, ability.areaDotShape, tickDamage, ability.tickIntervalSeconds, critChance, critDamage, missChance, ability.intervalCount, shooter, ability.areaDOTValidTargets, ability.dmgInstanceType, ability.areaDOTStatusModifier, ability.usesMagic, ability.hitParticle);
     }
     
     void SpawnUnits()

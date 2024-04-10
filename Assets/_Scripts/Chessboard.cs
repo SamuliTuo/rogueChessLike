@@ -530,7 +530,6 @@ public class Chessboard : MonoBehaviour
 
     Unit SetUnitStats(Unit unit, UnitInLibrary libraryEntry)
     {
-        print("setting unit stats");
         var unitHP = unit.GetComponent<UnitHealth>();
         unitHP.SetMaxHp(libraryEntry.stats.hp);
         unit.damage = libraryEntry.stats.damage;
@@ -719,37 +718,6 @@ public class Chessboard : MonoBehaviour
         if (activeUnits[x,y] != null)
         {
             return false;
-            /*Unit other = activeUnits[x, y];
-
-            if (unit.team == other.team)
-            {
-                return false;
-            }
-
-
-            //puts the dead unit to the side of board 
-            // Player unit doing damage
-            if (unit.team == 0)
-            {
-                //other.DoDamage(10);
-                deadUnits_enemy.Add(other);
-                other.SetScale(Vector3.one * deathSize);
-                other.SetPosition(
-                    new Vector3(-1 * tileSize, yOffset, 20 * tileSize)
-                    + new Vector3(tileSize * 0.5f, 0, tileSize * 0.5f)
-                    + (Vector3.back * deathSpacing) * deadUnits_enemy.Count);
-            }
-            // Enemy unit doing damage to player
-            else
-            {
-                deadUnits_player.Add(other);
-                other.SetScale(Vector3.one * deathSize);
-                other.SetPosition(
-                    new Vector3(20 * tileSize, yOffset, -1 * tileSize)
-                    + new Vector3(tileSize * 0.5f, 0, tileSize * 0.5f)
-                    + (Vector3.forward * deathSpacing) * deadUnits_player.Count);
-            }
-            */
         }
 
         activeUnits[x, y] = unit;
@@ -758,6 +726,20 @@ public class Chessboard : MonoBehaviour
         PositionSingleUnit(x, y);
 
         return true;
+    }
+    public void PushUnit(Unit unit, int x, int y, float magnitude, bool chip, bool dying)
+    {
+        if (activeUnits[x, y] != null)
+        {
+            return;
+        }
+        
+        Vector2Int previousPos = new(unit.x, unit.y);
+        activeUnits[x, y] = unit;
+        activeUnits[previousPos.x, previousPos.y] = null;
+        unit.GetPushed(x, y, magnitude, chip, dying);
+        PositionSingleUnit(x,y);
+
     }
     void MoveToGrave(Unit unit)
     {

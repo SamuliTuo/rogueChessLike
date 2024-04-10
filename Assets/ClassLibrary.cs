@@ -1,15 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ClassLibrary : MonoBehaviour
 {
-    [Header("A class defines how many stats a unit gains per lvl up. \n\n Give each class a total of 8 points in upgrades.")]
+    [Header("A class defines how many stats a unit gains per lvl up. \n\nGive each class a total of 8 points in upgrades. Maybe? idk.")]
     [Space(10)]
     public List<Class> classes = new List<Class>();
 
-    [Header("Multipliers for stats-per level:")]
+    [Header("Global multipliers for stats-per level:")]
     public float hpPerPoint = 1.0f;
     public float dmgPerPoint = 1.0f;
     public float magicPerPoint = 1.0f;
@@ -17,6 +16,23 @@ public class ClassLibrary : MonoBehaviour
     public float attSpdPerPoint = 1.0f;
     public float armorPerPoint = 1.0f;
     public float mgArmorPerPoint = 1.0f;
+
+    public Class GetRandomClass()
+    {
+        return classes[UnityEngine.Random.Range(0, classes.Count)];
+    }
+    public Class GetRandomClass(Class excluded)
+    {
+        var l = new List<Class>();
+        foreach (var c in classes)
+        {
+            if (c != excluded)
+            {
+                l.Add(c);
+            }
+        }
+        return l[UnityEngine.Random.Range(0, l.Count)];
+    }
 
 }
 

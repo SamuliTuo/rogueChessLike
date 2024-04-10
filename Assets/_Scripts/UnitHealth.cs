@@ -142,6 +142,7 @@ public class UnitHealth : MonoBehaviour
 
         if (dieFast)
         {
+            print("dying fast");
             Destroy(this.gameObject);
             StopAllCoroutines();
         }

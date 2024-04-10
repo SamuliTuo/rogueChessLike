@@ -1735,3 +1735,93 @@ MonoBehaviour:
     spawnPosY: 18
     spawnRot: 0
     team: 1
+  - unit: Unit_goat
+    spawnPosX: 7
+    spawnPosY: 11
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 7
+    spawnPosY: 12
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 7
+    spawnPosY: 13
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 8
+    spawnPosY: 11
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 8
+    spawnPosY: 12
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 8
+    spawnPosY: 13
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 8
+    spawnPosY: 14
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 9
+    spawnPosY: 11
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 9
+    spawnPosY: 12
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 9
+    spawnPosY: 14
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 10
+    spawnPosY: 11
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 10
+    spawnPosY: 12
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 10
+    spawnPosY: 13
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 10
+    spawnPosY: 14
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 11
+    spawnPosY: 11
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 11
+    spawnPosY: 12
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 11
+    spawnPosY: 13
+    spawnRot: 0
+    team: 1
+  - unit: Unit_goat
+    spawnPosX: 12
+    spawnPosY: 12
+    spawnRot: 0
+    team: 1

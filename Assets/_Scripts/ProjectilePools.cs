@@ -45,16 +45,13 @@ public class ProjectilePools : MonoBehaviour
             print("yritettiin tehd‰ pool null -projektiilille!");
             return;
         }
-
         foreach (var item in pools)
         {
             if (item.projectile == projectile)
             {
-                print("pooli oli jo olemassa projektiilille "+projectile.name);
                 return;
             }
         }
-        print("poolia ei ollut olemassa. Tehd‰‰n uusi pooli projektiilille " + projectile.name);
         pools.Add(new ProjectilePool(projectile, this));
     }
 
@@ -63,10 +60,9 @@ public class ProjectilePools : MonoBehaviour
         var pool = GetPool(projectile);
         if (pool == null)
         {
+            Debug.Log("ERROR! Didnt find projectile pool. " + projectile+". Returning null projectile");
             return null;
         }
-            
-
         var clone = pool.projectilePool.Get();
         clone.transform.position = position;
         clone.transform.rotation = rotation;
