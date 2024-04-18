@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static UnityEditor.Progress;
+using UnityEngine.UIElements;
 
 public enum UnitType
 {
@@ -32,12 +32,15 @@ public enum UnitTextEncounterCheckableStats
 public class Unit : MonoBehaviour
 {
     [HideInInspector] public UnitInLibrary libraryData = null;
+    [HideInInspector] public UnitData unitData { get; set; } = null;
     public string unitPath { get; set; }
     public bool isObstacle = false;
 
+    // Stats
     public float damage = 10;
     public float magic = 10;
     public float attackSpeed = 1;
+
     public float moveSpeed = 1;
     public float turnRate = 1;
     public float critChance = 0;
@@ -46,7 +49,12 @@ public class Unit : MonoBehaviour
     public float lifeSteal_flat = 0;
     public float lifeSteal_perc = 0;
 
+    // Augment effects:
+    public int moneyOnKill = 0;
+    public float healingOnKill = 0;
+
     public float experienceWorth = 10;
+    public float baseMoveTime = 1;
     public float visibleMoveSpeed = 10;
     public float moveInterval = 1;
     public float percentOfAttackTimerSave = 0.8f;
@@ -88,31 +96,45 @@ public class Unit : MonoBehaviour
     private Unit attackTarget = null;
     private int currentAttackIndex = 0;
 
+    private Animator animator;
+    private Tuple<UnitAbility, int> nextAbility;
+
     //public virtual void SetTargetMoveTile(Vector2Int tile) { targetMoveTile = tile; }
 
-    private void Start()
+    private void Awake()
     {
-        t = moveSpeed + UnityEngine.Random.Range(0, 1f);
-        hp = GetComponent<UnitHealth>();
         board = GameObject.Find("Board").GetComponent<Chessboard>();
         pathfinding = board.GetComponent<Pathfinding>();
-        ResetPath();
+        hp = GetComponent<UnitHealth>();
         abilities = GetComponent<UnitAbilityManager>();
         animator = GetComponentInChildren<Animator>();
+    }
+    private void Start()
+    {
+        //SetMoveInterval();
+        ResetPath();
         damage = team == 0 ? damage * DebugTools.Instance.playerDamagePercentage : damage;
         magic = team == 0 ? magic * DebugTools.Instance.playerDamagePercentage : magic;
     }
     
     private void Update()
     {
+        if (isPushed)
+        {
+            return;
+        }
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * visibleMoveSpeed);
         transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * visibleMoveSpeed);
     }
 
-    private Animator animator;
-    private Tuple<UnitAbility, int> nextAbility;
     public void AI()
     {
+        if (team == 0)
+        {
+            //print(name+" wait timer: " + t);
+        }
+
+
         if (isObstacle || hp.dying)
             return;
         
@@ -142,18 +164,33 @@ public class Unit : MonoBehaviour
             pathPending = true;
             ResetPath();
 
-            // Auto-attack / move to attack range:
-            if (nextAbility == null)
+            //  A T T A C K  / move to attack range:
+            if (nextAbility == null && normalAttacks.Count > 0)
             {
                 if (normalAttacks.Count == 0)
                 {
                     Debug.Log("!!!!!!!! Unit " + this.name + " has no attacks !!!!!!");
                     return;
-                }   
-                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
+                }
+                // Check if still in range of target:
+                if (attackTarget != null)
+                {
+                    if (attackTarget.team != team && pathfinding.IsSpecificUnitInRangeFromNode(attackTarget, x, y, normalAttacks[currentAttackIndex].Item1.attackRange))
+                    {
+                        nextAction = Action.NORMAL_ATTACK;
+                    }
+                    else
+                    {
+                        PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
+                    }
+                }
+                else
+                {
+                    PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, normalAttacks[currentAttackIndex].Item1.targeting, normalAttacks[currentAttackIndex].Item1.attackRange, OnPathFound);
+                }
             }
 
-            // Use an ability
+            //  A B I L I T Y :
             //  - on ally:
             else if (nextAbility.Item1.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_ABS || nextAbility.Item1.targetSearchType == UnitSearchType.LOWEST_HP_ALLY_PERC)
             {
@@ -177,56 +214,79 @@ public class Unit : MonoBehaviour
             //  - on enemy:
             else
             {
-                PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
+                if (attackTarget != null)
+                {
+                    if (attackTarget.team != team && pathfinding.IsSpecificUnitInRangeFromNode(attackTarget, x, y, nextAbility.Item1.reach))
+                    {
+                        nextAction = Action.ABILITY;
+                    }
+                    else
+                    {
+                        PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
+                    }
+                }
+                else
+                {
+                    PathRequestManager.RequestFindClosestEnemy(new Vector2Int(x, y), this, nextAbility.Item1.targetSearchType, nextAbility.Item1.reach, OnPathFound);
+                }
             }
         }
     }
         
+
+
     //Load unit from PlayerParty:
-    public void LoadUnit(UnitData data)
-    {
-        team = data.team;
-        hp.SetMaxHp(data.maxHp);
-        damage = data.damage;
-        magic = data.magic;
-        attackSpeed = data.attackSpeed;
-        moveSpeed = data.moveSpeed;
-        moveInterval = data.moveInterval;
-        //moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(data.moveSpeed);
+    //public void LoadUnit(UnitData data)
+    //{
+    //    team = data.team;
+    //    hp.SetMaxHp(data.maxHp);
+    //    damage = data.damage;
+    //    magic = data.magic;
+    //    attackSpeed = data.attackSpeed;
+    //    moveSpeed = data.moveSpeed;
+    //    //moveInterval = data.moveInterval;
+    //    moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(moveSpeed);
         
-        var pos = new Vector2Int(data.spawnPosX, data.spawnPosY);
-        if (board.GetUnits()[data.spawnPosX, data.spawnPosY] != null)
-        {
-            pos = board.GetFirstFreePos();
-        }
-        SetPosition(board.GetTileCenter(pos.x, pos.y), true);
+    //    var pos = new Vector2Int(data.spawnPosX, data.spawnPosY);
+    //    if (board.GetUnits()[data.spawnPosX, data.spawnPosY] != null)
+    //    {
+    //        pos = board.GetFirstFreePos();
+    //    }
+    //    SetPosition(board.GetTileCenter(pos.x, pos.y), true);
 
-        normalAttacks.Clear();
-        for (int i = 0; i < data.attacks.Count; i++)
-        {
-            normalAttacks.Add(new (data.attacks[i], libraryData.attacks[i].projectile));
-            print(data.attacks[i]+",         "+ libraryData.attacks[i].projectile);
-        }
+    //    normalAttacks.Clear();
+    //    for (int i = 0; i < data.attacks.Count; i++)
+    //    {
+    //        normalAttacks.Add(new (data.attacks[i], libraryData.attacks[i].projectile));
+    //        print(data.attacks[i]+",         "+ libraryData.attacks[i].projectile);
+    //    }
 
-        abilities.abilities.Clear();
-        abilities.abilities[0] = data.ability1;
-        abilities.abilities[1] = data.ability2;
-        abilities.abilities[2] = data.ability3;
-        ResetPath();
-        ResetAI();
+    //    abilities.abilities.Clear();
+    //    abilities.abilities[0] = data.ability1;
+    //    abilities.abilities[1] = data.ability2;
+    //    abilities.abilities[2] = data.ability3;
+    //    ResetPath();
+    //    ResetAI();
+    //}
+
+    public void SetMoveInterval()
+    {
+        moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(moveSpeed, baseMoveTime);
+        t = moveInterval + UnityEngine.Random.Range(0.75f, 1f);
+        print(name + " is setting Move Interval. MoveSPD: " + moveSpeed + ", base move: " + baseMoveTime + ", final moveInterval: " + moveInterval);
     }
 
     
     void ActivateAction()
     {
+        animator.speed = 1;
         switch (nextAction)
         {
-            // Moving
             case Action.MOVE:
                 MoveUnit(); 
                 break;
 
-            //Attacking
+            // Attacking
             case Action.NORMAL_ATTACK:
                 if (attackTarget == null)
                 {
@@ -244,7 +304,7 @@ public class Unit : MonoBehaviour
                 NormalAttackSecondHalf();
                 break;
 
-            //Abilities
+            // Abilities
             case Action.ABILITY:
                 if (attackTarget == null)
                 {
@@ -307,32 +367,110 @@ public class Unit : MonoBehaviour
         savedAttackTimerAmount = 0;
     }
 
-    public void GetStunned(float stunDuration)
+    public void GetStunned(float stunDuration, bool animation = true)
     {
         //print("pls lisää mulle stun-animaatio tai jotain, stunin kesto: " + stunDuration);
-        animator?.Play("stun", 0, 0);
+        if (animation)
+        {
+            animator?.Play("stun", 0, 0);
+        }
         GameManager.Instance.ParticleSpawner.SpawnStun(this);
         ResetAI();
         tStun = stunDuration;
         //t = 0;
     }
+    public void EndStun()
+    {
+        tStun = 0;
+    }
 
     public void GetNudged(bool isChip, Vector3 _nudgeDir)
     {
-        Vector3 lookTarget = transform.position + new Vector3(_nudgeDir.x, 0, _nudgeDir.z);// board.GetTileCenter(lookAt.x, lookAt.y);
-        if (rotateCoroutine != null)
-        {
-            StopCoroutine(rotateCoroutine);
-        }
-        rotateCoroutine = StartCoroutine(UnitRotationCoroutine(lookTarget));
+        //Vector3 lookTarget = transform.position + new Vector3(_nudgeDir.x, 0, _nudgeDir.z);// board.GetTileCenter(lookAt.x, lookAt.y);
+        //if (rotateCoroutine != null)
+        //{
+        //    StopCoroutine(rotateCoroutine);
+        //}
+        //rotateCoroutine = StartCoroutine(UnitRotationCoroutine(lookTarget));
 
         //RotateUnit(forward);
         if (isChip)
         {
-            animator?.Play("move1",0,0);
+            animator?.Play("move0",0,0);
         }
         else
-        animator?.Play("attack1", 0, 0);
+        {
+            animator?.Play("stun", 0, 0);
+        }
+    }
+
+    [SerializeField] private float pushMaxSpeed = 10;
+    private bool isPushed = false;
+    public void GetPushed(int targetX, int targetY, float magnitude, bool chip, bool dying)
+    {
+        isPushed = true;
+        StartCoroutine(PushedCoroutine(targetX, targetY, magnitude, chip, dying));
+    }
+
+    private float nudgeSpeed = 13;
+    private float chipSpeed = 9;
+    private float fallSpeed = 3;
+    private float bezierHandleHeight = 2;
+    IEnumerator PushedCoroutine(int targetX, int targetY, float magnitude, bool chip, bool dying)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 endPos = board.GetTileCenter(targetX, targetY);
+        float timer = 0;
+        if (chip)
+        {   // chip
+            Vector3 p2 = Vector3.Lerp(startPos + Vector3.up * bezierHandleHeight, endPos + Vector3.up * bezierHandleHeight, 0.2f);
+            Vector3 p3 = Vector3.Lerp(startPos + Vector3.up * bezierHandleHeight, endPos + Vector3.up * bezierHandleHeight, 0.8f);
+
+            while (timer < magnitude)
+            {
+                float perc = timer / magnitude;
+                perc = Mathf.Sin(perc * Mathf.PI * 0.5f);
+                transform.position = HelperUtilities.CalculateCubicBezierPoint(perc, startPos, p2, p3, endPos);
+                timer += Time.deltaTime * chipSpeed;
+                yield return null;
+            }
+        }
+        else
+        {   // nudge
+            while (timer < magnitude)
+            {
+                float perc = timer / magnitude;
+                perc = Mathf.Sin(perc * Mathf.PI * 0.5f);
+                transform.position = Vector3.Lerp(startPos, endPos, perc);
+                timer += Time.deltaTime * nudgeSpeed;
+                yield return null;
+            }
+        }
+        
+        if (dying)
+        {
+            StartCoroutine(FallCoroutine());
+        }
+        else
+        {
+            isPushed = false;
+        }
+    }
+
+    IEnumerator FallCoroutine()
+    {
+        var startpos = transform.position;
+        var endpos = transform.position + Vector3.down * 3;
+        float timer = 0;
+        while (timer < 1)
+        {
+            float perc = 1f - Mathf.Cos(timer * Mathf.PI * 0.5f);
+            transform.position = Vector3.Lerp(startpos, endpos, perc);
+            transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 0.1f, perc);
+            timer += Time.deltaTime * fallSpeed;
+            yield return null;
+        }
+        hp.RemoveHPAndCheckIfUnitDied(9999999, true);
     }
 
     void MoveUnit()
@@ -346,6 +484,7 @@ public class Unit : MonoBehaviour
             ///
             //////////////////////////WWWWWWWWWWWWWWWW
             //Randomize animation (placeholder)
+            //print("fix move animations here!");
             if (animator != null)
             {
                 animator.speed = 1;
@@ -371,21 +510,35 @@ public class Unit : MonoBehaviour
                 return;
             }
         }
-        t = moveSpeed;
+        t = moveInterval;
         t += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]);
         t += UnityEngine.Random.Range(0.0f, 0.2f);
         //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
         ResetAI();
     }
 
-    float AttackSpeedMultiplier()
+
+    float GetAttackSpdMultiplier(float baseTime)
     {
-        return Mathf.Min(0.80f, attackSpeed * 0.01f);
+        float value = baseTime / ((100 + attackSpeed) * 0.01f);
+        return value;
     }
 
+    float attackTime;
+    float attackPointPerc;
     void NormalAttack()
     {
-        t = normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf * (1.0f - AttackSpeedMultiplier());
+        attackTime = GetAttackSpdMultiplier(normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf + normalAttacks[currentAttackIndex].Item1.attackDuration_secondHalf);
+        attackPointPerc =
+            normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf /
+            (normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf +
+            normalAttacks[currentAttackIndex].Item1.attackDuration_secondHalf);
+        t = attackTime * attackPointPerc;
+        if (team == 0)
+        {
+            //print(name + " attacking. Attack point perc = "+attackPointPerc+", has set t to " + t);
+        }
+        
         if (attackTarget == null)
         {
             savedAttackTimerAmount = normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf * percentOfAttackTimerSave;
@@ -399,7 +552,7 @@ public class Unit : MonoBehaviour
         RotateUnit(new Vector2Int(attackTarget.x, attackTarget.y));
         if (animator != null)
         {
-            animator.speed = 1 + AttackSpeedMultiplier();
+            animator.speed = 1 / attackTime;
             animator?.Play("attack", 0, 0);
         }
         nextAction = Action.NORMAL_ATTACK_SECONDHALF;
@@ -407,6 +560,16 @@ public class Unit : MonoBehaviour
 
     void NormalAttackSecondHalf()
     {
+        if (animator != null)
+        {
+            animator.speed = 1 / attackTime;
+        }
+
+        if (team == 0)
+        {
+            print(normalAttacks[currentAttackIndex].Item1.statusModifiers);
+        }
+
         Vector3 offset = transform.TransformVector(attackPositionOffset);
         Vector3 startPos = transform.position + offset;
         float _damage = GetAttackDmg();
@@ -417,7 +580,12 @@ public class Unit : MonoBehaviour
             normalAttacks[currentAttackIndex].Item1, startPos, path, normalAttacks[currentAttackIndex].Item1.bounceCount_atk,
             normalAttacks[currentAttackIndex].Item1.bounceCount_ability, _damage, critChance, critDamagePerc, missChance, this, attackTarget);
 
-        t = normalAttacks[currentAttackIndex].Item1.attackDuration_secondHalf * (1.0f - AttackSpeedMultiplier());
+        t = attackTime - (attackTime * attackPointPerc);
+        if (team == 0)
+        {
+            print(name + " is done attacking, set t to " + t);
+        }
+        
         ResetAI();
 
         // Choosing the next attack
@@ -466,6 +634,7 @@ public class Unit : MonoBehaviour
     }
     public void ResetAI()
     {
+        animator.speed = 1;
         ResetPath();
         nextAction = Action.NONE;
         nextAbility = null;
@@ -578,4 +747,16 @@ public class Unit : MonoBehaviour
 
     public float GetDamage() { return damage; }
     public float GetMagic() { return magic; }
+
+    public void UnitGotAKill()
+    {
+        if (moneyOnKill > 0)
+        {
+            GameManager.Instance.PlayerParty.AddMoney(moneyOnKill);
+        }
+        if (healingOnKill > 0)
+        {
+            hp.RemoveHPAndCheckIfUnitDied(-healingOnKill);
+        }
+    }
 }

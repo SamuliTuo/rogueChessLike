@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using System;
 
@@ -12,7 +11,6 @@ public class PlayerParty : MonoBehaviour
     public int maxPartySize = 10;
 
     private PartyMoneyCounter moneyManager;
-    private int saveSlot = 0;
 
     public void RefreshParty()
     {

@@ -491,6 +491,7 @@ public class Chessboard : MonoBehaviour
         foreach (var unit in scenario.scenarioUnits)
         {
             if (unit.spawnPosX >= 0 && unit.spawnPosX < TILE_COUNT_X)
+            {
                 if (unit.spawnPosY >= 0 && unit.spawnPosY < TILE_COUNT_Y)
                 {
                     UnitInLibrary libraryEntry = GameManager.Instance.UnitLibrary.GetUnit(unit.unit);
@@ -525,12 +526,12 @@ public class Chessboard : MonoBehaviour
                     activeUnits[unit.spawnPosX, unit.spawnPosY] = clone;
                     RotateSingleUnit(unit.spawnPosX, unit.spawnPosY, GetCurrentUnitRotation(unit.spawnRot));
                 }
+            }
         }
     }
 
     Unit SetUnitStats(Unit unit, UnitInLibrary libraryEntry)
     {
-        print("setting unit stats");
         var unitHP = unit.GetComponent<UnitHealth>();
         unitHP.SetMaxHp(libraryEntry.stats.hp);
         unit.damage = libraryEntry.stats.damage;
@@ -540,9 +541,29 @@ public class Chessboard : MonoBehaviour
         unit.missChance = libraryEntry.stats.missChance;
         unit.attackSpeed = libraryEntry.stats.attackSpeed;
         unit.moveSpeed = libraryEntry.stats.moveSpeed;
+        unit.baseMoveTime = libraryEntry.stats.baseMoveTime;
+        unit.SetMoveInterval();
         unit.visibleMoveSpeed = libraryEntry.stats.visibleMoveSpeed;
         unitHP.armor = libraryEntry.stats.armor;
         unitHP.magicRes = libraryEntry.stats.magicRes;
+        return unit;
+    }
+    Unit SetUnitStats(Unit unit, UnitData data)
+    {
+        var unitHP = unit.GetComponent<UnitHealth>();
+        unitHP.SetMaxHp(data.maxHp);
+        unit.damage = data.damage;
+        unit.magic = data.magic;
+        unit.critChance = data.critChance;
+        unit.critDamagePerc = data.critDamage;
+        unit.missChance = data.missChance;
+        unit.attackSpeed = data.attackSpeed;
+        unit.baseMoveTime = data.baseMoveTime;
+        unit.moveSpeed = data.moveSpeed;
+        unit.visibleMoveSpeed = data.visibleMoveSpeed;
+        unit.SetMoveInterval();
+        unitHP.armor = data.armor;
+        unitHP.magicRes = data.magicRes;
         return unit;
     }
 
@@ -567,7 +588,9 @@ public class Chessboard : MonoBehaviour
         {
             var path = partyUnits[i].Item2.GetSavePath();
             var clone = SpawnSingleUnit(path, 0);
-            clone = SetUnitStats(clone, partyUnits[i].Item2);
+            clone = SetUnitStats(clone, partyUnits[i].Item1);
+            clone.unitData = partyUnits[i].Item1;
+
             clone.normalAttacks.Clear();
             foreach (var attack in partyUnits[i].Item2.attacks)
             {
@@ -719,37 +742,6 @@ public class Chessboard : MonoBehaviour
         if (activeUnits[x,y] != null)
         {
             return false;
-            /*Unit other = activeUnits[x, y];
-
-            if (unit.team == other.team)
-            {
-                return false;
-            }
-
-
-            //puts the dead unit to the side of board 
-            // Player unit doing damage
-            if (unit.team == 0)
-            {
-                //other.DoDamage(10);
-                deadUnits_enemy.Add(other);
-                other.SetScale(Vector3.one * deathSize);
-                other.SetPosition(
-                    new Vector3(-1 * tileSize, yOffset, 20 * tileSize)
-                    + new Vector3(tileSize * 0.5f, 0, tileSize * 0.5f)
-                    + (Vector3.back * deathSpacing) * deadUnits_enemy.Count);
-            }
-            // Enemy unit doing damage to player
-            else
-            {
-                deadUnits_player.Add(other);
-                other.SetScale(Vector3.one * deathSize);
-                other.SetPosition(
-                    new Vector3(20 * tileSize, yOffset, -1 * tileSize)
-                    + new Vector3(tileSize * 0.5f, 0, tileSize * 0.5f)
-                    + (Vector3.forward * deathSpacing) * deadUnits_player.Count);
-            }
-            */
         }
 
         activeUnits[x, y] = unit;
@@ -758,6 +750,20 @@ public class Chessboard : MonoBehaviour
         PositionSingleUnit(x, y);
 
         return true;
+    }
+    public void PushUnit(Unit unit, int x, int y, float magnitude, bool chip, bool dying)
+    {
+        if (activeUnits[x, y] != null)
+        {
+            return;
+        }
+        
+        Vector2Int previousPos = new(unit.x, unit.y);
+        activeUnits[x, y] = unit;
+        activeUnits[previousPos.x, previousPos.y] = null;
+        unit.GetPushed(x, y, magnitude, chip, dying);
+        PositionSingleUnit(x,y);
+
     }
     void MoveToGrave(Unit unit)
     {

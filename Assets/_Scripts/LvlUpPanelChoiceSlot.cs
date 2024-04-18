@@ -10,6 +10,7 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
 {
     private LevelUpPanel lvlUpControl;
 
+    private UnitAugment augment;
     private UnitAbility abi;
     private LevelUpPanel.StatUpgrade upgrade;
     private AbilityUpgrade upgradeObj;
@@ -25,6 +26,19 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
 
         newAbilitySign?.SetActive(state);
     }
+
+    // Augment
+    public void SetChoice(UnitAugments.Augment augment, LevelUpPanel lvlUpper, int slot)
+    {
+        currentSlot = slot;
+        print("Setting up upgrade-choice-slot with augment: " + augment.name);
+        lvlUpControl = lvlUpper;
+        ResetSlots();
+        this.augment = augment.augmentType;
+        ToggleNewAbilitySign(false);
+        GetComponent<Image>().sprite = augment.image;
+    }
+
     // New ability
     public void SetChoice(UnitAbility abi, LevelUpPanel lvlUpper)
     {
@@ -36,7 +50,7 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     }
 
     int currentSlot = -1;
-    // Upgrade existing ability
+    // Upgrade ability (unused)
     public void SetChoice(AbilityUpgrade upgrade, LevelUpPanel lvlUpper, int slot)
     {
         currentSlot = slot;
@@ -105,6 +119,7 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     
     public void ChooseThis()
     {
+        print("choosing option "+currentSlot);
         if (lvlUpControl == null)
             return;
 
@@ -119,6 +134,10 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
         else if (this.upgradeObj != null)
         {
             lvlUpControl.TryToChooseOption(upgradeObj, currentSlot);
+        }
+        else
+        {
+            lvlUpControl.TryToChooseOption(augment, currentSlot);
         }
     }
 }

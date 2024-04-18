@@ -15,7 +15,7 @@ public class VictoryPanel : MonoBehaviour
 
     private List<VictoryScreenUnitSlot> slotsInUse = new List<VictoryScreenUnitSlot>();
     bool allReady = false;
-    
+
     public void InitVictoryScreen()
     {
         allReady = false;
@@ -23,7 +23,7 @@ public class VictoryPanel : MonoBehaviour
         float exp = GameManager.Instance.currentFightCumulatedExperience;
         //exp = Random.Range(75, 166); /////////////
         exp = 150;
-        print("Giving flat " + exp + " exp for all units for testing.");
+        print("Giving flat " + exp + " exp to all units for now... testing purposes...");
         List<Tuple<UnitData, UnitInLibrary>> units = GameManager.Instance.PlayerParty.partyUnits;
 
         slotsInUse.Clear();
@@ -50,7 +50,7 @@ public class VictoryPanel : MonoBehaviour
     { // 'Tis for staggering the start of exp-gains between units.
         for (int i = 0; i < slotsInUse.Count; i++)
         {
-            StartCoroutine(ExperienceGainCoroutine(slotsInUse[i], exp));
+            StartCoroutine(ExperienceGainCoroutine(slotsInUse[i], exp * slotsInUse[i].slottedUnit.experienceGainMultiplier));
             yield return new WaitForSeconds(0.3f);
         }
     }

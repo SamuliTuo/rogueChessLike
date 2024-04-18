@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Mono.Cecil;
 
 public class CSVReader
 {
@@ -10,11 +11,9 @@ public class CSVReader
     static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
     static char[] TRIM_CHARS = { '\"' };
 
-    public static List<Dictionary<string, object>> Read(string file)
+    public static List<Dictionary<string, object>> ReadFromTextAsset(TextAsset data)
     {
         var list = new List<Dictionary<string, object>>();
-        TextAsset data = Resources.Load(file) as TextAsset;
-
         var lines = Regex.Split(data.text, LINE_SPLIT_RE);
 
         if (lines.Length <= 1) return list;
@@ -46,5 +45,11 @@ public class CSVReader
             list.Add(entry);
         }
         return list;
+    }
+
+    public static List<Dictionary<string, object>> ReadFromFile(string file)
+    {
+        TextAsset data = Resources.Load(file) as TextAsset;
+        return ReadFromTextAsset(data);
     }
 }

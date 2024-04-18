@@ -15,12 +15,14 @@ MonoBehaviour:
   targeting: 0
   hitParticle: 4
   dmgInstanceType: 0
+  aoeShape: 0
   projectileType: 1
   statusModifiers: {fileID: 0}
   attackRange: 1
-  damage: 2.25
-  attackDuration_firstHalf: 0.225
-  attackDuration_secondHalf: 0.9
+  damage: 1
+  usesMagic: 0
+  attackDuration_firstHalf: 0.38
+  attackDuration_secondHalf: 1.32
   attackFlySpeed: 6
   minLifeTime: 0.05
   projectilePath: penguin_attackSlash_01

@@ -9790,6 +9790,7 @@ GameObject:
   - component: {fileID: 487603890882792800}
   - component: {fileID: -3545518329655959451}
   - component: {fileID: -7766099818865951958}
+  - component: {fileID: 8532545452235100197}
   m_Layer: 0
   m_Name: Unit_penguin
   m_TagString: Untagged
@@ -9827,6 +9828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dying: 0
   hpBarOffset: 1.9
+  bloodMoneyAmount: 0
   flashDuration: 0.1
   maxHp: 200
   dyingTimeBeforeSinking: 1.5
@@ -9848,15 +9850,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde13865ed484834b85cc42df56edd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  libraryVersion:
+  libraryData:
     nameInList: 
+    id: 0
     prefab: {fileID: 0}
     image: {fileID: 0}
     stats:
       hp: 0
       damage: 0
       magicDamage: 0
+      critChance: 0
+      critDamage: 0
+      missChance: 0
       moveSpeed: 0
+      baseMoveTime: 0
       visibleMoveSpeed: 0
       attackSpeed: 0
       armor: 0
@@ -9877,13 +9884,14 @@ MonoBehaviour:
   missChance: 0
   lifeSteal_flat: 0
   lifeSteal_perc: 0
+  moneyOnKill: 0
+  healingOnKill: 0
   experienceWorth: 10
+  baseMoveTime: 1
   visibleMoveSpeed: 8.7
   moveInterval: 1.2
   percentOfAttackTimerSave: 0.8
   attackPositionOffset: {x: 0, y: 0, z: 0}
-  normalAttacks:
-  - {fileID: 11400000, guid: 9a2bfbae7abe95045934ff804183bc11, type: 2}
   randomizeAttackOrder: 0
   savedAttackTimerAmount: 0
   team: 0
@@ -9900,6 +9908,7 @@ MonoBehaviour:
   targetIndex: 0
   availableMoves: []
   abilities: {fileID: 0}
+  pushMaxSpeed: 10
 --- !u!114 &-3545518329655959451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9912,19 +9921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955052b73f631944fa6b675cbbcd6b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ability_1: {fileID: 0}
-  ability_2: {fileID: 0}
-  ability_3: {fileID: 0}
-  possibleAbilities:
-  - {fileID: 11400000, guid: b0b9a73d757cdac4ca42c7113a3f6076, type: 2}
-  - {fileID: 11400000, guid: 32dbd9f9576652343917628482cb755f, type: 2}
-  - {fileID: 11400000, guid: 73f9fbd196fd9e64695ef8fd600e9301, type: 2}
-  - {fileID: 11400000, guid: e9cd15e94fd540c4c822c16caa01afdc, type: 2}
-  - {fileID: 11400000, guid: 6b394df3c07857d499ca04672c4470fd, type: 2}
-  - {fileID: 11400000, guid: db096c1f9c12e1445a6650b3da530945, type: 2}
-  - {fileID: 11400000, guid: 74ea8e51e88da1f45801d20251ed6d62, type: 2}
-  - {fileID: 11400000, guid: c2c7744dfc9620144ad3399a1e983d45, type: 2}
-  - {fileID: 11400000, guid: 66461579ef4f6b54baf04b260044dddc, type: 2}
+  abilities: []
+  projectiles: []
+  cooldownReduction: 0
   additionalPhases: 0
 --- !u!114 &-7766099818865951958
 MonoBehaviour:
@@ -9936,6 +9935,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0da365f71962f3549af9dc4df52326ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8532545452235100197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765936273728097012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd137538f5c95154b8eff60cc29a591a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8150910904019328634

@@ -7,24 +7,23 @@ using UnityEngine;
 public class UnitLibrary : MonoBehaviour
 {
 
-    [Header("____ Default Stats:  ___________________________________________________________________________________________________________________________________________")]
-    [Space(10)]
-    public float hp = 150;
-    public float damage = 20;
-    public float magicDamage = 10;
-    [Range(0,1)] public float critChance = 0.2f;
-    public float critDamage = 1.4f;
-    public float missChance = 0;
+    //[Header("____ Default Stats:  ___________________________________________________________________________________________________________________________________________")]
+    //[Space(10)]
+    //public float hp = 150;
+    //public float damage = 20;
+    //public float magicDamage = 10;
+    //[Range(0,1)] public float critChance = 0.2f;
+    //public float critDamage = 1.4f;
+    //public float missChance = 0;
 
-    public float moveSpeed = 10;
-    public float visibleMoveSpeed = 100;
-    public float attackSpeed = 20;
-    public float armor = 10;
-    public float magicRes = 10;
+    //public float moveSpeed = 10;
+    //public float visibleMoveSpeed = 100;
+    //public float attackSpeed = 20;
+    //public float armor = 10;
+    //public float magicRes = 10;
 
-    [Space(22)]
+    //[Space(22)]
     [Header("____ Units: ________________________________________________________________________________________________________________________________________________________________________")]
-    [Space(10)]
     [SerializeField] public List<UnitInLibrary> playerUnits = new List<UnitInLibrary>();
     [SerializeField] public List<UnitInLibrary> enemyUnits = new List<UnitInLibrary>();
     [SerializeField] public List<UnitInLibrary> boardObjects = new List<UnitInLibrary>();
@@ -32,32 +31,32 @@ public class UnitLibrary : MonoBehaviour
     
     private void Awake()
     {
-        SetAverageStatsToUnits(playerUnits);
-        SetAverageStatsToUnits(enemyUnits);
-        SetAverageStatsToUnits(boardObjects);
+        //SetAverageStatsToUnits(playerUnits);
+        //SetAverageStatsToUnits(enemyUnits);
+        //SetAverageStatsToUnits(boardObjects);
     }
 
     void SetAverageStatsToUnits(List<UnitInLibrary> units)
     {
         foreach (UnitInLibrary unit in units)
         {
-            unit.stats.hp = unit.stats.hp != -1 ? unit.stats.hp : hp;
-            unit.stats.damage = unit.stats.damage != -1 ? unit.stats.damage : damage;
-            unit.stats.magicDamage = unit.stats.magicDamage != -1 ? unit.stats.magicDamage : magicDamage;
-            unit.stats.critChance = unit.stats.critChance != -1 ? unit.stats.critChance : critChance;
-            unit.stats.critDamage = unit.stats.critDamage != -1 ? unit.stats.critDamage : critDamage;
-            unit.stats.missChance = unit.stats.missChance != -1 ? unit.stats.missChance : missChance;
-            unit.stats.attackSpeed = unit.stats.attackSpeed != -1 ? unit.stats.attackSpeed : attackSpeed;
-            unit.stats.moveSpeed = unit.stats.moveSpeed != -1 ? unit.stats.moveSpeed : moveSpeed;
-            unit.stats.visibleMoveSpeed = unit.stats.visibleMoveSpeed != -1 ? unit.stats.visibleMoveSpeed : visibleMoveSpeed;
-            unit.stats.armor = unit.stats.armor != -1 ? unit.stats.armor : armor;
-            unit.stats.magicRes = unit.stats.magicRes != -1 ? unit.stats.magicRes : magicRes;
+            //unit.stats.hp = unit.stats.hp != -1 ? unit.stats.hp : hp;
+            //unit.stats.damage = unit.stats.damage != -1 ? unit.stats.damage : damage;
+            //unit.stats.magicDamage = unit.stats.magicDamage != -1 ? unit.stats.magicDamage : magicDamage;
+            //unit.stats.critChance = unit.stats.critChance != -1 ? unit.stats.critChance : critChance;
+            //unit.stats.critDamage = unit.stats.critDamage != -1 ? unit.stats.critDamage : critDamage;
+            //unit.stats.missChance = unit.stats.missChance != -1 ? unit.stats.missChance : missChance;
+            //unit.stats.attackSpeed = unit.stats.attackSpeed != -1 ? unit.stats.attackSpeed : attackSpeed;
+            //unit.stats.moveSpeed = unit.stats.moveSpeed != -1 ? unit.stats.moveSpeed : moveSpeed;
+            //unit.stats.visibleMoveSpeed = unit.stats.visibleMoveSpeed != -1 ? unit.stats.visibleMoveSpeed : visibleMoveSpeed;
+            //unit.stats.armor = unit.stats.armor != -1 ? unit.stats.armor : armor;
+            //unit.stats.magicRes = unit.stats.magicRes != -1 ? unit.stats.magicRes : magicRes;
         }
     }
 
     public UnitInLibrary GetUnit(string prefabName)
     {
-        UnitInLibrary unit = null;
+        UnitInLibrary unit;
         unit = CheckUnitList(playerUnits, prefabName);
         if (unit == null)
         {
@@ -69,9 +68,15 @@ public class UnitLibrary : MonoBehaviour
         }
         return unit;
     }
+    public UnitInLibrary GetUnit(UnitData unitData)
+    {
+        UnitInLibrary u;
+        u = CheckUnitList(playerUnits, unitData);
+        return u;
+    }
     public UnitInLibrary GetUnitFromListedName(string nameInList)
     {
-        UnitInLibrary unit = null;
+        UnitInLibrary unit;
         unit = CheckUnitListWithListedName(playerUnits, nameInList);
         if (unit == null)
         {
@@ -92,6 +97,17 @@ public class UnitLibrary : MonoBehaviour
 
             if (unit.prefab.name == name)
                 return unit;
+        }
+        return null;
+    }
+    private UnitInLibrary CheckUnitList(List<UnitInLibrary> list, UnitData unitData)
+    {
+        foreach (var u in list)
+        {
+            if (unitData.name == u.nameInList)
+            {
+                return u;
+            }
         }
         return null;
     }
@@ -289,8 +305,6 @@ public class LibraryAbility
 [Serializable]
 public class StartingStats
 {
-    [Header("Leaving the stat values -1 will default them.")]
-    [Space(10)]
     public float hp = -1;
     public float damage = -1;
     public float magicDamage = -1;
@@ -298,6 +312,7 @@ public class StartingStats
     public float critDamage = -1;
     public float missChance = -1;
     public float moveSpeed = -1;
+    public float baseMoveTime = 1.7f;
     public float visibleMoveSpeed = -1;
     public float attackSpeed = -1;
     public float armor = -1;
@@ -305,14 +320,15 @@ public class StartingStats
     public StartingStats(bool useAverageStats, float hp, float dmg, float mgDmg, float critChance, float critDamage, float missChance, float moveSpd, float visibleMoveSpeed, float attSpd, float armor, float mRes) 
     { 
         this.hp = hp; 
-        damage = dmg; 
-        magicDamage = mgDmg; 
-        this.critChance = critChance; 
-        this.critDamage = critDamage; 
-        this.missChance = missChance; 
-        moveSpeed = moveSpd; 
+        this.damage = dmg; 
+        this.magicDamage = mgDmg; 
+        this.critChance = critChance;
+        this.critDamage = critDamage;
+        this.missChance = missChance;
+        this.baseMoveTime = 1.7f;
+        this.moveSpeed = moveSpd; 
         this.visibleMoveSpeed = visibleMoveSpeed;
-        attackSpeed = attSpd; 
+        this.attackSpeed = attSpd; 
         this.armor = armor; 
         this.magicRes = mRes; 
     }

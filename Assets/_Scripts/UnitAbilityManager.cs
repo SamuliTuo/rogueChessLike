@@ -9,8 +9,8 @@ public class UnitAbilityManager : MonoBehaviour
 {
     public List<UnitAbility> abilities = new List<UnitAbility>();
     public List<GameObject> projectiles = new List<GameObject>();
-
-    public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
+    public float cooldownReduction = 0;
+    //public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
 
     private Dictionary<Tuple<UnitAbility, int>, bool> abilitiesWithCooldown = new Dictionary<Tuple<UnitAbility, int>, bool>();
     private Unit unit;
@@ -39,7 +39,7 @@ public class UnitAbilityManager : MonoBehaviour
     {
         abilitiesWithCooldown.Add(new Tuple<UnitAbility, int>(_ability, i), true);
         GameManager.Instance.ProjectilePools.CreatePool(projectiles[i]);
-        hp.StartCoroutine(AbilityCooldown(new Tuple<UnitAbility, int>(_ability, i), _ability.cooldown * _ability.startCooldownMultiplier));
+        hp.StartCoroutine(AbilityCooldown(new Tuple<UnitAbility, int>(_ability, i), _ability.cooldown, _ability.startCooldownMultiplier));
     }
 
     public Tuple<UnitAbility, int> ConsiderUsingAnAbility()
@@ -98,7 +98,7 @@ public class UnitAbilityManager : MonoBehaviour
         }*/
         unit.RotateUnit(new Vector2Int(_attackTarget.x, _attackTarget.y));
     }
-
+    
     public void ActivateAbilitySecondHalf(Tuple<UnitAbility, int> _ability, Unit _attackTarget, Vector2Int[] _path)
     {
         Vector3 offset = transform.TransformVector(unit.attackPositionOffset);
@@ -132,13 +132,17 @@ public class UnitAbilityManager : MonoBehaviour
         }
     }
 
-    IEnumerator AbilityCooldown(Tuple<UnitAbility, int> _ability, float _cooldown)
+    IEnumerator AbilityCooldown(Tuple<UnitAbility, int> _ability, float _cooldown, float _startMultiplier = 0)
     {
         float t = 0;
-        while (t < _cooldown)
+        float time = (_cooldown - (_cooldown * cooldownReduction)) * (1 - _startMultiplier);
+        while (t < time)
         {
-            hp?.RefreshSkillCooldownUISlot(_ability.Item2, t / _cooldown);
-            t += Time.deltaTime;
+            hp?.RefreshSkillCooldownUISlot(_ability.Item2, t / time);
+            if (GameManager.Instance.state == GameState.BATTLE)
+            {
+                t += Time.deltaTime;
+            }
             yield return null;
         }
         abilitiesWithCooldown[_ability] = false;

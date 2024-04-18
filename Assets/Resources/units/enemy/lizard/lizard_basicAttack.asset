@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targeting: 0
   hitParticle: 4
-  dmgInstanceType: 1
+  dmgInstanceType: 0
+  aoeShape: 0
   projectileType: 1
   statusModifiers: {fileID: 11400000, guid: 7939ac9222069f547a42e007cc1e5e1c, type: 2}
   attackRange: 1

@@ -32,7 +32,7 @@ public class LevelUpPanel : MonoBehaviour
     public void InitLevelUpPanel(UnitData unit)
     {
         unitLeveling = unit;
-
+        RaiseStats();
         StartCorrectLevelUpPattern();
         /*
         abilityPoints = 1;
@@ -44,6 +44,20 @@ public class LevelUpPanel : MonoBehaviour
         */
     }
 
+    void RaiseStats()
+    {
+        if (unitLeveling == null)
+            return;
+
+        print("Stats got increased, add a visual element telling how much of each stat");
+        unitLeveling.maxHp += unitLeveling.unitClass.hp;
+        unitLeveling.damage += unitLeveling.unitClass.dmg;
+        unitLeveling.magic += unitLeveling.unitClass.mgDmg;
+        unitLeveling.moveSpeed += unitLeveling.unitClass.moveSpd;
+        unitLeveling.attackSpeed += unitLeveling.unitClass.attSpd;
+        unitLeveling.armor += unitLeveling.unitClass.armor;
+        unitLeveling.magicRes += unitLeveling.unitClass.mgArmor;
+    }
 
     // Level 1 : Get a random spell and subclass.
 
@@ -82,7 +96,7 @@ public class LevelUpPanel : MonoBehaviour
             }
 
             // Open the choices and wait until player chooses one
-            LVLUpPanel_2nd.InitUpgradeChoices(abilityClicked);
+            LVLUpPanel_2nd.InitUpgradeChoices(unitLeveling.augments);
             optionChosen = -1;
             while (optionChosen == -1)
             {
@@ -167,6 +181,12 @@ public class LevelUpPanel : MonoBehaviour
         //CheckIfDone();
         //return true;
     }
+    public void TryToChooseOption(UnitAugment augment, int slot)
+    {
+        optionChosen = slot;
+        print("adding augment +" + augment + " to " + unitLeveling.name);
+        unitLeveling.AddAugment(augment);
+    }
 
 
 
@@ -210,31 +230,31 @@ public class LevelUpPanel : MonoBehaviour
             passive.gameObject.SetActive(false);
 
         // P H A S E  1 :  ability upgrades
-        List<UnitAbility> possibleAbils = unitLeveling.RemainingPossibleAbilities();
+        //List<UnitAbility> possibleAbils = unitLeveling.RemainingPossibleAbilities();
         List<UnitAbility> learnedAbils = unitLeveling.LearnedAbilities();
-        Shuffle(possibleAbils);
+        //Shuffle(possibleAbils);
 
-        for (int i = 0; i < abilitySlots.Count; i++)
-        {
-            bool isAbility = false;
-            if (unitLeveling.HasFreeAbilitySlots() && possibleAbils.Count > 0)
-            {
-                isAbility = true;
-                if (learnedAbils.Count > 0)
-                {
-                    isAbility = UnityEngine.Random.Range(0, 100) < 50;
-                }
-            }
+        //for (int i = 0; i < abilitySlots.Count; i++)
+        //{
+        //    bool isAbility = false;
+        //    if (unitLeveling.HasFreeAbilitySlots() && possibleAbils.Count > 0)
+        //    {
+        //        isAbility = true;
+        //        if (learnedAbils.Count > 0)
+        //        {
+        //            isAbility = UnityEngine.Random.Range(0, 100) < 50;
+        //        }
+        //    }
 
-            if (isAbility)
-            {
-                AddAbility(possibleAbils, i);
-            }
-            else
-            {
-                AddUpgrade(learnedAbils, i);
-            }
-        }
+        //    if (isAbility)
+        //    {
+        //        AddAbility(possibleAbils, i);
+        //    }
+        //    else
+        //    {
+        //        AddUpgrade(learnedAbils, i);
+        //    }
+        //}
     }
 
     void SetupUpgradeChoices_Passives()
@@ -322,7 +342,6 @@ public class LevelUpPanel : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             int rand = Random.Range(0, possibleUpgrades.Count);
-            print(rand);
             r.Add(possibleUpgrades[rand]);
             possibleUpgrades.Remove(possibleUpgrades[rand]);
         }

@@ -7,6 +7,7 @@ public class UnitHealth : MonoBehaviour
 {
     public bool dying;
     public float hpBarOffset = 1f;
+    public int bloodMoneyAmount = 0;
 
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private float maxHp = 100;
@@ -31,6 +32,7 @@ public class UnitHealth : MonoBehaviour
     private Unit unit;
     private Vector3 hpBarOriginalScale;
 
+
     private void Awake()
     {
         unit = GetComponent<Unit>();
@@ -51,11 +53,11 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
-    public void RemoveHP(float damage, bool dieFast = false, float critChance = 0, float critDamage = 1, float missChance = 0, bool isMagic = false)
+    public bool RemoveHPAndCheckIfUnitDied(float damage, bool dieFast = false, float critChance = 0, float critDamage = 1, float missChance = 0, bool isMagic = false)
     {
         if (DebugTools.Instance?.godMode == true && unit.team == 0)
         {
-            return;
+            return false;
         }
         
         // hit or miss?
@@ -76,14 +78,13 @@ public class UnitHealth : MonoBehaviour
         float damageTaken;
         if (isMagic)
         {
-            damageTaken = damage - magicRes;  // <- change
+            damageTaken = damage - (damage * (magicRes / (100 + magicRes)));
         }
         else
         {
-            damageTaken = damage - armor; // <- change
+            damageTaken = damage - (damage * (armor / (100 + armor)));
         }
-        damageTaken = damage; //placeholdr
-
+        
         // Damage numbers:
         if (!dieFast)
         {
@@ -96,7 +97,7 @@ public class UnitHealth : MonoBehaviour
             shield -= damageTaken;
             if (shield >= 0)
             {
-                return;
+                return false;
             }
             else
             {
@@ -115,11 +116,18 @@ public class UnitHealth : MonoBehaviour
         {
             hpScript.SetBarValue(hp / maxHp);
         }
+
+        // Are you wanna die?
         if (hp <= 0 && dying == false)
         {
             dying = true;
+            if (bloodMoneyAmount > 0)
+            {
+                GameManager.Instance.PlayerParty.AddMoney(bloodMoneyAmount);
+            }
             GameManager.Instance.UnitHasDied(unit);
             StartCoroutine(Die(dieFast));
+            return true;
         }
         else
         {
@@ -127,10 +135,10 @@ public class UnitHealth : MonoBehaviour
             //StartCoroutine("DamageFlash");
             if (timer > 0.6f)
             {
-                print("Hp bar biggenings: t‰‰l on timer j‰nkkii joka pit‰is fiksaa jossai v‰lii");
                 //StopCoroutine("DamageFlash");
                 StartCoroutine("BiggenHPBar", Mathf.Min(Mathf.Abs(damageTaken / maxHp), 1));
             }
+            return false;
         }
     }
 
@@ -142,6 +150,7 @@ public class UnitHealth : MonoBehaviour
 
         if (dieFast)
         {
+            print("dying fast");
             Destroy(this.gameObject);
             StopAllCoroutines();
         }

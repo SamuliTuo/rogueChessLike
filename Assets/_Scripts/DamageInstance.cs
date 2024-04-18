@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,6 @@ using UnityEngine;
 public enum DamageInstanceType 
 { 
     SINGLE_TARGET,
-    SQUARE,
-    DOT,
     AOE
 }
 
@@ -15,11 +14,13 @@ public class DamageInstance : MonoBehaviour
 {
     public void Activate(
         Node target,
+        Vector3 forward,
+        AOEShapes shape,
         float damage,
         float critChance,
         float critDamage,
         float missChance,
-        Unit shooter, 
+        Unit shooter,
         UnitSearchType targeting, 
         DamageInstanceType type, 
         UnitStatusModifier statusMods,
@@ -30,16 +31,18 @@ public class DamageInstance : MonoBehaviour
         var targetUnit = units[target.x, target.y];
         if (type == DamageInstanceType.SINGLE_TARGET)
         {
-            ActivateSingleTarget(targetUnit, shooter, targeting, damage, critChance, critDamage, missChance, isMagicDmg, statusMods);
+            ActivateSingleTarget(targetUnit, shooter, shooter.team, forward, targeting, damage, critChance, critDamage, missChance, isMagicDmg, statusMods);
         }
-        else if (type == DamageInstanceType.SQUARE)
+        else if (type == DamageInstanceType.AOE)
         {
-            ActivateSquare(target, shooter, units, targeting, damage, critChance, critDamage, missChance, isMagicDmg, statusMods, particle);
+            ActivateSquare(target, shooter, shooter.team, forward, shape, units, targeting, damage, critChance, critDamage, missChance, isMagicDmg, statusMods, particle);
         }
     }
 
     public void ActivateAreaDOT(
-        Node targetNode, 
+        Node targetNode,
+        Vector3 forward,
+        AOEShapes shape,
         float tickDamage,
         float tickIntervalSeconds,
         float critChance, float critDamage, float missChance,
@@ -51,14 +54,16 @@ public class DamageInstance : MonoBehaviour
         bool isMagicDmg,
         ParticleType particle = ParticleType.NONE)
     {
-        StartCoroutine(AreaDOT(targetNode, tickDamage, tickIntervalSeconds, critChance, critDamage, missChance, intervals, shooter, targeting, scale, statusMods, isMagicDmg, particle));
+        StartCoroutine(AreaDOT(targetNode, forward, shape, tickDamage, tickIntervalSeconds, critChance, critDamage, missChance, intervals, shooter, shooter.team, targeting, scale, statusMods, isMagicDmg, particle));
     }
 
 
     // ================== PRIVATE ================== //
     private void ActivateSingleTarget(
         Unit targetUnit, 
-        Unit shooter, 
+        Unit shooter,
+        int shooterTeam,
+        Vector3 forward,
         UnitSearchType targeting, 
         float damage,
         float critChance,
@@ -70,57 +75,52 @@ public class DamageInstance : MonoBehaviour
         //print("target unit: "+ targetUnit);
         if (targetUnit != null)
         {
-            //print("valid target: " + GameManager.Instance.IsValidTarget(shooter, targetUnit, targeting));
-            //print("============ shooter: " + shooter + ", targetUnit: " + targetUnit + ", targeting: " + targeting);
+            // Shooter has died:
+            if (shooter == null)
+            {
+                if (GameManager.Instance.IsValidTarget(shooterTeam, targetUnit, targeting))
+                {
+                    if (statusMods != null)
+                    {
+                        targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods, null);
+                    }
+                    targetUnit.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(damage, false, critChance, critDamage, missChance, isMagicDmg);
+                }
+                return;
+            }
+            // Shooter is alive:
             if (GameManager.Instance.IsValidTarget(shooter, targetUnit, targeting))
             {
-                //print("stat mods: " + statusMods);
                 if (statusMods != null)
                 {
-                    targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
+                    targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods, null);
                 }
-                //print("damage: "+damage+"target unit hp: "+targetUnit.GetComponent<UnitHealth>());
-                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
+                if (targetUnit.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(damage, false, critChance, critDamage, missChance, isMagicDmg) == true)
+                {
+                    shooter.UnitGotAKill();
+                }
                 // Lifesteal:
                 if (shooter != null)
                 {
                     if (shooter.lifeSteal_perc > 0)
                     {
-                        shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance, isMagicDmg);
+                        shooter.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance, isMagicDmg);
                     }
                     if (shooter.lifeSteal_flat > 0)
                     {
-                        shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance, isMagicDmg);
+                        shooter.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance, isMagicDmg);
                     }
                 }
-            }
-        }
-    }
-    private void ActivateSingleTarget(
-        Unit targetUnit, 
-        int shooterTeam, 
-        UnitSearchType targeting, 
-        float damage,
-        float critChance, float critDamage, float missChance,
-        bool isMagicDmg,
-        UnitStatusModifier statusMods)
-    {
-        if (targetUnit != null)
-        {
-            if (GameManager.Instance.IsValidTarget(shooterTeam, targetUnit, targeting))
-            {
-                if (statusMods != null)
-                {
-                    targetUnit.GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
-                }
-                targetUnit.GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
             }
         }
     }
 
     private void ActivateSquare(
         Node target, 
-        Unit shooter, 
+        Unit shooter,
+        int shooterTeam,
+        Vector3 forward,
+        AOEShapes shape,
         Unit[,] units, 
         UnitSearchType targeting, 
         float damage,
@@ -129,21 +129,54 @@ public class DamageInstance : MonoBehaviour
         UnitStatusModifier statusMods,
         ParticleType particle)
     {
-        foreach (Vector2Int node in GetSquare(target.x,target.y))
+        var squares = GetAOENodes(target.x, target.y, shape, HelperUtilities.DetermineCompassDir(forward).Item1);
+        if (squares == null)
+            return;
+
+        if (shooter == null)
         {
-            if (units[node.x,node.y] != null)
+            foreach (var node in squares)
             {
-                if (GameManager.Instance.IsValidTarget(shooter, units[node.x,node.y], targeting))
+                if (units[node.Item1.x, node.Item1.y] != null)
+                {
+                    if (GameManager.Instance.IsValidTarget(shooterTeam, units[node.Item1.x, node.Item1.y], targeting))
+                    {
+                        if (statusMods != null)
+                        {
+                            units[node.Item1.x, node.Item1.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods, null);
+                        }
+                        units[node.Item1.x, node.Item1.y].GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(damage, false, critChance, critDamage, missChance, isMagicDmg);
+
+                        if (node.Item1.x != target.x && node.Item1.y != target.y)
+                        {
+                            GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x, target.y), transform.forward);
+                        }
+                    }
+                }
+            }
+            return;
+        }
+        // Shooter is still alive:
+        foreach (var node in squares)
+        {
+            Instantiate(Resources.Load<GameObject>("DebuggerSphere"), Chessboard.Instance.GetTileCenter(node.Item1.x,node.Item1.y), Quaternion.identity);
+            if (units[node.Item1.x,node.Item1.y] != null)
+            {
+                if (GameManager.Instance.IsValidTarget(shooter, units[node.Item1.x,node.Item1.y], targeting))
                 {
                     if (statusMods != null)
                     {
-                        units[node.x, node.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
+                        units[node.Item1.x, node.Item1.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods, shooter);
                     }
-                    var hp = units[node.x, node.y].GetComponent<UnitHealth>();
+                    var hp = units[node.Item1.x, node.Item1.y].GetComponent<UnitHealth>();
                     if (hp != null)
-                        hp.RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
-
-                    if (node.x != target.x && node.y != target.y)
+                    {
+                        if (hp.RemoveHPAndCheckIfUnitDied(damage, false, critChance, critDamage, missChance, isMagicDmg))
+                        {
+                            shooter.UnitGotAKill();
+                        }
+                    }
+                    if (node.Item1.x != target.x && node.Item1.y != target.y)
                     {
                         GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x,target.y), transform.forward);
                     }
@@ -152,43 +185,12 @@ public class DamageInstance : MonoBehaviour
                     {
                         if (shooter.lifeSteal_perc > 0)
                         {
-                            shooter.GetComponent<UnitHealth>().RemoveHP(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance, isMagicDmg);
+                            shooter.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(-Mathf.Abs(damage) * shooter.lifeSteal_perc, false, critChance, critDamage, missChance, isMagicDmg);
                         }
                         if (shooter.lifeSteal_flat > 0)
                         {
-                            shooter.GetComponent<UnitHealth>().RemoveHP(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance, isMagicDmg);
+                            shooter.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(-shooter.lifeSteal_flat, false, critChance, critDamage, missChance, isMagicDmg);
                         }
-                    }
-                }
-            }
-        }
-    }
-    private void ActivateSquare(
-        Node target, 
-        int shooterTeam, 
-        Unit[,] units, 
-        UnitSearchType targeting, 
-        float damage, 
-        float critChance, float critDamage, float missChance,
-        bool isMagicDmg,
-        UnitStatusModifier statusMods,
-        ParticleType particle)
-    {
-        foreach (Vector2Int node in GetSquare(target.x, target.y))
-        {
-            if (units[node.x, node.y] != null)
-            {
-                if (GameManager.Instance.IsValidTarget(shooterTeam, units[node.x, node.y], targeting))
-                {
-                    if (statusMods != null)
-                    {
-                        units[node.x, node.y].GetComponent<UnitStatusModifiersHandler>().AddNewStatusModifiers(statusMods);
-                    }
-                    units[node.x, node.y].GetComponent<UnitHealth>().RemoveHP(damage, false, critChance, critDamage, missChance, isMagicDmg);
-
-                    if (node.x != target.x && node.y != target.y)
-                    {
-                        GameManager.Instance.ParticleSpawner.SpawnParticles(particle, Chessboard.Instance.GetTileCenter(target.x, target.y), transform.forward);
                     }
                 }
             }
@@ -196,19 +198,21 @@ public class DamageInstance : MonoBehaviour
     }
 
     private IEnumerator AreaDOT(
-        Node target, 
+        Node target,
+        Vector3 forward,
+        AOEShapes shape,
         float tickDamage, 
         float tickIntervalSeconds, 
         float critChance, float critDamage, float missChance,
         int intervals, 
-        Unit shooter, 
+        Unit shooter,
+        int shooterTeam,
         UnitSearchType targeting, 
         DamageInstanceType scale,
         UnitStatusModifier statusMods,
         bool isMagicDmg,
         ParticleType particle = ParticleType.NONE)
     {
-        int shooterTeam = shooter.team;
         int interval = 0;
         while (interval < intervals)
         {
@@ -217,11 +221,11 @@ public class DamageInstance : MonoBehaviour
             if (scale == DamageInstanceType.SINGLE_TARGET)
             {
                 var targetUnit = units[target.x, target.y];
-                ActivateSingleTarget(targetUnit, shooterTeam, targeting, tickDamage, critChance, critDamage, missChance, isMagicDmg, statusMods);
+                ActivateSingleTarget(targetUnit, shooter, shooterTeam, forward, targeting, tickDamage, critChance, critDamage, missChance, isMagicDmg, statusMods);
             }
-            else if (scale == DamageInstanceType.SQUARE)
+            else if (scale == DamageInstanceType.AOE)
             {
-                ActivateSquare(target, shooterTeam, units, targeting, tickDamage, critChance, critDamage, missChance, isMagicDmg, statusMods, particle);
+                ActivateSquare(target, shooter, shooterTeam, forward, shape, units, targeting, tickDamage, critChance, critDamage, missChance, isMagicDmg, statusMods, particle);
             }
 
             // Wait for the next interval:
@@ -236,49 +240,32 @@ public class DamageInstance : MonoBehaviour
         }
     }
 
-    private List<Vector2Int> GetSquare(
-        int x, int y)
+
+    private List<Tuple<Vector2Int, AOEGridScriptable.NodeInfo>> GetAOENodes(int x, int y, AOEShapes shape, CompassDir orientation)
     {
+        var aoe = GameManager.Instance.AOELibrary.GetAOEShape(shape, orientation);
+        if (aoe == null)
+        {
+            return null;
+        }
+        var r = new List<Tuple<Vector2Int, AOEGridScriptable.NodeInfo>>();
         int tileCountX = Chessboard.Instance.GetTilecount().x;
         int tileCountY = Chessboard.Instance.GetTilecount().y;
-        List<Vector2Int> r = new List<Vector2Int>();
-
-        // Current pos
-        r.Add(new Vector2Int(x, y));
-
-        // Right
-        if (x + 1 < tileCountX)
+        foreach (var ring in aoe)
         {
-            // Right
-            r.Add(new Vector2Int(x + 1, y));
-            // Top right
-            if (y + 1 < tileCountY)
-                r.Add(new Vector2Int(x + 1, y + 1));
-            // Bottom right
-            if (y - 1 >= 0)
-                r.Add(new Vector2Int(x + 1, y - 1));
+            for (int i = 0; i < ring.Count; i++)
+            {
+                if (ring[i] == null)
+                    continue;
+
+                if (x + ring[i].x < 0 || x + ring[i].x >= tileCountX || y + ring[i].y < 0 || y + ring[i].y >= tileCountY)
+                    continue;
+
+                r.Add(new(new Vector2Int(x + ring[i].x, y + ring[i].y), ring[i]));
+            }
         }
-        // Left
-        if (x - 1 >= 0)
-        {
-            // Left
-            r.Add(new Vector2Int(x - 1, y));
-            // Top left
-            if (y + 1 < tileCountY)
-                r.Add(new Vector2Int(x - 1, y + 1));
-            // Bottom left
-            if (y - 1 >= 0)
-                r.Add(new Vector2Int(x - 1, y - 1));
-
-        }
-        // Up
-        if (y + 1 < tileCountY)
-            r.Add(new Vector2Int(x, y + 1));
-        // Down
-        if (y - 1 >= 0)
-            r.Add(new Vector2Int(x, y - 1));
-
-
         return r;
     }
 }
+
+
