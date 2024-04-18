@@ -17,7 +17,7 @@ MonoBehaviour:
   centerOnYourself: 0
   hitParticle: 12
   dmgInstanceType: 1
-  aoeShape: 3
+  aoeShape: 4
   projectileType: 1
   projectilePath: projectile_fireBreath
   reach: 1
@@ -36,7 +36,7 @@ MonoBehaviour:
   spawnAreaDOT: 0
   areaDOTStatusModifier: {fileID: 0}
   areaDOTType: 0
-  areaDotShape: 0
+  areaDotShape: 4
   areaDOTValidTargets: 0
   areaDOTParticle: 0
   tickDamage: 0

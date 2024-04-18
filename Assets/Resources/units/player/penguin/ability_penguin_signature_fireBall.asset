@@ -17,7 +17,7 @@ MonoBehaviour:
   centerOnYourself: 0
   hitParticle: 7
   dmgInstanceType: 0
-  aoeShape: 0
+  aoeShape: 3
   projectileType: 0
   projectilePath: projectile_fireAttack
   reach: 3

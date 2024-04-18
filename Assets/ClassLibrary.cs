@@ -8,7 +8,7 @@ public class ClassLibrary : MonoBehaviour
     [Space(10)]
     public List<Class> classes = new List<Class>();
 
-    [Header("Global multipliers for stats-per level:")]
+    [Header("Global multipliers for actual stats-per level of stat:")]
     public float hpPerPoint = 1.0f;
     public float dmgPerPoint = 1.0f;
     public float magicPerPoint = 1.0f;
@@ -33,7 +33,6 @@ public class ClassLibrary : MonoBehaviour
         }
         return l[UnityEngine.Random.Range(0, l.Count)];
     }
-
 }
 
 [Serializable]

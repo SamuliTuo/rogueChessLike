@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b15bef2b4cace4f90719f5e0c04968, type: 3}
   m_Name: BOX_3X3
   m_EditorClassIdentifier: 
-  shapeName: 2
+  shapeName: 3
   rings_north_0:
   - x: -1
     y: 0

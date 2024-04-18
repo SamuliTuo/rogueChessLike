@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using UnityEngine;
 
 [System.Serializable]
@@ -14,7 +13,10 @@ public class UnitData
     public float critDamage;
     public float missChance;
     public float attackSpeed;
+
+    public float baseMoveTime;
     public float moveSpeed;
+    public float visibleMoveSpeed;
     public float moveInterval;
     public float armor;
     public float magicRes;
@@ -23,6 +25,7 @@ public class UnitData
     public int currentLevel = 1;
     public float currentExperience;
     public float nextLevelExperience;
+    public float experienceGainMultiplier = 1;
     public string name;
     public int spawnPosX;
     public int spawnPosY;
@@ -31,7 +34,7 @@ public class UnitData
     public UnitAbility ability1;
     public UnitAbility ability2;
     public UnitAbility ability3;
-    public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
+    public List<UnitAugment> augments = new List<UnitAugment>();
 
     public UnitData(Unit unit, string name, int posX, int posY, int level = 1)
     {
@@ -44,19 +47,23 @@ public class UnitData
         this.critDamage = unit.critDamagePerc;
         this.missChance = unit.missChance;
         this.attackSpeed = unit.attackSpeed;
-        //this.moveSpeed = unit.moveSpeed;
-        moveSpeed = unit.moveSpeed;
+        this.moveSpeed = unit.moveSpeed;
+        visibleMoveSpeed = unit.visibleMoveSpeed;
         moveInterval = unit.moveInterval;// CalculateMoveInterval(unit.moveInterval, moveSpeed);
         team = unit.team;
         spawnPosX = posX;
         spawnPosY = posY;
         maxHp = unit.GetComponent<UnitHealth>().GetMaxHp();
-        this.possibleAbilities = unit.GetComponent<UnitAbilityManager>().possibleAbilities;
     }
 
     public float CurrentExpPercent()
     {
         return currentExperience / nextLevelExperience;
+    }
+
+    public void AddAugment(UnitAugment aug)
+    {
+        augments.Add(aug);
     }
 
     public void GiveNewAbility(UnitAbility abi)
@@ -73,7 +80,10 @@ public class UnitData
 
     public bool HasLearnedAbility(UnitAbility a)
     {
-        return ((ability1!=null && ability1.name==a.name) || (ability2!=null && ability2.name==a.name) || (ability3!=null && ability3.name==a.name));
+        return
+            (ability1 != null && ability1.name == a.name) ||
+            (ability2 != null && ability2.name == a.name) ||
+            (ability3 != null && ability3.name == a.name);
     }
 
     public List<UnitAbility> LearnedAbilities()
@@ -82,19 +92,6 @@ public class UnitData
         if (ability1 != null) r.Add(ability1);
         if (ability2 != null) r.Add(ability2);
         if (ability3 != null) r.Add(ability3);
-        return r;
-    }
-
-    public List<UnitAbility> RemainingPossibleAbilities()
-    {
-        var r = new List<UnitAbility>();
-        foreach (var a in possibleAbilities)
-        {
-            if (!HasLearnedAbility(a))
-            {
-                r.Add(a);
-            }
-        }
         return r;
     }
     

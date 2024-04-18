@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     public UnitLibrary UnitLibrary { get; private set; }
     public ClassLibrary ClassLibrary { get; private set; }
+    public UnitAugments UnitAugments { get; private set; }
     public HPBarSpawner HPBars { get; private set; }
     public ParticleSpawner ParticleSpawner { get; private set; }
     public PlayerParty PlayerParty { get; private set; }
@@ -42,10 +43,21 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameState startingSceneGameState = GameState.MAP;
 
-
+    
     public GameState state { get; private set; }
     public void ChangeGamestate(GameState state)
     {
+        if (state == GameState.BATTLE) 
+        {
+            foreach (var unit in board.GetUnits())
+            {
+                if (unit == null)
+                    continue;
+
+                unit.GetComponent<UnitAugmentsManager>()?.ActivateAugmentEffects();
+            }
+        }
+
         this.state = state;
     }
     public LayerMask boardLayerMask;
@@ -53,10 +65,26 @@ public class GameManager : MonoBehaviour
     public List<MapNode> pathTaken { get; set; }
     ScenarioBuilder builder;
 
+    [Space(10)]
+    [Header("Stat slider maximum values:")]
+    public float maxHpStat = 420;
+    public float maxArmorStat = 100;
+    public float maxMresStat = 100;
+    public float maxDamageStat = 50;
+    public float maxMagicStat = 50;
+    public float maxAttackSpeedStat = 100;
+    public float maxMoveSpeedStat = 100;
+
+    [Space(20)]
+    public float currentFightCumulatedExperience = 0;
+
+    [SerializeField] float maxMoveInterval = 3.5f;
+    [SerializeField] float minMoveInterval = 0.15f;
 
     private Chessboard board;
     private GameObject victoryScreen;
     private GameObject lostScreen;
+
 
 
     void Awake()
@@ -73,6 +101,7 @@ public class GameManager : MonoBehaviour
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         UnitLibrary = GetComponentInChildren<UnitLibrary>();
         ClassLibrary = GetComponentInChildren<ClassLibrary>();
+        UnitAugments = GetComponentInChildren<UnitAugments>();
         PlayerParty = GetComponentInChildren<PlayerParty>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
         AOELibrary = GetComponentInChildren<AOELibrary>();
@@ -196,7 +225,7 @@ public class GameManager : MonoBehaviour
             return attacker == target.team;
     }
 
-    public float currentFightCumulatedExperience = 0;
+    
     public void UnitHasDied(Unit unit)
     {
         if (unit.team == 1)
@@ -297,12 +326,9 @@ public class GameManager : MonoBehaviour
         return randomNumbers;
     }
 
-
-
-    [SerializeField] float maxMoveInterval = 2f;
-    [SerializeField] float minMoveInterval = 0.2f;
-    public float GetMoveIntervalFromMoveSpeed(float moveSpeed)
+    public float GetMoveIntervalFromMoveSpeed(float moveSpeed, float baseMoveTime)
     {
-        return Mathf.Lerp(maxMoveInterval, minMoveInterval, moveSpeed * 0.01f);
+        return baseMoveTime / ((100 + moveSpeed) * 0.01f);
+        //return Mathf.Clamp((100 + moveSpeed) * 0.01f / baseMoveTime, minMoveInterval, maxMoveInterval);
     }
 }

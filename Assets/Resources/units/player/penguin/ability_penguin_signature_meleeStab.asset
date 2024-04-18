@@ -17,24 +17,26 @@ MonoBehaviour:
   centerOnYourself: 0
   hitParticle: 4
   dmgInstanceType: 0
+  aoeShape: 2
   projectileType: 1
   projectilePath: projectile_meleeStab
-  reach: 2
-  damage: 2.5
+  reach: 1
+  damage: 3.1
   usesMagic: 0
   directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.15
-  castDuration_secondHalf: 1
+  castDuration_secondHalf: 0.2
   additionalDamagePhases: 0
   additionalDamagePhaseDuration: 0
-  cooldown: 2.5
+  cooldown: 2.3
   startCooldownMultiplier: 1
   flySpeed: 10
   minLifeTime: 0.05
   damagesAllies: 0
   spawnAreaDOT: 0
   areaDOTStatusModifier: {fileID: 0}
-  areaDOTSize: 0
+  areaDOTType: 0
+  areaDotShape: 0
   areaDOTValidTargets: 0
   areaDOTParticle: 0
   tickDamage: 0

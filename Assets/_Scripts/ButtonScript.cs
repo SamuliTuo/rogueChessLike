@@ -87,7 +87,7 @@ public class ButtonScript : MonoBehaviour
                     {
                         currUnits[x, y] = null;
                         GameManager.Instance.currentScenario.RemoveUnit(x, y);
-                        unit.GetComponent<UnitHealth>().RemoveHP(9999999, true);
+                        unit.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(9999999, true);
                     }
                     else
                     {

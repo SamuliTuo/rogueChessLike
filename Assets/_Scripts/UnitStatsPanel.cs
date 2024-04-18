@@ -14,14 +14,6 @@ public enum UnitStatSliderTypes
 public class UnitStatsPanel : MonoBehaviour
 {
     [SerializeField] private Sprite emptySlotImg;
-    [Header("Slider maximum values:")]
-    [SerializeField] private float maxHp = 300;
-    [SerializeField] private float maxArmor = 100;
-    [SerializeField] private float maxMres = 100;
-    [SerializeField] private float maxDamage = 50;
-    [SerializeField] private float maxMagic = 50;
-    [SerializeField] private float maxAttackSpeed = 100;
-    [SerializeField] private float maxMoveSpeed = 100;
     
     private UnitData unit;
     private Image[] sliders;
@@ -71,13 +63,13 @@ public class UnitStatsPanel : MonoBehaviour
         string sliderValueText = text == "" ? value.ToString() : text;
         switch (slider)
         {
-            case UnitStatSliderTypes.HP: SetSlider((int)slider, value, maxHp, sliderValueText); break;
-            case UnitStatSliderTypes.ARMOR: SetSlider((int)slider, value, maxArmor, sliderValueText); break;
-            case UnitStatSliderTypes.MRES: SetSlider((int)slider, value, maxMres, sliderValueText); break;
-            case UnitStatSliderTypes.DMG: SetSlider((int)slider, value, maxDamage, sliderValueText); break;
-            case UnitStatSliderTypes.MAGIC: SetSlider((int)slider, value, maxMagic, sliderValueText); break;
-            case UnitStatSliderTypes.ATTSPD: SetSlider((int)slider, value, maxAttackSpeed, sliderValueText); break;
-            case UnitStatSliderTypes.MOVESPD: SetSlider((int)slider, value, maxMoveSpeed, sliderValueText); break;
+            case UnitStatSliderTypes.HP: SetSlider((int)slider, value, GameManager.Instance.maxHpStat, sliderValueText); break;
+            case UnitStatSliderTypes.ARMOR: SetSlider((int)slider, value, GameManager.Instance.maxArmorStat, sliderValueText); break;
+            case UnitStatSliderTypes.MRES: SetSlider((int)slider, value, GameManager.Instance.maxMresStat, sliderValueText); break;
+            case UnitStatSliderTypes.DMG: SetSlider((int)slider, value, GameManager.Instance.maxDamageStat, sliderValueText); break;
+            case UnitStatSliderTypes.MAGIC: SetSlider((int)slider, value, GameManager.Instance.maxMagicStat, sliderValueText); break;
+            case UnitStatSliderTypes.ATTSPD: SetSlider((int)slider, value, GameManager.Instance.maxAttackSpeedStat, sliderValueText); break;
+            case UnitStatSliderTypes.MOVESPD: SetSlider((int)slider, value, GameManager.Instance.maxMoveSpeedStat, sliderValueText); break;
         }
     }
 

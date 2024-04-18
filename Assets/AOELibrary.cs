@@ -14,7 +14,7 @@ using static UnityEngine.GraphicsBuffer;
 [Serializable]
 public enum AOEShapes
 {
-    ROW_1X3, ROW_1X5, BOX_3X3, CONE_1_3_3
+    ROW_WIDE_1X3, ROW_WIDE_1X5, ROW_LONG_3X1, BOX_3X3, CONE_1_3_3
 }
 
 [Serializable]
@@ -64,7 +64,6 @@ public class AOELibrary : MonoBehaviour
     private void Start()
     {
         AOELibraryEntries = Resources.LoadAll<AOEGridScriptable>("AOEGrids");
-        Debug.Log(AOELibraryEntries[0].rings_north_4);
     }
 
 
@@ -664,7 +663,6 @@ public class AOELibrary : MonoBehaviour
 
     public List<List<AOEGridScriptable.NodeInfo>> GetAOEShape(AOEShapes shapeName, CompassDir orientation)
     {
-        Debug.Log("searching for shape: " + shapeName + ", with orientation: " + orientation);
         var r = new List<List<AOEGridScriptable.NodeInfo>>();
         foreach (var entry in AOELibraryEntries)
         {

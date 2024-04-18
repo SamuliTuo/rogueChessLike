@@ -139,8 +139,6 @@ public class CaravanController : MonoBehaviour
         c.name = ability.spell.name;
         data.ability1 = c;
 
-        print(data.ability1);
-
         // Set class
         data.unitClass = GameManager.Instance.ClassLibrary.GetRandomClass();
 
@@ -157,6 +155,7 @@ public class CaravanController : MonoBehaviour
 
     void SetStats(UnitData data, UnitInLibrary randomUnit, int index)
     {
+        data.baseMoveTime = randomUnit.stats.baseMoveTime;
         randomFactorHP = UnityEngine.Random.Range(-1, 2);
         randomFactorArmor = UnityEngine.Random.Range(-1, 2);
         randomFactorMres = UnityEngine.Random.Range(-1, 2);

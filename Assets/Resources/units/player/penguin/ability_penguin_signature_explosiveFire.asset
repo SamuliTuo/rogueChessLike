@@ -17,11 +17,11 @@ MonoBehaviour:
   centerOnYourself: 0
   hitParticle: 7
   dmgInstanceType: 1
-  aoeShape: 2
+  aoeShape: 3
   projectileType: 0
   projectilePath: projectile_fireBall
   reach: 3
-  damage: 3.5
+  damage: 1
   usesMagic: 1
   directHitStatusModifier: {fileID: 0}
   castDuration_firstHalf: 0.2
@@ -36,10 +36,10 @@ MonoBehaviour:
   spawnAreaDOT: 1
   areaDOTStatusModifier: {fileID: 0}
   areaDOTType: 1
-  areaDotShape: 2
+  areaDotShape: 3
   areaDOTValidTargets: 0
   areaDOTParticle: 1
-  tickDamage: 2
+  tickDamage: 1.5
   tickIntervalSeconds: 0.8
   intervalCount: 4
   bounceAttack: {fileID: 0}

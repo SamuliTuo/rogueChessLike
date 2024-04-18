@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9133d85300de6047870c29fd0af5dd7, type: 3}
   m_Name: saveSlot_55
   m_EditorClassIdentifier: 
-  saveName: tetst
-  sizeX: 11
-  sizeY: 12
+  saveName: test
+  sizeX: 9
+  sizeY: 15
   cameraRotationX: 45
   cameraRotationY: -45
   cameraRotationZ: 0
@@ -22,13 +22,13 @@ MonoBehaviour:
   - x: 0
     y: 0
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 0
     y: 1
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 0
@@ -45,28 +45,28 @@ MonoBehaviour:
     rotation: 0
   - x: 0
     y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 0
     y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 0
     y: 6
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 0
     y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 90
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
   - x: 0
     y: 8
     walkable: 1
@@ -91,18 +91,36 @@ MonoBehaviour:
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
+  - x: 0
+    y: 12
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 0
+    y: 14
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
   - x: 1
     y: 0
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   - x: 1
     y: 1
     walkable: 1
-    terrainLayer: Grass_purple
+    terrainLayer: Tile
     tileVariation: 0
-    rotation: 1
+    rotation: 0
   - x: 1
     y: 2
     walkable: 1
@@ -117,412 +135,520 @@ MonoBehaviour:
     rotation: 0
   - x: 1
     y: 4
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 7
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 8
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 9
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 10
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 11
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 12
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 1
+    y: 14
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 7
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 8
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 9
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 10
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 11
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 12
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 2
+    y: 14
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 5
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 6
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 7
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 8
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 9
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 10
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 11
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 12
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 3
+    y: 13
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 3
+    tileVariation: 5
     rotation: 270
-  - x: 1
-    y: 5
+  - x: 3
+    y: 14
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 13
+    tileVariation: 6
     rotation: 0
-  - x: 1
-    y: 6
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 1
-    y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 90
-  - x: 1
-    y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 1
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 1
-    y: 10
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 1
-    y: 11
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 2
+  - x: 4
     y: 0
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
+  - x: 4
     y: 1
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
+  - x: 4
     y: 2
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
+  - x: 4
     y: 3
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
+  - x: 4
     y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 7
-    rotation: 270
-  - x: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
     y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
     y: 6
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
     y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 8
-    rotation: 90
-  - x: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 4
     y: 8
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
+  - x: 4
     y: 9
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
+  - x: 4
     y: 10
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 2
+  - x: 4
     y: 11
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 3
-    y: 0
+  - x: 4
+    y: 12
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 3
-    y: 1
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 3
-    y: 2
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 3
-    y: 3
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 3
-    y: 4
+  - x: 4
+    y: 13
     walkable: 0
     terrainLayer: Empty
     tileVariation: 6
     rotation: 90
-  - x: 3
+  - x: 4
+    y: 14
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 0
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 1
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 2
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 4
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
     y: 5
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 3
+  - x: 5
     y: 6
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 3
+  - x: 5
     y: 7
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 8
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 9
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 10
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 11
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 12
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 5
+    y: 13
     walkable: 0
     terrainLayer: Empty
     tileVariation: 6
     rotation: 90
-  - x: 3
-    y: 8
+  - x: 5
+    y: 14
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 3
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 3
-    y: 10
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 3
-    y: 11
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 4
+  - x: 6
     y: 0
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
-  - x: 4
+  - x: 6
     y: 1
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
-  - x: 4
+  - x: 6
     y: 2
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
-  - x: 4
+  - x: 6
     y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
-  - x: 4
+  - x: 6
     y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
-  - x: 4
+  - x: 6
     y: 5
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 4
+  - x: 6
     y: 6
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 4
+  - x: 6
     y: 7
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 8
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 9
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 10
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 11
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 12
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 6
+    y: 13
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 4
+    tileVariation: 6
     rotation: 90
-  - x: 4
-    y: 8
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 0
-  - x: 4
-    y: 9
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 0
-  - x: 4
-    y: 10
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 0
-  - x: 4
-    y: 11
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 0
-  - x: 5
-    y: 0
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 1
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 2
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 5
+  - x: 6
+    y: 14
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 5
-    y: 6
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 5
-    y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 8
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 9
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 10
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 5
-    y: 11
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 6
-    y: 0
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 6
-    y: 1
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 6
-    y: 2
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 4
-    rotation: 270
-  - x: 6
-    y: 3
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 6
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 4
-    rotation: 270
-  - x: 6
-    y: 5
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 6
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 6
-    y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 4
-    rotation: 180
-  - x: 6
-    y: 8
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 6
-    y: 9
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 6
-    y: 10
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
-  - x: 6
-    y: 11
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 180
   - x: 7
     y: 0
     walkable: 1
@@ -549,10 +675,10 @@ MonoBehaviour:
     rotation: 0
   - x: 7
     y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 270
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
   - x: 7
     y: 5
     walkable: 1
@@ -567,30 +693,48 @@ MonoBehaviour:
     rotation: 0
   - x: 7
     y: 7
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 8
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 9
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 10
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 11
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 12
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
+  - x: 7
+    y: 13
     walkable: 0
     terrainLayer: Empty
-    tileVariation: 3
+    tileVariation: 1
     rotation: 90
   - x: 7
-    y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 10
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 7
-    y: 11
+    y: 14
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
@@ -621,28 +765,28 @@ MonoBehaviour:
     rotation: 0
   - x: 8
     y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 270
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
   - x: 8
     y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 8
     y: 6
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
     rotation: 0
   - x: 8
     y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 90
+    walkable: 1
+    terrainLayer: Tile
+    tileVariation: 0
+    rotation: 0
   - x: 8
     y: 8
     walkable: 1
@@ -667,168 +811,27 @@ MonoBehaviour:
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 9
-    y: 0
+  - x: 8
+    y: 12
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 9
-    y: 1
+  - x: 8
+    y: 13
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
-  - x: 9
-    y: 2
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 3
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 270
-  - x: 9
-    y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 9
-    y: 6
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 9
-    y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 90
-  - x: 9
-    y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 10
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 9
-    y: 11
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 0
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 1
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 2
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 3
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 4
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 270
-  - x: 10
-    y: 5
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 10
-    y: 6
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 13
-    rotation: 0
-  - x: 10
-    y: 7
-    walkable: 0
-    terrainLayer: Empty
-    tileVariation: 3
-    rotation: 90
-  - x: 10
-    y: 8
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 9
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 10
-    walkable: 1
-    terrainLayer: Tile
-    tileVariation: 0
-    rotation: 0
-  - x: 10
-    y: 11
+  - x: 8
+    y: 14
     walkable: 1
     terrainLayer: Tile
     tileVariation: 0
     rotation: 0
   scenarioUnits:
   - unit: UNIT_coalem
-    spawnPosX: 3
-    spawnPosY: 3
-    spawnRot: 0
-    team: 1
-  - unit: UNIT_coalem
-    spawnPosX: 3
-    spawnPosY: 8
-    spawnRot: 0
-    team: 1
-  - unit: UNIT_coalem
-    spawnPosX: 7
-    spawnPosY: 3
-    spawnRot: 0
-    team: 1
-  - unit: UNIT_coalem
-    spawnPosX: 7
-    spawnPosY: 8
+    spawnPosX: 4
+    spawnPosY: 14
     spawnRot: 0
     team: 1

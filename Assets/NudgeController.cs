@@ -28,7 +28,6 @@ public class NudgeController : MonoBehaviour
     private bool nudgeIsChip = false;
     NudgeUIController nudgeUIController;
 
-
     private void Awake()
     {
         arrowGenerator = GetComponentInChildren<ArrowGenerator>();

@@ -9289,13 +9289,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emptySlotImg: {fileID: 21300000, guid: 0f264e872b6a25342a0837774336b618, type: 3}
-  maxHp: 420
-  maxArmor: 100
-  maxMres: 100
-  maxDamage: 50
-  maxMagic: 50
-  maxAttackSpeed: 100
-  maxMoveSpeed: 100
 --- !u!222 &823362621
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13575,7 +13568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -6.0000916}
+  m_AnchoredPosition: {x: 0, y: -6}
   m_SizeDelta: {x: -332.65906, y: -181.07397}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1168859905
@@ -20511,13 +20504,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emptySlotImg: {fileID: 21300000, guid: 0f264e872b6a25342a0837774336b618, type: 3}
-  maxHp: 420
-  maxArmor: 100
-  maxMres: 100
-  maxDamage: 50
-  maxMagic: 50
-  maxAttackSpeed: 100
-  maxMoveSpeed: 100
 --- !u!222 &1770425644
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22636,7 +22622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -6.0000916}
+  m_AnchoredPosition: {x: 0, y: -6}
   m_SizeDelta: {x: -332.65906, y: -181.07397}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1931294924
@@ -26071,13 +26057,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emptySlotImg: {fileID: 21300000, guid: 0f264e872b6a25342a0837774336b618, type: 3}
-  maxHp: 420
-  maxArmor: 100
-  maxMres: 100
-  maxDamage: 50
-  maxMagic: 50
-  maxAttackSpeed: 100
-  maxMoveSpeed: 100
 --- !u!224 &4422882701151276622
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34379,7 +34358,9 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
@@ -34395,6 +34376,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -34403,7 +34385,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptySlotImage: {fileID: 21300000, guid: 0f264e872b6a25342a0837774336b618, type: 3}
 --- !u!1 &5984226832831123044
 GameObject:
@@ -39623,6 +39605,122 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: playerUnits.Array.data[0].stats.moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[2].stats.attackSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[0].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[1].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[2].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[3].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[4].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[5].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[6].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[7].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[8].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[9].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: playerUnits.Array.data[0].stats.attackSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[10].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[11].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[12].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[13].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[14].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[15].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[16].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[17].attacks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[17].stats.baseMoveTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: playerUnits.Array.data[0].stats.baseMoveTime
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: playerUnits.Array.data[1].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: playerUnits.Array.data[2].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: playerUnits.Array.data[3].stats.baseMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[17].attacks.Array.data[0].name
+      value: coalemAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[17].attacks.Array.data[0].attack
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a59efe0aa9dccf48abb935a378d5a88, type: 2}
+    - target: {fileID: 6089650261692896381, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: enemyUnits.Array.data[17].attacks.Array.data[0].projectile
+      value: 
+      objectReference: {fileID: 1684744735726426580, guid: 25eaee6b3fa158b42ac528c82cf724dc, type: 3}
     - target: {fileID: 6089650262552058419, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -39667,9 +39765,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6089650262552058428, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: maxAttackSpeedStat
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 6089650262552058429, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042089250884398667, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: lifeStealerAmount
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042089250884398667, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: burningAttacksTickCount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042089250884398667, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: burningAttacksTickDamage
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042089250884398667, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}
+      propertyPath: burningAttacksTickInterval
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fe82f14afd31da4f8843f7a56be120d, type: 3}

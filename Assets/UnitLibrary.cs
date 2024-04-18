@@ -305,8 +305,6 @@ public class LibraryAbility
 [Serializable]
 public class StartingStats
 {
-    [Header("Leaving the stat values -1 will default them.")]
-    [Space(10)]
     public float hp = -1;
     public float damage = -1;
     public float magicDamage = -1;
@@ -314,6 +312,7 @@ public class StartingStats
     public float critDamage = -1;
     public float missChance = -1;
     public float moveSpeed = -1;
+    public float baseMoveTime = 1.7f;
     public float visibleMoveSpeed = -1;
     public float attackSpeed = -1;
     public float armor = -1;
@@ -321,14 +320,15 @@ public class StartingStats
     public StartingStats(bool useAverageStats, float hp, float dmg, float mgDmg, float critChance, float critDamage, float missChance, float moveSpd, float visibleMoveSpeed, float attSpd, float armor, float mRes) 
     { 
         this.hp = hp; 
-        damage = dmg; 
-        magicDamage = mgDmg; 
-        this.critChance = critChance; 
-        this.critDamage = critDamage; 
-        this.missChance = missChance; 
-        moveSpeed = moveSpd; 
+        this.damage = dmg; 
+        this.magicDamage = mgDmg; 
+        this.critChance = critChance;
+        this.critDamage = critDamage;
+        this.missChance = missChance;
+        this.baseMoveTime = 1.7f;
+        this.moveSpeed = moveSpd; 
         this.visibleMoveSpeed = visibleMoveSpeed;
-        attackSpeed = attSpd; 
+        this.attackSpeed = attSpd; 
         this.armor = armor; 
         this.magicRes = mRes; 
     }

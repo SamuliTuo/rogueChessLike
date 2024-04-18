@@ -229,7 +229,7 @@ public class ScenarioBuilder : MonoBehaviour
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(9999999, true);
+                    u.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(9999999, true);
                 }
 
                 board.tiles[currentHover.x, currentHover.y].layer = 
@@ -271,7 +271,7 @@ public class ScenarioBuilder : MonoBehaviour
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(9999999, true);
+                    u.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(9999999, true);
                 }
             }
 
@@ -363,7 +363,7 @@ public class ScenarioBuilder : MonoBehaviour
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(9999999, true);
+                    u.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(9999999, true);
                 }
 
                 board.tiles[currentHover.x, currentHover.y].layer =
@@ -405,7 +405,7 @@ public class ScenarioBuilder : MonoBehaviour
                 {
                     var u = activeUnits[hitPosition.x, hitPosition.y].gameObject;
                     activeUnits[hitPosition.x, hitPosition.y] = null;
-                    u.GetComponent<UnitHealth>().RemoveHP(9999999, true);
+                    u.GetComponent<UnitHealth>().RemoveHPAndCheckIfUnitDied(9999999, true);
                 }
             }
 

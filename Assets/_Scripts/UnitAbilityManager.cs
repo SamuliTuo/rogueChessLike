@@ -9,8 +9,8 @@ public class UnitAbilityManager : MonoBehaviour
 {
     public List<UnitAbility> abilities = new List<UnitAbility>();
     public List<GameObject> projectiles = new List<GameObject>();
-
-    public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
+    public float cooldownReduction = 0;
+    //public List<UnitAbility> possibleAbilities = new List<UnitAbility>();
 
     private Dictionary<Tuple<UnitAbility, int>, bool> abilitiesWithCooldown = new Dictionary<Tuple<UnitAbility, int>, bool>();
     private Unit unit;
@@ -134,10 +134,11 @@ public class UnitAbilityManager : MonoBehaviour
 
     IEnumerator AbilityCooldown(Tuple<UnitAbility, int> _ability, float _cooldown, float _startMultiplier = 0)
     {
-        float t = _cooldown * _startMultiplier;
-        while (t < _cooldown)
+        float t = 0;
+        float time = (_cooldown - (_cooldown * cooldownReduction)) * (1 - _startMultiplier);
+        while (t < time)
         {
-            hp?.RefreshSkillCooldownUISlot(_ability.Item2, t / _cooldown);
+            hp?.RefreshSkillCooldownUISlot(_ability.Item2, t / time);
             if (GameManager.Instance.state == GameState.BATTLE)
             {
                 t += Time.deltaTime;

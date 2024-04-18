@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UIElements;
 
 public enum UnitType
 {
@@ -31,12 +32,15 @@ public enum UnitTextEncounterCheckableStats
 public class Unit : MonoBehaviour
 {
     [HideInInspector] public UnitInLibrary libraryData = null;
+    [HideInInspector] public UnitData unitData { get; set; } = null;
     public string unitPath { get; set; }
     public bool isObstacle = false;
 
+    // Stats
     public float damage = 10;
     public float magic = 10;
     public float attackSpeed = 1;
+
     public float moveSpeed = 1;
     public float turnRate = 1;
     public float critChance = 0;
@@ -45,7 +49,12 @@ public class Unit : MonoBehaviour
     public float lifeSteal_flat = 0;
     public float lifeSteal_perc = 0;
 
+    // Augment effects:
+    public int moneyOnKill = 0;
+    public float healingOnKill = 0;
+
     public float experienceWorth = 10;
+    public float baseMoveTime = 1;
     public float visibleMoveSpeed = 10;
     public float moveInterval = 1;
     public float percentOfAttackTimerSave = 0.8f;
@@ -87,17 +96,23 @@ public class Unit : MonoBehaviour
     private Unit attackTarget = null;
     private int currentAttackIndex = 0;
 
+    private Animator animator;
+    private Tuple<UnitAbility, int> nextAbility;
+
     //public virtual void SetTargetMoveTile(Vector2Int tile) { targetMoveTile = tile; }
 
-    private void Start()
+    private void Awake()
     {
-        t = moveSpeed + UnityEngine.Random.Range(0, 1f);
-        hp = GetComponent<UnitHealth>();
         board = GameObject.Find("Board").GetComponent<Chessboard>();
         pathfinding = board.GetComponent<Pathfinding>();
-        ResetPath();
+        hp = GetComponent<UnitHealth>();
         abilities = GetComponent<UnitAbilityManager>();
         animator = GetComponentInChildren<Animator>();
+    }
+    private void Start()
+    {
+        //SetMoveInterval();
+        ResetPath();
         damage = team == 0 ? damage * DebugTools.Instance.playerDamagePercentage : damage;
         magic = team == 0 ? magic * DebugTools.Instance.playerDamagePercentage : magic;
     }
@@ -112,10 +127,14 @@ public class Unit : MonoBehaviour
         transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * visibleMoveSpeed);
     }
 
-    private Animator animator;
-    private Tuple<UnitAbility, int> nextAbility;
     public void AI()
     {
+        if (team == 0)
+        {
+            //print(name+" wait timer: " + t);
+        }
+
+
         if (isObstacle || hp.dying)
             return;
         
@@ -217,42 +236,50 @@ public class Unit : MonoBehaviour
 
 
     //Load unit from PlayerParty:
-    public void LoadUnit(UnitData data)
-    {
-        team = data.team;
-        hp.SetMaxHp(data.maxHp);
-        damage = data.damage;
-        magic = data.magic;
-        attackSpeed = data.attackSpeed;
-        moveSpeed = data.moveSpeed;
-        moveInterval = data.moveInterval;
-        //moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(data.moveSpeed);
+    //public void LoadUnit(UnitData data)
+    //{
+    //    team = data.team;
+    //    hp.SetMaxHp(data.maxHp);
+    //    damage = data.damage;
+    //    magic = data.magic;
+    //    attackSpeed = data.attackSpeed;
+    //    moveSpeed = data.moveSpeed;
+    //    //moveInterval = data.moveInterval;
+    //    moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(moveSpeed);
         
-        var pos = new Vector2Int(data.spawnPosX, data.spawnPosY);
-        if (board.GetUnits()[data.spawnPosX, data.spawnPosY] != null)
-        {
-            pos = board.GetFirstFreePos();
-        }
-        SetPosition(board.GetTileCenter(pos.x, pos.y), true);
+    //    var pos = new Vector2Int(data.spawnPosX, data.spawnPosY);
+    //    if (board.GetUnits()[data.spawnPosX, data.spawnPosY] != null)
+    //    {
+    //        pos = board.GetFirstFreePos();
+    //    }
+    //    SetPosition(board.GetTileCenter(pos.x, pos.y), true);
 
-        normalAttacks.Clear();
-        for (int i = 0; i < data.attacks.Count; i++)
-        {
-            normalAttacks.Add(new (data.attacks[i], libraryData.attacks[i].projectile));
-            print(data.attacks[i]+",         "+ libraryData.attacks[i].projectile);
-        }
+    //    normalAttacks.Clear();
+    //    for (int i = 0; i < data.attacks.Count; i++)
+    //    {
+    //        normalAttacks.Add(new (data.attacks[i], libraryData.attacks[i].projectile));
+    //        print(data.attacks[i]+",         "+ libraryData.attacks[i].projectile);
+    //    }
 
-        abilities.abilities.Clear();
-        abilities.abilities[0] = data.ability1;
-        abilities.abilities[1] = data.ability2;
-        abilities.abilities[2] = data.ability3;
-        ResetPath();
-        ResetAI();
+    //    abilities.abilities.Clear();
+    //    abilities.abilities[0] = data.ability1;
+    //    abilities.abilities[1] = data.ability2;
+    //    abilities.abilities[2] = data.ability3;
+    //    ResetPath();
+    //    ResetAI();
+    //}
+
+    public void SetMoveInterval()
+    {
+        moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(moveSpeed, baseMoveTime);
+        t = moveInterval + UnityEngine.Random.Range(0.75f, 1f);
+        print(name + " is setting Move Interval. MoveSPD: " + moveSpeed + ", base move: " + baseMoveTime + ", final moveInterval: " + moveInterval);
     }
 
     
     void ActivateAction()
     {
+        animator.speed = 1;
         switch (nextAction)
         {
             case Action.MOVE:
@@ -443,7 +470,7 @@ public class Unit : MonoBehaviour
             timer += Time.deltaTime * fallSpeed;
             yield return null;
         }
-        hp.RemoveHP(9999999, true);
+        hp.RemoveHPAndCheckIfUnitDied(9999999, true);
     }
 
     void MoveUnit()
@@ -483,21 +510,35 @@ public class Unit : MonoBehaviour
                 return;
             }
         }
-        t = moveSpeed;
+        t = moveInterval;
         t += pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x,y]);
         t += UnityEngine.Random.Range(0.0f, 0.2f);
         //t = moveInterval + pathfinding.AddTerrainEffects(Chessboard.Instance.nodes[x, y]) + Random.Range(0.0f, 0.15f);
         ResetAI();
     }
 
-    float AttackSpeedMultiplier()
+
+    float GetAttackSpdMultiplier(float baseTime)
     {
-        return Mathf.Min(0.80f, attackSpeed * 0.01f);
+        float value = baseTime / ((100 + attackSpeed) * 0.01f);
+        return value;
     }
 
+    float attackTime;
+    float attackPointPerc;
     void NormalAttack()
     {
-        t = normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf * (1.0f - AttackSpeedMultiplier());
+        attackTime = GetAttackSpdMultiplier(normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf + normalAttacks[currentAttackIndex].Item1.attackDuration_secondHalf);
+        attackPointPerc =
+            normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf /
+            (normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf +
+            normalAttacks[currentAttackIndex].Item1.attackDuration_secondHalf);
+        t = attackTime * attackPointPerc;
+        if (team == 0)
+        {
+            //print(name + " attacking. Attack point perc = "+attackPointPerc+", has set t to " + t);
+        }
+        
         if (attackTarget == null)
         {
             savedAttackTimerAmount = normalAttacks[currentAttackIndex].Item1.attackDuration_firstHalf * percentOfAttackTimerSave;
@@ -511,7 +552,7 @@ public class Unit : MonoBehaviour
         RotateUnit(new Vector2Int(attackTarget.x, attackTarget.y));
         if (animator != null)
         {
-            animator.speed = 1 + AttackSpeedMultiplier();
+            animator.speed = 1 / attackTime;
             animator?.Play("attack", 0, 0);
         }
         nextAction = Action.NORMAL_ATTACK_SECONDHALF;
@@ -519,6 +560,16 @@ public class Unit : MonoBehaviour
 
     void NormalAttackSecondHalf()
     {
+        if (animator != null)
+        {
+            animator.speed = 1 / attackTime;
+        }
+
+        if (team == 0)
+        {
+            print(normalAttacks[currentAttackIndex].Item1.statusModifiers);
+        }
+
         Vector3 offset = transform.TransformVector(attackPositionOffset);
         Vector3 startPos = transform.position + offset;
         float _damage = GetAttackDmg();
@@ -529,7 +580,12 @@ public class Unit : MonoBehaviour
             normalAttacks[currentAttackIndex].Item1, startPos, path, normalAttacks[currentAttackIndex].Item1.bounceCount_atk,
             normalAttacks[currentAttackIndex].Item1.bounceCount_ability, _damage, critChance, critDamagePerc, missChance, this, attackTarget);
 
-        t = normalAttacks[currentAttackIndex].Item1.attackDuration_secondHalf * (1.0f - AttackSpeedMultiplier());
+        t = attackTime - (attackTime * attackPointPerc);
+        if (team == 0)
+        {
+            print(name + " is done attacking, set t to " + t);
+        }
+        
         ResetAI();
 
         // Choosing the next attack
@@ -578,6 +634,7 @@ public class Unit : MonoBehaviour
     }
     public void ResetAI()
     {
+        animator.speed = 1;
         ResetPath();
         nextAction = Action.NONE;
         nextAbility = null;
@@ -690,4 +747,16 @@ public class Unit : MonoBehaviour
 
     public float GetDamage() { return damage; }
     public float GetMagic() { return magic; }
+
+    public void UnitGotAKill()
+    {
+        if (moneyOnKill > 0)
+        {
+            GameManager.Instance.PlayerParty.AddMoney(moneyOnKill);
+        }
+        if (healingOnKill > 0)
+        {
+            hp.RemoveHPAndCheckIfUnitDied(-healingOnKill);
+        }
+    }
 }

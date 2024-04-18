@@ -491,6 +491,7 @@ public class Chessboard : MonoBehaviour
         foreach (var unit in scenario.scenarioUnits)
         {
             if (unit.spawnPosX >= 0 && unit.spawnPosX < TILE_COUNT_X)
+            {
                 if (unit.spawnPosY >= 0 && unit.spawnPosY < TILE_COUNT_Y)
                 {
                     UnitInLibrary libraryEntry = GameManager.Instance.UnitLibrary.GetUnit(unit.unit);
@@ -525,6 +526,7 @@ public class Chessboard : MonoBehaviour
                     activeUnits[unit.spawnPosX, unit.spawnPosY] = clone;
                     RotateSingleUnit(unit.spawnPosX, unit.spawnPosY, GetCurrentUnitRotation(unit.spawnRot));
                 }
+            }
         }
     }
 
@@ -539,9 +541,29 @@ public class Chessboard : MonoBehaviour
         unit.missChance = libraryEntry.stats.missChance;
         unit.attackSpeed = libraryEntry.stats.attackSpeed;
         unit.moveSpeed = libraryEntry.stats.moveSpeed;
+        unit.baseMoveTime = libraryEntry.stats.baseMoveTime;
+        unit.SetMoveInterval();
         unit.visibleMoveSpeed = libraryEntry.stats.visibleMoveSpeed;
         unitHP.armor = libraryEntry.stats.armor;
         unitHP.magicRes = libraryEntry.stats.magicRes;
+        return unit;
+    }
+    Unit SetUnitStats(Unit unit, UnitData data)
+    {
+        var unitHP = unit.GetComponent<UnitHealth>();
+        unitHP.SetMaxHp(data.maxHp);
+        unit.damage = data.damage;
+        unit.magic = data.magic;
+        unit.critChance = data.critChance;
+        unit.critDamagePerc = data.critDamage;
+        unit.missChance = data.missChance;
+        unit.attackSpeed = data.attackSpeed;
+        unit.baseMoveTime = data.baseMoveTime;
+        unit.moveSpeed = data.moveSpeed;
+        unit.visibleMoveSpeed = data.visibleMoveSpeed;
+        unit.SetMoveInterval();
+        unitHP.armor = data.armor;
+        unitHP.magicRes = data.magicRes;
         return unit;
     }
 
@@ -566,7 +588,9 @@ public class Chessboard : MonoBehaviour
         {
             var path = partyUnits[i].Item2.GetSavePath();
             var clone = SpawnSingleUnit(path, 0);
-            clone = SetUnitStats(clone, partyUnits[i].Item2);
+            clone = SetUnitStats(clone, partyUnits[i].Item1);
+            clone.unitData = partyUnits[i].Item1;
+
             clone.normalAttacks.Clear();
             foreach (var attack in partyUnits[i].Item2.attacks)
             {

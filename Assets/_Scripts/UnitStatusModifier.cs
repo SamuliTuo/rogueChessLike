@@ -35,6 +35,12 @@ public class UnitStatusModifier : ScriptableObject
     public float burn_tickIntervalSeconds = 0;
     public int burn_intervalCount = 0;
 
+    [Header("Burning attacks -augment:")]
+    public bool burningAttacks = false;
+    public float burningAttacks_tickDamage = 0;
+    public float burningAttacks_tickInterval = 0;
+    public int burningAttacks_intervalCount = 0;
+
     [Header("Slow movement speed:")]
     public bool slowsMovementSpeed = false;
     public float movementSpeedSlow = 0;

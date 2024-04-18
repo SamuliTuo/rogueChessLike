@@ -96,7 +96,7 @@ public class LevelUpPanel : MonoBehaviour
             }
 
             // Open the choices and wait until player chooses one
-            LVLUpPanel_2nd.InitUpgradeChoices(abilityClicked);
+            LVLUpPanel_2nd.InitUpgradeChoices(unitLeveling.augments);
             optionChosen = -1;
             while (optionChosen == -1)
             {
@@ -181,6 +181,12 @@ public class LevelUpPanel : MonoBehaviour
         //CheckIfDone();
         //return true;
     }
+    public void TryToChooseOption(UnitAugment augment, int slot)
+    {
+        optionChosen = slot;
+        print("adding augment +" + augment + " to " + unitLeveling.name);
+        unitLeveling.AddAugment(augment);
+    }
 
 
 
@@ -224,31 +230,31 @@ public class LevelUpPanel : MonoBehaviour
             passive.gameObject.SetActive(false);
 
         // P H A S E  1 :  ability upgrades
-        List<UnitAbility> possibleAbils = unitLeveling.RemainingPossibleAbilities();
+        //List<UnitAbility> possibleAbils = unitLeveling.RemainingPossibleAbilities();
         List<UnitAbility> learnedAbils = unitLeveling.LearnedAbilities();
-        Shuffle(possibleAbils);
+        //Shuffle(possibleAbils);
 
-        for (int i = 0; i < abilitySlots.Count; i++)
-        {
-            bool isAbility = false;
-            if (unitLeveling.HasFreeAbilitySlots() && possibleAbils.Count > 0)
-            {
-                isAbility = true;
-                if (learnedAbils.Count > 0)
-                {
-                    isAbility = UnityEngine.Random.Range(0, 100) < 50;
-                }
-            }
+        //for (int i = 0; i < abilitySlots.Count; i++)
+        //{
+        //    bool isAbility = false;
+        //    if (unitLeveling.HasFreeAbilitySlots() && possibleAbils.Count > 0)
+        //    {
+        //        isAbility = true;
+        //        if (learnedAbils.Count > 0)
+        //        {
+        //            isAbility = UnityEngine.Random.Range(0, 100) < 50;
+        //        }
+        //    }
 
-            if (isAbility)
-            {
-                AddAbility(possibleAbils, i);
-            }
-            else
-            {
-                AddUpgrade(learnedAbils, i);
-            }
-        }
+        //    if (isAbility)
+        //    {
+        //        AddAbility(possibleAbils, i);
+        //    }
+        //    else
+        //    {
+        //        AddUpgrade(learnedAbils, i);
+        //    }
+        //}
     }
 
     void SetupUpgradeChoices_Passives()

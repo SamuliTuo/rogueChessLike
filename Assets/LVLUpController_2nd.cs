@@ -21,11 +21,9 @@ public class LVLUpController_2nd : MonoBehaviour
     [SerializeField] private Image abilityUpgradeIcon_1 = null;
     
 
-    private List<AbilityUpgrade> upgradeChoices = new List<AbilityUpgrade>();
+    private List<UnitAugments.Augment> upgradeChoices = new List<UnitAugments.Augment>();
 
     private bool slotFilled_0 = false;
-    private bool slotFilled_1 = false;
-    private bool slotFilled_2 = false;
 
     private LevelUpPanel lvlUpPanel;
     private UnitData unitLeveling;
@@ -38,8 +36,7 @@ public class LVLUpController_2nd : MonoBehaviour
         slotBeingUpgraded = -1;
 
         icon_signatureSpellToUpgrade1.sprite = unChosenUpgradeImage;
-        //icon_signatureSpellToUpgrade2.sprite = unChosenUpgradeImage;
-        //icon_signatureSpellToUpgrade3.sprite = unChosenUpgradeImage;
+
         abilityUpgradeIcon_1.sprite = GameManager.Instance.UnitLibrary.GetSpellSymbol(unit.ability1);
 
 
@@ -53,74 +50,41 @@ public class LVLUpController_2nd : MonoBehaviour
         {
             lvlUpPanel.AbilityClicked(slot);
         }
-        //else if (slot == 1 && !slotFilled_1)
-        //{
-        //    lvlUpPanel.AbilityClicked(slot);
-        //}
-        //else if (slot == 2 && !slotFilled_2)
-        //{
-        //    lvlUpPanel.AbilityClicked(slot);
-        //}
     }
 
-    public bool InitUpgradeChoices(int choice)
+    public bool InitUpgradeChoices(List<UnitAugment> existingAugments)
     {
-        switch (choice)
-        {
-            case 0:
-                if (slotFilled_0)
-                    return false;
-                OpenChoices(icon_signatureSpellToUpgrade1, 1);
-                slotFilled_0 = true;
-                return true;
-
-            //case 1:
-            //    if (slotFilled_1)
-            //        return false;
-            //    OpenChoices(icon_signatureSpellToUpgrade1, 2);
-            //    slotFilled_1 = true;
-            //    return true;
-
-            //case 2:
-            //    if (slotFilled_2)
-            //        return false;
-            //    OpenChoices(icon_signatureSpellToUpgrade1, 3);
-            //    slotFilled_2 = true;
-            //    return true;
-
-            default:
-                return false;
-        }
+        OpenChoices();
+        slotFilled_0 = true;
+        return true;
     }
 
-    void OpenChoices(Image icon, int slot)
+    void OpenChoices()
     {
-        slotBeingUpgraded = slot;
         upgradeChoices.Clear();
-        upgradeChoices = lvlUpPanel.GetRandomAbilityUpgrades(unitLeveling.ability1, 3);
+        upgradeChoices = GameManager.Instance.UnitAugments.GetRandomAugments(3, unitLeveling.augments);
 
         choiceSlots.gameObject.SetActive(true);
 
-        upgradeChoice1.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[0], lvlUpPanel, slot);
-        upgradeChoice2.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[1], lvlUpPanel, slot);
-        upgradeChoice3.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[2], lvlUpPanel, slot);
+        upgradeChoice1.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[0], lvlUpPanel, 0);
+        upgradeChoice2.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[1], lvlUpPanel, 1);
+        upgradeChoice3.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(upgradeChoices[2], lvlUpPanel, 2);
 
-        abilityUpgradeText_1.text = upgradeChoices[0].upgradeType.ToString();
-        abilityUpgradeText_2.text = upgradeChoices[1].upgradeType.ToString();
-        abilityUpgradeText_3.text = upgradeChoices[2].upgradeType.ToString();
+        abilityUpgradeText_1.text = upgradeChoices[0].name;
+        abilityUpgradeText_2.text = upgradeChoices[1].name;
+        abilityUpgradeText_3.text = upgradeChoices[2].name;
 
-        upgradeChoice1.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[0].upgradeType);
-        upgradeChoice2.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[1].upgradeType);
-        upgradeChoice3.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[2].upgradeType);
+        upgradeChoice1.sprite = upgradeChoices[0].image;
+        upgradeChoice2.sprite = upgradeChoices[1].image;
+        upgradeChoice3.sprite = upgradeChoices[2].image;
     }
 
     public void ChooseOption(int choice)
     {
         choiceSlots.gameObject.SetActive(false);
 
-        //
         slotFilled_0 = true;
-        icon_signatureSpellToUpgrade1.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[choice - 1].upgradeType);
+        icon_signatureSpellToUpgrade1.sprite = upgradeChoices[choice].image;
         //switch (slotBeingUpgraded)
         //{
         //    case 1: 

@@ -18,7 +18,7 @@ public class UnitStatusModifiersHandler : MonoBehaviour
     }
 
     // ================== PUBLIC ================== //
-    public void AddNewStatusModifiers(UnitStatusModifier statuses)
+    public void AddNewStatusModifiers(UnitStatusModifier statuses, Unit shooter)
     {
         if (immune) return;
 
@@ -27,7 +27,8 @@ public class UnitStatusModifiersHandler : MonoBehaviour
         if (statuses.givesCritChance) StartCoroutine(CritChanceMod(statuses));
         if (statuses.givesCritDamage) StartCoroutine(CritDamageMod(statuses));
         if (statuses.givesMissChance) StartCoroutine(MissChance(statuses));
-        if (statuses.burns) { StartCoroutine(AddBurn(statuses)); }
+        if (statuses.burns) StartCoroutine(AddBurn(statuses, shooter));
+        if (statuses.burningAttacks) StartCoroutine(AddBurningAttackBurn(statuses, shooter));
         if (statuses.givesLifesteal_flat) StartCoroutine(LifeStealMod_flat(statuses));
         if (statuses.givesLifesteal_perc) StartCoroutine(LifeStealMod_perc(statuses));
         if (statuses.givesShield) StartCoroutine(health.AddShield(statuses.shieldAmount, statuses.shieldDuration));
@@ -120,7 +121,7 @@ public class UnitStatusModifiersHandler : MonoBehaviour
         silenceCoroutine = null;
     }
 
-    private IEnumerator AddBurn(UnitStatusModifier statuses)
+    private IEnumerator AddBurn(UnitStatusModifier statuses, Unit shooter)
     {
         burns++;
         GameManager.Instance.ParticleSpawner.SetUnitsBurnCount(unit, burns);
@@ -128,11 +129,49 @@ public class UnitStatusModifiersHandler : MonoBehaviour
         int i = 0;
         while (i < statuses.burn_intervalCount)
         {
-            health.RemoveHP(statuses.burn_tickDamage);
+            if (health.RemoveHPAndCheckIfUnitDied(statuses.burn_tickDamage) == true)
+            {
+                if (shooter != null)
+                {
+                    shooter.UnitGotAKill();
+                }
+            }
 
             // Wait for the next interval:
             float t = 0;
             while (t < statuses.burn_tickIntervalSeconds)
+            {
+                t += Time.deltaTime;
+                yield return null;
+            }
+            i++;
+            yield return null;
+        }
+
+        burns--;
+        GameManager.Instance.ParticleSpawner.SetUnitsBurnCount(unit, burns);
+    }
+
+
+    private IEnumerator AddBurningAttackBurn(UnitStatusModifier statuses, Unit shooter)
+    {
+        burns++;
+        GameManager.Instance.ParticleSpawner.SetUnitsBurnCount(unit, burns);
+
+        int i = 0;
+        while (i < statuses.burningAttacks_intervalCount)
+        {
+            if (health.RemoveHPAndCheckIfUnitDied(statuses.burningAttacks_tickDamage) == true)
+            {
+                if (shooter != null)
+                {
+                    shooter.UnitGotAKill();
+                }
+            }
+
+            // Wait for the next interval:
+            float t = 0;
+            while (t < statuses.burningAttacks_tickInterval)
             {
                 t += Time.deltaTime;
                 yield return null;
