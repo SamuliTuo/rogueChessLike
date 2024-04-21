@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -460, y: 4}
+  m_AnchoredPosition: {x: -82, y: 4}
   m_SizeDelta: {x: 319.2435, y: 311}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &239254005
@@ -370,13 +370,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emptySlotImg: {fileID: 21300000, guid: 0f264e872b6a25342a0837774336b618, type: 3}
-  maxHp: 420
-  maxArmor: 100
-  maxMres: 100
-  maxDamage: 50
-  maxMagic: 50
-  maxAttackSpeed: 100
-  maxMoveSpeed: 100
 --- !u!1 &124338812400053211
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,7 +816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: 44}
+  m_AnchoredPosition: {x: -470.80005, y: 40.200073}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &484099075103764489
@@ -3864,7 +3857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -23.2, y: -113.20007}
+  m_AnchoredPosition: {x: -534, y: -117}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2567047595723677702
