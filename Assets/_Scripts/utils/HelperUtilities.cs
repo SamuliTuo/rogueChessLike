@@ -77,7 +77,6 @@ public static class HelperUtilities
         return new Tuple<CompassDir, Vector3>(finalDir.Key, finalDir.Value);
     }
 
-
     public static T Clone<T>(this T source)
     {
         if (!typeof(T).IsSerializable)

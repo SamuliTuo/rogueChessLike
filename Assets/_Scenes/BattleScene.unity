@@ -1004,12 +1004,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -1020,6 +1043,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -1028,7 +1052,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -1191,12 +1215,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -1207,6 +1254,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -1215,7 +1263,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -1995,21 +2043,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5257551961308173872, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
   m_PrefabInstance: {fileID: 151856474}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &151856476 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5257551961970943195, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
-  m_PrefabInstance: {fileID: 151856474}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &151856477 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5257551960979768173, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
-  m_PrefabInstance: {fileID: 151856474}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &151856478 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5257551961669005722, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
-  m_PrefabInstance: {fileID: 151856474}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &151856479 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5257551961308173875, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
@@ -2768,12 +2801,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -2784,6 +2840,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -2792,7 +2849,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -4401,12 +4458,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -4417,6 +4497,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -4425,7 +4506,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -5616,12 +5697,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -5632,6 +5736,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -5640,7 +5745,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -10674,12 +10779,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -10690,6 +10818,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -10698,7 +10827,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -11439,12 +11568,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -11455,6 +11607,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -11463,7 +11616,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -11835,12 +11988,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -11851,6 +12027,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -11859,7 +12036,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -12871,12 +13048,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -12887,6 +13087,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -12895,7 +13096,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -17255,7 +17456,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5257551961970943199, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
   m_PrefabInstance: {fileID: 151856474}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151856476}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -17266,7 +17467,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5257551960979767953, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
   m_PrefabInstance: {fileID: 151856474}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151856477}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -17277,7 +17478,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5257551961669005726, guid: 4bf31daadb6e29f43a797b932e4bdc1d, type: 3}
   m_PrefabInstance: {fileID: 151856474}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151856478}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -17518,12 +17719,35 @@ MonoBehaviour:
     critDamage: 0
     missChance: 0
     attackSpeed: 0
+    baseMoveTime: 0
     moveSpeed: 0
+    visibleMoveSpeed: 0
     moveInterval: 0
     armor: 0
     magicRes: 0
     unitClass:
       name: 
+      shieldImage: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassPrefix:
+      name: 
+      coatOfArms: {fileID: 0}
+      hp: 0
+      dmg: 0
+      mgDmg: 0
+      moveSpd: 0
+      attSpd: 0
+      armor: 0
+      mgArmor: 0
+    unitClassSuffix:
+      name: 
+      laurels: {fileID: 0}
       hp: 0
       dmg: 0
       mgDmg: 0
@@ -17534,6 +17758,7 @@ MonoBehaviour:
     currentLevel: 0
     currentExperience: 0
     nextLevelExperience: 0
+    experienceGainMultiplier: 0
     name: 
     spawnPosX: 0
     spawnPosY: 0
@@ -17542,7 +17767,7 @@ MonoBehaviour:
     ability1: {fileID: 0}
     ability2: {fileID: 0}
     ability3: {fileID: 0}
-    possibleAbilities: []
+    augments: 
   emptyImage: {fileID: 0}
   expBarFill: {fileID: 0}
   lvlUpPopUp: {fileID: 0}
@@ -18085,10 +18310,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1064248613}
     m_Modifications:
-    - target: {fileID: 1804046854, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: choiceSlots
+      value: 
+      objectReference: {fileID: 151856479}
+    - target: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice1
+      value: 
+      objectReference: {fileID: 2089672689}
+    - target: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice2
+      value: 
+      objectReference: {fileID: 2089672688}
+    - target: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice3
+      value: 
+      objectReference: {fileID: 2089672687}
+    - target: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_1
+      value: 
+      objectReference: {fileID: 816598748}
+    - target: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_2
+      value: 
+      objectReference: {fileID: 816598747}
+    - target: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_3
+      value: 
+      objectReference: {fileID: 816598746}
     - target: {fileID: 1804046856, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
       propertyPath: choiceSlots
       value: 
@@ -18117,25 +18366,65 @@ PrefabInstance:
       propertyPath: abilityUpgradeText_3
       value: 
       objectReference: {fileID: 816598746}
-    - target: {fileID: 1804046856, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: abilityUpgradeChoice_1
+    - target: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: choiceSlots
       value: 
-      objectReference: {fileID: 151856478}
-    - target: {fileID: 1804046856, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: abilityUpgradeChoice_2
+      objectReference: {fileID: 151856479}
+    - target: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice1
       value: 
-      objectReference: {fileID: 151856477}
-    - target: {fileID: 1804046856, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: abilityUpgradeChoice_3
+      objectReference: {fileID: 2089672689}
+    - target: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice2
       value: 
-      objectReference: {fileID: 151856476}
+      objectReference: {fileID: 2089672688}
+    - target: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice3
+      value: 
+      objectReference: {fileID: 2089672687}
+    - target: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_1
+      value: 
+      objectReference: {fileID: 816598748}
+    - target: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_2
+      value: 
+      objectReference: {fileID: 816598747}
+    - target: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_3
+      value: 
+      objectReference: {fileID: 816598746}
+    - target: {fileID: 74128809504872901, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: choiceSlots
+      value: 
+      objectReference: {fileID: 151856479}
+    - target: {fileID: 74128809504872901, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice1
+      value: 
+      objectReference: {fileID: 2089672689}
+    - target: {fileID: 74128809504872901, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice2
+      value: 
+      objectReference: {fileID: 2089672688}
+    - target: {fileID: 74128809504872901, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice3
+      value: 
+      objectReference: {fileID: 2089672687}
+    - target: {fileID: 74128809504872901, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_1
+      value: 
+      objectReference: {fileID: 816598748}
+    - target: {fileID: 74128809504872901, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_2
+      value: 
+      objectReference: {fileID: 816598747}
+    - target: {fileID: 74128809504872901, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_3
+      value: 
+      objectReference: {fileID: 816598746}
     - target: {fileID: 3031932399331263320, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
       propertyPath: m_Name
       value: lvlUp_panel
-      objectReference: {fileID: 0}
-    - target: {fileID: 3031932399331263320, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3031932399331263326, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
       propertyPath: unitStatsPanel
@@ -18225,34 +18514,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3031932399489393436, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3031932399489393436, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3031932399489393436, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3031932399489393436, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3031932399489393436, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3031932399489393436, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3031932399489393437, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: choiceSlots
+      value: 
+      objectReference: {fileID: 151856479}
+    - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice1
+      value: 
+      objectReference: {fileID: 2089672689}
+    - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice2
+      value: 
+      objectReference: {fileID: 2089672688}
+    - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice3
+      value: 
+      objectReference: {fileID: 2089672687}
+    - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_1
+      value: 
+      objectReference: {fileID: 816598748}
+    - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_2
+      value: 
+      objectReference: {fileID: 816598747}
+    - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_3
+      value: 
+      objectReference: {fileID: 816598746}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
 --- !u!64 &3068876580396900219

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LVLUpController_2nd : MonoBehaviour
+public class LvlUpController_6th : MonoBehaviour
 {
     [SerializeField] private Sprite unChosenUpgradeImage = null;
 
@@ -19,7 +19,7 @@ public class LVLUpController_2nd : MonoBehaviour
     [SerializeField] private Image icon_signatureSpellToUpgrade1 = null;
 
     [SerializeField] private Image abilityUpgradeIcon_1 = null;
-    
+
 
     private List<UnitAugments.Augment> upgradeChoices = new List<UnitAugments.Augment>();
 

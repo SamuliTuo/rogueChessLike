@@ -17,23 +17,26 @@ MonoBehaviour:
   centerOnYourself: 0
   hitParticle: 1
   dmgInstanceType: 0
+  aoeShape: 0
   projectileType: 1
   projectilePath: projectile_blazingSword
   reach: 1
   damage: 8
+  usesMagic: 1
   directHitStatusModifier: {fileID: 11400000, guid: 4214be5c157782a4a9c081122cf2ff4a, type: 2}
   castDuration_firstHalf: 0.4
   castDuration_secondHalf: 1
   additionalDamagePhases: 0
   additionalDamagePhaseDuration: 0
-  cooldown: 10
-  startCooldownMultiplier: 0.75
+  cooldown: 5
+  startCooldownMultiplier: 0.1
   flySpeed: 10
   minLifeTime: 0.1
   damagesAllies: 0
   spawnAreaDOT: 0
   areaDOTStatusModifier: {fileID: 0}
-  areaDOTSize: 0
+  areaDOTType: 0
+  areaDotShape: 0
   areaDOTValidTargets: 0
   areaDOTParticle: 0
   tickDamage: 0

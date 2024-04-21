@@ -22,6 +22,8 @@ public class UnitData
     public float magicRes;
 
     public Class unitClass;
+    public Prefix unitClassPrefix;
+    public Suffix unitClassSuffix;
     public int currentLevel = 1;
     public float currentExperience;
     public float nextLevelExperience;

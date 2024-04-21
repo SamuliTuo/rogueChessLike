@@ -37,7 +37,7 @@ public class VictoryScreenUnitSlot : MonoBehaviour
         img.sprite = GameManager.Instance.UnitLibrary.GetUnitFromListedName(unit.name).image;
     }
 
-
+    
     public void InitExpBar()
     {
         expBar.SetActive(true);
