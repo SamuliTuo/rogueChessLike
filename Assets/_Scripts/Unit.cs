@@ -273,7 +273,6 @@ public class Unit : MonoBehaviour
     {
         moveInterval = GameManager.Instance.GetMoveIntervalFromMoveSpeed(moveSpeed, baseMoveTime);
         t = moveInterval + UnityEngine.Random.Range(0.75f, 1f);
-        print(name + " is setting Move Interval. MoveSPD: " + moveSpeed + ", base move: " + baseMoveTime + ", final moveInterval: " + moveInterval);
     }
 
     
@@ -563,11 +562,6 @@ public class Unit : MonoBehaviour
         if (animator != null)
         {
             animator.speed = 1 / attackTime;
-        }
-
-        if (team == 0)
-        {
-            print(normalAttacks[currentAttackIndex].Item1.statusModifiers);
         }
 
         Vector3 offset = transform.TransformVector(attackPositionOffset);

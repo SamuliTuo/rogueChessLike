@@ -1,19 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
 using TMPro;
 using UnityEngine;
 
 public class LevelUpPanel : MonoBehaviour
 {
-    [SerializeField] private UnitStatsPanel unitStatsPanel;
+    public UnitStatsPanel unitStatsPanel;
     [SerializeField] private List<LvlUpPanelChoiceSlot> abilitySlots;
     [SerializeField] private List<LvlUpPanelChoiceSlot> passiveSlots;
 
     [SerializeField] private LVLUpController_2nd LVLUpPanel_2nd = null;
-    [SerializeField] private GameObject LVLUpPanel_3rd = null;
-    [SerializeField] private GameObject LVLUpPanel_4th = null;
-    [SerializeField] private GameObject LVLUpPanel_5th = null;
-    [SerializeField] private GameObject LVLUpPanel_6th = null;
+    [SerializeField] private LvlUpController_3rd LVLUpPanel_3rd = null;
+    [SerializeField] private LvlUpController_4th LVLUpPanel_4th = null;
+    [SerializeField] private LvlUpController_5th LVLUpPanel_5th = null;
+    [SerializeField] private LvlUpController_6th LVLUpPanel_6th = null;
     [SerializeField] private GameObject LVLUpPanel_7th = null;
     //[SerializeField] private GameObject LVLUpPanel_8th = null;
     //[SerializeField] private GameObject LVLUpPanel_9th = null;
@@ -77,71 +78,140 @@ public class LevelUpPanel : MonoBehaviour
         }
     }
 
-    // upgrades to unit's 'signature spell'
+    // Get Augment
     IEnumerator LVLUp_2nd()
     {
         unitStatsPanel.gameObject.SetActive(true);
         unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
-
         LVLUpPanel_2nd.gameObject.SetActive(true);
         LVLUpPanel_2nd.InitLevelUpPanel(unitLeveling, this);
 
-        for (int i = 0; i < 1; i++)
+        // Wait until players clicks one of the upgrade-slots
+        abilityClicked = -1;
+        while (abilityClicked == -1)
         {
-            // Wait until players clicks one of the upgrade-slots
-            abilityClicked = -1;
-            while (abilityClicked == -1)
-            {
-                yield return null;
-            }
-
-            // Open the choices and wait until player chooses one
-            LVLUpPanel_2nd.InitUpgradeChoices(unitLeveling.augments);
-            optionChosen = -1;
-            while (optionChosen == -1)
-            {
-                yield return null;
-            }
-            LVLUpPanel_2nd.ChooseOption(optionChosen);
-
             yield return null;
         }
 
+        // Open the choices and wait until player chooses one
+        LVLUpPanel_2nd.InitUpgradeChoices();
+        optionChosen = -1;
+        while (optionChosen == -1)
+        {
+            yield return null;
+        }
+        LVLUpPanel_2nd.ChooseOption(optionChosen);
         unitStatsPanel.gameObject.SetActive(false);
         LVLUpPanel_2nd.gameObject.SetActive(false);
+        unitLeveling.currentLevel++;
         GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
         gameObject.SetActive(false);
     }
 
-    // Choose from 2 / 3 of the 'support spells' or roll another 'signature spell'
+    // Choose from 2 / 3 of the 'support spells' or another 'signature spell'
     IEnumerator LVLUp_3rd()
     {
-        // choose subclass for stat gains
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
+        LVLUpPanel_3rd.gameObject.SetActive(true);
+        LVLUpPanel_3rd.InitLevelUpPanel(unitLeveling, this);
 
-        yield return null;
+        abilityClicked = -1;
+        while (abilityClicked == -1)
+        {
+            yield return null;
+        }
+
+        LVLUpPanel_3rd.InitUpgradeChoices();
+        optionChosen = -1;
+        while (optionChosen == -1)
+        {
+            yield return null;
+        }
+        LVLUpPanel_3rd.ChooseOption(optionChosen);
+        unitStatsPanel.gameObject.SetActive(false);
+        LVLUpPanel_3rd.gameObject.SetActive(false);
+        unitLeveling.currentLevel++;
+        GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
+        gameObject.SetActive(false);
     }
 
-    // 2nd spell upgrade + new subclass
-
-    // 1st augment
+    // Get Augment and new subclass
     IEnumerator LVLUp_4th()
     {
-        // Upgrade to both spells
-
-        yield return null;
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
+        unitStatsPanel.AddClassPrefixAndUnlockReroll();
+        LVLUpPanel_4th.gameObject.SetActive(true);
+        LVLUpPanel_4th.InitLevelUpPanel(unitLeveling, this);
+        // Wait until players has chosen the class-prefix
+        while (LVLUpPanel_4th.prefixChosen == false)
+        {
+            yield return null;
+        }
+        unitStatsPanel.gameObject.SetActive(false);
+        LVLUpPanel_4th.gameObject.SetActive(false);
+        unitLeveling.currentLevel++;
+        GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
+        gameObject.SetActive(false);
     }
 
     // Get ulti
     IEnumerator LVLUp_5th()
     {
-        yield return null;
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
+        LVLUpPanel_5th.gameObject.SetActive(true);
+        LVLUpPanel_5th.InitLevelUpPanel(unitLeveling, this);
+
+        // Wait until players clicks one of the upgrade-slots
+        abilityClicked = -1;
+        while (abilityClicked == -1)
+        {
+            yield return null;
+        }
+
+        // Open the choices and wait until player chooses one
+        LVLUpPanel_5th.InitUpgradeChoices();
+        optionChosen = -1;
+        while (optionChosen == -1)
+        {
+            yield return null;
+        }
+        LVLUpPanel_5th.ChooseOption(optionChosen);
+        unitStatsPanel.gameObject.SetActive(false);
+        LVLUpPanel_5th.gameObject.SetActive(false);
+        unitLeveling.currentLevel++;
+        GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
+        gameObject.SetActive(false);
     }
 
     // upgrade spells 1 and 2
     IEnumerator LVLUp_6th()
     {
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
+        LVLUpPanel_6th.gameObject.SetActive(true);
+        LVLUpPanel_6th.InitLevelUpPanel(unitLeveling, this);
 
-        yield return null;
+        abilityClicked = -1;
+        while (abilityClicked == -1)
+        {
+            yield return null;
+        }
+
+        LVLUpPanel_6th.InitUpgradeChoices();
+        optionChosen = -1;
+        while (optionChosen == -1)
+        {
+            yield return null;
+        }
+        LVLUpPanel_6th.ChooseOption(optionChosen);
+        unitStatsPanel.gameObject.SetActive(false);
+        LVLUpPanel_6th.gameObject.SetActive(false);
+        unitLeveling.currentLevel++;
+        GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
+        gameObject.SetActive(false);
     }
 
     // upgrade ulti + 2nd augment
@@ -188,6 +258,14 @@ public class LevelUpPanel : MonoBehaviour
         unitLeveling.AddAugment(augment);
     }
 
+    public void TryToChooseOption(UnitAbility abi, int slot)
+    {
+        unitLeveling.GiveNewAbility(abi);
+        unitStatsPanel.SetSpellslots();
+        optionChosen = slot;
+        //CheckIfDone();
+        //return true;
+    }
 
 
 
@@ -491,18 +569,6 @@ public class LevelUpPanel : MonoBehaviour
 
     // Choosing the upgrade
 
-    public bool TryToChooseOption(UnitAbility abi)
-    {
-        if (abilityPoints < 1)
-        {
-            return false;
-        }
-        unitLeveling.GiveNewAbility(abi);
-        unitStatsPanel.SetSpellslots();
-        abilityPoints--;
-        CheckIfDone();
-        return true;
-    }
 
 
     [SerializeField] float upgradeAmount_damage = 3.3f;

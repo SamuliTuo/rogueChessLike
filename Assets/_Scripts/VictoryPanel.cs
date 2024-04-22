@@ -22,7 +22,7 @@ public class VictoryPanel : MonoBehaviour
         StartPanel();
         float exp = GameManager.Instance.currentFightCumulatedExperience;
         //exp = Random.Range(75, 166); /////////////
-        exp = 150;
+        exp = 800;
         print("Giving flat " + exp + " exp to all units for now... testing purposes...");
         List<Tuple<UnitData, UnitInLibrary>> units = GameManager.Instance.PlayerParty.partyUnits;
 

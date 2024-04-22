@@ -23,17 +23,13 @@ public class LVLUpController_2nd : MonoBehaviour
 
     private List<UnitAugments.Augment> upgradeChoices = new List<UnitAugments.Augment>();
 
-    private bool slotFilled_0 = false;
-
     private LevelUpPanel lvlUpPanel;
     private UnitData unitLeveling;
-    private int slotBeingUpgraded;
 
     public void InitLevelUpPanel(UnitData unit, LevelUpPanel lvlUpPanel)
     {
         this.lvlUpPanel = lvlUpPanel;
         this.unitLeveling = unit;
-        slotBeingUpgraded = -1;
 
         icon_signatureSpellToUpgrade1.sprite = unChosenUpgradeImage;
 
@@ -46,16 +42,15 @@ public class LVLUpController_2nd : MonoBehaviour
 
     public void OpenAbilityUpgrades(int slot)
     {
-        if (slot == 0 && !slotFilled_0)
+        if (slot == 0)
         {
             lvlUpPanel.AbilityClicked(slot);
         }
     }
 
-    public bool InitUpgradeChoices(List<UnitAugment> existingAugments)
+    public bool InitUpgradeChoices()
     {
         OpenChoices();
-        slotFilled_0 = true;
         return true;
     }
 
@@ -82,25 +77,6 @@ public class LVLUpController_2nd : MonoBehaviour
     public void ChooseOption(int choice)
     {
         choiceSlots.gameObject.SetActive(false);
-
-        slotFilled_0 = true;
         icon_signatureSpellToUpgrade1.sprite = upgradeChoices[choice].image;
-        //switch (slotBeingUpgraded)
-        //{
-        //    case 1: 
-        //        slotFilled_0 = true;
-        //        icon_signatureSpellToUpgrade1.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[choice - 1].upgradeType);
-        //        break;
-        //    case 2: 
-        //        slotFilled_1 = true;
-        //        icon_signatureSpellToUpgrade2.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[choice - 1].upgradeType);
-        //        break;
-        //    case 3: 
-        //        slotFilled_2 = true;
-        //        icon_signatureSpellToUpgrade3.sprite = GameManager.Instance.AbilityLibrary.GetUpgradeSymbol(upgradeChoices[choice - 1].upgradeType); 
-        //        break;
-        //    default: break;
-        //}
-        //CheckIfDone();
     }
 }

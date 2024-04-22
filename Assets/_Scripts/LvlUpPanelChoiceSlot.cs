@@ -125,18 +125,22 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
 
         if (this.abi != null)
         {
-            lvlUpControl.TryToChooseOption(abi);
+            print("choose ability");
+            lvlUpControl.TryToChooseOption(abi, currentSlot);
         }
         else if (this.upgrade != null)
         {
+            print("choose upgrade");
             lvlUpControl.TryToChooseOption(upgrade);
         }
         else if (this.upgradeObj != null)
         {
+            print("choose upgrade 2");
             lvlUpControl.TryToChooseOption(upgradeObj, currentSlot);
         }
         else
         {
+            print("choose augment");
             lvlUpControl.TryToChooseOption(augment, currentSlot);
         }
     }

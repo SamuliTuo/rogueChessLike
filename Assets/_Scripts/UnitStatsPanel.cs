@@ -169,13 +169,54 @@ public class UnitStatsPanel : MonoBehaviour
 
     public void SetClass()
     {
-        className.text = unit.unitClass.name;
-        classStatGainTexts[0].text = unit.unitClass.hp.ToString();
-        classStatGainTexts[1].text = unit.unitClass.armor.ToString();
-        classStatGainTexts[2].text = unit.unitClass.mgArmor.ToString();
-        classStatGainTexts[3].text = unit.unitClass.dmg.ToString();
-        classStatGainTexts[4].text = unit.unitClass.mgDmg.ToString();
-        classStatGainTexts[5].text = unit.unitClass.attSpd.ToString();
-        classStatGainTexts[6].text = unit.unitClass.moveSpd.ToString();
+        if (unit.unitClassSuffix != null)
+        {
+            SetClassPrefixAndSuffix();
+        }
+        else if (unit.unitClassPrefix != null)
+        {
+            SetClassAndPrefix();
+        }
+        else
+        {
+            className.text = unit.unitClass.name;
+            classStatGainTexts[0].text = unit.unitClass.hp.ToString();
+            classStatGainTexts[1].text = unit.unitClass.armor.ToString();
+            classStatGainTexts[2].text = unit.unitClass.mgArmor.ToString();
+            classStatGainTexts[3].text = unit.unitClass.dmg.ToString();
+            classStatGainTexts[4].text = unit.unitClass.mgDmg.ToString();
+            classStatGainTexts[5].text = unit.unitClass.attSpd.ToString();
+            classStatGainTexts[6].text = unit.unitClass.moveSpd.ToString();
+        }
+    }
+
+    void SetClassPrefixAndSuffix()
+    {
+        className.text = unit.unitClassPrefix.name + " " + unit.unitClass.name + " " + unit.unitClassSuffix.name;
+        classStatGainTexts[0].text = (unit.unitClassPrefix.hp + unit.unitClass.hp + unit.unitClassSuffix.hp).ToString();
+        classStatGainTexts[1].text = (unit.unitClassPrefix.armor + unit.unitClass.armor + unit.unitClassSuffix.moveSpd).ToString();
+        classStatGainTexts[2].text = (unit.unitClassPrefix.mgArmor + unit.unitClass.mgArmor + unit.unitClassSuffix.moveSpd).ToString();
+        classStatGainTexts[3].text = (unit.unitClassPrefix.dmg + unit.unitClass.dmg + unit.unitClassSuffix.moveSpd).ToString();
+        classStatGainTexts[4].text = (unit.unitClassPrefix.mgDmg + unit.unitClass.mgDmg + unit.unitClassSuffix.moveSpd).ToString();
+        classStatGainTexts[5].text = (unit.unitClassPrefix.attSpd + unit.unitClass.attSpd + unit.unitClassSuffix.attSpd).ToString();
+        classStatGainTexts[6].text = (unit.unitClassPrefix.moveSpd + unit.unitClass.moveSpd + unit.unitClassSuffix.moveSpd).ToString();
+    }
+
+    void SetClassAndPrefix()
+    {
+        className.text = unit.unitClassPrefix.name + " " + unit.unitClass.name;
+        classStatGainTexts[0].text = (unit.unitClassPrefix.hp + unit.unitClass.hp).ToString();
+        classStatGainTexts[1].text = (unit.unitClassPrefix.armor + unit.unitClass.armor).ToString();
+        classStatGainTexts[2].text = (unit.unitClassPrefix.mgArmor + unit.unitClass.mgArmor).ToString();
+        classStatGainTexts[3].text = (unit.unitClassPrefix.dmg + unit.unitClass.dmg).ToString();
+        classStatGainTexts[4].text = (unit.unitClassPrefix.mgDmg + unit.unitClass.mgDmg).ToString();
+        classStatGainTexts[5].text = (unit.unitClassPrefix.attSpd + unit.unitClass.attSpd).ToString();
+        classStatGainTexts[6].text = (unit.unitClassPrefix.moveSpd + unit.unitClass.moveSpd).ToString();
+    }
+
+    public void AddClassPrefixAndUnlockReroll()
+    {
+        unit.unitClassPrefix = GameManager.Instance.ClassLibrary.GetRandomPrefix();
+        SetClassAndPrefix();
     }
 }
