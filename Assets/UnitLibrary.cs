@@ -281,6 +281,32 @@ public class UnitInLibrary
         }
         return null;
     }
+
+    public LibraryAbility GetAbility(UnitAbility ability)
+    {
+        foreach (LibraryAbility item in signatureSpells)
+        {
+            if (item.spell == null)
+                continue;
+            if (item.spell.name == ability.name)
+                return item;
+        }
+        foreach (LibraryAbility item in supportSpells)
+        {
+            if (item.spell == null)
+                continue;
+            if (item.spell.name == ability.name)
+                return item;
+        }
+        foreach (LibraryAbility item in ultimateSpells)
+        {
+            if (item.spell == null)
+                continue;
+            if (item.spell.name == ability.name)
+                return item;
+        }
+        return null;
+    }
 }
 
 [Serializable]
@@ -296,10 +322,12 @@ public class LibraryAttack
 public class LibraryAbility
 {
     public string name;
+    [TextArea(5, 50)]
+    public string description;
     public UnitAbility spell;
     public GameObject projectile;
     public Sprite image;
-    public LibraryAbility(string name, UnitAbility spell, Sprite image) { this.name = name; this.spell = spell; this.image = image; }
+    public LibraryAbility(string name, string description, UnitAbility spell, Sprite image) { this.name = name; this.spell = spell; this.image = image; }
 }
 
 [Serializable]

@@ -47,7 +47,7 @@ public class ClassLibrary : MonoBehaviour
         }
         return l[UnityEngine.Random.Range(0, l.Count)];
     }
-    public Suffix GetRandomPrefix(Suffix excluded)
+    public Suffix GetRandomSuffix(Suffix excluded)
     {
         var l = new List<Suffix>();
         foreach (var c in suffixes)

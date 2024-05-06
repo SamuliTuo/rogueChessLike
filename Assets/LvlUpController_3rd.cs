@@ -85,9 +85,9 @@ public class LvlUpController_3rd : MonoBehaviour
         // Setup the choices
         choiceSlots.gameObject.SetActive(true);
 
-        upgradeChoice1.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(abilityChoices[0], lvlUpPanel);
-        upgradeChoice2.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(abilityChoices[1], lvlUpPanel);
-        upgradeChoice3.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(abilityChoices[2], lvlUpPanel);
+        upgradeChoice1.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(abilityChoices[0], lvlUpPanel, 0);
+        upgradeChoice2.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(abilityChoices[1], lvlUpPanel, 1);
+        upgradeChoice3.GetComponent<LvlUpPanelChoiceSlot>().SetChoice(abilityChoices[2], lvlUpPanel, 2);
 
         abilityUpgradeText_1.text = abilityChoices_library[0].name;
         abilityUpgradeText_2.text = abilityChoices_library[1].name;

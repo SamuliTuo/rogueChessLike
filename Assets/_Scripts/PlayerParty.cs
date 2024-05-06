@@ -112,7 +112,7 @@ public class PlayerParty : MonoBehaviour
 
     public bool IsPartyFull()
     {
-        if (partyUnits.Count > maxPartySize)
+        if (partyUnits.Count >= maxPartySize)
         {
             return true;
         }
@@ -122,10 +122,24 @@ public class PlayerParty : MonoBehaviour
     public void AddMoney(int amount)
     {
         partyMoney += amount;
-        if (GameManager.Instance.state == GameState.MAP)
+        RefreshMoneyCounter();
+
+        // idk why it checked for MAP-state when after AND during battles money is gained.
+        //if (GameManager.Instance.state == GameState.MAP)
+        //{
+        //    RefreshMoneyCounter();
+        //}
+    }
+
+    public bool TryToUseMoney(int amount)
+    {
+        if (partyMoney >= amount)
         {
+            partyMoney -= amount;
             RefreshMoneyCounter();
+            return true;
         }
+        return false;
     }
 
     public void RefreshMoneyCounter()

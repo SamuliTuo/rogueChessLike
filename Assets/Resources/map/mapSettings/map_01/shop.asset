@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abcbd9c9f695244ebf39d89c34aad57, type: 3}
   m_Name: shop
   m_EditorClassIdentifier: 
-  mapNodeType: 8
-  encounterText: 
-  encounterImage: {fileID: 0}
-  battleScenario: {fileID: 0}
+  mapNodeType: 7
+  possibleTextScenarios: []
+  possibleBattleScenarios: []

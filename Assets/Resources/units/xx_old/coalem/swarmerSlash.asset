@@ -15,10 +15,14 @@ MonoBehaviour:
   targeting: 0
   hitParticle: 0
   dmgInstanceType: 0
+  aoeShape: 0
   projectileType: 0
+  statusModifiers: {fileID: 0}
   attackRange: 1
   damage: 3
-  attackInterval: 0.5
+  usesMagic: 0
+  attackDuration_firstHalf: 0.2
+  attackDuration_secondHalf: 0.2
   attackFlySpeed: 25
   minLifeTime: 0.09
   projectilePath: swarmerSlash

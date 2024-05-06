@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,20 +68,20 @@ public class TextEncounterManager : MonoBehaviour
         return -100;
     }
 
-    void PositionPlayersOnImage()
-    {
-        print("position on image pls");
-        //var party = GameManager.Instance.PlayerParty.partyUnits;
-        //for (int i = 0; i < party.Count; i++)
-        //{
-        //    encounterImage.rectTransform.GetChild(i).localPosition = currentEncounter.playerPositions[i];
-        //    encounterImage.rectTransform.GetChild(i).localPosition += new Vector3(0, 0, -10);
-        //    GameObject clone = Instantiate(Resources.Load(GameManager.Instance.UnitLibrary.GetUnit(party[0].name).savePath), encounterImage.transform.GetChild(0)) as GameObject;
-        //    clone.GetComponent<Unit>().enabled = false;
-        //    clone.transform.rotation = Quaternion.LookRotation(currentEncounter.playerForwardVectors[i]);
-        //    clone.transform.localScale = currentEncounter.playerScales[i];
-        //}
-    }
+    //void PositionPlayersOnImage()
+    //{
+    //    print("position on image pls");
+    //    //var party = GameManager.Instance.PlayerParty.partyUnits;
+    //    //for (int i = 0; i < party.Count; i++)
+    //    //{
+    //    //    encounterImage.rectTransform.GetChild(i).localPosition = currentEncounter.playerPositions[i];
+    //    //    encounterImage.rectTransform.GetChild(i).localPosition += new Vector3(0, 0, -10);
+    //    //    GameObject clone = Instantiate(Resources.Load(GameManager.Instance.UnitLibrary.GetUnit(party[0].name).savePath), encounterImage.transform.GetChild(0)) as GameObject;
+    //    //    clone.GetComponent<Unit>().enabled = false;
+    //    //    clone.transform.rotation = Quaternion.LookRotation(currentEncounter.playerForwardVectors[i]);
+    //    //    clone.transform.localScale = currentEncounter.playerScales[i];
+    //    //}
+    //}
 
 
     private bool ActivateResponseAndCheckForSuccess(int button)

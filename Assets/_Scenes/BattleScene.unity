@@ -2699,6 +2699,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &261921568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2f1bf6e4aeb1047862aa627cf0142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &262231475
 GameObject:
   m_ObjectHideFlags: 0
@@ -3398,6 +3409,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &369919839 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 412958012, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bac17d85251814592811f939db9bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &374640811
 GameObject:
   m_ObjectHideFlags: 0
@@ -16720,6 +16742,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: {fileID: 182870580}
   ready: {fileID: 891899425}
+--- !u!114 &2034993375 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ce02e2d1902ad4cb7eebdd6e63d63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2037200011
 GameObject:
   m_ObjectHideFlags: 0
@@ -18422,10 +18455,50 @@ PrefabInstance:
       propertyPath: abilityUpgradeText_3
       value: 
       objectReference: {fileID: 816598746}
+    - target: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: choiceSlots
+      value: 
+      objectReference: {fileID: 151856479}
+    - target: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice1
+      value: 
+      objectReference: {fileID: 2089672689}
+    - target: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice2
+      value: 
+      objectReference: {fileID: 2089672688}
+    - target: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice3
+      value: 
+      objectReference: {fileID: 2089672687}
+    - target: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_1
+      value: 
+      objectReference: {fileID: 816598748}
+    - target: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_2
+      value: 
+      objectReference: {fileID: 816598747}
+    - target: {fileID: 2082653590003602988, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_3
+      value: 
+      objectReference: {fileID: 816598746}
+    - target: {fileID: 2541801969216434048, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_Name
+      value: suffixName
+      objectReference: {fileID: 0}
     - target: {fileID: 3031932399331263320, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
       propertyPath: m_Name
       value: lvlUp_panel
       objectReference: {fileID: 0}
+    - target: {fileID: 3031932399331263326, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: LVLUpPanel_7th
+      value: 
+      objectReference: {fileID: 2034993375}
+    - target: {fileID: 3031932399331263326, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: LVLUpPanel_8th
+      value: 
+      objectReference: {fileID: 261921568}
     - target: {fileID: 3031932399331263326, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
       propertyPath: unitStatsPanel
       value: 
@@ -18514,6 +18587,78 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5724123853123926992, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3031932401109285884}
+    - target: {fileID: 5724123853123926992, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenAbilityUpgrades
+      objectReference: {fileID: 0}
+    - target: {fileID: 5724123853123926992, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LvlUpController_5th, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6751654298339566036, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3031932401109285885}
+    - target: {fileID: 6751654298339566036, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenAbilityUpgrades
+      objectReference: {fileID: 0}
+    - target: {fileID: 6794583215233404683, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 261921568}
+    - target: {fileID: 6794583215233404683, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenAbilityUpgrades
+      objectReference: {fileID: 0}
+    - target: {fileID: 6794583215233404683, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LvlUpController_8th, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: suffixName
+      value: 
+      objectReference: {fileID: 3031932401109285886}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: choiceSlots
+      value: 
+      objectReference: {fileID: 151856479}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice1
+      value: 
+      objectReference: {fileID: 2089672689}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice2
+      value: 
+      objectReference: {fileID: 2089672688}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: upgradeChoice3
+      value: 
+      objectReference: {fileID: 2089672687}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: classSuffixImage
+      value: 
+      objectReference: {fileID: 3031932401109285887}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: suffixRerollButton
+      value: 
+      objectReference: {fileID: 3031932401109285888}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_1
+      value: 
+      objectReference: {fileID: 816598748}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_2
+      value: 
+      objectReference: {fileID: 816598747}
+    - target: {fileID: 7099363725983562424, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: abilityUpgradeText_3
+      value: 
+      objectReference: {fileID: 816598746}
     - target: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
       propertyPath: choiceSlots
       value: 
@@ -18542,8 +18687,75 @@ PrefabInstance:
       propertyPath: abilityUpgradeText_3
       value: 
       objectReference: {fileID: 816598746}
+    - target: {fileID: 9168997101310742919, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 369919839}
+    - target: {fileID: 9168997101310742919, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenAbilityUpgrades
+      objectReference: {fileID: 0}
+    - target: {fileID: 9168997101310742919, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LvlUpController_6th, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+--- !u!114 &3031932401109285884 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1908008039, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e554b5053c1202f40876aa6a4c4f45a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3031932401109285885 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7293149556718699158, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e2aee365c6bff4f9b407ab9a0de56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3031932401109285886 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 99711342758045679, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3031932401109285887 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8135308585831883891, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3031932401109285888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3193072457024642449, guid: 51378c4833ac1664f8ea26f283daaa91, type: 3}
+  m_PrefabInstance: {fileID: 3031932401109285883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &3068876580396900219
 MeshCollider:
   m_ObjectHideFlags: 0

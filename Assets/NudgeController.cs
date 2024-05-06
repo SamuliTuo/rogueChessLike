@@ -30,6 +30,7 @@ public class NudgeController : MonoBehaviour
 
     private void Awake()
     {
+        board = GetComponent<Chessboard>();
         arrowGenerator = GetComponentInChildren<ArrowGenerator>();
         nudgeUIController = GameObject.Find("Canvas").GetComponentInChildren<NudgeUIController>();
         currentCam = Camera.main;
@@ -40,7 +41,6 @@ public class NudgeController : MonoBehaviour
         t = nudgeCooldown;
         MakeCompass();
 
-        board = GetComponent<Chessboard>();
         layerMask = GameManager.Instance.boardLayerMask;
         nudgeLayerMask |= (1 << nudgeLayer);
     }
@@ -48,7 +48,7 @@ public class NudgeController : MonoBehaviour
     bool dying = false;
     public void Nudge(Vector3 dir, float mag, Unit unit, float stunTime = 0.5f)
     {
-        if ((int)mag == 0)
+        if ((int)mag == 0 || unit == null)
         {
             return;
         }
@@ -106,7 +106,7 @@ public class NudgeController : MonoBehaviour
         }
 
         // START NUDGE - PULL:
-        // See what we hover and try to start:
+        // Check what mouse is hovering and try to start the nudge:
         RaycastHit hit;
         Ray ray = currentCam.ScreenPointToRay(Input.mousePosition);
         var activeUnits = board.GetUnits();
@@ -117,23 +117,33 @@ public class NudgeController : MonoBehaviour
             if (hitPosition == -Vector2Int.one)
                 return;
 
-            // If hovering a tile after not hovering any tile
+            // If hovering a tile with an unit, after not hovering any tile
+            var _unit = activeUnits[hitPosition.x, hitPosition.y];
             if (currentHover == -Vector2Int.one)
             {
                 currentHover = hitPosition;
-                board.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+                if (_unit)
+                {
+                    if (_unit.team == 0)
+                    {
+                        board.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+                    }
+                }
             }
 
             // If already were hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
-                var _unit = activeUnits[hitPosition.x, hitPosition.y];
-                if (Input.GetMouseButtonDown(0) && _unit != null)
+                if (_unit)
                 {
                     if (_unit.team == 0)
                     {
-                        currentlyDragging = _unit;
-                        draggingStartPos = board.GetTileCenter(_unit.x, _unit.y);
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            currentlyDragging = _unit;
+                            draggingStartPos = board.GetTileCenter(_unit.x, _unit.y);
+                        }
+                        board.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
                     }
                 }
 
@@ -141,13 +151,11 @@ public class NudgeController : MonoBehaviour
                     (board.ContainsValidMove(ref availableMoves, currentHover)) ?
                         LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer(board.nodes[currentHover.x, currentHover.y].tileTypeLayerName);
                 currentHover = hitPosition;
-                board.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
             }
 
             // If we press down on the mouse
             if (Input.GetMouseButtonDown(0))
             {
-                var _unit = activeUnits[hitPosition.x, hitPosition.y];
                 if (_unit != null)
                 {
                     if (_unit.team == 0)
@@ -161,7 +169,6 @@ public class NudgeController : MonoBehaviour
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                var _unit = activeUnits[hitPosition.x, hitPosition.y];
                 if (_unit != null)
                 {
                     if (_unit.team == 0)

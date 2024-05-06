@@ -8,32 +8,63 @@ public class PartyPanel : MonoBehaviour
     public UnitData chosenUnit;
 
     [SerializeField] private Sprite emptySlotImage = null;
+    [SerializeField] private UnitStatsPanel statsPanel = null;
 
     private TextEncounterResponseUnitSlot currentSlot;
+    private Item itemBeingGranted;
+    private Shop shop;
+    private bool openedPanelInMap = false;
 
     public void OpenPartyPanel()
     {
+        openedPanelInMap = true;
         currentSlot = null;
+        itemBeingGranted = null;
         SlotUnits();
     }
 
     public void OpenPartyFromTextResponse(TextEncounterResponseUnitSlot slot)
     {
+        openedPanelInMap = false;
         currentSlot = slot;
+        itemBeingGranted = null;
         SlotUnits();
     }
 
-    public void ChooseUnit(int slot)
+    public void OpenPartyPanelForGrantingAnItem(Item item, Shop shop)
+    {
+        this.shop = shop;
+        openedPanelInMap = false;
+        currentSlot = null;
+        itemBeingGranted = item;
+        SlotUnits();
+        gameObject.SetActive(true);
+    }
+    
+
+    public void SlotClicked(int slot)
     {
         if (unitSlots[slot].slottedUnit == null)
         {
+            print("slot " + slot + " is null");
             return;
         }
-        chosenUnit = unitSlots[slot].slottedUnit;
-        if (currentSlot != null && chosenUnit != null)
+
+        // Choosing unit for text encounter task:
+        if (currentSlot != null)
         {
-            currentSlot.SlotAnUnit(chosenUnit);
-            gameObject.SetActive(false);
+            chosenUnit = unitSlots[slot].slottedUnit;
+            if (currentSlot != null && chosenUnit != null)
+            {
+                currentSlot.SlotAnUnit(chosenUnit);
+                gameObject.SetActive(false);
+            }
+        }
+
+        // Choosing unit for getting an item:
+        if (itemBeingGranted != null)
+        {
+            statsPanel.OpenUnitStatsPanel(unitSlots[slot].slottedUnit, true, itemBeingGranted, shop);
         }
     }
 
@@ -50,6 +81,19 @@ public class PartyPanel : MonoBehaviour
             {
                 unitSlots[i].SlotUnitHere(emptySlotImage, null);
             }
+        }
+    }
+
+    public void ClosePartyPanel()
+    {
+        gameObject.SetActive(false);
+        if (itemBeingGranted != null)
+        {
+            shop.CancelPurchase();
+        }
+        if (openedPanelInMap)
+        {
+            GameManager.Instance.MapController.SetCanMove(false);
         }
     }
 }

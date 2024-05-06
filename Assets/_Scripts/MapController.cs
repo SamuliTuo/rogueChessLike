@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
+    public GameObject coffeeCup;
+
     public MapSettings mapSettings;
     public Material lineMat;
     public Sprite mapImage_battle;
@@ -66,6 +68,7 @@ public class MapController : MonoBehaviour
         GeneratePaths();
         StartCoroutine("PositionMapNodes");
         canMove = false;
+        cam = Camera.main;
 
         if (currentPosition = startNode)
         {
@@ -113,6 +116,13 @@ public class MapController : MonoBehaviour
             GameManager.Instance.pathTaken.Add(node);
             encounterManager.ActivateNode(node);
         }
+    }
+
+
+    // Coffee cup
+    public void StartCoffeeScenario()
+    {
+        encounterManager.StartCoffeeCup();
     }
 
 
@@ -272,6 +282,8 @@ public class MapController : MonoBehaviour
                 pos += new Vector3(Random.Range(-1.00f, 1.00f) * mapSettings.positionRandomFactor, 0, Random.Range(-1.00f, 1.00f) * mapSettings.positionRandomFactor);
 
                 rowNodes[i].transform.position = pos;
+                GameObject cup = Instantiate(coffeeCup, transform.position + Vector3.up * 0.5f, Quaternion.identity, currentMapTransform);
+                cup.transform.position = rowNodes[i].transform.position + Vector3.up * 0.5f;
                 //rowNodes[i].encounter = mapSettings.encountersByRow[row].encounters[Random.Range(0, mapSettings.encountersByRow[row].encounters.Count)];
             }
             currentStepPos += Vector3.forward * mapSettings.stepDistance;

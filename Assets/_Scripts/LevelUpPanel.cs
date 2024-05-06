@@ -15,9 +15,8 @@ public class LevelUpPanel : MonoBehaviour
     [SerializeField] private LvlUpController_4th LVLUpPanel_4th = null;
     [SerializeField] private LvlUpController_5th LVLUpPanel_5th = null;
     [SerializeField] private LvlUpController_6th LVLUpPanel_6th = null;
-    [SerializeField] private GameObject LVLUpPanel_7th = null;
-    //[SerializeField] private GameObject LVLUpPanel_8th = null;
-    //[SerializeField] private GameObject LVLUpPanel_9th = null;
+    [SerializeField] private LvlUpController_7th LVLUpPanel_7th = null;
+    [SerializeField] private LvlUpController_8th LVLUpPanel_8th = null;
 
     [SerializeField] private Sprite upgradeDMG;
     [SerializeField] private Sprite upgradeMAGIC;
@@ -60,7 +59,7 @@ public class LevelUpPanel : MonoBehaviour
         unitLeveling.magicRes += unitLeveling.unitClass.mgArmor;
     }
 
-    // Level 1 : Get a random spell and subclass.
+    // Level 1 : Get a random spell and class
 
     void StartCorrectLevelUpPattern()
     {
@@ -73,12 +72,13 @@ public class LevelUpPanel : MonoBehaviour
             case 4: StartCoroutine(LVLUp_5th()); break;
             case 5: StartCoroutine(LVLUp_6th()); break;
             case 6: StartCoroutine(LVLUp_7th()); break;
+            case 7: StartCoroutine(LVLUp_8th()); break;
             //case 7: StartCoroutine(LVLUp_8th()); break;
             //case 8: StartCoroutine(LVLUp_9th()); break;
         }
     }
 
-    // Get Augment
+    // Augment
     IEnumerator LVLUp_2nd()
     {
         unitStatsPanel.gameObject.SetActive(true);
@@ -108,7 +108,7 @@ public class LevelUpPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Choose from 2 / 3 of the 'support spells' or another 'signature spell'
+    // Support ability
     IEnumerator LVLUp_3rd()
     {
         unitStatsPanel.gameObject.SetActive(true);
@@ -136,12 +136,12 @@ public class LevelUpPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Get Augment and new subclass
+    // Class prefix
     IEnumerator LVLUp_4th()
     {
         unitStatsPanel.gameObject.SetActive(true);
         unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
-        unitStatsPanel.AddClassPrefixAndUnlockReroll();
+        unitStatsPanel.AddClassPrefix();
         LVLUpPanel_4th.gameObject.SetActive(true);
         LVLUpPanel_4th.InitLevelUpPanel(unitLeveling, this);
         // Wait until players has chosen the class-prefix
@@ -156,7 +156,7 @@ public class LevelUpPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Get ulti
+    // Ultimate ability
     IEnumerator LVLUp_5th()
     {
         unitStatsPanel.gameObject.SetActive(true);
@@ -186,7 +186,7 @@ public class LevelUpPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // upgrade spells 1 and 2
+    // Augment
     IEnumerator LVLUp_6th()
     {
         unitStatsPanel.gameObject.SetActive(true);
@@ -214,16 +214,54 @@ public class LevelUpPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // upgrade ulti + 2nd augment
+    // Class suffix
     IEnumerator LVLUp_7th()
     {
-        yield return null;
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
+        unitStatsPanel.AddClassSuffix();
+        LVLUpPanel_7th.gameObject.SetActive(true);
+        LVLUpPanel_7th.InitLevelUpPanel(unitLeveling, this);
+        // Wait until players has chosen the class-prefix
+        while (LVLUpPanel_7th.suffixChosen == false)
+        {
+            yield return null;
+        }
+        unitStatsPanel.gameObject.SetActive(false);
+        LVLUpPanel_7th.gameObject.SetActive(false);
+        unitLeveling.currentLevel++;
+        GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
+        gameObject.SetActive(false);
     }
 
-    // Final upgrade for all spells.
+    // Augment
     IEnumerator LVLUp_8th()
     {
-        yield return null;
+        unitStatsPanel.gameObject.SetActive(true);
+        unitStatsPanel.OpenUnitStatsPanel(unitLeveling);
+        LVLUpPanel_8th.gameObject.SetActive(true);
+        LVLUpPanel_8th.InitLevelUpPanel(unitLeveling, this);
+
+        // Wait until players clicks one of the upgrade-slots
+        abilityClicked = -1;
+        while (abilityClicked == -1)
+        {
+            yield return null;
+        }
+
+        // Open the choices and wait until player chooses one
+        LVLUpPanel_8th.InitUpgradeChoices();
+        optionChosen = -1;
+        while (optionChosen == -1)
+        {
+            yield return null;
+        }
+        LVLUpPanel_8th.ChooseOption(optionChosen);
+        unitStatsPanel.gameObject.SetActive(false);
+        LVLUpPanel_8th.gameObject.SetActive(false);
+        unitLeveling.currentLevel++;
+        GetComponentInParent<VictoryPanel>().LevelUpDone(unitLeveling);
+        gameObject.SetActive(false);
     }
 
 
@@ -355,7 +393,7 @@ public class LevelUpPanel : MonoBehaviour
         string spellName = possibleAbils[0].name;
         var clone = Instantiate(possibleAbils[0]);
         clone.name = spellName;
-        abilitySlots[i].SetChoice(clone, this);
+        abilitySlots[i].SetChoice(clone, this, i);
         abilitySlots[i].gameObject.SetActive(true);
         possibleAbils.RemoveAt(0);
     }

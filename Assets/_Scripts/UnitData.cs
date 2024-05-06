@@ -37,6 +37,7 @@ public class UnitData
     public UnitAbility ability2;
     public UnitAbility ability3;
     public List<UnitAugment> augments = new List<UnitAugment>();
+    public int[] itemSlots_itemID = new int[] { -1, -1, -1 };
 
     public UnitData(Unit unit, string name, int posX, int posY, int level = 1)
     {

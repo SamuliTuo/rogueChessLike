@@ -81,7 +81,7 @@ public class Chessboard : MonoBehaviour
         Camera.main.GetComponent<CameraManager>()?.SetupBattleCamera(GetBoardSize(), tileSize);
         Initialized = true;
     }
-
+    
     public void UnitPlacerUpdate()
     {
         if (!currentCam)
@@ -552,6 +552,7 @@ public class Chessboard : MonoBehaviour
     {
         var unitHP = unit.GetComponent<UnitHealth>();
         unitHP.SetMaxHp(data.maxHp);
+        print("setting player unit " + unit.name + " damage to: " + data.damage);
         unit.damage = data.damage;
         unit.magic = data.magic;
         unit.critChance = data.critChance;

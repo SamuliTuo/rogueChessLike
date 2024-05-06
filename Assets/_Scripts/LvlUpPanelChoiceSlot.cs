@@ -31,7 +31,6 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     public void SetChoice(UnitAugments.Augment augment, LevelUpPanel lvlUpper, int slot)
     {
         currentSlot = slot;
-        print("Setting up upgrade-choice-slot with augment: " + augment.name);
         lvlUpControl = lvlUpper;
         ResetSlots();
         this.augment = augment.augmentType;
@@ -40,8 +39,9 @@ public class LvlUpPanelChoiceSlot : MonoBehaviour
     }
 
     // New ability
-    public void SetChoice(UnitAbility abi, LevelUpPanel lvlUpper)
+    public void SetChoice(UnitAbility abi, LevelUpPanel lvlUpper, int slot)
     {
+        currentSlot = slot;
         lvlUpControl = lvlUpper;
         ResetSlots();
         this.abi = abi;

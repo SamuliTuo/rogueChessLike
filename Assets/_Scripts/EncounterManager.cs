@@ -9,11 +9,15 @@ public class EncounterManager : MonoBehaviour
 
     private CaravanController caravanController;
     private TextEncounterManager textEncounterManager;
+    private ShopManager shopManager;
+    private CoffeeCupController coffeeCup;
 
-    private void Start()
+    private void Awake()
     {
         caravanController = GetComponentInChildren<CaravanController>();
         textEncounterManager = GetComponentInChildren<TextEncounterManager>();
+        shopManager = GetComponentInChildren<ShopManager>();
+        coffeeCup = GetComponentInChildren<CoffeeCupController>();
     }
 
     public void ActivateNode(MapNode node)
@@ -32,6 +36,10 @@ public class EncounterManager : MonoBehaviour
         }
         else if (node.type == MapNodeType.RANDOM_ENCOUNTER) {
             ActivateRandomNode(node);
+        }
+        else if (node.type == MapNodeType.SHOP)
+        {
+            ActivateShop(node);
         }
         /*else if (node.type == MapNodeType.TREASURE) {
             ActivateEncounter();
@@ -74,5 +82,17 @@ public class EncounterManager : MonoBehaviour
             GameManager.Instance.currentScenario = battle;
             GameManager.Instance.SceneManagement.LoadScene("BattleScene");
         }
+    }
+
+    void ActivateShop(MapNode node)
+    {
+        GameManager.Instance.CurrentMap.AddNextNodeOnPath(node);
+        GameManager.Instance.MapController.SetCanMove(false);
+        shopManager.OpenShop(this);
+    }
+
+    public void StartCoffeeCup()
+    {
+        coffeeCup.StartCoffee();
     }
 }

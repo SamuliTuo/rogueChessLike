@@ -16,9 +16,9 @@ public class LvlUpController_6th : MonoBehaviour
     [SerializeField] private TextMeshProUGUI abilityUpgradeText_2 = null;
     [SerializeField] private TextMeshProUGUI abilityUpgradeText_3 = null;
 
-    [SerializeField] private Image icon_signatureSpellToUpgrade1 = null;
+    //[SerializeField] private Image icon_signatureSpellToUpgrade1 = null;
 
-    [SerializeField] private Image abilityUpgradeIcon_1 = null;
+    //[SerializeField] private Image abilityUpgradeIcon_1 = null;
 
 
     private List<UnitAugments.Augment> upgradeChoices = new List<UnitAugments.Augment>();
@@ -31,9 +31,9 @@ public class LvlUpController_6th : MonoBehaviour
         this.lvlUpPanel = lvlUpPanel;
         this.unitLeveling = unit;
 
-        icon_signatureSpellToUpgrade1.sprite = unChosenUpgradeImage;
+        //icon_signatureSpellToUpgrade1.sprite = unChosenUpgradeImage;
 
-        abilityUpgradeIcon_1.sprite = GameManager.Instance.UnitLibrary.GetSpellSymbol(unit.ability1);
+        //abilityUpgradeIcon_1.sprite = GameManager.Instance.UnitLibrary.GetSpellSymbol(unit.ability1);
 
 
         //get units 'signature spell' ability
@@ -77,6 +77,6 @@ public class LvlUpController_6th : MonoBehaviour
     public void ChooseOption(int choice)
     {
         choiceSlots.gameObject.SetActive(false);
-        icon_signatureSpellToUpgrade1.sprite = upgradeChoices[choice].image;
+        //icon_signatureSpellToUpgrade1.sprite = upgradeChoices[choice].image;
     }
 }

@@ -109,14 +109,15 @@ public class Unit : MonoBehaviour
         abilities = GetComponent<UnitAbilityManager>();
         animator = GetComponentInChildren<Animator>();
     }
-    private void Start()
+    
+    public void BattleStart()
     {
-        //SetMoveInterval();
         ResetPath();
+        //print("damage: " + damage + ", perc: " + DebugTools.Instance.playerDamagePercentage);
         damage = team == 0 ? damage * DebugTools.Instance.playerDamagePercentage : damage;
         magic = team == 0 ? magic * DebugTools.Instance.playerDamagePercentage : magic;
     }
-    
+
     private void Update()
     {
         if (isPushed)
@@ -129,12 +130,6 @@ public class Unit : MonoBehaviour
 
     public void AI()
     {
-        if (team == 0)
-        {
-            //print(name+" wait timer: " + t);
-        }
-
-
         if (isObstacle || hp.dying)
             return;
         
@@ -575,10 +570,6 @@ public class Unit : MonoBehaviour
             normalAttacks[currentAttackIndex].Item1.bounceCount_ability, _damage, critChance, critDamagePerc, missChance, this, attackTarget);
 
         t = attackTime - (attackTime * attackPointPerc);
-        if (team == 0)
-        {
-            print(name + " is done attacking, set t to " + t);
-        }
         
         ResetAI();
 
@@ -628,7 +619,10 @@ public class Unit : MonoBehaviour
     }
     public void ResetAI()
     {
-        animator.speed = 1;
+        if (animator != null)
+        {
+            animator.speed = 1;
+        }
         ResetPath();
         nextAction = Action.NONE;
         nextAbility = null;

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -172,6 +174,9 @@ public class CaravanController : MonoBehaviour
         data.attackSpeed = Mathf.Max(0, randomUnit.stats.attackSpeed + (randomFactorAS * GameManager.Instance.ClassLibrary.attSpdPerPoint));
         data.moveSpeed = Mathf.Max(0, randomUnit.stats.moveSpeed + (randomFactorMS * GameManager.Instance.ClassLibrary.moveSpdPerPoint));
         data.moveInterval = Mathf.Max(0, randomUnit.stats.visibleMoveSpeed);
+        data.critChance = randomUnit.stats.critChance;
+        data.critDamage = randomUnit.stats.critDamage;
+        data.missChance = randomUnit.stats.missChance;
 
         caravanSlotUnitStats[index].OpenUnitStatsPanel(data, false);
         caravanSlotUnitStats[index].SetSlider(UnitStatSliderTypes.HP, data.maxHp, (randomFactorHP == 0 ? "" : (randomFactorHP == 1 ? "+" : "-") + "\n") + data.maxHp.ToString());
@@ -224,6 +229,46 @@ public class CaravanController : MonoBehaviour
         for (int i = 0; i < rerollButtons.Length; i++)
         {
             rerollButtons[i].SetActive(state);
+        }
+    }
+
+
+    public void OnHoverSkillEnter(int slot, int skillSLot)
+    {
+        if (skillSLot == 0)
+        {
+            if (caravanSlots[slot].Item1.ability1 != null)
+            {
+                GameManager.Instance.InfoPopupManager.OpenPopup(caravanSlots[slot].Item2.GetAbility(caravanSlots[slot].Item1.ability1).description);
+            }
+        }
+        if (skillSLot == 1)
+        {
+            if (caravanSlots[slot].Item1.ability2 != null)
+            {
+                GameManager.Instance.InfoPopupManager.OpenPopup(caravanSlots[slot].Item2.GetAbility(caravanSlots[slot].Item1.ability2).description);
+            }
+        }
+        if (skillSLot == 2)
+        {
+            if (caravanSlots[slot].Item1.ability3 != null)
+            {
+                GameManager.Instance.InfoPopupManager.OpenPopup(caravanSlots[slot].Item2.GetAbility(caravanSlots[slot].Item1.ability3).description);
+            }
+        }
+    }
+
+    public void OnHoverStatEnter(int slot, int index)
+    {
+        switch (index)
+        {
+            case 0: GameManager.Instance.InfoPopupManager.OpenPopup("<b>Health</b>\n" + caravanSlots[slot].Item2.nameInList + "'s average:\n" + caravanSlots[slot].Item2.stats.hp); break;
+            case 1: GameManager.Instance.InfoPopupManager.OpenPopup("<b>Armor</b>\n" + caravanSlots[slot].Item2.nameInList + "'s average:\n" + caravanSlots[slot].Item2.stats.armor); break;
+            case 2: GameManager.Instance.InfoPopupManager.OpenPopup("<b>Magic Armor</b>\n" + caravanSlots[slot].Item2.nameInList + "'s average:\n" + caravanSlots[slot].Item2.stats.magicRes); break;
+            case 3: GameManager.Instance.InfoPopupManager.OpenPopup("<b>Attack Damage</b>\n" + caravanSlots[slot].Item2.nameInList + "'s average:\n" + caravanSlots[slot].Item2.stats.damage); break;
+            case 4: GameManager.Instance.InfoPopupManager.OpenPopup("<b>Magic Damage</b>\n" + caravanSlots[slot].Item2.nameInList + "'s average:\n" + caravanSlots[slot].Item2.stats.magicDamage); break;
+            case 5: GameManager.Instance.InfoPopupManager.OpenPopup("<b>Attack Speed</b>\n" + caravanSlots[slot].Item2.nameInList + "'s average:\n" + caravanSlots[slot].Item2.stats.attackSpeed); break;
+            case 6: GameManager.Instance.InfoPopupManager.OpenPopup("<b>Movement Speed</b>\n" + caravanSlots[slot].Item2.nameInList + "'s average:\n" + caravanSlots[slot].Item2.stats.moveSpeed); break;
         }
     }
 }

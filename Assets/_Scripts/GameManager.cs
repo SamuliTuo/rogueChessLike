@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public UnitLibrary UnitLibrary { get; private set; }
     public ClassLibrary ClassLibrary { get; private set; }
     public UnitAugments UnitAugments { get; private set; }
+    public ItemLibrary ItemLibrary { get; private set; }
     public HPBarSpawner HPBars { get; private set; }
     public ParticleSpawner ParticleSpawner { get; private set; }
     public PlayerParty PlayerParty { get; private set; }
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
     public AbilityLibrary AbilityLibrary { get; private set; }
     public NudgeController NudgeController { get; private set; }
     public LootSpawner LootSpawner { get; private set; }
+    public InfoPopupManager InfoPopupManager { get; private set; }
 
 
     public Color hpBarTeam0Color = Color.green;
@@ -54,13 +56,14 @@ public class GameManager : MonoBehaviour
                 if (unit == null)
                     continue;
 
+                unit.BattleStart();
                 unit.GetComponent<UnitAugmentsManager>()?.ActivateAugmentEffects();
             }
         }
 
         this.state = state;
     }
-    public LayerMask boardLayerMask;
+    [HideInInspector] public LayerMask boardLayerMask;
     public Scenario currentScenario;
     public List<MapNode> pathTaken { get; set; }
     ScenarioBuilder builder;
@@ -102,6 +105,7 @@ public class GameManager : MonoBehaviour
         UnitLibrary = GetComponentInChildren<UnitLibrary>();
         ClassLibrary = GetComponentInChildren<ClassLibrary>();
         UnitAugments = GetComponentInChildren<UnitAugments>();
+        ItemLibrary = GetComponentInChildren<ItemLibrary>();
         PlayerParty = GetComponentInChildren<PlayerParty>();
         DamageInstance = GetComponentInChildren<DamageInstance>();
         AOELibrary = GetComponentInChildren<AOELibrary>();
@@ -113,6 +117,7 @@ public class GameManager : MonoBehaviour
         ProjectilePools = GetComponentInChildren<ProjectilePools>();
         AbilityLibrary = GetComponentInChildren<AbilityLibrary>();
         LootSpawner = GetComponentInChildren<LootSpawner>();
+        InfoPopupManager = GetComponentInChildren<InfoPopupManager>();
         LoadBoardAndMap();
         pathTaken = new List<MapNode>();
         boardLayerMask = LayerMask.GetMask("Tile", "Hover", "Highlight", "Empty", "Swamp", "Grass_purple", "Water", "Wall", "Vines", "Road", "Thorns");
